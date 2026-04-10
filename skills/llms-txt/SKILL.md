@@ -21,6 +21,8 @@ Without it, AI agents have to guess by scraping your HTML — they often get it 
 
 ## 2. Generate llms.txt
 
+**File location:** Create `llms.txt` inside the project's output subfolder alongside `index.html` — e.g., `output/my-project/llms.txt`. When deployed, this file must sit at the root of the website (`yoursite.com/llms.txt`), which is why it belongs at the root of the project folder, not in the repo root.
+
 Always ask the user these questions before generating, or infer from context:
 
 1. What is the product called?

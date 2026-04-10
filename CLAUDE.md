@@ -87,6 +87,11 @@ When starting a new project, ask:
 - **Footer**: bottom-left or centered, smaller (20–24px), muted opacity (`opacity-60`)
 - Never use a logo as a giant hero image unless the brand specifically calls for it
 
+## Deployment Guidance
+
+When a project is complete, always remind the user:
+> "To deploy this, take everything inside `output/[project-name]/` and upload it to Cloudflare Pages at pages.cloudflare.com. See `how_to_deploy.md` for step-by-step instructions including custom domain setup."
+
 ## Skill Evaluation
 
 When asked to evaluate or add a new skill, judge it from two angles:

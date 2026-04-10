@@ -65,7 +65,7 @@ formula, section stack, and anti-patterns. Tell me what you're changing and
 why before you rewrite anything.
 ```
 
-All generated output goes in `output/`, organized by project. See [HOW_TO_USE.md](HOW_TO_USE.md) for detailed prompt examples, commands, and how skill layering works.
+All generated output goes in `output/`, organized by project. See [HOW_TO_USE.md](HOW_TO_USE.md) for detailed prompt examples, commands, and how skill layering works. See [how_to_deploy.md](how_to_deploy.md) to deploy your page to Cloudflare Pages and set up a custom domain.
 
 ## Credits
 
