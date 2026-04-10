@@ -13,18 +13,17 @@ front-end-tech/
 │   ├── brutalist-skill/ # Swiss typographic / CRT terminal
 │   ├── impeccable/      # Design quality, anti-patterns, a11y
 │   └── emil-design-eng/ # Animation craft, transforms, gestures
-├── output/              # Generated output (gitignored)
+├── output/              # Generated landing pages and websites
 ├── README.md
 └── HOW_TO_USE.md
 ```
 
 ## Important: Where Output Goes
 
-**All generated output must go in the `output/` folder.** This folder is gitignored — nothing inside it should ever be committed to GitHub.
+**All generated output must go in the `output/` folder.**
 
 - When you use a skill to build something, save the result in `output/`.
 - Create subfolders to organize your work (e.g., `output/landing-page/`, `output/dashboard-v2/`).
-- The `output/` folder is your local workspace for experiments. It stays on your machine only.
 
 ```
 output/
@@ -37,7 +36,7 @@ output/
 ## Browsing and Learning
 
 - **Skills** (`skills/`) are reference files — read them to learn design principles like typography, color, spacing, motion, and accessibility even if you never use them with an AI tool.
-- **Output** (`output/`) is gitignored and holds your local generated artifacts. Never commit output to GitHub.
+- **Output** (`output/`) holds generated landing pages and websites, organized by project.
 
 ## Using the Design Skills with AI Tools
 
@@ -140,7 +139,7 @@ This project uses layered design skills:
 
 ## Output
 
-All generated files must stay in this folder. Never commit to GitHub.
+All generated files must stay in this folder.
 EOF
 ```
 

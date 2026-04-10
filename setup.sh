@@ -47,7 +47,7 @@ This project uses layered design skills:
 
 ## Output
 
-All generated files must stay in this folder. Never commit to GitHub.
+All generated files must stay in this folder.
 EOF
 echo "Created CLAUDE.md with emil-design-eng reference"
 

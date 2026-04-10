@@ -10,7 +10,7 @@ This repo is a toolkit for building landing pages and websites for apps, ideas, 
 
 - Never create generated files (HTML, CSS, JS, images, etc.) in the repo root or inside `skills/`.
 - For each task, create a descriptively named subfolder: `output/<project-name>/`.
-- The `output/` directory is gitignored. Never stage, commit, or push anything inside it.
+- The `output/` directory holds all generated work. Each project gets its own subfolder.
 - The `skills/` folder is for design instruction files only — never write generated code there.
 
 Examples:

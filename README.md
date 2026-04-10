@@ -24,7 +24,7 @@ Design instruction files that guide AI tools to generate polished frontend UI:
 # Or: soft-skill, minimalist-skill, brutalist-skill
 ```
 
-All generated output goes in `output/` (gitignored, never committed). See [HOW_TO_USE.md](HOW_TO_USE.md) for detailed prompt examples, commands, and how skill layering works.
+All generated output goes in `output/`, organized by project. See [HOW_TO_USE.md](HOW_TO_USE.md) for detailed prompt examples, commands, and how skill layering works.
 
 ## Credits
 
