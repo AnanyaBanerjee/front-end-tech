@@ -1,6 +1,6 @@
 # How to Use This Repo
 
-This repo is a collection of front-end projects, experiments, and AI design skills. Here's how to get the most out of it.
+This repo is a toolkit for building landing pages and websites for your apps, ideas, and concepts. It uses AI design skills to go from idea to polished page fast.
 
 ## Repo Structure
 

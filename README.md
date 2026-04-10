@@ -1,6 +1,6 @@
 # Front-End Tech
 
-A collection of front-end skills, projects, and experiments.
+A toolkit for building landing pages and websites for apps, ideas, and concepts — powered by AI design skills.
 
 ## Skills
 
@@ -15,9 +15,16 @@ Design instruction files that guide AI tools to generate polished frontend UI:
 | **impeccable** | 21 commands, anti-patterns, typography, color, motion, a11y | [impeccable](https://github.com/pbakaus/impeccable) |
 | **emil-design-eng** | Animation craft, transform patterns, gesture interactions, performance | [skill](https://github.com/emilkowalski/skill) |
 
-Drop a `SKILL.md` into your project root and your AI coding tool will pick it up automatically.
+### Quick start
 
-**All generated output goes in `output/`** — it's gitignored and never committed. Create subfolders inside it for each experiment. See [HOW_TO_USE.md](HOW_TO_USE.md) for detailed prompt examples and commands.
+```bash
+# Scaffold a new project with all skill layers
+./setup.sh my-landing-page taste-skill
+
+# Or: soft-skill, minimalist-skill, brutalist-skill
+```
+
+All generated output goes in `output/` (gitignored, never committed). See [HOW_TO_USE.md](HOW_TO_USE.md) for detailed prompt examples, commands, and how skill layering works.
 
 ## Credits
 
