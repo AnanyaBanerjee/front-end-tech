@@ -21,61 +21,48 @@
 ## 🗺️ Architecture
 
 ```mermaid
-graph TD
-    subgraph SKILLS["🎯 skills/  — AI Design Instructions"]
-        S1["🎨 Style<br/>taste · soft · minimalist · brutalist"]
-        S2["📐 Structure<br/>landing-page-design"]
-        S3["✨ Quality<br/>impeccable + 17 commands"]
-        S4["⚡ Engineering<br/>emil-design-eng"]
-        S5["🏷️ Brand<br/>logo · branding"]
-        S6["✍️ Content<br/>copywriting · product-images"]
-        S7["🔍 SEO<br/>seo"]
-        S8["🤖 AEO<br/>llms-txt"]
-        S9["🔒 Security<br/>security"]
-    end
+flowchart TD
+    SH["⚙️ setup.sh\nscaffolds project"] --> OUT
 
-    subgraph PROJECT["📁 output/my-project/"]
-        SK["SKILL.md<br/>.impeccable.md<br/>CLAUDE.md"]
-        subgraph SITE["🚀 site/  ← deploy this"]
-            HTML["index.html"]
-            LOGO["logo.svg"]
-            HDR["_headers"]
-            LLM["llms.txt"]
-            IMG["images/"]
+    subgraph OUT["📁 output/my-project/"]
+        SK["📄 SKILL.md · .impeccable.md · CLAUDE.md\nClaude reads these — never deployed"]
+        SK --> SITE
+        subgraph SITE["🚀 site/  ← deploy to Cloudflare"]
+            direction LR
+            F1["index.html"]
+            F2["logo.svg"]
+            F3["🔒 _headers"]
+            F4["🤖 llms.txt"]
+            F5["robots.txt · sitemap.xml"]
+            F6["📸 images/"]
         end
     end
 
-    subgraph TOOLS["🛠️ Tooling & Guides"]
-        SH["⚙️ setup.sh"]
-        G1["📖 HOW_TO_USE.md"]
-        G2["🔍 how_to_improve_SEO.md"]
-        G3["🤖 how_to_improve_agent_engine_optimization.md"]
-        G4["🚀 how_to_deploy.md"]
+    subgraph SKILLS["🎯 skills/"]
+        direction LR
+        SK1["🎨 Style"] --- SK2["📐 Structure"] --- SK3["✨ Quality"]
+        SK4["⚡ Engineering"] --- SK5["🏷️ Brand"] --- SK6["✍️ Content"]
+        SK7["🔍 SEO"] --- SK8["🤖 AEO"] --- SK9["🔒 Security"]
     end
 
-    SH -->|"scaffolds + wires all layers"| PROJECT
     SKILLS -->|"CLAUDE.md references all"| SK
-    SK -->|"Claude reads & applies"| SITE
 
-    style SKILLS fill:#1e1b4b,color:#a5b4fc,stroke:#4f46e5
-    style PROJECT fill:#052e16,color:#86efac,stroke:#16a34a
+    style SH fill:#1c1917,color:#f5f5f4,stroke:#78716c
+    style OUT fill:#052e16,color:#bbf7d0,stroke:#16a34a
     style SITE fill:#14532d,color:#bbf7d0,stroke:#22c55e
-    style TOOLS fill:#1c1917,color:#d6d3d1,stroke:#78716c
-    style S1 fill:#312e81,color:#c7d2fe,stroke:#4338ca
-    style S2 fill:#312e81,color:#c7d2fe,stroke:#4338ca
-    style S3 fill:#312e81,color:#c7d2fe,stroke:#4338ca
-    style S4 fill:#312e81,color:#c7d2fe,stroke:#4338ca
-    style S5 fill:#312e81,color:#c7d2fe,stroke:#4338ca
-    style S6 fill:#312e81,color:#c7d2fe,stroke:#4338ca
-    style S7 fill:#14532d,color:#bbf7d0,stroke:#16a34a
-    style S8 fill:#1e3a5f,color:#bae6fd,stroke:#0284c7
-    style S9 fill:#450a0a,color:#fca5a5,stroke:#dc2626
-    style SK fill:#052e16,color:#86efac,stroke:#16a34a
-    style HTML fill:#14532d,color:#bbf7d0,stroke:#22c55e
-    style LOGO fill:#14532d,color:#bbf7d0,stroke:#22c55e
-    style HDR fill:#450a0a,color:#fca5a5,stroke:#dc2626
-    style LLM fill:#1e3a5f,color:#bae6fd,stroke:#0284c7
-    style IMG fill:#14532d,color:#bbf7d0,stroke:#22c55e
+    style SKILLS fill:#1e1b4b,color:#c7d2fe,stroke:#4338ca
+    style SK fill:#065f46,color:#a7f3d0,stroke:#059669
+    style F3 fill:#450a0a,color:#fca5a5,stroke:#dc2626
+    style F4 fill:#0c4a6e,color:#bae6fd,stroke:#0284c7
+    style SK1 fill:#312e81,color:#c7d2fe,stroke:#4338ca
+    style SK2 fill:#312e81,color:#c7d2fe,stroke:#4338ca
+    style SK3 fill:#134e4a,color:#99f6e4,stroke:#0d9488
+    style SK4 fill:#0c4a6e,color:#bae6fd,stroke:#0284c7
+    style SK5 fill:#713f12,color:#fef08a,stroke:#ca8a04
+    style SK6 fill:#1e3a5f,color:#bfdbfe,stroke:#3b82f6
+    style SK7 fill:#14532d,color:#bbf7d0,stroke:#16a34a
+    style SK8 fill:#0c4a6e,color:#bae6fd,stroke:#0284c7
+    style SK9 fill:#450a0a,color:#fca5a5,stroke:#dc2626
 ```
 
 ---
@@ -85,28 +72,28 @@ graph TD
 Every project uses all 9 layers simultaneously — they cover different concerns and never conflict.
 
 ```mermaid
-graph LR
-    A["📐 Structure<br/><small>landing-page-design</small>"]:::structure
-    B["🎨 Style<br/><small>taste · soft · minimalist · brutalist</small>"]:::style
-    C["✨ Quality<br/><small>impeccable + 17 cmds</small>"]:::quality
-    D["⚡ Engineering<br/><small>emil-design-eng</small>"]:::engineering
-    E["🏷️ Brand<br/><small>logo · branding</small>"]:::brand
-    F["✍️ Content<br/><small>copy · product-images</small>"]:::content
-    G["🔍 SEO<br/><small>meta · JSON-LD · speed</small>"]:::seo
-    H["🤖 AEO<br/><small>llms.txt · AI search</small>"]:::aeo
-    I["🔒 Security<br/><small>headers · SRI · safe links</small>"]:::security
+flowchart LR
+    A["📐 Structure\nlanding-page-design"]
+    B["🎨 Style\ntaste · soft · minimalist · brutalist"]
+    C["✨ Quality\nimpeccable + 17 cmds"]
+    D["⚡ Engineering\nemil-design-eng"]
+    E["🏷️ Brand\nlogo · branding"]
+    F["✍️ Content\ncopy · product-images"]
+    G["🔍 SEO\nmeta · JSON-LD"]
+    H["🤖 AEO\nllms.txt"]
+    I["🔒 Security\nheaders · SRI"]
 
     A --> B --> C --> D --> E --> F --> G --> H --> I
 
-    classDef structure fill:#312e81,color:#c7d2fe,stroke:#4338ca
-    classDef style fill:#4a1d96,color:#e9d5ff,stroke:#7c3aed
-    classDef quality fill:#134e4a,color:#99f6e4,stroke:#0d9488
-    classDef engineering fill:#0c4a6e,color:#bae6fd,stroke:#0284c7
-    classDef brand fill:#713f12,color:#fef08a,stroke:#ca8a04
-    classDef content fill:#1e3a5f,color:#bfdbfe,stroke:#3b82f6
-    classDef seo fill:#14532d,color:#bbf7d0,stroke:#16a34a
-    classDef aeo fill:#1e3a5f,color:#bae6fd,stroke:#0ea5e9
-    classDef security fill:#450a0a,color:#fca5a5,stroke:#dc2626
+    style A fill:#312e81,color:#c7d2fe,stroke:#4338ca
+    style B fill:#4a1d96,color:#e9d5ff,stroke:#7c3aed
+    style C fill:#134e4a,color:#99f6e4,stroke:#0d9488
+    style D fill:#0c4a6e,color:#bae6fd,stroke:#0284c7
+    style E fill:#713f12,color:#fef08a,stroke:#ca8a04
+    style F fill:#1e3a5f,color:#bfdbfe,stroke:#3b82f6
+    style G fill:#14532d,color:#bbf7d0,stroke:#16a34a
+    style H fill:#0c4a6e,color:#bae6fd,stroke:#0ea5e9
+    style I fill:#450a0a,color:#fca5a5,stroke:#dc2626
 ```
 
 > All layers are wired automatically by `setup.sh` + `CLAUDE.md` — you only need to pick a style.
