@@ -14,3 +14,7 @@ Design instruction files (from [taste-skill](https://github.com/Leonxlnx/taste-s
 | **brutalist-skill** | Swiss typographic and CRT terminal aesthetics |
 
 Drop a `SKILL.md` into your project root and your AI coding tool will pick it up automatically.
+
+## Credits
+
+- **taste-skill, soft-skill, minimalist-skill, brutalist-skill** — by [Leonxlnx](https://github.com/Leonxlnx), sourced from [taste-skill](https://github.com/Leonxlnx/taste-skill). Licensed under the original repository's terms.
