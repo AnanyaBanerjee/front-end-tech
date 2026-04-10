@@ -11,7 +11,8 @@ front-end-tech/
 │   ├── soft-skill/      # Premium, agency-level aesthetics
 │   ├── minimalist-skill/# Editorial, Notion/Linear-inspired
 │   ├── brutalist-skill/ # Swiss typographic / CRT terminal
-│   └── impeccable/      # Design quality, anti-patterns, a11y
+│   ├── impeccable/      # Design quality, anti-patterns, a11y
+│   └── emil-design-eng/ # Animation craft, transforms, gestures
 ├── output/              # Generated output (gitignored)
 ├── README.md
 └── HOW_TO_USE.md
@@ -68,6 +69,7 @@ cp ../../skills/taste-skill/SKILL.md ./SKILL.md
 | **minimalist-skill** | Content-heavy, editorial (docs, blogs, dashboards) |
 | **brutalist-skill** | Bold, data-heavy (portfolios, dashboards, experimental) |
 | **impeccable** | Design quality layer — audits, anti-patterns, accessibility |
+| **emil-design-eng** | Animation engineering — easing, transforms, gestures, performance |
 
 ### Switching skills
 
