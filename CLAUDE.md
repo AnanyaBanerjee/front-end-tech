@@ -1,5 +1,22 @@
 # Project Rules
 
+## ⚠️ NON-NEGOTIABLE: Everything Built Here Follows All Four Standards
+
+**Every single file created by this repo — every `.html` page, every subpage, every legal page, every page that will ever exist in `site/` — must comply with ALL FOUR of these standards. No exceptions. No partial compliance. All four, always, on everything.**
+
+| Standard | Skill | Every page must have |
+|----------|-------|---------------------|
+| **Security** | `skills/security/SKILL.md` | `_headers` via Cloudflare, SRI on CDN scripts, no secrets in source, `rel="noopener noreferrer"` on all external links |
+| **Legal** | `skills/legal/SKILL.md` | Copyright footer, Privacy Policy, Terms of Use, DMCA page, `noai` meta tag, AI crawlers blocked in `robots.txt` |
+| **SEO** | `skills/seo/SKILL.md` | `<title>`, meta description, Open Graph tags, JSON-LD structured data, semantic HTML, image alt attributes *(skip OG/JSON-LD on legal pages)* |
+| **AEO** | `skills/aeo/SKILL.md` | `llms.txt`, speakable schema, factual headlines, FAQ section, no marketing speak in meta description |
+
+**If you are building any page and have not applied all four — stop and apply them before delivering.**
+
+**If you are unsure whether a rule applies to a specific page — apply it. Always default to more protection, not less.**
+
+---
+
 ## Purpose
 
 This repo is a toolkit for building landing pages and websites for apps, ideas, and concepts. Everything here — skills, scripts, structure — exists to help ship polished pages fast using AI tools.

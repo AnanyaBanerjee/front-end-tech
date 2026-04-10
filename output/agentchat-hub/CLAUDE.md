@@ -1,5 +1,18 @@
 # Project Rules
 
+## ⚠️ NON-NEGOTIABLE: Every Page Follows All Four Standards
+
+**Every `.html` file in `site/` — index.html, privacy-policy.html, terms.html, dmca.html, any subpage — must comply with ALL FOUR standards. No exceptions.**
+
+| Standard | Must have on every page |
+|----------|------------------------|
+| **Security** | SRI on CDN scripts, `rel="noopener noreferrer"` on external links, no secrets in source |
+| **Legal** | Same navbar + footer with copyright, links to Privacy Policy / Terms / DMCA, `noai` meta tag |
+| **SEO** | `<title>`, meta description, Open Graph tags, semantic HTML, image alt attributes *(skip OG on legal pages)* |
+| **AEO** | `llms.txt` exists, factual headlines, no marketing speak in descriptions |
+
+If unsure whether a rule applies — apply it. Default to more protection, not less.
+
 ## Logo
 
 **Always ask for a logo before building.** Ask:
