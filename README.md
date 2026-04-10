@@ -49,46 +49,36 @@ flowchart TD
 Every `.html` file Claude creates — including legal pages — gets all 11 layers applied automatically.
 
 ```mermaid
-flowchart LR
-    subgraph INPUT["You provide"]
-        I1["💡 Idea"]
-        I2["🏷️ Logo"]
-        I3["📸 Screenshots"]
-        I4["📝 Description"]
-    end
+flowchart TD
+    START(["📥 You provide: idea · logo · screenshots · product description"])
 
-    subgraph AUTO["Claude applies automatically"]
-        A1["🎨 Style\nskills/taste-skill · soft · minimalist · brutalist\nFonts · colors · spacing · layout"]
-        A2["📐 Structure\nskills/landing-page-design\nHero formula · sections · CTAs · conversion"]
-        A3["✨ Quality\nskills/impeccable + 17 commands\nAnti-patterns · polish · accessibility"]
-        A4["⚡ Motion\nskills/emil-design-eng\nAnimations · transforms · gestures"]
-        A5["✍️ Brand + Copy\nskills/logo · branding · copywriting · product-images\nLogo · colors · headlines · screenshots"]
-        A6["🔍 SEO\nskills/seo\nMeta · Open Graph · JSON-LD · page speed"]
-        A7["🤖 AEO\nskills/aeo\nllms.txt · speakable schema · AI-ready copy"]
-        A8["🔒 Security\nskills/security\n_headers · SRI · no secrets · safe links"]
-        A9["⚖️ Legal\nskills/legal\nCopyright ™ · Privacy · Terms · DMCA · NoAI"]
-        A10["🔄 Sync\nskills/sync\nChange detection · cascade updates"]
-    end
+    L1["🎨  Style — skills/taste-skill · soft-skill · minimalist-skill · brutalist-skill\nFonts · colors · spacing · layout · visual direction"]
+    L2["📐  Structure — skills/landing-page-design\nHero formula · section stack · CTAs · conversion patterns"]
+    L3["✨  Quality — skills/impeccable + 17 commands\nAnti-patterns · polish · accessibility · design review"]
+    L4["⚡  Motion — skills/emil-design-eng\nAnimations · easing curves · transforms · gestures"]
+    L5["🏷️  Brand + Copy — skills/logo · branding · copywriting · product-images\nLogo · color system · headlines · CTAs · screenshots"]
+    L6["🔍  SEO — skills/seo\nTitle · meta description · Open Graph · JSON-LD · semantic HTML · page speed"]
+    L7["🤖  AEO — skills/aeo\nllms.txt · speakable schema · factual copy · FAQ · AI-ready descriptions"]
+    L8["🔒  Security — skills/security\n_headers · SRI integrity · no secrets in source · safe external links"]
+    L9["⚖️  Legal — skills/legal\nCopyright ™ · Privacy Policy · Terms of Use · DMCA · NoAI directives"]
+    L10["🔄  Sync — skills/sync\nDetects changes · cascades updates · keeps all files consistent"]
 
-    subgraph OUTPUT["You get"]
-        O1["🌐 site/\nReady to deploy"]
-    end
+    END(["📤 site/  —  ready to drag to Cloudflare Pages"])
 
-    INPUT --> AUTO --> OUTPUT
+    START --> L1 --> L2 --> L3 --> L4 --> L5 --> L6 --> L7 --> L8 --> L9 --> L10 --> END
 
-    style INPUT fill:#1e1b4b,color:#c7d2fe,stroke:#4338ca
-    style AUTO fill:#052e16,color:#bbf7d0,stroke:#16a34a
-    style OUTPUT fill:#7c2d12,color:#fed7aa,stroke:#ea580c
-    style A1 fill:#312e81,color:#c7d2fe,stroke:#4338ca
-    style A2 fill:#312e81,color:#c7d2fe,stroke:#4338ca
-    style A3 fill:#134e4a,color:#99f6e4,stroke:#0d9488
-    style A4 fill:#0c4a6e,color:#bae6fd,stroke:#0284c7
-    style A5 fill:#1e3a5f,color:#bfdbfe,stroke:#3b82f6
-    style A6 fill:#14532d,color:#bbf7d0,stroke:#16a34a
-    style A7 fill:#0c4a6e,color:#bae6fd,stroke:#0ea5e9
-    style A8 fill:#450a0a,color:#fca5a5,stroke:#dc2626
-    style A9 fill:#4a044e,color:#f5d0fe,stroke:#a21caf
-    style A10 fill:#1c1917,color:#e7e5e4,stroke:#57534e
+    style START fill:#1e1b4b,color:#c7d2fe,stroke:#4338ca
+    style L1 fill:#312e81,color:#c7d2fe,stroke:#4338ca
+    style L2 fill:#312e81,color:#c7d2fe,stroke:#4338ca
+    style L3 fill:#134e4a,color:#99f6e4,stroke:#0d9488
+    style L4 fill:#0c4a6e,color:#bae6fd,stroke:#0284c7
+    style L5 fill:#1e3a5f,color:#bfdbfe,stroke:#3b82f6
+    style L6 fill:#14532d,color:#bbf7d0,stroke:#16a34a
+    style L7 fill:#0c4a6e,color:#bae6fd,stroke:#0ea5e9
+    style L8 fill:#450a0a,color:#fca5a5,stroke:#dc2626
+    style L9 fill:#4a044e,color:#f5d0fe,stroke:#a21caf
+    style L10 fill:#1c1917,color:#e7e5e4,stroke:#57534e
+    style END fill:#7c2d12,color:#fed7aa,stroke:#ea580c
 ```
 
 ---
