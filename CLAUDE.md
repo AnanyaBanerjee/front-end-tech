@@ -54,6 +54,15 @@ Required on every project:
 - `noai` meta tag in `<head>` to prevent AI training
 - AI training crawlers blocked in `site/robots.txt`
 
+**CRITICAL — legal pages must match the main site design exactly:**
+Before generating any legal page, read `site/index.html` and copy:
+- The exact `<head>` (fonts, Tailwind config, CSS variables, meta setup)
+- The exact navbar (logo, links, animations, mobile behavior)
+- The exact footer (copyright, links)
+- The same background color, text color, font stack, spacing scale, border radius, and entrance animations
+
+Legal pages that use plain white backgrounds or default browser fonts when the main site has a custom design are WRONG. Every legal page must look like it belongs to the same product as `index.html`. Add `<meta name="robots" content="noindex">` to legal pages so they don't appear in search results.
+
 ## Security — Apply to Every Page
 
 **Every page built must include full security implementation without being asked.** Follow `skills/security/SKILL.md` for the complete checklist.

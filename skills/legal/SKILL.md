@@ -11,6 +11,76 @@ Legal protection is not optional. Every page built using this repo must implemen
 
 ---
 
+## CRITICAL: Legal Pages Must Match the Main Site Exactly
+
+**This is non-negotiable.** Privacy Policy, Terms of Use, and DMCA pages are part of your product. They must look, feel, and behave exactly like the main `index.html`.
+
+**Before generating any legal page, read `index.html` first** and extract:
+- The exact font stack (`font-family` declarations and Google/Fontshare imports)
+- The exact color palette (background, text, accent, border colors — use the CSS variables or Tailwind config)
+- The navbar/header — copy it exactly, including logo, links, and any animations
+- The footer — copy it exactly, including copyright and navigation
+- The spacing scale (padding, margin values used on the main page)
+- Any scroll-reveal or entrance animations (apply the same to legal page sections)
+- The border-radius style (sharp, rounded, pill — match it)
+- The button styles (primary CTA, secondary links)
+- Whether the site is light mode, dark mode, or both
+
+**Every legal page must:**
+1. Use the identical `<head>` — same fonts, same Tailwind config, same CSS variables, same meta setup
+2. Have the exact same navbar as `index.html` — same logo, same links, same hover states, same mobile behavior
+3. Have the exact same footer as `index.html` — same copyright, same legal links, same social links
+4. Use the same background color and text color as the main site — never default to plain white with black text unless that IS the main site's design
+5. Apply the same entrance animations to content sections on scroll
+6. Be fully responsive using the same breakpoints as the main site
+7. Link back to the main site from the navbar logo
+
+**What legal pages must NEVER do:**
+- Use a plain white background with default browser styles if the main site has a dark or branded background
+- Use a different font than the main site
+- Show a naked `<body>` with no header or footer
+- Use generic "website" placeholder language — always use the actual product name and owner name
+- Look like a different website from the main page
+
+**Template structure for every legal page:**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- EXACT COPY of index.html <head> — same fonts, same Tailwind config, same meta tags -->
+  <!-- Update: <title>, <meta name="description">, <link rel="canonical"> for this page -->
+  <!-- Add: <meta name="robots" content="noindex"> so legal pages don't compete in search -->
+</head>
+<body class="[same body classes as index.html]">
+
+  <!-- EXACT COPY of index.html navbar -->
+  <header>...</header>
+
+  <!-- Legal content — styled with same design system -->
+  <main class="[match main site's max-width and padding]">
+    <article class="[prose-style content area, matching site's typography]">
+      <h1>[Page title — styled like site's h1 but appropriate size]</h1>
+      <p class="[muted text color from site's palette]">Last updated: [Date]</p>
+
+      <!-- Sections use same heading hierarchy and spacing as main site -->
+      <section>
+        <h2>[Section heading]</h2>
+        <p>[Content]</p>
+      </section>
+    </article>
+  </main>
+
+  <!-- EXACT COPY of index.html footer -->
+  <footer>...</footer>
+
+  <!-- EXACT COPY of index.html scripts (Tailwind config, animation scripts, etc.) -->
+</body>
+</html>
+```
+
+---
+
 ## Step 1: Always Ask First
 
 Before generating any legal content, ask the user these questions:
