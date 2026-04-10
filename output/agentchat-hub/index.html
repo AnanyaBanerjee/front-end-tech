@@ -6,9 +6,11 @@
   <title>AgentChat Hub — The Universal Messenger for the Open AI Web</title>
   <meta name="description" content="Connect to any A2A-compatible AI agent via URL. Stream responses in real time. No account, no tracking, no subscriptions. Free on iOS, iPad, Mac, and Vision Pro.">
 
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -16,23 +18,24 @@
       theme: {
         extend: {
           colors: {
-            /* Warm amber palette — neutrals tinted toward oklch hue 68° */
-            bg: '#0D0A07',
-            surface: '#141108',
-            elevated: '#1C170E',
-            border: '#2B2210',
-            'border-subtle': '#201A0C',
-            accent: '#D4A52A',           /* oklch(74% 0.165 68) — warm amber-gold */
-            'accent-dim': 'rgba(212,165,42,0.09)',
-            'accent-mid': 'rgba(212,165,42,0.16)',
+            /* Light warm palette — off-white + brick orange, neutrals tinted toward hue 28° */
+            bg: '#FDFAF6',
+            surface: '#F4EDE3',
+            elevated: '#EDE4D7',
+            border: '#DDD0C2',
+            'border-subtle': '#E8E0D4',
+            accent: '#C05830',           /* brick orange — oklch(55% 0.17 38) */
+            'accent-dim': 'rgba(192,88,48,0.09)',
+            'accent-mid': 'rgba(192,88,48,0.16)',
             text: {
-              DEFAULT: '#FAF7EC',        /* warm near-white */
-              secondary: '#A8A18C',     /* warm medium gray */
-              tertiary: '#706959',      /* warm dark gray */
+              DEFAULT: '#1A1208',        /* warm near-black */
+              secondary: '#5C4E40',     /* warm medium-dark brown-gray */
+              tertiary: '#8A7464',      /* warm mid gray */
             },
           },
           fontFamily: {
-            sans: ['Geist', 'system-ui', 'sans-serif'],
+            sans: ['Satoshi', 'system-ui', 'sans-serif'],
+            display: ['"Clash Display"', 'system-ui', 'sans-serif'],
             mono: ['"JetBrains Mono"', 'monospace'],
           },
         }
@@ -44,23 +47,23 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Geist', system-ui, sans-serif;
-      background: #0D0A07;
-      color: #FAF7EC;
+      font-family: 'Satoshi', system-ui, sans-serif;
+      background: #FDFAF6;
+      color: #1A1208;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
     /* ── Dot grid ── */
     .dot-grid {
-      background-image: radial-gradient(circle, #2B2210 1px, transparent 1px);
+      background-image: radial-gradient(circle, #DDD0C2 1px, transparent 1px);
       background-size: 24px 24px;
     }
 
     /* ── Animated sweep line ── */
     .glow-line {
       height: 1px;
-      background: linear-gradient(90deg, transparent 0%, transparent 30%, #D4A52A 50%, transparent 70%, transparent 100%);
+      background: linear-gradient(90deg, transparent 0%, transparent 30%, #C05830 50%, transparent 70%, transparent 100%);
       background-size: 200% 100%;
       animation: glow-sweep 3s ease-in-out infinite;
       opacity: 0.5;
@@ -119,14 +122,14 @@
     .btn-primary:hover {
       transform: translateY(-2px);
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.12),
-                  0 8px 20px -8px rgba(212,165,42,0.12);
+                  0 8px 20px -8px rgba(192,88,48,0.18);
     }
     .btn-primary:active { transform: translateY(0) scale(0.97); }
 
     /* ── Feature card: spotlight ── */
     .feat-card {
       position: relative;
-      border: 1px solid #2B2210;
+      border: 1px solid #DDD0C2;
       transition: border-color 0.3s ease,
                   background 0.3s ease,
                   transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
@@ -134,22 +137,22 @@
     }
     .feat-card::before {
       content: ''; position: absolute; inset: -1px; border-radius: inherit;
-      background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(212,165,42,0.10), transparent 40%);
+      background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(192,88,48,0.08), transparent 40%);
       opacity: 0; transition: opacity 0.3s ease; pointer-events: none; z-index: 0;
     }
     .feat-card:hover::before { opacity: 1; }
     .feat-card:hover {
-      border-color: rgba(212,165,42,0.22);
-      background: #19140A;
+      border-color: rgba(192,88,48,0.30);
+      background: #EDE8DE;
       transform: translateY(-3px);
-      box-shadow: 0 12px 32px -12px rgba(0,0,0,0.45), 0 0 0 1px rgba(212,165,42,0.08);
+      box-shadow: 0 12px 32px -12px rgba(0,0,0,0.12), 0 0 0 1px rgba(192,88,48,0.10);
     }
     .feat-card > * { position: relative; z-index: 1; }
 
     /* ── Terminal window ── */
     .terminal {
-      background: #141108;
-      border: 1px solid #2B2210;
+      background: #F4EDE3;
+      border: 1px solid #DDD0C2;
       border-radius: 12px;
       overflow: hidden;
       transition: box-shadow 0.5s ease;
@@ -159,8 +162,8 @@
       box-shadow: 0 24px 48px -24px rgba(0,0,0,0.5);
     }
     .terminal-bar {
-      background: #1C170E;
-      border-bottom: 1px solid #2B2210;
+      background: #EDE4D7;
+      border-bottom: 1px solid #DDD0C2;
       padding: 12px 16px;
       display: flex; align-items: center; gap: 8px;
     }
@@ -225,7 +228,7 @@
     <div class="max-w-[1200px] mx-auto px-6 h-14 flex items-center justify-between">
       <a href="#" class="font-semibold text-sm tracking-tight text-text flex items-center gap-2">
         <span class="w-6 h-6 rounded-md bg-accent flex items-center justify-center">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0D0A07" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FDFAF6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </span>
         AgentChat Hub
       </a>
@@ -257,7 +260,7 @@
           </span>
         </div>
 
-        <h1 class="hero-anim hero-d2 font-black text-5xl md:text-7xl lg:text-8xl tracking-tighter leading-[0.9] text-text max-w-4xl mb-8">
+        <h1 class="hero-anim hero-d2 font-display font-bold text-5xl md:text-7xl lg:text-8xl tracking-tight leading-[0.95] text-text max-w-4xl mb-8">
           Talk to any AI agent<br>
           <span class="text-text-tertiary">with a URL.</span>
         </h1>
@@ -326,7 +329,7 @@
 
       <div class="mb-16 reveal">
         <p class="font-mono text-xs font-medium text-accent mb-3 tracking-wide uppercase">Features</p>
-        <h2 class="font-extrabold text-3xl md:text-5xl tracking-tighter leading-tight text-text max-w-2xl">
+        <h2 class="font-display font-semibold text-3xl md:text-5xl tracking-tight leading-tight text-text max-w-2xl">
           A native client that speaks<br>the open protocol.
         </h2>
       </div>
@@ -338,9 +341,9 @@
         <div class="feat-card md:col-span-7 rounded-xl bg-surface p-8 reveal">
           <div class="flex items-center gap-3 mb-5">
             <div class="feat-icon w-9 h-9 rounded-lg bg-accent-dim flex items-center justify-center">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D4A52A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C05830" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
             </div>
-            <h3 class="font-bold text-base tracking-tight text-text">Live Streaming</h3>
+            <h3 class="font-medium text-base tracking-tight text-text">Live Streaming</h3>
           </div>
           <p class="text-sm text-text-secondary leading-relaxed mb-6 max-w-md">
             Every response arrives token-by-token over SSE. You watch the agent reason in real time — not a loading spinner followed by a wall of text. Latency becomes visible instead of hidden.
@@ -360,9 +363,9 @@
           <div class="feat-card rounded-xl bg-surface p-8 reveal flex-1">
             <div class="flex items-center gap-3 mb-4">
               <div class="feat-icon w-9 h-9 rounded-lg bg-accent-dim flex items-center justify-center">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D4A52A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C05830" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
               </div>
-              <h3 class="font-bold text-base tracking-tight text-text">Connect by URL</h3>
+              <h3 class="font-medium text-base tracking-tight text-text">Connect by URL</h3>
             </div>
             <p class="text-sm text-text-secondary leading-relaxed">
               No marketplace. Paste the endpoint, the app reads the Agent Card. The open web is the platform.
@@ -372,9 +375,9 @@
           <div class="feat-card rounded-xl bg-surface p-8 reveal flex-1">
             <div class="flex items-center gap-3 mb-4">
               <div class="feat-icon w-9 h-9 rounded-lg bg-accent-dim flex items-center justify-center">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D4A52A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C05830" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
               </div>
-              <h3 class="font-bold text-base tracking-tight text-text">Multi-Agent Roster</h3>
+              <h3 class="font-medium text-base tracking-tight text-text">Multi-Agent Roster</h3>
             </div>
             <p class="text-sm text-text-secondary leading-relaxed">
               Add unlimited agents. Organize into groups and tabs. Switch between them like contacts in a messenger.
@@ -388,9 +391,9 @@
         <div class="feat-card md:col-span-5 rounded-xl bg-surface p-8 reveal">
           <div class="flex items-center gap-3 mb-4">
             <div class="feat-icon w-9 h-9 rounded-lg bg-accent-dim flex items-center justify-center">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D4A52A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C05830" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
             </div>
-            <h3 class="font-bold text-base tracking-tight text-text">Rich Attachments</h3>
+            <h3 class="font-medium text-base tracking-tight text-text">Rich Attachments</h3>
           </div>
           <p class="text-sm text-text-secondary leading-relaxed">
             Send photos, images, and files inline. Multi-modal from day one.
@@ -400,9 +403,9 @@
         <div class="feat-card md:col-span-7 rounded-xl bg-surface p-8 reveal">
           <div class="flex items-center gap-3 mb-4">
             <div class="feat-icon w-9 h-9 rounded-lg bg-accent-dim flex items-center justify-center">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D4A52A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C05830" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
             </div>
-            <h3 class="font-bold text-base tracking-tight text-text">Native Everywhere</h3>
+            <h3 class="font-medium text-base tracking-tight text-text">Native Everywhere</h3>
           </div>
           <p class="text-sm text-text-secondary leading-relaxed max-w-md">
             iPhone, iPad, Mac, Vision Pro. One native binary per platform, not a web view. Platform idioms, system fonts, keyboard shortcuts — it all works because it was built to.
@@ -420,7 +423,7 @@
 
         <div class="lg:col-span-4 reveal">
           <p class="font-mono text-xs font-medium text-accent mb-3 tracking-wide uppercase">Protocol</p>
-          <h2 class="font-extrabold text-3xl md:text-4xl tracking-tighter leading-tight text-text mb-5">
+          <h2 class="font-display font-semibold text-3xl md:text-4xl tracking-tight leading-tight text-text mb-5">
             Three steps.<br>Zero ceremony.
           </h2>
           <p class="text-sm text-text-secondary leading-relaxed">
@@ -432,7 +435,7 @@
           <div class="feat-card rounded-xl bg-surface p-7 reveal flex gap-5">
             <span class="step-num font-mono text-xs font-semibold text-accent bg-accent-dim w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 opacity-0">01</span>
             <div>
-              <h3 class="font-bold text-sm tracking-tight text-text mb-1.5">Publish agent metadata</h3>
+              <h3 class="font-medium text-sm tracking-tight text-text mb-1.5">Publish agent metadata</h3>
               <p class="text-sm text-text-secondary leading-relaxed mb-3">Host an Agent Card at your domain so clients discover capabilities automatically.</p>
               <code class="font-mono text-xs text-accent bg-accent-dim px-3 py-1.5 rounded-md border border-accent/10">/.well-known/agent.json</code>
             </div>
@@ -441,7 +444,7 @@
           <div class="feat-card rounded-xl bg-surface p-7 reveal flex gap-5">
             <span class="step-num font-mono text-xs font-semibold text-accent bg-accent-dim w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 opacity-0">02</span>
             <div>
-              <h3 class="font-bold text-sm tracking-tight text-text mb-1.5">Paste the URL into AgentChat</h3>
+              <h3 class="font-medium text-sm tracking-tight text-text mb-1.5">Paste the URL into AgentChat</h3>
               <p class="text-sm text-text-secondary leading-relaxed">The app reads the Agent Card, discovers the endpoint, establishes a session. No SDK, no API key.</p>
             </div>
           </div>
@@ -449,7 +452,7 @@
           <div class="feat-card rounded-xl bg-surface p-7 reveal flex gap-5">
             <span class="step-num font-mono text-xs font-semibold text-accent bg-accent-dim w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 opacity-0">03</span>
             <div>
-              <h3 class="font-bold text-sm tracking-tight text-text mb-1.5">Start chatting</h3>
+              <h3 class="font-medium text-sm tracking-tight text-text mb-1.5">Start chatting</h3>
               <p class="text-sm text-text-secondary leading-relaxed">Stream responses, send files, manage conversations. Everything stored locally on your device.</p>
             </div>
           </div>
@@ -466,7 +469,7 @@
 
         <div class="lg:col-span-5 reveal">
           <p class="font-mono text-xs font-medium text-accent mb-3 tracking-wide uppercase">Privacy</p>
-          <h2 class="font-extrabold text-3xl md:text-4xl tracking-tighter leading-tight text-text mb-5">
+          <h2 class="font-display font-semibold text-3xl md:text-4xl tracking-tight leading-tight text-text mb-5">
             Zero data collection.<br>By design.
           </h2>
           <p class="text-sm text-text-secondary leading-relaxed max-w-md">
@@ -504,7 +507,7 @@
 
       <div class="mb-16 reveal">
         <p class="font-mono text-xs font-medium text-accent mb-3 tracking-wide uppercase">Use cases</p>
-        <h2 class="font-extrabold text-3xl md:text-4xl tracking-tighter leading-tight text-text">
+        <h2 class="font-display font-semibold text-3xl md:text-4xl tracking-tight leading-tight text-text">
           Built for anyone with an agent.
         </h2>
       </div>
@@ -562,7 +565,7 @@
 
         <div class="lg:col-span-4 reveal">
           <p class="font-mono text-xs font-medium text-accent mb-3 tracking-wide uppercase">FAQ</p>
-          <h2 class="font-extrabold text-3xl md:text-4xl tracking-tighter leading-tight text-text">
+          <h2 class="font-display font-semibold text-3xl md:text-4xl tracking-tight leading-tight text-text">
             Questions<br>answered.
           </h2>
         </div>
@@ -630,7 +633,7 @@
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-accent/5 blur-[100px] pointer-events-none"></div>
 
     <div class="max-w-[1200px] mx-auto px-6 text-center relative z-10 reveal">
-      <h2 class="font-black text-4xl md:text-6xl tracking-tighter leading-[0.9] text-text max-w-2xl mx-auto mb-6">
+      <h2 class="font-display font-bold text-4xl md:text-6xl tracking-tight leading-[0.95] text-text max-w-2xl mx-auto mb-6">
         The open AI web needs<br>an open client.
       </h2>
       <p class="text-base font-medium text-text-secondary leading-relaxed max-w-md mx-auto mb-10">
@@ -711,12 +714,12 @@
 
     // ── Terminal typing animation ──
     const terminalLines = [
-      { type: 'cmd',   text: '$ <span class="text-[#D4A52A]">connect</span> <span class="text-[#A8A18C]">https://research.example.com</span>' },
-      { type: 'info',  text: '<span class="text-[#D4A52A]">&#10003;</span> Agent Card discovered at /.well-known/agent.json' },
-      { type: 'info',  text: '<span class="text-[#D4A52A]">&#10003;</span> Capabilities: streaming, multimodal, push-notifications' },
-      { type: 'info',  text: '<span class="text-[#D4A52A]">&#10003;</span> Session established <span class="text-[#706959]">(anonymous, on-device)</span>' },
+      { type: 'cmd',   text: '$ <span class="text-[#C05830]">connect</span> <span class="text-[#5C4E40]">https://research.example.com</span>' },
+      { type: 'info',  text: '<span class="text-[#C05830]">&#10003;</span> Agent Card discovered at /.well-known/agent.json' },
+      { type: 'info',  text: '<span class="text-[#C05830]">&#10003;</span> Capabilities: streaming, multimodal, push-notifications' },
+      { type: 'info',  text: '<span class="text-[#C05830]">&#10003;</span> Session established <span class="text-[#706959]">(anonymous, on-device)</span>' },
       { type: 'sep',   text: '' },
-      { type: 'user',  text: '<span class="text-[#D4A52A]">you</span>  Summarize the latest A2A protocol spec changes' },
+      { type: 'user',  text: '<span class="text-[#C05830]">you</span>  Summarize the latest A2A protocol spec changes' },
       { type: 'agent', text: '<span class="text-[#706959]">agent</span> ', words: 'The March revision added three changes: streaming task updates via SSE, a new parts array for multi-modal responses, and push notification support for long-running tasks.' },
     ];
 
@@ -739,7 +742,7 @@
         div.className += ' flex items-start gap-3';
         div.innerHTML = line.text;
         const span = document.createElement('span');
-        span.className = 'text-[#A8A18C] leading-relaxed';
+        span.className = 'text-[#5C4E40] leading-relaxed';
         span.id = 'agent-response';
         div.appendChild(span);
       }
@@ -762,7 +765,7 @@
             responseEl.textContent += (w > 0 ? ' ' : '') + words[w];
           }
           const cursor = document.createElement('span');
-          cursor.className = 'cursor-blink text-[#D4A52A] ml-0.5';
+          cursor.className = 'cursor-blink text-[#C05830] ml-0.5';
           cursor.textContent = '|';
           responseEl.appendChild(cursor);
           terminal.classList.add('active-glow');
