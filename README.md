@@ -58,16 +58,16 @@ flowchart LR
     end
 
     subgraph AUTO["Claude applies automatically"]
-        A1["🎨 Style\nFonts · colors · layout"]
-        A2["📐 Structure\nHero · sections · CTAs"]
-        A3["✨ Quality\nPolish · accessibility"]
-        A4["⚡ Motion\nAnimations · interactions"]
-        A5["✍️ Copy\nHeadlines · CTAs"]
-        A6["🔍 SEO\nMeta · Open Graph · JSON-LD"]
-        A7["🤖 AEO\nllms.txt · AI-ready copy"]
-        A8["🔒 Security\n_headers · SRI · safe links"]
-        A9["⚖️ Legal\nPrivacy · Terms · DMCA · ™"]
-        A10["🔄 Sync\nAll files stay consistent"]
+        A1["🎨 Style\nskills/taste-skill · soft · minimalist · brutalist\nFonts · colors · spacing · layout"]
+        A2["📐 Structure\nskills/landing-page-design\nHero formula · sections · CTAs · conversion"]
+        A3["✨ Quality\nskills/impeccable + 17 commands\nAnti-patterns · polish · accessibility"]
+        A4["⚡ Motion\nskills/emil-design-eng\nAnimations · transforms · gestures"]
+        A5["✍️ Brand + Copy\nskills/logo · branding · copywriting · product-images\nLogo · colors · headlines · screenshots"]
+        A6["🔍 SEO\nskills/seo\nMeta · Open Graph · JSON-LD · page speed"]
+        A7["🤖 AEO\nskills/aeo\nllms.txt · speakable schema · AI-ready copy"]
+        A8["🔒 Security\nskills/security\n_headers · SRI · no secrets · safe links"]
+        A9["⚖️ Legal\nskills/legal\nCopyright ™ · Privacy · Terms · DMCA · NoAI"]
+        A10["🔄 Sync\nskills/sync\nChange detection · cascade updates"]
     end
 
     subgraph OUTPUT["You get"]
