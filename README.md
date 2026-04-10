@@ -4,15 +4,16 @@
 
 **A toolkit for building landing pages and websites for apps, ideas, and concepts — powered by AI design skills.**
 
-![Skills](https://img.shields.io/badge/skills-14-6366f1?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyeiIvPjwvc3ZnPg==)
+![Skills](https://img.shields.io/badge/skills-15-6366f1?style=for-the-badge)
+![Auto Legal](https://img.shields.io/badge/auto-Legal-a855f7?style=for-the-badge)
+![Auto Security](https://img.shields.io/badge/auto-Security-ef4444?style=for-the-badge)
 ![Auto SEO](https://img.shields.io/badge/auto-SEO-22c55e?style=for-the-badge)
 ![Auto AEO](https://img.shields.io/badge/auto-AEO-3b82f6?style=for-the-badge)
-![Auto Security](https://img.shields.io/badge/auto-Security-ef4444?style=for-the-badge)
 ![Deploy](https://img.shields.io/badge/deploy-Cloudflare-f97316?style=for-the-badge&logo=cloudflare&logoColor=white)
 
 <br/>
 
-*Every page is automatically* ***secured*** *·* ***SEO-optimized*** *·* ***AEO-ready for AI search*** *— without you asking.*
+*Every page is automatically* ***legally protected*** *·* ***secured*** *·* ***SEO-optimized*** *·* ***AEO-ready*** *— without you asking.*
 
 </div>
 
@@ -94,6 +95,9 @@ flowchart LR
     style G fill:#14532d,color:#bbf7d0,stroke:#16a34a
     style H fill:#0c4a6e,color:#bae6fd,stroke:#0ea5e9
     style I fill:#450a0a,color:#fca5a5,stroke:#dc2626
+    J["⚖️ Legal\ncopyright · privacy · terms · DMCA"]
+    I --> J
+    style J fill:#4a044e,color:#f5d0fe,stroke:#a21caf
 ```
 
 > All layers are wired automatically by `setup.sh` + `CLAUDE.md` — you only need to pick a style.
@@ -143,6 +147,7 @@ output/my-product/
 | 🔍 SEO | seo | Meta tags, Open Graph, JSON-LD, semantic HTML, page speed |
 | 🤖 AEO | llms-txt | `llms.txt`, speakable schema, AI search copy rules |
 | 🔒 Security | security | Cloudflare `_headers`, SRI on CDN scripts, no-secrets policy, safe links |
+| ⚖️ Legal | legal | Copyright, ™, Privacy Policy, Terms of Use, DMCA, NoAI directives |
 
 ---
 
@@ -208,4 +213,4 @@ See **[how_to_deploy.md](how_to_deploy.md)** for step-by-step instructions, cust
 - **impeccable** — by [pbakaus](https://github.com/pbakaus) · [source](https://github.com/pbakaus/impeccable) · Apache 2.0
 - **emil-design-eng** — by [Emil Kowalski](https://github.com/emilkowalski) · [source](https://github.com/emilkowalski/skill)
 - **landing-page-design · branding · copywriting** — [vibeship-spawner-skills](https://github.com/vibeforge1111/vibeship-spawner-skills)
-- **logo · product-images · seo · llms-txt · security** — custom skills written for this repo
+- **logo · product-images · seo · llms-txt · security · legal** — custom skills written for this repo

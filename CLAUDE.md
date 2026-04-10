@@ -32,6 +32,28 @@ Rules:
 - When referencing images or assets in HTML, use relative paths: `images/screenshot-1.png`, `logo.svg`
 - `site/` is what gets uploaded to Cloudflare Pages — nothing else
 
+## Legal Protection — Apply to Every Project
+
+**Every project must include legal protection without being asked.** Follow `skills/legal/SKILL.md` for the full process.
+
+Before building, always ask the user:
+1. Their full name or company name (for copyright ownership)
+2. Their product/brand name (for ™ symbol)
+3. Whether they already have a Privacy Policy — improve it if yes, generate if no
+4. Whether they already have Terms of Use — improve it if yes, generate if no
+5. What data they collect (emails, analytics, contact forms)
+6. Where their users are primarily located (affects GDPR/CCPA)
+
+Required on every project:
+- Footer copyright notice with dynamic year: `© [year] [Owner]. All rights reserved. [Product]™`
+- `<meta name="copyright">` and `<meta name="author">` in `<head>`
+- `site/privacy-policy.html` — generated or improved from existing
+- `site/terms.html` — generated or improved from existing
+- `site/dmca.html` — DMCA protection notice
+- Footer links to all three legal pages
+- `noai` meta tag in `<head>` to prevent AI training
+- AI training crawlers blocked in `site/robots.txt`
+
 ## Security — Apply to Every Page
 
 **Every page built must include full security implementation without being asked.** Follow `skills/security/SKILL.md` for the complete checklist.

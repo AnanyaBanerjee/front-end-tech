@@ -22,6 +22,7 @@ front-end-tech/
 │   ├── seo/                 # Meta tags, structured data, semantic HTML, page speed
 │   ├── llms-txt/            # llms.txt, AEO, AI search optimization
 │   ├── security/            # _headers, SRI, no-secrets, safe links, form hardening
+│   ├── legal/               # Copyright, Privacy Policy, Terms of Use, DMCA, NoAI
 │   └── copywriting/         # PAS/AIDA frameworks, headlines, CTAs
 ├── output/                  # Generated landing pages and websites
 ├── setup.sh                 # Scaffold a new project with all layers
@@ -115,6 +116,7 @@ But the skills in this repo fall into **three layers** that serve different purp
 | **Product images** (always use) | product-images | Ask for screenshots, present them beautifully |
 | **SEO** (always apply) | seo | Meta tags, structured data, page speed — on every page |
 | **AEO** (always apply) | llms-txt | llms.txt and AI search optimization — on every project |
+| **Legal** (always apply) | legal | Copyright, Privacy Policy, Terms of Use, DMCA, NoAI — every project |
 | **Security** (always apply) | security | Cloudflare headers, SRI, no secrets, safe links — on every page |
 | **Copy** (always apply) | copywriting | PAS/AIDA frameworks, headlines, CTAs |
 | **Structure** (always use) | landing-page-design | What goes on the page and why — sections, hero formulas, conversion patterns |
@@ -169,6 +171,7 @@ Never create HTML or assets outside of site/.
 - **.impeccable.md** — design quality, anti-patterns, accessibility
 - **Structure**: follow `../../skills/landing-page-design/patterns.md`, `anti-patterns.md`, `decisions.md`
 - **Engineering**: follow `../../skills/emil-design-eng/SKILL.md`
+- **Legal**: follow `../../skills/legal/SKILL.md` — ask for existing legal docs first; generate/improve privacy policy, terms, and DMCA
 - **Security**: follow `../../skills/security/SKILL.md` — create site/_headers, SRI on CDN scripts, no secrets in HTML, safe external links
 - **SEO**: follow `../../skills/seo/SKILL.md` — apply full checklist to site/index.html
 - **AEO**: follow `../../skills/llms-txt/SKILL.md` — generate site/llms.txt
@@ -220,6 +223,14 @@ Claude applies all of these to every page without you having to ask:
 - Feature copy that leads with specific capabilities
 - FAQ section with direct, citable answers
 - Meta description with no marketing speak
+
+**Legal**
+- Footer copyright notice with dynamic year and `™` on product name
+- `site/privacy-policy.html` — generated or improved from existing
+- `site/terms.html` — generated or improved from existing
+- `site/dmca.html` — DMCA protection notice
+- `noai` meta tag and AI crawler blocks in `robots.txt`
+- Footer links to all three legal pages
 
 **Security**
 - `site/_headers` with Cloudflare security headers (CSP, X-Frame-Options, HSTS, Permissions-Policy)
@@ -521,10 +532,12 @@ Step 6: /polish                     — Final pass on spacing and alignment
 Step 7: /harden                     — Make it accessible and robust
 Step 8: /audit                      — Final design quality check
 
-Then verify security, SEO + AEO:
-Step 9:  Confirm site/_headers exists with CSP tailored to your CDN domains
-Step 10: Check every CDN script has integrity + crossorigin attributes
-Step 11: Confirm no email addresses or API keys in HTML source
+Then verify legal, security, SEO + AEO:
+Step 9:  Confirm site/privacy-policy.html, terms.html, and dmca.html exist
+Step 10: Verify footer has copyright notice with ™ and links to legal pages
+Step 11: Confirm site/_headers exists with CSP tailored to your CDN domains
+Step 12: Check every CDN script has integrity + crossorigin attributes
+Step 13: Confirm no email addresses or API keys in HTML source
 Step 12: Check <title>, meta description, and Open Graph tags are filled in
 Step 13: Confirm site/llms.txt exists with factual product description
 Step 14: Verify site/robots.txt and site/sitemap.xml are present
