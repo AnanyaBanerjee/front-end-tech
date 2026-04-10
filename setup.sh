@@ -61,6 +61,29 @@ output/<project-name>/
 
 Never create HTML, images, or assets outside of `site/`. Never put SKILL.md or CLAUDE.md inside `site/`.
 
+## Universal Rule: Security + Legal on Every Single Page
+
+**Every `.html` file in `site/` — without exception — must follow both security and legal guidelines.**
+
+This includes index.html, privacy-policy.html, terms.html, dmca.html, and any other page ever created.
+
+Security on every page:
+- `integrity` + `crossorigin="anonymous"` on every CDN script and stylesheet
+- `rel="noopener noreferrer"` on every `target="_blank"` link
+- No API keys, email addresses, or sensitive data in source code
+
+Legal on every page:
+- Same navbar (logo links to `/`)
+- Same footer with copyright: `© [year] [Owner]. All rights reserved. [Product]™`
+- Same footer links to Privacy Policy, Terms, and DMCA
+- Same fonts, colors, spacing, and animations as index.html
+
+Legal pages only (privacy-policy.html, terms.html, dmca.html):
+- Add `<meta name="robots" content="noindex, nofollow">`
+- Do NOT add Open Graph, Twitter card, or JSON-LD tags
+
+When in doubt — apply the rule. Default to more protection, not less.
+
 ## Logo
 
 **Always ask for a logo before building.** Ask:

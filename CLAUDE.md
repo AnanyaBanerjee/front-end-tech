@@ -32,6 +32,31 @@ Rules:
 - When referencing images or assets in HTML, use relative paths: `images/screenshot-1.png`, `logo.svg`
 - `site/` is what gets uploaded to Cloudflare Pages — nothing else
 
+## Universal Rule: Security + Legal on Every Single Page
+
+**This applies to ALL pages without exception — index.html, privacy-policy.html, terms.html, dmca.html, about.html, contact.html, any subpage, any page ever created in this repo.**
+
+There are no exceptions. "Every page" means every `.html` file in `site/`. Not just the main page. Not just the landing page. Every one.
+
+**Security checklist — every `.html` file must have:**
+- The same `site/_headers` applies automatically via Cloudflare (no per-file action needed)
+- `integrity` + `crossorigin="anonymous"` on every CDN `<script>` and `<link>` — including on legal pages
+- `rel="noopener noreferrer"` on every `target="_blank"` link — including on legal pages
+- No API keys, tokens, email addresses, or sensitive data in source — including on legal pages
+
+**Legal checklist — every `.html` file must have:**
+- The same navbar with logo linking back to `/`
+- The same footer with copyright notice `© [year] [Owner]. All rights reserved. [Product]™`
+- The same footer links to Privacy Policy, Terms of Use, and DMCA
+- The same fonts, colors, spacing, and animations as `index.html`
+
+**For legal pages specifically** (`privacy-policy.html`, `terms.html`, `dmca.html`):
+- Also add `<meta name="robots" content="noindex, nofollow">` so they don't appear in search results
+- Do NOT add Open Graph or Twitter card tags — these pages should not be shareable on social media
+- Do NOT add JSON-LD structured data — these are utility pages, not product pages
+
+If you are ever unsure whether a rule applies to a page you are building — apply it. Default to more protection, not less.
+
 ## Legal Protection — Apply to Every Project
 
 **Every project must include legal protection without being asked.** Follow `skills/legal/SKILL.md` for the full process.
