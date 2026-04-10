@@ -6,6 +6,30 @@
   <title>AgentChat Hub — Connect Any AI Agent, Anywhere</title>
   <meta name="description" content="Connect to any A2A-compatible AI agent via URL. Stream responses in real time. No account, no tracking, no subscriptions. Free on iOS, iPad, Mac, and Vision Pro.">
 
+  <!-- SEO essentials -->
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Ananya Banerjee" />
+  <meta name="application-name" content="AgentChat Hub" />
+  <!-- Update the canonical URL to match your live domain -->
+  <link rel="canonical" href="https://agent-chat-hub.com/" />
+
+  <!-- Apple Smart App Banner -->
+  <meta name="apple-itunes-app" content="app-id=6760924304" />
+
+  <!-- Open Graph — used by social crawlers and AI scrapers -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="AgentChat Hub" />
+  <meta property="og:url" content="https://agent-chat-hub.com/" />
+  <meta property="og:title" content="AgentChat Hub — Connect Any AI Agent, Anywhere" />
+  <meta property="og:description" content="Connect to any A2A-compatible AI agent via URL. Stream responses in real time. No account, no tracking, no subscriptions. Free on iOS, iPad, Mac, and Vision Pro." />
+  <meta property="og:image" content="https://agent-chat-hub.com/og-image.png" />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AgentChat Hub — Connect Any AI Agent, Anywhere" />
+  <meta name="twitter:description" content="Connect to any A2A-compatible AI agent via URL. Stream responses in real time. No account, no tracking, no subscriptions. Free on iOS, iPad, Mac, and Vision Pro." />
+  <meta name="twitter:image" content="https://agent-chat-hub.com/og-image.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..125,400;12..96,75..125,500;12..96,75..125,700;12..96,75..125,800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -566,11 +590,107 @@
       .marquee-row { flex-wrap: wrap; width: 100%; }
     }
   </style>
+
+  <!-- ═══ Structured data — SEO + Agent Engine Optimization ═══════════════ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://agent-chat-hub.com/#app",
+        "name": "AgentChat Hub",
+        "url": "https://agent-chat-hub.com/",
+        "downloadUrl": "https://apps.apple.com/us/app/agentchat-hub/id6760924304",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": ["iOS 15.1+", "macOS 12+", "visionOS 1.0+"],
+        "softwareVersion": "1.1",
+        "description": "AgentChat Hub is the universal A2A client for iPhone, iPad, Mac, and Vision Pro. Paste any A2A-compatible agent endpoint URL, stream responses token-by-token in real time. No account required, no data collected, no subscription. Free forever.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Ananya Banerjee"
+        },
+        "featureList": [
+          "Live token-by-token SSE streaming",
+          "Connect any A2A-compatible AI agent via URL",
+          "Multi-agent roster with groups and tabs",
+          "Rich attachments — photos, images, and files",
+          "Native app on iPhone, iPad, Mac, and Apple Vision Pro",
+          "No account required",
+          "Zero data collection",
+          "Free forever — no subscription, no in-app purchases"
+        ],
+        "speakable": {
+          "@type": "SpeakableSpecification",
+          "cssSelector": ["h1", ".hero-desc", "#features h2", "#privacy h2"]
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://agent-chat-hub.com/#website",
+        "url": "https://agent-chat-hub.com/",
+        "name": "AgentChat Hub",
+        "description": "The universal native client for A2A AI agents — free on iOS, Mac, and Vision Pro.",
+        "publisher": {
+          "@type": "Person",
+          "name": "Ananya Banerjee"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://agent-chat-hub.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the A2A protocol?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A2A (Agent-to-Agent) is an open interoperability protocol that lets AI agents communicate across platforms using a standard HTTP interface. Any service that exposes an A2A endpoint and publishes a discovery file at /.well-known/agent.json is automatically compatible with AgentChat Hub."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which AI agents can I connect to with AgentChat Hub?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Any agent that implements the A2A specification — ones you build yourself, internal company agents, or any third-party service exposing a standard A2A endpoint. There is no curated marketplace. The open web is the directory."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is AgentChat Hub really free?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. No subscription, no in-app purchases, no freemium gate. AgentChat Hub is free on the App Store. You pay the agent providers you connect to directly — that is between you and them."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does AgentChat Hub see my conversation data?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. AgentChat Hub has no backend, no telemetry, and no analytics. Messages travel directly from your device to your chosen agent. Conversations are stored on-device and nowhere else."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
+  <!-- Skip to main content (accessibility + AEO landmark signal) -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-bg focus:rounded-md focus:text-sm focus:font-semibold">Skip to main content</a>
+
   <!-- Nav -->
-  <nav class="fixed top-0 left-0 right-0 z-40 bg-bg/80 backdrop-blur-xl border-b border-border-subtle">
+  <header role="banner">
+  <nav aria-label="Main navigation" class="fixed top-0 left-0 right-0 z-40 bg-bg/80 backdrop-blur-xl border-b border-border-subtle">
     <div class="max-w-[1200px] mx-auto px-6 h-14 flex items-center justify-between">
       <a href="#" class="font-semibold text-sm tracking-tight text-text flex items-center gap-2.5">
         <img src="logo.png" alt="AgentChat Hub" class="logo-icon h-8 w-auto" />
@@ -601,9 +721,12 @@
       </div>
     </div>
   </nav>
+  </header>
+
+  <main id="main-content">
 
   <!-- ═══ HERO ═══ -->
-  <section class="min-h-[100dvh] pt-14 relative overflow-hidden">
+  <section aria-label="Hero" class="min-h-[100dvh] pt-14 relative overflow-hidden">
     <div class="dot-grid absolute inset-0 opacity-30" id="hero-grid"></div>
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
@@ -628,7 +751,7 @@
           <span class="word-mask"><span class="word wd5 text-accent2">with</span></span>&nbsp;<span class="word-mask"><span class="word wd6 text-accent2">a</span></span>&nbsp;<span class="word-mask"><span class="word wd7 text-accent2">URL.</span></span>
         </h1>
 
-        <p class="hero-anim hero-d4 text-base md:text-lg font-medium text-text-secondary leading-relaxed max-w-xl mb-10">
+        <p class="hero-anim hero-d4 hero-desc text-base md:text-lg font-medium text-text-secondary leading-relaxed max-w-xl mb-10">
           The universal A2A client for iOS, Mac, and Vision Pro. Paste an endpoint, stream responses in real time. No account. No tracking. Free.
         </p>
 
@@ -687,7 +810,7 @@
   </div>
 
   <!-- ═══ FEATURES ═══ -->
-  <section id="features" class="py-24 md:py-32">
+  <section id="features" aria-label="Features" class="py-24 md:py-32">
     <div class="max-w-[1200px] mx-auto px-6">
 
       <div class="mb-16 reveal">
@@ -795,25 +918,25 @@
     <div class="marquee-track mb-4">
       <div class="marquee-row marquee-row-left px-4">
         <!-- set A -->
-        <div class="phone-shot"><img src="screens/s01.png" alt="Messages — empty state" loading="lazy"></div>
-        <div class="phone-shot"><img src="screens/s02.png" alt="Conversation list" loading="lazy"></div>
-        <div class="phone-shot"><img src="screens/s03.png" alt="Settings" loading="lazy"></div>
-        <div class="phone-shot"><img src="screens/s04.png" alt="Add Agent" loading="lazy"></div>
-        <div class="phone-shot"><img src="screens/s05.png" alt="Agent card" loading="lazy"></div>
-        <div class="phone-shot"><img src="screens/s06.png" alt="Agent details" loading="lazy"></div>
-        <div class="phone-shot"><img src="screens/s07.png" alt="Chat view" loading="lazy"></div>
-        <div class="phone-shot"><img src="screens/s08.png" alt="Discover agents" loading="lazy"></div>
-        <div class="phone-shot"><img src="screens/s09.png" alt="Settings menu" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s01.png" alt="Messages — empty state" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s02.png" alt="Conversation list" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s03.png" alt="Settings" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s04.png" alt="Add Agent" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s05.png" alt="Agent card" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s06.png" alt="Agent details" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s07.png" alt="Chat view" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s08.png" alt="Discover agents" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s09.png" alt="Settings menu" loading="lazy"></div>
         <!-- set B (duplicate for seamless loop) -->
-        <div class="phone-shot"><img src="screens/s01.png" alt="" loading="lazy" aria-hidden="true"></div>
-        <div class="phone-shot"><img src="screens/s02.png" alt="" loading="lazy" aria-hidden="true"></div>
-        <div class="phone-shot"><img src="screens/s03.png" alt="" loading="lazy" aria-hidden="true"></div>
-        <div class="phone-shot"><img src="screens/s04.png" alt="" loading="lazy" aria-hidden="true"></div>
-        <div class="phone-shot"><img src="screens/s05.png" alt="" loading="lazy" aria-hidden="true"></div>
-        <div class="phone-shot"><img src="screens/s06.png" alt="" loading="lazy" aria-hidden="true"></div>
-        <div class="phone-shot"><img src="screens/s07.png" alt="" loading="lazy" aria-hidden="true"></div>
-        <div class="phone-shot"><img src="screens/s08.png" alt="" loading="lazy" aria-hidden="true"></div>
-        <div class="phone-shot"><img src="screens/s09.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s01.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s02.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s03.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s04.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s05.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s06.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s07.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s08.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s09.png" alt="" loading="lazy" aria-hidden="true"></div>
       </div>
     </div>
 
@@ -821,31 +944,31 @@
     <div class="marquee-track">
       <div class="marquee-row marquee-row-right px-4">
         <!-- set A -->
-        <div class="phone-shot"><img src="screens/s10.png" alt="Settings — dark mode" loading="lazy"></div>
-        <div class="phone-shot"><img src="screens/s11.png" alt="Session settings" loading="lazy"></div>
-        <div class="phone-shot"><img src="screens/s12.png" alt="Chat — dark mode" loading="lazy"></div>
-        <div class="phone-shot"><img src="screens/s13.png" alt="Messages list — dark" loading="lazy"></div>
-        <div class="phone-shot"><img src="screens/s14.png" alt="Messages — dark mode" loading="lazy"></div>
-        <div class="phone-shot"><img src="screens/s15.png" alt="Chat session" loading="lazy"></div>
-        <div class="phone-shot"><img src="screens/s16.png" alt="Discover — dark mode" loading="lazy"></div>
-        <div class="phone-shot"><img src="screens/s17.png" alt="Agent discovery" loading="lazy"></div>
-        <div class="phone-shot"><img src="screens/s18.png" alt="iPhone Air view" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s10.png" alt="Settings — dark mode" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s11.png" alt="Session settings" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s12.png" alt="Chat — dark mode" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s13.png" alt="Messages list — dark" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s14.png" alt="Messages — dark mode" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s15.png" alt="Chat session" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s16.png" alt="Discover — dark mode" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s17.png" alt="Agent discovery" loading="lazy"></div>
+        <div class="phone-shot"><img src="images/s18.png" alt="iPhone Air view" loading="lazy"></div>
         <!-- set B (duplicate for seamless loop) -->
-        <div class="phone-shot"><img src="screens/s10.png" alt="" loading="lazy" aria-hidden="true"></div>
-        <div class="phone-shot"><img src="screens/s11.png" alt="" loading="lazy" aria-hidden="true"></div>
-        <div class="phone-shot"><img src="screens/s12.png" alt="" loading="lazy" aria-hidden="true"></div>
-        <div class="phone-shot"><img src="screens/s13.png" alt="" loading="lazy" aria-hidden="true"></div>
-        <div class="phone-shot"><img src="screens/s14.png" alt="" loading="lazy" aria-hidden="true"></div>
-        <div class="phone-shot"><img src="screens/s15.png" alt="" loading="lazy" aria-hidden="true"></div>
-        <div class="phone-shot"><img src="screens/s16.png" alt="" loading="lazy" aria-hidden="true"></div>
-        <div class="phone-shot"><img src="screens/s17.png" alt="" loading="lazy" aria-hidden="true"></div>
-        <div class="phone-shot"><img src="screens/s18.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s10.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s11.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s12.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s13.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s14.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s15.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s16.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s17.png" alt="" loading="lazy" aria-hidden="true"></div>
+        <div class="phone-shot"><img src="images/s18.png" alt="" loading="lazy" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 
   <!-- ═══ PROTOCOL — centered header + open horizontal 3-node flow ═══ -->
-  <section id="protocol" class="py-24 md:py-32 border-t border-border-subtle overflow-hidden">
+  <section id="protocol" aria-label="How it works" class="py-24 md:py-32 border-t border-border-subtle overflow-hidden">
     <div class="max-w-[1200px] mx-auto px-6">
 
       <div class="text-center max-w-xl mx-auto mb-20 reveal">
@@ -893,7 +1016,7 @@
   </section>
 
   <!-- ═══ PRIVACY — four oversized stat blocks + centered terminal ═══ -->
-  <section id="privacy" class="border-t border-border-subtle bg-surface">
+  <section id="privacy" aria-label="Privacy" class="border-t border-border-subtle bg-surface">
     <div class="max-w-[1200px] mx-auto px-6 py-24 md:py-32">
 
       <div class="text-center mb-16 reveal">
@@ -1119,8 +1242,10 @@
     </div>
   </section>
 
+  </main>
+
   <!-- Footer -->
-  <footer class="border-t border-border-subtle py-8">
+  <footer role="contentinfo" class="border-t border-border-subtle py-8">
     <div class="max-w-[1200px] mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
       <img src="logo.png" alt="AgentChat Hub" class="logo-icon h-6 w-auto opacity-70" />
       <div class="flex items-center gap-6 text-xs text-text-tertiary">

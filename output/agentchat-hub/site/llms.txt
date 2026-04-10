@@ -1,0 +1,53 @@
+# AgentChat Hub
+
+> The universal native client for A2A AI agents — free on iPhone, iPad, Mac, and Apple Vision Pro.
+
+AgentChat Hub is a free iOS/macOS/visionOS app that lets you connect to any AI agent that implements the A2A (Agent-to-Agent) open protocol. Paste an agent endpoint URL, the app reads the Agent Card at `/.well-known/agent.json`, and you start chatting immediately — no account, no setup, no data collection.
+
+## Key facts
+
+- **Price:** Free. No subscription, no in-app purchases, no freemium gate.
+- **Platforms:** iPhone (iOS 15.1+), iPad, Mac (macOS 12+), Apple Vision Pro (visionOS 1.0+)
+- **Protocol:** A2A (Agent-to-Agent) open interoperability protocol
+- **Privacy:** No backend, no telemetry, no analytics. Conversations stored on-device only.
+- **App Store:** https://apps.apple.com/us/app/agentchat-hub/id6760924304
+- **Version:** 1.1
+- **Developer:** Ananya Banerjee
+
+## What is the A2A protocol?
+
+A2A (Agent-to-Agent) is an open interoperability protocol that lets AI agents communicate across platforms using a standard HTTP interface. Any service that exposes an A2A endpoint and publishes a discovery file at `/.well-known/agent.json` is automatically compatible with AgentChat Hub. There is no curated marketplace — the open web is the directory.
+
+## Features
+
+- **Live streaming:** Every response arrives token-by-token over SSE. You watch the agent reason in real time.
+- **Connect by URL:** Paste an endpoint, the app reads the Agent Card. No SDK, no API key, no setup ritual.
+- **Multi-agent roster:** Add unlimited agents, organize into groups and tabs, switch between them like contacts.
+- **Rich attachments:** Send photos, images, and files inline. Multi-modal from day one.
+- **Native everywhere:** One native binary per platform — not a web view. Platform idioms, system fonts, keyboard shortcuts all work as expected.
+
+## Who is it for?
+
+- **Developers building A2A agents** — test and demo your agent instantly without building a frontend
+- **Teams** — give your team a native mobile client for internal AI assistants
+- **Self-hosters** — wrap a local LLM in an A2A endpoint and chat from your phone
+- **Everyone** — a private, clean messenger for the AI agents you actually choose
+
+## FAQ
+
+**Q: Which agents can I connect to?**
+Any agent implementing the A2A specification — self-built, internal company agents, or third-party services exposing a standard A2A endpoint.
+
+**Q: Does AgentChat Hub collect any data?**
+No. No backend, no telemetry, no analytics. Messages travel directly from your device to your chosen agent. We are not in that path.
+
+**Q: Is it really free?**
+Yes. No subscription, no in-app purchases, no freemium gate. You pay agent providers directly — that is between you and them.
+
+**Q: What platforms does it run on?**
+iPhone, iPad, Mac, and Apple Vision Pro. Native binary on each — not a web view or cross-platform wrapper.
+
+## Links
+
+- Website: https://agent-chat-hub.com/
+- App Store: https://apps.apple.com/us/app/agentchat-hub/id6760924304
