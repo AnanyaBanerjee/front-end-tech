@@ -676,6 +676,30 @@
               "@type": "Answer",
               "text": "No. AgentChat Hub has no backend, no telemetry, and no analytics. Messages travel directly from your device to your chosen agent. Conversations are stored on-device and nowhere else."
             }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need to build anything to use AgentChat Hub?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. If you already have an A2A-compatible agent endpoint, you just paste the URL and start chatting. If you want to connect your own agent, you only need to expose an A2A endpoint and a discovery file. No SDK, no API key, no custom frontend required."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What AI agents work with AgentChat Hub?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Any agent implementing the A2A specification — including agents built with LangChain, CrewAI, custom Python or Node.js servers, locally-run models wrapped in an A2A layer, and internal company agents. If it publishes an Agent Card at /.well-known/agent.json, AgentChat Hub can connect to it."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is AgentChat Hub available on Android?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Not yet — but Android is coming soon. AgentChat Hub is currently available on iPhone, iPad, Mac, and Vision Pro. Android support is on the way."
+            }
           }
         ]
       }
@@ -742,9 +766,13 @@
         <div class="hero-anim hero-d2 mb-5">
           <span class="inline-flex items-center gap-2 text-xs font-mono font-medium text-accent bg-accent-dim border border-accent/20 px-3 py-1.5 rounded-md">
             <span class="w-1.5 h-1.5 rounded-full bg-accent badge-dot"></span>
-            A2A Open Protocol
+            A2A Open Protocol — the open standard for AI agent communication
           </span>
         </div>
+
+        <p class="hero-anim hero-d2b font-display font-bold text-xl md:text-2xl text-text-secondary tracking-tight mb-5" style="font-variation-settings:'wdth' 105,'wght' 700">
+          Every AI agent needs its own app. Not anymore.
+        </p>
 
         <h1 class="font-display font-bold text-5xl md:text-7xl lg:text-8xl tracking-tight leading-[0.9] text-text max-w-4xl mb-8" style="font-variation-settings:'wdth' 112,'wght' 800">
           <span class="word-mask"><span class="word wd0">Talk</span></span>&nbsp;<span class="word-mask"><span class="word wd1">to</span></span>&nbsp;<span class="word-mask"><span class="word wd2">any</span></span>&nbsp;<span class="word-mask"><span class="word wd3">AI</span></span>&nbsp;<span class="word-mask"><span class="word wd4">agent</span></span><br>
@@ -752,7 +780,7 @@
         </h1>
 
         <p class="hero-anim hero-d4 hero-desc text-base md:text-lg font-medium text-text-secondary leading-relaxed max-w-xl mb-10">
-          The universal A2A client for iOS, Mac, and Vision Pro. Paste an endpoint, stream responses in real time. No account. No tracking. Free.
+          Your agents, your rules. Paste any A2A endpoint and start chatting in seconds — no middleman, no account, no tracking. Native on iPhone, iPad, Mac, and Vision Pro. Free forever.
         </p>
 
         <div class="hero-anim hero-d5 flex flex-wrap items-center gap-4 mb-6">
@@ -816,7 +844,7 @@
       <div class="mb-16 reveal">
         <p class="font-mono text-xs font-medium text-accent mb-3 tracking-wide uppercase">Features</p>
         <h2 class="font-display font-semibold text-3xl md:text-5xl tracking-tight leading-tight text-text max-w-2xl">
-          A native client that speaks<br>the open protocol.
+          Everything you need to talk<br>to any agent.
         </h2>
       </div>
 
@@ -1215,6 +1243,51 @@
           </div>
         </details>
 
+        <details class="group border-t border-border-subtle">
+          <summary class="py-7 flex items-start justify-between gap-6 select-none cursor-pointer">
+            <div class="flex items-start gap-5">
+              <span class="font-mono text-xs text-accent shrink-0 mt-1.5">05</span>
+              <span class="faq-q">Do I need to build anything to use it?</span>
+            </div>
+            <span class="faq-icon w-6 h-6 rounded-full border border-border flex items-center justify-center shrink-0 text-text-tertiary font-mono text-base leading-none mt-0.5">+</span>
+          </summary>
+          <div class="faq-body">
+            <div class="pb-8 pl-10 text-sm text-text-secondary leading-relaxed">
+              No. If you already have an A2A-compatible agent endpoint — or you find one on the open web — you just paste the URL and start chatting. If you want to connect your own agent, you only need to expose an A2A endpoint and a discovery file. No SDK, no API key, no custom frontend to build.
+            </div>
+          </div>
+        </details>
+
+        <details class="group border-t border-border-subtle">
+          <summary class="py-7 flex items-start justify-between gap-6 select-none cursor-pointer">
+            <div class="flex items-start gap-5">
+              <span class="font-mono text-xs text-accent2 shrink-0 mt-1.5">06</span>
+              <span class="faq-q">What AI agents work with AgentChat Hub?</span>
+            </div>
+            <span class="faq-icon w-6 h-6 rounded-full border border-border flex items-center justify-center shrink-0 text-text-tertiary font-mono text-base leading-none mt-0.5">+</span>
+          </summary>
+          <div class="faq-body">
+            <div class="pb-8 pl-10 text-sm text-text-secondary leading-relaxed">
+              Any agent that implements the A2A specification and exposes an endpoint — including agents built with LangChain, CrewAI, custom Python or Node.js servers, locally-run models wrapped in an A2A layer, and any internal company agent. If it publishes an Agent Card, AgentChat Hub can connect to it.
+            </div>
+          </div>
+        </details>
+
+        <details class="group border-t border-border-subtle">
+          <summary class="py-7 flex items-start justify-between gap-6 select-none cursor-pointer">
+            <div class="flex items-start gap-5">
+              <span class="font-mono text-xs text-accent shrink-0 mt-1.5">07</span>
+              <span class="faq-q">Is AgentChat Hub available on Android?</span>
+            </div>
+            <span class="faq-icon w-6 h-6 rounded-full border border-border flex items-center justify-center shrink-0 text-text-tertiary font-mono text-base leading-none mt-0.5">+</span>
+          </summary>
+          <div class="faq-body">
+            <div class="pb-8 pl-10 text-sm text-text-secondary leading-relaxed">
+              Not yet — but Android is coming soon. AgentChat Hub is currently available as a native app on iPhone, iPad, Mac, and Vision Pro. Stay tuned for the Android release.
+            </div>
+          </div>
+        </details>
+
         <div class="border-t border-border-subtle"></div>
       </div>
 
@@ -1228,10 +1301,10 @@
 
     <div class="max-w-[1200px] mx-auto px-6 text-center relative z-10 reveal">
       <h2 class="font-display font-bold text-4xl md:text-6xl tracking-tight leading-[0.95] text-text max-w-2xl mx-auto mb-6">
-        The open AI web needs<br>an open client.
+        One app for every AI agent<br>you'll ever use.
       </h2>
       <p class="text-base font-medium text-text-secondary leading-relaxed max-w-md mx-auto mb-10">
-        Free. No account. No tracking. Available now.
+        Start for free. No account. Works with any A2A agent. Available now on the App Store.
       </p>
       <a href="https://apps.apple.com/us/app/agentchat-hub/id6760924304" target="_blank" rel="noopener"
          class="btn-primary inline-flex items-center gap-3 bg-accent text-bg font-semibold px-8 py-4 rounded-xl text-sm border border-accent/80">
@@ -1249,7 +1322,7 @@
     <div class="max-w-[1200px] mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
       <img src="logo.png" alt="AgentChat Hub" class="logo-icon h-6 w-auto opacity-70" />
       <div class="flex items-center gap-6 text-xs text-text-tertiary">
-        <span>Built by Ananya Banerjee</span>
+        <span>© 2026 Ananya Banerjee. All rights reserved.</span>
         <a href="https://apps.apple.com/us/app/agentchat-hub/id6760924304" target="_blank" rel="noopener" class="hover:text-accent transition-colors">App Store</a>
       </div>
     </div>
