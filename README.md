@@ -145,7 +145,7 @@ output/my-product/
 | 🏷️ Brand | logo + [branding](https://github.com/vibeforge1111/vibeship-spawner-skills) | Asks for logo, places correctly, or creates SVG wordmark |
 | ✍️ Content | [copywriting](https://github.com/vibeforge1111/vibeship-spawner-skills) + product-images | Copy frameworks, browser frames, phone mockups, perspective tilts |
 | 🔍 SEO | seo | Meta tags, Open Graph, JSON-LD, semantic HTML, page speed |
-| 🤖 AEO | llms-txt | `llms.txt`, speakable schema, AI search copy rules |
+| 🤖 AEO | aeo | `llms.txt`, speakable schema, AI search copy rules |
 | 🔒 Security | security | Cloudflare `_headers`, SRI on CDN scripts, no-secrets policy, safe links |
 | ⚖️ Legal | legal | Copyright, ™, Privacy Policy, Terms of Use, DMCA, NoAI directives |
 
@@ -213,4 +213,4 @@ See **[how_to_deploy.md](how_to_deploy.md)** for step-by-step instructions, cust
 - **impeccable** — by [pbakaus](https://github.com/pbakaus) · [source](https://github.com/pbakaus/impeccable) · Apache 2.0
 - **emil-design-eng** — by [Emil Kowalski](https://github.com/emilkowalski) · [source](https://github.com/emilkowalski/skill)
 - **landing-page-design · branding · copywriting** — [vibeship-spawner-skills](https://github.com/vibeforge1111/vibeship-spawner-skills)
-- **logo · product-images · seo · llms-txt · security · legal** — custom skills written for this repo
+- **logo · product-images · seo · aeo · security · legal** — custom skills written for this repo

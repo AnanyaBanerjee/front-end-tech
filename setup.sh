@@ -90,7 +90,7 @@ Never create HTML, images, or assets outside of `site/`. Never put SKILL.md or C
 - **Legal**: follow `../../skills/legal/SKILL.md` — ask for existing legal docs first, improve or generate privacy policy, terms, and DMCA
 - **Security**: follow `../../skills/security/SKILL.md` — apply to every page; site/_headers already stubbed
 - **SEO**: follow `../../skills/seo/SKILL.md` — apply full checklist to every page
-- **AEO**: follow `../../skills/llms-txt/SKILL.md` — generate `site/llms.txt` for every project
+- **AEO**: follow `../../skills/aeo/SKILL.md` — generate `site/llms.txt` for every project
 - **Copy**: follow `../../skills/copywriting/patterns.md`
 
 ## Deployment

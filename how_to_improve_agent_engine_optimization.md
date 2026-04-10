@@ -81,7 +81,7 @@ Think of it as a briefing document for AI agents. When Perplexity or ChatGPT cra
 - 3–5 bullet-point facts about what your product does
 - Optional: FAQ, changelog, blog links
 
-Claude generates this automatically for every project. See `skills/llms-txt/SKILL.md` for the full template.
+Claude generates this automatically for every project. See `skills/aeo/SKILL.md` for the full template.
 
 ---
 

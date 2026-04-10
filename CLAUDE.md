@@ -96,7 +96,7 @@ Ask the user for their domain URL and OG image if not provided. Mark as TODO if 
 
 ## Agent Engine Optimization (AEO) — Apply to Every Page
 
-**Every page built must include AEO implementation without being asked.** Follow `skills/llms-txt/SKILL.md` for the complete checklist.
+**Every page built must include AEO implementation without being asked.** Follow `skills/aeo/SKILL.md` for the complete checklist.
 
 Required on every project:
 - `/llms.txt` file at the project root with product name, one-sentence summary, key pages, and factual capabilities

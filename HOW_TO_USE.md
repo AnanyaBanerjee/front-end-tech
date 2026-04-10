@@ -20,7 +20,7 @@ front-end-tech/
 │   ├── logo/                # Logo handling, placement, SVG wordmark creation
 │   ├── product-images/      # Browser frames, phone mockups, tilts, compositions
 │   ├── seo/                 # Meta tags, structured data, semantic HTML, page speed
-│   ├── llms-txt/            # llms.txt, AEO, AI search optimization
+│   ├── aeo/                 # Agent Engine Optimization — llms.txt, AI search
 │   ├── security/            # _headers, SRI, no-secrets, safe links, form hardening
 │   ├── legal/               # Copyright, Privacy Policy, Terms of Use, DMCA, NoAI
 │   └── copywriting/         # PAS/AIDA frameworks, headlines, CTAs
@@ -115,7 +115,7 @@ But the skills in this repo fall into **three layers** that serve different purp
 | **Logo** (always use) | logo + branding | Ask for logo, place it correctly, or create one |
 | **Product images** (always use) | product-images | Ask for screenshots, present them beautifully |
 | **SEO** (always apply) | seo | Meta tags, structured data, page speed — on every page |
-| **AEO** (always apply) | llms-txt | llms.txt and AI search optimization — on every project |
+| **AEO** (always apply) | aeo | llms.txt and AI search optimization — on every project |
 | **Legal** (always apply) | legal | Copyright, Privacy Policy, Terms of Use, DMCA, NoAI — every project |
 | **Security** (always apply) | security | Cloudflare headers, SRI, no secrets, safe links — on every page |
 | **Copy** (always apply) | copywriting | PAS/AIDA frameworks, headlines, CTAs |
@@ -174,7 +174,7 @@ Never create HTML or assets outside of site/.
 - **Legal**: follow `../../skills/legal/SKILL.md` — ask for existing legal docs first; generate/improve privacy policy, terms, and DMCA
 - **Security**: follow `../../skills/security/SKILL.md` — create site/_headers, SRI on CDN scripts, no secrets in HTML, safe external links
 - **SEO**: follow `../../skills/seo/SKILL.md` — apply full checklist to site/index.html
-- **AEO**: follow `../../skills/llms-txt/SKILL.md` — generate site/llms.txt
+- **AEO**: follow `../../skills/aeo/SKILL.md` — generate site/llms.txt
 - **Copy**: follow `../../skills/copywriting/patterns.md`
 EOF
 ```
