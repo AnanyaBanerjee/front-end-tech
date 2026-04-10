@@ -38,6 +38,15 @@ echo "Copied impeccable as .impeccable.md"
 cat > "$PROJECT_DIR/CLAUDE.md" << 'EOF'
 # Project Rules
 
+## Logo
+
+**Always ask for a logo before building.** Ask:
+> "Do you have a logo for this product/app/idea? If yes, share the file (PNG, SVG, JPG) or describe it. If no, I'll create a text-based or SVG logo using the product name and brand colors."
+
+- If provided: place in this folder, use in navbar (top-left, 28–36px), hero (optional), and footer (muted, 20–24px)
+- If not provided: create a clean SVG wordmark using the product name, brand color, and a premium font from the active SKILL.md
+- Never stretch or distort the logo — always preserve aspect ratio
+
 ## Design Skills
 
 This project uses layered design skills:

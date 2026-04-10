@@ -22,6 +22,31 @@ index.html                           # WRONG — not inside output/
 skills/my-project/index.html         # WRONG — skills/ is for SKILL.md files only
 ```
 
+## Logo Handling
+
+**Always ask for a logo before building any landing page or website.**
+
+When starting a new project, ask:
+> "Do you have a logo for this product/app/idea? If yes, please share the file (PNG, SVG, JPG) or describe it. If no, I'll create a text-based or SVG logo using the product name and brand colors."
+
+### If the user provides a logo file:
+- Place it in the project subfolder (e.g., `output/my-project/logo.png`)
+- Use it in the navbar (top-left), hero section, and footer
+- Never stretch or distort it — preserve aspect ratio
+- On dark backgrounds use a light version if available; ask if unsure
+
+### If the user has no logo:
+- Create a clean SVG or CSS text-based logo using the product name
+- Use the brand's primary color and a premium font (from the active SKILL.md)
+- Keep it simple: wordmark or lettermark only — no clip art or generic icons
+- Place it consistently across navbar, hero, and footer
+
+### Logo placement rules:
+- **Navbar**: top-left, linked to homepage (`href="/"`), height 28–36px
+- **Hero**: optional — only if it reinforces brand; never duplicate the navbar logo right above the hero headline
+- **Footer**: bottom-left or centered, smaller (20–24px), muted opacity (`opacity-60`)
+- Never use a logo as a giant hero image unless the brand specifically calls for it
+
 ## Skill Evaluation
 
 When asked to evaluate or add a new skill, judge it from two angles:
