@@ -19,88 +19,77 @@
 
 ---
 
-## 🗺️ Architecture
+## 🗺️ How It Works
 
 ```mermaid
 flowchart TD
-    SH["⚙️ setup.sh\nscaffolds project"] --> OUT
+    YOU["👤 You\nHave an idea for a product or app"]
+    SETUP["⚙️ Run one command\n./setup.sh my-project taste-skill"]
+    CLAUDE["🤖 Open Claude Code\nClaude reads all skill layers automatically"]
+    ASK["Claude asks 3 questions before building:\n📸 Do you have screenshots?\n🏷️ Do you have a logo?\n📝 What does your product do?"]
+    BUILD["🏗️ Claude builds everything\nEvery page · Every layer · Every standard"]
+    DEPLOY["🚀 Drag site/ to Cloudflare Pages\nFree · Unlimited bandwidth · Custom domain"]
+    LIVE["✅ Your site is live\nDiscoverable · Secure · Protected"]
 
-    subgraph OUT["📁 output/my-project/"]
-        SK["📄 SKILL.md · .impeccable.md · CLAUDE.md\nClaude reads these — never deployed"]
-        SK --> SITE
-        subgraph SITE["🚀 site/  ← deploy to Cloudflare"]
-            direction LR
-            F1["index.html"]
-            F2["logo.svg"]
-            F3["🔒 _headers"]
-            F4["🤖 llms.txt"]
-            F5["robots.txt · sitemap.xml"]
-            F6["📸 images/"]
-        end
-    end
+    YOU --> SETUP --> CLAUDE --> ASK --> BUILD --> DEPLOY --> LIVE
 
-    subgraph SKILLS["🎯 skills/"]
-        direction LR
-        SK1["🎨 Style"] --- SK2["📐 Structure"] --- SK3["✨ Quality"]
-        SK4["⚡ Engineering"] --- SK5["🏷️ Brand"] --- SK6["✍️ Content"]
-        SK7["🔍 SEO"] --- SK8["🤖 AEO"] --- SK9["🔒 Security"]
-    end
-
-    SKILLS -->|"CLAUDE.md references all"| SK
-
-    style SH fill:#1c1917,color:#f5f5f4,stroke:#78716c
-    style OUT fill:#052e16,color:#bbf7d0,stroke:#16a34a
-    style SITE fill:#14532d,color:#bbf7d0,stroke:#22c55e
-    style SKILLS fill:#1e1b4b,color:#c7d2fe,stroke:#4338ca
-    style SK fill:#065f46,color:#a7f3d0,stroke:#059669
-    style F3 fill:#450a0a,color:#fca5a5,stroke:#dc2626
-    style F4 fill:#0c4a6e,color:#bae6fd,stroke:#0284c7
-    style SK1 fill:#312e81,color:#c7d2fe,stroke:#4338ca
-    style SK2 fill:#312e81,color:#c7d2fe,stroke:#4338ca
-    style SK3 fill:#134e4a,color:#99f6e4,stroke:#0d9488
-    style SK4 fill:#0c4a6e,color:#bae6fd,stroke:#0284c7
-    style SK5 fill:#713f12,color:#fef08a,stroke:#ca8a04
-    style SK6 fill:#1e3a5f,color:#bfdbfe,stroke:#3b82f6
-    style SK7 fill:#14532d,color:#bbf7d0,stroke:#16a34a
-    style SK8 fill:#0c4a6e,color:#bae6fd,stroke:#0284c7
-    style SK9 fill:#450a0a,color:#fca5a5,stroke:#dc2626
+    style YOU fill:#1e1b4b,color:#c7d2fe,stroke:#4338ca
+    style SETUP fill:#065f46,color:#a7f3d0,stroke:#059669
+    style CLAUDE fill:#065f46,color:#a7f3d0,stroke:#059669
+    style ASK fill:#1c1917,color:#e7e5e4,stroke:#78716c
+    style BUILD fill:#312e81,color:#c7d2fe,stroke:#4338ca
+    style DEPLOY fill:#7c2d12,color:#fed7aa,stroke:#ea580c
+    style LIVE fill:#14532d,color:#bbf7d0,stroke:#16a34a
 ```
 
 ---
 
-## 🧱 Skill Layers
+## 🧱 What Claude Builds Into Every Page
 
-Every project uses all 9 layers simultaneously — they cover different concerns and never conflict.
+Every `.html` file Claude creates — including legal pages — gets all 11 layers applied automatically.
 
 ```mermaid
 flowchart LR
-    A["📐 Structure\nlanding-page-design"]
-    B["🎨 Style\ntaste · soft · minimalist · brutalist"]
-    C["✨ Quality\nimpeccable + 17 cmds"]
-    D["⚡ Engineering\nemil-design-eng"]
-    E["🏷️ Brand\nlogo · branding"]
-    F["✍️ Content\ncopy · product-images"]
-    G["🔍 SEO\nmeta · JSON-LD"]
-    H["🤖 AEO\nllms.txt"]
-    I["🔒 Security\nheaders · SRI"]
+    subgraph INPUT["You provide"]
+        I1["💡 Idea"]
+        I2["🏷️ Logo"]
+        I3["📸 Screenshots"]
+        I4["📝 Description"]
+    end
 
-    A --> B --> C --> D --> E --> F --> G --> H --> I
+    subgraph AUTO["Claude applies automatically"]
+        A1["🎨 Style\nFonts · colors · layout"]
+        A2["📐 Structure\nHero · sections · CTAs"]
+        A3["✨ Quality\nPolish · accessibility"]
+        A4["⚡ Motion\nAnimations · interactions"]
+        A5["✍️ Copy\nHeadlines · CTAs"]
+        A6["🔍 SEO\nMeta · Open Graph · JSON-LD"]
+        A7["🤖 AEO\nllms.txt · AI-ready copy"]
+        A8["🔒 Security\n_headers · SRI · safe links"]
+        A9["⚖️ Legal\nPrivacy · Terms · DMCA · ™"]
+        A10["🔄 Sync\nAll files stay consistent"]
+    end
 
-    style A fill:#312e81,color:#c7d2fe,stroke:#4338ca
-    style B fill:#4a1d96,color:#e9d5ff,stroke:#7c3aed
-    style C fill:#134e4a,color:#99f6e4,stroke:#0d9488
-    style D fill:#0c4a6e,color:#bae6fd,stroke:#0284c7
-    style E fill:#713f12,color:#fef08a,stroke:#ca8a04
-    style F fill:#1e3a5f,color:#bfdbfe,stroke:#3b82f6
-    style G fill:#14532d,color:#bbf7d0,stroke:#16a34a
-    style H fill:#0c4a6e,color:#bae6fd,stroke:#0ea5e9
-    style I fill:#450a0a,color:#fca5a5,stroke:#dc2626
-    J["⚖️ Legal\ncopyright · privacy · terms · DMCA"]
-    I --> J
-    style J fill:#4a044e,color:#f5d0fe,stroke:#a21caf
+    subgraph OUTPUT["You get"]
+        O1["🌐 site/\nReady to deploy"]
+    end
+
+    INPUT --> AUTO --> OUTPUT
+
+    style INPUT fill:#1e1b4b,color:#c7d2fe,stroke:#4338ca
+    style AUTO fill:#052e16,color:#bbf7d0,stroke:#16a34a
+    style OUTPUT fill:#7c2d12,color:#fed7aa,stroke:#ea580c
+    style A1 fill:#312e81,color:#c7d2fe,stroke:#4338ca
+    style A2 fill:#312e81,color:#c7d2fe,stroke:#4338ca
+    style A3 fill:#134e4a,color:#99f6e4,stroke:#0d9488
+    style A4 fill:#0c4a6e,color:#bae6fd,stroke:#0284c7
+    style A5 fill:#1e3a5f,color:#bfdbfe,stroke:#3b82f6
+    style A6 fill:#14532d,color:#bbf7d0,stroke:#16a34a
+    style A7 fill:#0c4a6e,color:#bae6fd,stroke:#0ea5e9
+    style A8 fill:#450a0a,color:#fca5a5,stroke:#dc2626
+    style A9 fill:#4a044e,color:#f5d0fe,stroke:#a21caf
+    style A10 fill:#1c1917,color:#e7e5e4,stroke:#57534e
 ```
-
-> All layers are wired automatically by `setup.sh` + `CLAUDE.md` — you only need to pick a style.
 
 ---
 
