@@ -79,13 +79,94 @@ Replace the `SKILL.md` in your project root:
 cp ../front-end-tech/skills/minimalist-skill/SKILL.md ./SKILL.md
 ```
 
-### Combining skills
+### How skill loading works
 
-Each `SKILL.md` is standalone — AI tools read one at a time. To combine:
+AI tools like Claude Code read **one `SKILL.md`** from your project root. They don't scan subdirectories for multiple skills or automatically combine them. This means:
 
-1. **Layer impeccable + a style skill (recommended):** Use a style skill as your `SKILL.md` and copy impeccable as `.impeccable.md` alongside it. Impeccable handles quality/a11y while the style skill handles the visual direction.
-2. **Merge manually:** Cherry-pick sections from multiple skills into a single `SKILL.md` (e.g., typography from minimalist + motion from taste + anti-patterns from impeccable).
-3. **Ask in chat:** Tell your AI tool to follow specific principles from another skill alongside the active one.
+- The `skills/` folder in this repo is a **library** — skills sit there for reference, not active use.
+- You activate a skill by copying it to your project folder as `SKILL.md`.
+- Only one `SKILL.md` is read at a time.
+
+But the skills in this repo fall into **three layers** that serve different purposes:
+
+| Layer | Skills | Role |
+|-------|--------|------|
+| **Style** (pick ONE) | taste-skill, soft-skill, minimalist-skill, brutalist-skill | Visual direction — what things look like |
+| **Quality** (layer on top) | impeccable | What to avoid, anti-patterns, accessibility |
+| **Engineering** (layer on top) | emil-design-eng | How to implement motion, transforms, gestures |
+
+The style skills **conflict with each other** — you can't be minimalist AND brutalist. But impeccable and emil-design-eng are **complementary layers** that enhance any style.
+
+### Combining skills (recommended setup)
+
+To get the best results, layer all three types together. Here's how:
+
+#### Option 1: Use the project template (easiest)
+
+Run the setup script to create a new project with all layers wired up automatically:
+
+```bash
+# From the repo root
+./setup.sh my-project taste-skill
+```
+
+This creates `output/my-project/` with:
+- `SKILL.md` — your chosen style skill (active)
+- `.impeccable.md` — quality layer (impeccable reads this automatically)
+- `CLAUDE.md` — tells Claude Code to also follow emil-design-eng
+
+#### Option 2: Manual setup
+
+```bash
+# Create your project folder
+mkdir -p output/my-project && cd output/my-project
+
+# 1. Copy a style skill as the active SKILL.md (pick one)
+cp ../../skills/taste-skill/SKILL.md ./SKILL.md
+
+# 2. Copy impeccable as a secondary context file
+cp ../../skills/impeccable/SKILL.md ./.impeccable.md
+
+# 3. Create a CLAUDE.md that references emil-design-eng
+cat > CLAUDE.md << 'EOF'
+# Project Rules
+
+## Design Skills
+
+This project uses layered design skills:
+- **SKILL.md** — Active style skill (visual direction)
+- **.impeccable.md** — Design quality, anti-patterns, and accessibility
+- For animation and interaction implementation, also follow the rules in `../../skills/emil-design-eng/SKILL.md`
+
+## Output
+
+All generated files must stay in this folder. Never commit to GitHub.
+EOF
+```
+
+Now when Claude Code works in this folder, it reads all three layers:
+1. `SKILL.md` → style direction (e.g., taste-skill)
+2. `.impeccable.md` → quality checks and anti-patterns
+3. `CLAUDE.md` → points to emil-design-eng for animation craft
+
+#### Option 3: Ask in chat
+
+If you only have a `SKILL.md` active, you can still reference other skills in conversation:
+
+```
+Also follow the animation principles from emil-design-eng — use ease-out
+curves, spring physics for interactive elements, and respect
+prefers-reduced-motion. No bounce or elastic easing.
+```
+
+#### Option 4: Merge into one file
+
+Cherry-pick sections from multiple skills into a single `SKILL.md`:
+- Typography + color + layout rules from your style skill
+- Anti-patterns and banned elements from impeccable
+- Animation decision framework from emil-design-eng
+
+This gives the strongest results since everything is in one file the AI definitely reads, but takes more effort to set up.
 
 ---
 
@@ -389,7 +470,7 @@ You don't need to run every command every time. Pick the ones relevant to what n
 
 5. **Override parameters when needed.** The skill defaults are a starting point. If you're building a dense data dashboard, say "visual density 9" upfront instead of fighting the default airy spacing.
 
-6. **Use impeccable alongside style skills.** Copy your chosen style skill as `SKILL.md` and impeccable as `.impeccable.md`. You get visual direction from one and quality enforcement from the other.
+6. **Layer all three skill types.** Use the project template (`./setup.sh`) or manual setup to get style + quality + engineering in every project. One skill alone is good; all three together is significantly better.
 
 ---
 
