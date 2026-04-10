@@ -16,6 +16,8 @@ Design instruction files that guide AI tools to generate polished frontend UI:
 
 Drop a `SKILL.md` into your project root and your AI coding tool will pick it up automatically.
 
+**All generated output goes in `output/`** — it's gitignored and never committed. Create subfolders inside it for each experiment. See [HOW_TO_USE.md](HOW_TO_USE.md) for detailed prompt examples and commands.
+
 ## Credits
 
 - **taste-skill, soft-skill, minimalist-skill, brutalist-skill** — by [Leonxlnx](https://github.com/Leonxlnx), sourced from [taste-skill](https://github.com/Leonxlnx/taste-skill). Licensed under the original repository's terms.

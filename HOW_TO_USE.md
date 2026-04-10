@@ -17,10 +17,26 @@ front-end-tech/
 └── HOW_TO_USE.md
 ```
 
+## Important: Where Output Goes
+
+**All generated output must go in the `output/` folder.** This folder is gitignored — nothing inside it should ever be committed to GitHub.
+
+- When you use a skill to build something, save the result in `output/`.
+- Create subfolders to organize your work (e.g., `output/landing-page/`, `output/dashboard-v2/`).
+- The `output/` folder is your local workspace for experiments. It stays on your machine only.
+
+```
+output/
+├── landing-page/        # Your first landing page experiment
+├── dashboard-v2/        # Second iteration of a dashboard
+├── portfolio-dark/      # Dark theme portfolio attempt
+└── pricing-page/        # Pricing page built with impeccable craft
+```
+
 ## Browsing and Learning
 
 - **Skills** (`skills/`) are reference files — read them to learn design principles like typography, color, spacing, motion, and accessibility even if you never use them with an AI tool.
-- **Output** (`output/`) is gitignored and holds generated artifacts from experiments.
+- **Output** (`output/`) is gitignored and holds your local generated artifacts. Never commit output to GitHub.
 
 ## Using the Design Skills with AI Tools
 
@@ -31,14 +47,16 @@ The `skills/` folder contains `SKILL.md` files that AI coding tools (Claude Code
 ```bash
 # Clone the repo
 git clone https://github.com/AnanyaBanerjee/front-end-tech.git
+cd front-end-tech
 
-# Start a new project
-mkdir my-app && cd my-app
+# Create a project folder inside output/
+mkdir -p output/my-app && cd output/my-app
 
 # Copy a skill into your project root
-cp ../front-end-tech/skills/taste-skill/SKILL.md ./SKILL.md
+cp ../../skills/taste-skill/SKILL.md ./SKILL.md
 
 # Open your AI coding tool and start building — it picks up the SKILL.md automatically
+# Everything you generate stays in output/ and won't be committed to GitHub
 ```
 
 ### Picking a skill
