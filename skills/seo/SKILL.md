@@ -176,7 +176,7 @@ Page speed is a Google ranking factor. Follow these on every page:
 
 ## 6. sitemap.xml and robots.txt
 
-For multi-page sites, create these two files at the root:
+Create these files inside `site/` (they are pre-stubbed by `setup.sh` — just update the domain). On a deployed site they must live at the root, which is why they go in `site/` and not anywhere else.
 
 **robots.txt:**
 ```

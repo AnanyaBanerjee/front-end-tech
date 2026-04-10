@@ -20,7 +20,7 @@ Do not skip this step. Do not assume there is no logo. Do not invent a logo with
 ## Step 2: If the User Provides a Logo
 
 ### File handling
-- Save the logo file in the project folder (e.g., `logo.svg`, `logo.png`)
+- Save the logo file inside `site/` (e.g., `site/logo.svg`, `site/logo.png`)
 - Never rename it without asking
 - Never alter, recolor, or crop the logo without asking
 
@@ -78,9 +78,9 @@ Replace:
 - `font-size` and `letter-spacing` to match the visual style
 
 ### Save it
-- Save as `logo.svg` in the project folder
-- Also create `logo-light.svg` (white fill) for use on dark backgrounds
-- Reference both in the HTML as appropriate
+- Save as `site/logo.svg`
+- Also create `site/logo-light.svg` (white fill) for use on dark backgrounds
+- Reference in HTML using relative paths: `logo.svg`, `logo-light.svg` (no `site/` prefix needed since HTML is also inside `site/`)
 
 ---
 

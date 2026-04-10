@@ -136,15 +136,15 @@ Run the setup script to create a new project with all layers wired up automatica
 ```
 
 This creates `output/my-project/` with:
-- `SKILL.md` — your chosen style skill (active)
-- `.impeccable.md` — quality layer (impeccable reads this automatically)
-- `CLAUDE.md` — tells Claude Code to also follow emil-design-eng
+- `SKILL.md`, `.impeccable.md`, `CLAUDE.md` — skill files at the project root
+- `site/` — deployable folder with `index.html`, `logo.svg`, `llms.txt`, `robots.txt`, `sitemap.xml`, and `images/`
+- Stubs for `llms.txt`, `robots.txt`, and `sitemap.xml` pre-created (just fill in your domain)
 
 #### Option 2: Manual setup
 
 ```bash
-# Create your project folder
-mkdir -p output/my-project && cd output/my-project
+# Create your project folder and site subfolder
+mkdir -p output/my-project/site/images && cd output/my-project
 
 # 1. Copy a style skill as the active SKILL.md (pick one)
 cp ../../skills/taste-skill/SKILL.md ./SKILL.md
@@ -156,23 +156,24 @@ cp ../../skills/impeccable/SKILL.md ./.impeccable.md
 cat > CLAUDE.md << 'EOF'
 # Project Rules
 
+## Folder Structure
+All deployable files go inside site/. Skill files stay at the project root.
+Never create HTML or assets outside of site/.
+
 ## Design Skills
-- **Logo**: follow `../../skills/logo/SKILL.md` — ask for logo before building
-- **Product images**: follow `../../skills/product-images/SKILL.md` — ask for screenshots before building
+- **Logo**: follow `../../skills/logo/SKILL.md` — save logo as site/logo.svg
+- **Product images**: follow `../../skills/product-images/SKILL.md` — save to site/images/
 - **SKILL.md** — active style skill (visual direction)
 - **.impeccable.md** — design quality, anti-patterns, accessibility
 - **Structure**: follow `../../skills/landing-page-design/patterns.md`, `anti-patterns.md`, `decisions.md`
 - **Engineering**: follow `../../skills/emil-design-eng/SKILL.md`
-- **SEO**: follow `../../skills/seo/SKILL.md` — apply full checklist to every page
-- **AEO**: follow `../../skills/llms-txt/SKILL.md` — generate llms.txt for every project
+- **SEO**: follow `../../skills/seo/SKILL.md` — apply full checklist to site/index.html
+- **AEO**: follow `../../skills/llms-txt/SKILL.md` — generate site/llms.txt
 - **Copy**: follow `../../skills/copywriting/patterns.md`
-
-## Output
-All generated files must stay in this folder.
 EOF
 ```
 
-Now when Claude Code works in this folder, all layers are active.
+Now when Claude Code works in this folder, all layers are active and all output goes into `site/`.
 
 #### Option 3: Ask in chat
 
