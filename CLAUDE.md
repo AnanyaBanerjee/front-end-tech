@@ -1,5 +1,11 @@
 # Project Rules
 
+## Start Here: Read SKILLS_INDEX.md First
+
+**Before doing anything, read `SKILLS_INDEX.md` at the repo root.** It is a routing guide that tells you which skills apply, in what order, and under what conditions — without needing to read every SKILL.md file. It also contains common scenario shortcuts.
+
+---
+
 ## ⚠️ NON-NEGOTIABLE: Everything Built Here Follows All Four Standards
 
 **Every single file created by this repo — every `.html` page, every subpage, every legal page, every page that will ever exist in `site/` — must comply with ALL FOUR of these standards. No exceptions. No partial compliance. All four, always, on everything.**

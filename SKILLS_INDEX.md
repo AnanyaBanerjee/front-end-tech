@@ -124,11 +124,27 @@ Pick exactly ONE style skill per project. Never mix two style skills on the same
 **"I updated the navbar"**
 → `sync/SKILL.md` — cascade to all other `.html` files
 
+**"I changed the product name"**
+→ `sync/SKILL.md` — update all `<title>` tags, `llms.txt`, Open Graph titles, footer copyright, `terms.html` and `privacy-policy.html` body text
+
+**"I changed the domain URL"**
+→ `sync/SKILL.md` — update `robots.txt` Sitemap URL, all `<loc>` in `sitemap.xml`, all canonical tags, all `og:url` tags, `llms.txt` links
+
+**"I added a new CDN script or stylesheet"**
+→ `security/SKILL.md` — add `integrity` + `crossorigin="anonymous"` to the tag, add the domain to `_headers` CSP `script-src` or `style-src`
+
+**"I added analytics"**
+→ `security/SKILL.md` — add analytics domain to `_headers` CSP
+→ `legal/SKILL.md` — update `privacy-policy.html` third-party services section
+
 **"Review my animations"**
 → `emil-design-eng/SKILL.md`
 
 **"The legal pages look different from the main site"**
-→ `legal/SKILL.md` — read `index.html` first, copy exact `<head>`, navbar, and footer
+→ `legal/SKILL.md` — read `index.html` first, copy exact `<head>`, navbar, footer, colors, fonts, and animations
 
 **"Add a FAQ section"**
-→ Follow `aeo/SKILL.md` FAQ format (direct, citable answers, no marketing speak)
+→ `aeo/SKILL.md` — direct, citable answers, no marketing speak, use FAQPage JSON-LD schema
+
+**"Is everything consistent / up to date?"**
+→ `sync/SKILL.md` with argument "all" — full project audit against all files and standards
