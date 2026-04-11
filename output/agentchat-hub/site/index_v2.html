@@ -577,6 +577,48 @@
       }
     }
 
+    /* ── Feature card micro-animations ── */
+    @keyframes chip-appear {
+      from { opacity: 0; transform: translateY(5px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .feat-chip {
+      display: inline-flex;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: rgb(var(--color-accent) / 0.85);
+      background: rgb(var(--color-accent) / 0.08);
+      border: 1px solid rgb(var(--color-accent) / 0.18);
+      border-radius: 9999px;
+      padding: 3px 10px;
+      opacity: 0;
+      animation: chip-appear 0.45s cubic-bezier(0.16,1,0.3,1) forwards paused;
+      animation-delay: var(--cd, 0s);
+    }
+    .feat-chip.chip-play { animation-play-state: running; }
+
+    @keyframes connected-in {
+      from { opacity: 0; transform: translateX(-8px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .connected-badge {
+      opacity: 0;
+      animation: connected-in 0.45s ease forwards paused;
+      animation-delay: var(--bd, 0s);
+    }
+    .connected-badge.badge-play { animation-play-state: running; }
+
+    .token-line {
+      opacity: 0;
+      animation: chip-appear 0.4s ease forwards paused;
+      animation-delay: var(--tl, 0s);
+    }
+    .token-line.chip-play { animation-play-state: running; }
+
+    @keyframes cursor-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .token-cursor { animation: cursor-blink 1s step-end infinite; }
+
     /* ── Final CTA animations ── */
     @keyframes pill-rise {
       0%   { transform: translateY(30px) translateX(0px); opacity: 0; }
@@ -903,7 +945,13 @@
           <p class="text-sm text-text-secondary leading-relaxed mb-6 max-w-md">
             Paste your agent's URL. The app fetches the Agent Card and you're chatting. No approval process, no marketplace, no waiting — just your URL. Railway, Vercel, Fly, Render, Cloudflare — it doesn't matter where your agent lives.
           </p>
-          <code class="font-mono text-xs text-accent bg-accent-dim px-3 py-2 rounded-lg border border-accent/15 self-start">my-agent.up.railway.app/.well-known/agent.json</code>
+          <div class="flex flex-wrap items-center gap-3">
+            <code class="font-mono text-xs text-accent bg-accent-dim px-3 py-2 rounded-lg border border-accent/15">my-agent.up.railway.app/.well-known/agent.json</code>
+            <span class="connected-badge flex items-center gap-1.5 font-mono text-xs text-accent" style="--bd:0.8s">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent inline-block"></span>
+              agent connected
+            </span>
+          </div>
         </div>
 
         <!-- Right stack: two lean cards -->
@@ -918,11 +966,11 @@
             <p class="text-sm text-text-secondary leading-relaxed mb-4">
               Responses stream token by token. Catch a wrong turn early, redirect mid-thought, or just watch it reason. No spinner. No wall of text.
             </p>
-            <span class="flex items-center gap-1">
-              <span class="stream-dot w-1.5 h-1.5 rounded-full bg-accent inline-block"></span>
-              <span class="stream-dot w-1.5 h-1.5 rounded-full bg-accent inline-block"></span>
-              <span class="stream-dot w-1.5 h-1.5 rounded-full bg-accent inline-block"></span>
-            </span>
+            <div class="font-mono text-xs text-text-tertiary space-y-1" id="feat-token-stream">
+              <div class="token-line" style="--tl:0s"><span class="text-accent">›</span> analysing request...</div>
+              <div class="token-line" style="--tl:0.6s"><span class="text-accent">›</span> generating response</div>
+              <div class="token-line" style="--tl:1.2s"><span class="text-accent">›</span> streaming tokens<span class="token-cursor ml-0.5 text-accent">▋</span></div>
+            </div>
           </div>
 
         </div>
@@ -949,9 +997,17 @@
             </div>
             <h3 class="font-medium text-base tracking-tight text-text">Organized around how you work</h3>
           </div>
-          <p class="text-sm text-text-secondary leading-relaxed max-w-md">
-            Create custom groups for any workflow. Work. Marketing. Content Creation. Data Extraction. Research. Name them anything — then drop your agents in. The right agent is always one tap away, never buried in a list.
+          <p class="text-sm text-text-secondary leading-relaxed max-w-md mb-5">
+            Create custom groups for any workflow — name them anything, then drop your agents in. The right agent is always one tap away, never buried in a list.
           </p>
+          <div class="flex flex-wrap gap-2" id="workflow-chips">
+            <span class="feat-chip" style="--cd:0.1s">Work</span>
+            <span class="feat-chip" style="--cd:0.2s">Marketing</span>
+            <span class="feat-chip" style="--cd:0.3s">Content Creation</span>
+            <span class="feat-chip" style="--cd:0.4s">Data Extraction</span>
+            <span class="feat-chip" style="--cd:0.5s">Research</span>
+            <span class="feat-chip" style="--cd:0.6s">+ anything you name</span>
+          </div>
         </div>
       </div>
 
@@ -1469,6 +1525,22 @@
     } else {
       document.querySelectorAll('.word').forEach(w => w.classList.add('in'));
     }
+
+    // ── Feature card micro-animation triggers ──
+    const featAnimObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const card = entry.target;
+        // Workflow chips
+        card.querySelectorAll('.feat-chip').forEach(el => el.classList.add('chip-play'));
+        // Connected badge
+        card.querySelectorAll('.connected-badge').forEach(el => el.classList.add('badge-play'));
+        // Token stream lines
+        card.querySelectorAll('.token-line').forEach(el => el.classList.add('chip-play'));
+        featAnimObs.unobserve(card);
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.feat-card').forEach(c => featAnimObs.observe(c));
 
     // ── Feature card spotlight + 3D tilt ──
     document.querySelectorAll('.feat-card').forEach(card => {
