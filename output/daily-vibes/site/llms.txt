@@ -1,0 +1,25 @@
+# Daily Vibes For You
+
+> A free iOS app that delivers 460+ curated motivational quotes from history's greatest minds to your iPhone, with a home screen widget, custom daily notifications, and zero data collection.
+
+Daily Vibes For You is built by Ananya Banerjee and available on iPhone, iPad, Mac (Apple Silicon), and Apple Vision Pro. It is completely free with no in-app purchases, subscriptions, or ads. The app works fully offline and collects no personal data of any kind.
+
+## Key Pages
+
+- [Home](https://dailyvibesforyou.com/): Overview, features, and App Store download link
+- [Privacy Policy](https://dailyvibesforyou.com/privacy-policy.html): Data practices (no data collected)
+- [Terms of Use](https://dailyvibesforyou.com/terms.html): Usage terms
+- [App Store](https://apps.apple.com/us/app/daily-vibes-for-you/id6759209446): Download on iOS
+
+## What This Product Does
+
+- Delivers 460+ handpicked motivational quotes from over 50 historical and contemporary thinkers
+- Displays a daily quote on the iPhone home screen via a native widget that refreshes automatically
+- Sends one daily motivational notification at a user-configured time (set via in-app bell icon)
+- Stores all quotes locally on the device — no internet connection required
+- Collects no personal information, no analytics, no account required, no third-party data sharing
+- Available free of charge on iPhone (iOS 15.1+), iPad (iPadOS 15.1+), Mac M1+ (macOS 12.0+), and Apple Vision Pro (visionOS 1.0+)
+
+## Optional
+
+- [Support](https://sites.google.com/view/your-daily-vibes/support): FAQ and bug reporting

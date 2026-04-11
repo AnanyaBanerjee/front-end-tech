@@ -1,14 +1,14 @@
 # AgentChat Hub
 
-> Your agents, your rules. One app for every AI agent you'll ever use.
+> Chat with every AI agent you deploy — wherever it lives.
 
-Every AI agent needs its own app. Not anymore. AgentChat Hub lets you connect to any A2A-compatible AI agent by pasting a URL — no middleman, no account, no tracking. Paste an endpoint, start chatting in seconds. Native on iPhone, iPad, Mac, and Apple Vision Pro. Free forever.
+Deployed your agent. Now what? AgentChat Hub lets you connect to any A2A-compatible AI agent by pasting its endpoint URL — no middleman, no account, no tracking. Paste an endpoint and you're chatting in seconds. Your conversations never leave your device. Native on iPhone, iPad, Mac, and Apple Vision Pro. Free forever.
 
 ## Key facts
 
 - **Price:** Free. No subscription, no in-app purchases, no freemium gate.
 - **Platforms:** iPhone (iOS 15.1+), iPad, Mac (macOS 12+), Apple Vision Pro (visionOS 1.0+). Android coming soon.
-- **Protocol:** A2A (Agent-to-Agent) — the open standard for AI agent communication
+- **Protocol:** A2A (Agent-to-Agent) — the open standard for AI agent communication.
 - **Privacy:** No backend, no telemetry, no analytics. Conversations stored on-device only.
 - **App Store:** https://apps.apple.com/us/app/agentchat-hub/id6760924304
 - **Version:** 1.1
@@ -21,44 +21,41 @@ A2A (Agent-to-Agent) is the open standard for AI agent communication — an inte
 
 ## Features
 
-- **Live streaming:** Every response arrives token-by-token over SSE. You watch the agent reason in real time — not a loading spinner followed by a wall of text.
-- **Connect by URL:** Paste an endpoint, the app reads the Agent Card. No SDK, no API key, no setup ritual.
-- **Multi-agent roster:** Add unlimited agents, organize into groups and tabs, switch between them like contacts.
-- **Rich attachments:** Send photos, images, and files inline. Multi-modal from day one.
-- **Native everywhere:** One native binary per platform — not a web view. Platform idioms, system fonts, keyboard shortcuts all work as expected.
+- **Any endpoint, instantly:** Paste any A2A endpoint URL. The app reads the Agent Card and connects — no SDK, no API key, no setup ritual. Works with Railway, Vercel, Cloudflare, Fly, Render, or any hosting platform.
+- **Watch your agent think:** Every response streams token-by-token over SSE. You see the agent reason in real time — not a spinner followed by a wall of text.
+- **Send files, not descriptions:** Attach photos, images, and files inline. Your agent sees what you see. Multi-modal from day one.
+- **Organized around how you work:** Group agents by workflow — Work, Marketing, Research, whatever you name. Your roster, your structure.
+- **All your agents, one place:** Every agent you build, discover, or run — one app, one roster. No juggling tabs, no hunting through bookmarks. Any agent, any purpose, any hosting platform.
 
 ## Who is it for?
 
-- **Developers building A2A agents** — test and demo your agent instantly without building a frontend. Ship faster, iterate in real time.
-- **Teams** — give your team a native mobile client for internal AI assistants, no bespoke frontend required.
-- **Self-hosters** — wrap a local LLM in an A2A endpoint and chat from your phone.
+- **Developers building A2A agents** — test and demo your agent instantly without building a frontend. Paste the endpoint, start chatting, ship faster.
+- **Teams** — give your team a native mobile client for internal AI assistants. No bespoke frontend required.
+- **Self-hosters** — wrap a local LLM in an A2A endpoint and chat with it from your phone on the train.
 - **Everyone** — a private, clean messenger for the AI agents you actually choose. No logins, no data collection, no subscription walls.
 
 ## FAQ
 
-**Q: Every AI agent needs its own app — does AgentChat Hub solve that?**
-Yes. AgentChat Hub is one app that connects to any A2A-compatible agent via URL. No per-agent installs, no separate accounts.
-
-**Q: Do I need to build anything to use it?**
-No. Paste any A2A-compatible agent endpoint URL and start chatting. No SDK, no API key, no frontend to build.
-
-**Q: What AI agents work with AgentChat Hub?**
-Any agent implementing the A2A spec — LangChain, CrewAI, custom Python/Node.js servers, locally-run models, internal company agents. If it publishes an Agent Card at /.well-known/agent.json, AgentChat Hub connects to it.
+**Q: What does AgentChat Hub do?**
+It connects you to any A2A-compatible AI agent via URL. Paste an endpoint, start chatting in seconds. No account, no tracking, no middleman.
 
 **Q: Which agents can I connect to?**
-Any agent implementing the A2A specification — self-built, internal company agents, or third-party services exposing a standard A2A endpoint. There is no curated marketplace. The open web is the directory.
+Any agent implementing the A2A specification — ones you build yourself, internal company agents, or any third-party service exposing a standard A2A endpoint. There is no curated marketplace. The open web is the directory.
+
+**Q: Do I need to build anything to use it?**
+No. Paste any A2A-compatible endpoint URL and start chatting. No SDK, no API key, no frontend to build.
+
+**Q: What hosting platforms are supported?**
+All of them. Railway, Vercel, Cloudflare Workers, Fly.io, Render, local servers — if it exposes an A2A endpoint, AgentChat Hub connects to it.
 
 **Q: Does AgentChat Hub collect any data?**
-No. No backend, no telemetry, no analytics. Messages travel directly from your device to your chosen agent. Your conversations are stored on-device and nowhere else.
+No. No backend, no telemetry, no analytics. Messages travel directly from your device to your chosen agent. Conversations are stored on-device and nowhere else.
 
 **Q: Is it really free?**
 Yes. No subscription, no in-app purchases, no freemium gate. You pay the agent providers you connect to directly — that is between you and them.
 
 **Q: What platforms does it run on?**
 iPhone, iPad, Mac, and Apple Vision Pro. Native binary on each — not a web view or cross-platform wrapper. Android coming soon.
-
-**Q: Is it available on Android?**
-Not yet — but Android is coming soon. AgentChat Hub is currently available on iPhone, iPad, Mac, and Vision Pro.
 
 ## Links
 
