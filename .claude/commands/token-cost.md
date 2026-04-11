@@ -44,7 +44,7 @@ Use this map to determine which skills Claude reads for each task type:
 - Pre-build: `skills/logo/SKILL.md`, `skills/product-images/SKILL.md`, `skills/impeccable/SKILL.md`
 - Style skill: one of `taste-skill`, `soft-skill`, `minimalist-skill`, `brutalist-skill` — use the average of all four
 - Mandatory standards: `skills/security/SKILL.md`, `skills/legal/SKILL.md`, `skills/seo/SKILL.md`, `skills/aeo/SKILL.md`
-- Content reference: `skills/landing-page-design/patterns.md`, `skills/landing-page-design/anti-patterns.md`, `skills/copywriting/patterns.md`, `skills/branding/patterns.md`
+- Content reference: `skills/landing-page-design/patterns.md`, `skills/landing-page-design/anti-patterns.md`, `skills/copywriting/SKILL.md`, `skills/branding/patterns.md`
 - Post-build: `skills/sync/SKILL.md`
 - Estimated output tokens: 8,000 (index.html ~3k + 3 legal pages ~4.5k + configs ~500)
 

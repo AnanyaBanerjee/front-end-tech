@@ -37,7 +37,7 @@ This project uses layered design skills:
 - **Security**: follow `../../skills/security/SKILL.md` — create site/_headers, no secrets in HTML, SRI on CDN scripts, rel="noopener noreferrer" on all external links
 - **SEO**: follow `../../skills/seo/SKILL.md` — apply full SEO checklist to every page by default
 - **AEO**: follow `../../skills/aeo/SKILL.md` — generate llms.txt and apply AI search optimization
-- **Copy**: follow `../../skills/copywriting/patterns.md` for headlines, CTAs, and page copy
+- **Copy**: follow `../../skills/copywriting/SKILL.md` for headlines, CTAs, and page copy
 
 ## Universal Rule: Security + Legal on Every Single Page
 

@@ -71,7 +71,7 @@ T_AEO=$(tokens_for "skills/aeo/SKILL.md")
 T_SYNC=$(tokens_for "skills/sync/SKILL.md")
 T_LP_PATTERNS=$(tokens_for "skills/landing-page-design/patterns.md")
 T_LP_ANTI=$(tokens_for "skills/landing-page-design/anti-patterns.md")
-T_COPY_PATTERNS=$(tokens_for "skills/copywriting/patterns.md")
+T_COPY_PATTERNS=$(tokens_for "skills/copywriting/SKILL.md")
 T_BRAND_PATTERNS=$(tokens_for "skills/branding/patterns.md")
 
 # impeccable commands (only loaded when user runs /impeccable <cmd>)
@@ -132,7 +132,7 @@ build_landing_page() {
   echo "  CONTENT REFERENCE (read if writing copy)"
   print_row "skills/landing-page-design/patterns.md" "$T_LP_PATTERNS"
   print_row "skills/landing-page-design/anti-patterns.md" "$T_LP_ANTI"
-  print_row "skills/copywriting/patterns.md" "$T_COPY_PATTERNS"
+  print_row "skills/copywriting/SKILL.md" "$T_COPY_PATTERNS"
   print_row "skills/branding/patterns.md" "$T_BRAND_PATTERNS"
   separator
 

@@ -172,7 +172,7 @@ output/my-product/
 | ✨ Quality | [impeccable](https://github.com/pbakaus/impeccable) | 17 commands, anti-patterns, accessibility |
 | ⚡ Engineering | [emil-design-eng](https://github.com/emilkowalski/skill) | Animation craft, transforms, gestures |
 | 🏷️ Brand | logo + [branding](https://github.com/vibeforge1111/vibeship-spawner-skills) | Asks for logo, places correctly, or creates SVG wordmark |
-| ✍️ Content | [copywriting](https://github.com/vibeforge1111/vibeship-spawner-skills) + product-images | Copy frameworks, browser frames, phone mockups, perspective tilts |
+| ✍️ Content | copywriting + product-images | Awareness levels · frameworks · psychology · scoring · product screenshots |
 | 🔍 SEO | seo | Meta tags, Open Graph, JSON-LD, semantic HTML, page speed |
 | 🤖 AEO | aeo | `llms.txt`, speakable schema, AI search copy rules |
 | 🔒 Security | security | Cloudflare `_headers`, SRI on CDN scripts, no-secrets policy, safe links |
@@ -266,5 +266,6 @@ Example output for a full landing page build on Sonnet 4.6:
 - **taste-skill · soft-skill · minimalist-skill · brutalist-skill** — by [Leonxlnx](https://github.com/Leonxlnx) · [source](https://github.com/Leonxlnx/taste-skill)
 - **impeccable** — by [pbakaus](https://github.com/pbakaus) · [source](https://github.com/pbakaus/impeccable) · Apache 2.0
 - **emil-design-eng** — by [Emil Kowalski](https://github.com/emilkowalski) · [source](https://github.com/emilkowalski/skill)
-- **landing-page-design · branding · copywriting** — [vibeship-spawner-skills](https://github.com/vibeforge1111/vibeship-spawner-skills)
+- \*\*landing-page-design · branding\*\* — [vibeship-spawner-skills](https://github.com/vibeforge1111/vibeship-spawner-skills)
+- **copywriting** — merged from [vibeship](https://github.com/vibeforge1111/vibeship-spawner-skills), [afrexai-copywriting-mastery](https://github.com/openclaw/skills/blob/main/skills/1kalin/afrexai-copywriting-mastery/SKILL.md), and [marketing-psychology](https://github.com/alirezarezvani/claude-skills). Single consolidated file, no duplicates.
 - **logo · product-images · seo · aeo · security · legal · sync** — custom skills written for this repo

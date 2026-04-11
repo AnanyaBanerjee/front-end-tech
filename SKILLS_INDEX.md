@@ -84,7 +84,7 @@ Pick exactly ONE style skill per project. Never mix two style skills on the same
 
 | Skill | Files | What it covers |
 |---|---|---|
-| Copywriting | `skills/copywriting/` | patterns, anti-patterns, decisions, sharp-edges for landing page copy |
+| Copywriting | `skills/copywriting/SKILL.md` | Consolidated: awareness levels, all frameworks (PAS/AIDA/BAB/PASTOR/4U), psychology triggers, social proof hierarchy, objection handling, CTA rules, scoring rubric, slash commands, industry guidance for tech/entertainment/motivation |
 | Branding | `skills/branding/` | patterns, anti-patterns, decisions, sharp-edges for brand voice and identity |
 | Landing Page Design | `skills/landing-page-design/` | patterns, anti-patterns, layout decisions, sharp-edges for page structure |
 

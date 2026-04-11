@@ -128,7 +128,7 @@ When in doubt — apply the rule. Default to more protection, not less.
 - **Security**: follow `../../skills/security/SKILL.md` — apply to every page; site/_headers already stubbed
 - **SEO**: follow `../../skills/seo/SKILL.md` — apply full checklist to every page
 - **AEO**: follow `../../skills/aeo/SKILL.md` — generate `site/llms.txt` for every project
-- **Copy**: follow `../../skills/copywriting/patterns.md`
+- **Copy**: follow `../../skills/copywriting/SKILL.md`
 
 ## Deployment
 

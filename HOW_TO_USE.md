@@ -207,7 +207,7 @@ Never create HTML or assets outside of site/.
 - **Security**: follow `../../skills/security/SKILL.md` — create site/_headers, SRI on CDN scripts, no secrets in HTML, safe external links
 - **SEO**: follow `../../skills/seo/SKILL.md` — apply full checklist to site/index.html
 - **AEO**: follow `../../skills/aeo/SKILL.md` — generate site/llms.txt
-- **Copy**: follow `../../skills/copywriting/patterns.md`
+- **Copy**: follow `../../skills/copywriting/SKILL.md`
 EOF
 ```
 
