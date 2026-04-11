@@ -371,6 +371,11 @@
       position: relative;
     }
     .phone-primary { position: relative; z-index: 2; }
+    .phone-tilt-wrap {
+      transition: transform 0.15s ease-out;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
     .phone-bg-blur {
       position: absolute;
       width: 280px;
@@ -456,7 +461,8 @@
        Features Bento Grid
     ============================================= */
     .features { padding: 96px 0; }
-    .section-header { margin-bottom: 56px; }
+    .section-header { margin-bottom: 56px; display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+    .section-header-sub { font-size: 15px; color: var(--text-muted); max-width: 280px; line-height: 1.65; }
     .section-label {
       font-size: 11px; font-weight: 500; text-transform: uppercase;
       letter-spacing: 0.1em; color: var(--text-faint); margin-bottom: 12px;
@@ -469,7 +475,7 @@
 
     .bento-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1.55fr 1fr;
       gap: 16px;
     }
 
@@ -507,7 +513,7 @@
 
     /* ── Featured (dark) card ── */
     .bento-featured {
-      grid-column: span 2;
+      grid-row: span 2;
       background: var(--text);
       border-color: var(--text);
       color: #FFF;
@@ -593,7 +599,7 @@
     /* ── Stat counter ── */
     .stat-badge { display: flex; align-items: baseline; gap: 6px; margin-top: 20px; }
     .stat-number {
-      font-family: var(--font-serif); font-size: 52px; font-weight: 400;
+      font-family: var(--font-serif); font-size: 76px; font-weight: 400;
       letter-spacing: -0.04em; color: #FFF; line-height: 1;
       text-shadow: 0 0 0px rgba(253,186,153,0);
       transition: text-shadow 1s ease;
@@ -642,6 +648,102 @@
       transition: background 0.35s, transform 0.35s;
     }
     .quote-dot.qs-dot-active { background: rgba(255,255,255,0.75); transform: scale(1.4); }
+
+    /* ── Widget card preview ── */
+    .widget-mini {
+      margin-top: 24px;
+      background: var(--bg);
+      border: 1px solid var(--border-solid);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex; align-items: center; gap: 12px;
+      transition: border-color 0.3s;
+    }
+    .bento-card:hover .widget-mini { border-color: var(--accent); }
+    .widget-mini-body { flex: 1; }
+    .widget-mini-label {
+      font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--text-faint); margin-bottom: 5px;
+    }
+    .widget-mini-quote {
+      font-family: var(--font-serif); font-size: 12px; font-style: italic;
+      color: var(--text-muted); line-height: 1.5;
+    }
+    .widget-mini-refresh {
+      width: 28px; height: 28px; flex-shrink: 0;
+      background: var(--accent-bg); border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 15px;
+      transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .bento-card:hover .widget-mini-refresh { transform: rotate(180deg); }
+
+    /* ── Schedule time chips ── */
+    .time-chips {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 24px;
+    }
+    .time-chip {
+      font-size: 11px; font-weight: 500;
+      padding: 5px 11px; border-radius: 999px;
+      background: var(--bg); border: 1px solid var(--border-solid);
+      color: var(--text-muted);
+      transition: background 0.35s cubic-bezier(0.16,1,0.3,1),
+                  color 0.35s, border-color 0.35s, transform 0.35s;
+    }
+    .time-chip.tc-active {
+      background: var(--accent); color: #FFF;
+      border-color: var(--accent); transform: scale(1.06);
+    }
+
+    /* ── Privacy mini never-list ── */
+    .priv-mini {
+      list-style: none; margin-top: 24px;
+      display: flex; flex-direction: column; gap: 7px;
+    }
+    .priv-mini-item {
+      font-size: 12px; color: var(--text-muted);
+      display: flex; align-items: center; gap: 8px;
+      opacity: 0; transform: translateX(-8px);
+      transition: opacity 0.45s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.45s cubic-bezier(0.16,1,0.3,1);
+    }
+    .bento-visible .priv-mini-item { opacity: 1; transform: none; }
+    .bento-visible .priv-mini-item:nth-child(1) { transition-delay: 0.25s; }
+    .bento-visible .priv-mini-item:nth-child(2) { transition-delay: 0.38s; }
+    .bento-visible .priv-mini-item:nth-child(3) { transition-delay: 0.51s; }
+    .priv-mini-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+    }
+
+    /* ── Offline signal bars ── */
+    .signal-bars {
+      display: flex; align-items: flex-end; gap: 4px;
+      margin-top: 24px; height: 32px;
+    }
+    .sb {
+      border-radius: 3px; width: 9px;
+      background: var(--border-solid);
+      transition: background 0.3s;
+    }
+    .sb-1 { height: 8px; }
+    .sb-2 { height: 14px; }
+    .sb-3 { height: 22px; }
+    .sb-4 { height: 30px; background: rgba(196,75,53,0.18); position: relative; }
+    .sb-4::after {
+      content: '×';
+      position: absolute; top: -17px; left: 50%; transform: translateX(-50%);
+      font-size: 13px; color: var(--accent); line-height: 1;
+    }
+    .bento-card.clock-card:hover .sb-1,
+    .bento-card.clock-card:hover .sb-2,
+    .bento-card.clock-card:hover .sb-3 { background: var(--text-faint); }
+
+    /* ── Responsive bento ── */
+    @media (max-width: 760px) {
+      .bento-grid { grid-template-columns: 1fr; }
+      .bento-featured { grid-row: span 1; }
+    }
 
     /* =============================================
        Screenshots Showcase
@@ -1288,11 +1390,13 @@
           <div class="hero-visual reveal reveal-d2" aria-hidden="true">
             <div class="phone-bg-blur"></div>
             <div class="phone-primary">
-              <div class="phone-frame">
-                <div class="phone-side-btn"></div>
-                <img src="images/screenshot-4.png"
-                     alt="Daily Vibes app — Warm Glow theme showing a Henry Ford quote on a golden peach background"
-                     width="240" height="520" />
+              <div class="phone-tilt-wrap" id="heroPhoneV1">
+                <div class="phone-frame">
+                  <div class="phone-side-btn"></div>
+                  <img src="images/screenshot-4.png"
+                       alt="Daily Vibes app — Warm Glow theme showing a Henry Ford quote on a golden peach background"
+                       width="240" height="520" />
+                </div>
               </div>
             </div>
           </div>
@@ -1333,8 +1437,11 @@
     <section class="features" aria-labelledby="features-heading">
       <div class="container">
         <header class="section-header reveal">
-          <p class="section-label">Features</p>
-          <h2 id="features-heading" class="section-title">Everything you need.<br>Nothing you don't.</h2>
+          <div>
+            <p class="section-label">Features</p>
+            <h2 id="features-heading" class="section-title">Built with intention.</h2>
+          </div>
+          <p class="section-header-sub">Everything crafted intentionally. Nothing added for the sake of it.</p>
         </header>
 
         <div class="bento-grid">
@@ -1349,10 +1456,10 @@
               <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M4 8h4V5H4v3zm8 0h4V5h-4v3zM4 15h4v-5H4v5zm8 0h4v-5h-4v5z" opacity=".4"/><path d="M2 3h7v7H2V3zm9 0h7v7h-7V3zM2 11h7v7H2v-7zm9 0h7v7h-7v-7z"/></svg>
             </div>
             <h3 class="bento-title" style="position:relative;z-index:1;">460+ Premium Quotes</h3>
-            <p class="bento-desc" style="position:relative;z-index:1;">Handpicked from over 50 legendary thinkers, authors, and philosophers. Refreshed regularly with new voices from history and today.</p>
+            <p class="bento-desc" style="position:relative;z-index:1;">Handpicked from over 50 legendary thinkers, authors, and philosophers.</p>
             <div class="stat-badge" style="position:relative;z-index:1;">
               <span class="stat-number" id="quoteCounter">0</span>
-              <span class="stat-label">curated quotes and counting</span>
+              <span class="stat-label">quotes</span>
             </div>
             <div class="quote-preview" style="position:relative;z-index:1;" aria-live="polite" aria-label="Cycling quotes from the app">
               <span class="quote-preview-mark" aria-hidden="true">"</span>
@@ -1394,7 +1501,14 @@
               <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5"/></svg>
             </div>
             <h3 class="bento-title">Home Screen Widget</h3>
-            <p class="bento-desc">A fresh quote appears on your home screen each morning. Tap to refresh anytime, without opening the app.</p>
+            <p class="bento-desc">New quote on your lock screen before you unlock your phone. Tap to refresh.</p>
+            <div class="widget-mini" aria-hidden="true">
+              <div class="widget-mini-body">
+                <p class="widget-mini-label">Today's vibe</p>
+                <p class="widget-mini-quote">"The future belongs to those who believe."</p>
+              </div>
+              <div class="widget-mini-refresh">↻</div>
+            </div>
           </article>
 
           <!-- 3. Notifications -->
@@ -1402,8 +1516,14 @@
             <div class="bento-icon">
               <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 2a6 6 0 016 6v4l1.5 2.5h-15L4 12V8a6 6 0 016-6z"/><path d="M8 17a2 2 0 004 0"/></svg>
             </div>
-            <h3 class="bento-title">Set Your Own Time</h3>
-            <p class="bento-desc">Choose exactly when your daily quote arrives — morning, midday, or evening. One notification, no noise.</p>
+            <h3 class="bento-title">Your Schedule</h3>
+            <p class="bento-desc">Set exactly when your daily quote arrives. Morning, midday, or night.</p>
+            <div class="time-chips" aria-hidden="true">
+              <span class="time-chip">6 AM</span>
+              <span class="time-chip tc-active">9 AM</span>
+              <span class="time-chip">12 PM</span>
+              <span class="time-chip">8 PM</span>
+            </div>
           </article>
 
           <!-- 4. Private -->
@@ -1412,7 +1532,12 @@
               <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 2l6 2v5c0 4-2.5 7-6 9-3.5-2-6-5-6-9V4l6-2z"/><path d="M7 10l2 2 4-4"/></svg>
             </div>
             <h3 class="bento-title">100% Private</h3>
-            <p class="bento-desc">No account. No analytics. No tracking. No data leaves your device — ever. Built for people who value privacy.</p>
+            <p class="bento-desc">No account. No analytics. No tracking. Nothing leaves your phone.</p>
+            <ul class="priv-mini" aria-hidden="true">
+              <li class="priv-mini-item"><span class="priv-mini-dot"></span>No account or sign-up</li>
+              <li class="priv-mini-item"><span class="priv-mini-dot"></span>No analytics or tracking</li>
+              <li class="priv-mini-item"><span class="priv-mini-dot"></span>No data leaves your device</li>
+            </ul>
           </article>
 
           <!-- 5. Offline -->
@@ -1421,7 +1546,13 @@
               <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3a7 7 0 110 14A7 7 0 0110 3z"/><path d="M10 7v3l2 2"/></svg>
             </div>
             <h3 class="bento-title">Fully Offline</h3>
-            <p class="bento-desc">All quotes are stored locally. No internet connection needed — your daily inspiration is always there, even on a plane.</p>
+            <p class="bento-desc">All 460+ quotes stored locally. Works anywhere — no Wi-Fi needed.</p>
+            <div class="signal-bars" aria-hidden="true">
+              <span class="sb sb-1"></span>
+              <span class="sb sb-2"></span>
+              <span class="sb sb-3"></span>
+              <span class="sb sb-4"></span>
+            </div>
           </article>
 
         </div>
@@ -1433,7 +1564,7 @@
     ============================================= -->
     <section class="screenshots" aria-labelledby="screenshots-heading">
       <div class="container">
-        <header class="section-header reveal" style="text-align:center;">
+        <header class="section-header reveal" style="display:block; text-align:center;">
           <p class="section-label">App Themes</p>
           <h2 id="screenshots-heading" class="section-title">Choose your vibe.</h2>
         </header>
@@ -1755,6 +1886,25 @@
     // Dynamic copyright year
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    // ── Hero phone 3D tilt ──
+    const heroPhoneV1 = document.getElementById('heroPhoneV1');
+    if (heroPhoneV1) {
+      const visual = heroPhoneV1.closest('.hero-visual');
+      visual.addEventListener('mousemove', e => {
+        const rect = heroPhoneV1.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = (e.clientX - cx) / (rect.width / 2);
+        const dy = (e.clientY - cy) / (rect.height / 2);
+        heroPhoneV1.style.transform = `perspective(900px) rotateY(${dx * 10}deg) rotateX(${-dy * 10}deg)`;
+      });
+      visual.addEventListener('mouseleave', () => {
+        heroPhoneV1.style.transition = 'transform 0.6s cubic-bezier(0.16,1,0.3,1)';
+        heroPhoneV1.style.transform = 'perspective(900px) rotateY(0deg) rotateX(0deg)';
+        setTimeout(() => { heroPhoneV1.style.transition = 'transform 0.15s ease-out'; }, 600);
+      });
+    }
+
     // Scroll reveal using IntersectionObserver
     const revealEls = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
@@ -1790,6 +1940,8 @@
                 }
                 // Start quote cycling after card is visible
                 setTimeout(startQuoteCycling, 800);
+                // Start time chip cycling
+                setTimeout(startTimeChipCycling, 600);
               }
             }, i * 110);
           });
@@ -1821,6 +1973,17 @@
         }, 600);
         current = next;
       }, 3200);
+    }
+
+    function startTimeChipCycling() {
+      const chips = document.querySelectorAll('.time-chip');
+      if (!chips.length) return;
+      let cur = 1; // starts on "9 AM"
+      setInterval(() => {
+        chips[cur].classList.remove('tc-active');
+        cur = (cur + 1) % chips.length;
+        chips[cur].classList.add('tc-active');
+      }, 1800);
     }
 
     // Showcase phone entrance + float
