@@ -756,6 +756,86 @@
     }
 
     /* ============================================================
+       SAVE FLOW SECTION
+    ============================================================ */
+    .save-flow-section {
+      padding: 96px 24px;
+      background: var(--bg);
+    }
+    .save-flow-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .save-flow-section .section-header {
+      margin-bottom: 56px;
+    }
+    .save-flow-phones {
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .save-flow-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      flex: 0 0 auto;
+    }
+    .save-flow-item .flow-phone {
+      width: 200px;
+      aspect-ratio: 9 / 19.5;
+      background: #1c1c1e;
+      border-radius: 44px;
+      padding: 5px;
+      box-shadow: 0 20px 60px rgba(42,35,32,0.14), inset 0 0 0 1px rgba(255,255,255,0.07);
+      position: relative;
+    }
+    .save-flow-item .flow-phone .phone-screen {
+      border-radius: 40px;
+    }
+    .flow-caption {
+      text-align: center;
+    }
+    .flow-step {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--bg-amber);
+      color: var(--amber-deep);
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 800;
+      line-height: 24px;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .flow-caption strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .flow-caption span {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .save-flow-arrow {
+      font-size: 1.25rem;
+      color: var(--border);
+      align-self: center;
+      margin-top: -40px;
+      flex-shrink: 0;
+    }
+    @media (max-width: 768px) {
+      .save-flow-arrow { display: none; }
+    }
+
+    /* ============================================================
        FAQ
     ============================================================ */
     .faq-section {
@@ -1118,13 +1198,13 @@
 
       <!-- Phone cluster -->
       <div class="hero-phones" aria-label="App screenshots">
-        <!-- Left phone: Boost -->
+        <!-- Left phone: Home with real content -->
         <div class="phone-frame phone-frame-left">
           <div class="phone-screen">
             <div class="phone-island"></div>
             <img
-              src="images/screenshot-boost-light.png"
-              alt="ItMadeMyDay Boost screen showing mood-based browsing"
+              src="images/screenshot-home-content-light.png"
+              alt="ItMadeMyDay Home screen showing saved moments"
               width="190"
               height="411"
               loading="eager"
@@ -1132,13 +1212,13 @@
           </div>
         </div>
 
-        <!-- Center phone: Home -->
+        <!-- Center phone: Home with Today's Glow -->
         <div class="phone-frame phone-frame-center">
           <div class="phone-screen">
             <div class="phone-island"></div>
             <img
-              src="images/screenshot-home-light.png"
-              alt="ItMadeMyDay Home screen showing the joy vault"
+              src="images/screenshot-home-glow-amber.png"
+              alt="ItMadeMyDay Home screen with Today's Glow feature and saved moments"
               width="220"
               height="477"
               loading="eager"
@@ -1146,13 +1226,13 @@
           </div>
         </div>
 
-        <!-- Right phone: Collections -->
+        <!-- Right phone: Boost with photo card -->
         <div class="phone-frame phone-frame-right">
           <div class="phone-screen">
             <div class="phone-island"></div>
             <img
-              src="images/screenshot-collections-light.png"
-              alt="ItMadeMyDay Collections screen"
+              src="images/screenshot-boost-photo-light.png"
+              alt="ItMadeMyDay Boost screen displaying a saved photo moment"
               width="190"
               height="411"
               loading="eager"
@@ -1242,6 +1322,70 @@
       </div>
     </section>
 
+    <!-- SAVE A MOMENT FLOW -->
+    <section class="save-flow-section" aria-labelledby="save-flow-heading">
+      <div class="save-flow-inner">
+        <div class="section-header reveal">
+          <h2 id="save-flow-heading">Save a moment in seconds</h2>
+          <p style="color: var(--text-mid); margin: 12px auto 0; max-width: 520px;">Pick a type, add your words or photo, choose when you want to see it again — done. Every moment takes under a minute to capture.</p>
+        </div>
+        <div class="save-flow-phones">
+          <!-- Step 1 -->
+          <div class="save-flow-item reveal">
+            <div class="flow-phone">
+              <div class="phone-screen">
+                <div class="phone-island"></div>
+                <img src="images/screenshot-save-step1.png" alt="" width="200" height="433" loading="lazy" aria-hidden="true" />
+              </div>
+            </div>
+            <div class="flow-caption">
+              <span class="flow-step">1</span>
+              <strong>Choose a type</strong>
+              <span>Compliment, Memory, Self Love, and more</span>
+            </div>
+          </div>
+
+          <div class="save-flow-arrow" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="save-flow-item reveal">
+            <div class="flow-phone">
+              <div class="phone-screen">
+                <div class="phone-island"></div>
+                <img src="images/screenshot-save-step2.png" alt="" width="200" height="433" loading="lazy" aria-hidden="true" />
+              </div>
+            </div>
+            <div class="flow-caption">
+              <span class="flow-step">2</span>
+              <strong>Add details</strong>
+              <span>Tags, moods, and the Collection it belongs to</span>
+            </div>
+          </div>
+
+          <div class="save-flow-arrow" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+
+          <!-- Step 3: result -->
+          <div class="save-flow-item reveal">
+            <div class="flow-phone">
+              <div class="phone-screen">
+                <div class="phone-island"></div>
+                <img src="images/screenshot-home-content-light.png" alt="" width="200" height="433" loading="lazy" aria-hidden="true" />
+              </div>
+            </div>
+            <div class="flow-caption">
+              <span class="flow-step">3</span>
+              <strong>It's in your Vault</strong>
+              <span>Browse, filter, and revisit anytime</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- SCREENSHOTS DARK SECTION -->
     <section class="screenshots-dark-section" aria-labelledby="screenshots-heading">
       <div class="screenshots-dark-inner">
@@ -1293,7 +1437,43 @@
                 <img src="images/screenshot-settings-light.png" alt="Settings screen in light mode" width="175" height="379" loading="lazy" />
               </div>
             </div>
-            <span class="screenshot-label">Settings</span>
+            <span class="screenshot-label">Settings · Light</span>
+          </div>
+          <div class="screenshot-item reveal">
+            <div class="screenshot-phone">
+              <div class="phone-screen">
+                <div class="phone-island"></div>
+                <img src="images/screenshot-home-content-dark.png" alt="Home screen with saved moments in dark mode" width="175" height="379" loading="lazy" />
+              </div>
+            </div>
+            <span class="screenshot-label">Vault · Dark</span>
+          </div>
+          <div class="screenshot-item reveal">
+            <div class="screenshot-phone">
+              <div class="phone-screen">
+                <div class="phone-island"></div>
+                <img src="images/screenshot-collections-grid-dark.png" alt="Collections grid in dark mode" width="175" height="379" loading="lazy" />
+              </div>
+            </div>
+            <span class="screenshot-label">Collections · Dark</span>
+          </div>
+          <div class="screenshot-item reveal">
+            <div class="screenshot-phone">
+              <div class="phone-screen">
+                <div class="phone-island"></div>
+                <img src="images/screenshot-collection-detail-dark.png" alt="Collection detail screen in dark mode" width="175" height="379" loading="lazy" />
+              </div>
+            </div>
+            <span class="screenshot-label">Collection · Dark</span>
+          </div>
+          <div class="screenshot-item reveal">
+            <div class="screenshot-phone">
+              <div class="phone-screen">
+                <div class="phone-island"></div>
+                <img src="images/screenshot-settings-filled-dark.png" alt="Settings with profile in dark mode" width="175" height="379" loading="lazy" />
+              </div>
+            </div>
+            <span class="screenshot-label">Settings · Dark</span>
           </div>
         </div>
       </div>
