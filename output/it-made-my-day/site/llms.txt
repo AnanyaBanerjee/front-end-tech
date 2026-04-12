@@ -1,0 +1,29 @@
+# ItMadeMyDay
+
+> A private iOS app for capturing and revisiting moments that made your day — compliments, memories, quotes, photos, and links. No account required. No data collected. Everything stays on your device.
+
+ItMadeMyDay is a free iOS app that acts as a personal joy vault. Users log moments across six categories: Compliments, Memories, Heart-to-Hearts, Quotes, Links, and Photos. A Boost feature lets users browse saved moments filtered by current mood (Sad, Anxious, Lonely, Celebrating, Grateful). Collections allow curated groups of moments. Built fully local-first — no server, no sync, no tracking.
+
+## Key Pages
+
+- [Home](https://itmademyday.app/): App overview, features, and download
+- [Support](https://itmademyday.app/support.html): Help, contact, and FAQs
+- [Privacy Policy](https://itmademyday.app/privacy-policy.html): Zero-data privacy policy
+
+## What This Product Does
+
+- Saves moments in six categories: Compliments, Memories, Heart-to-Hearts, Quotes, Links, Photos
+- Provides mood-based browsing via Boost (filter by Sad, Anxious, Lonely, Celebrating, Grateful)
+- Organizes moments into user-created Collections
+- Operates fully offline with no account, no cloud sync, and no data collection
+- Supports JSON export and import for data portability
+- Available free on iOS with no in-app purchases or subscriptions
+
+## Privacy
+
+ItMadeMyDay collects zero user data. The app has no server connection. All data is stored using local device storage and never transmitted anywhere.
+
+## Optional
+
+- [Terms of Use](https://itmademyday.app/terms.html): Usage terms
+- [DMCA](https://itmademyday.app/dmca.html): Copyright policy

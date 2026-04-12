@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary Meta -->
+  <title>ItMadeMyDay — Your Personal Joy Vault</title>
+  <meta name="description" content="ItMadeMyDay is a free iOS app for saving compliments, memories, quotes, photos, and links that made your day. Fully private — no account, no cloud, no data collected." />
+  <meta name="robots" content="index, follow, noai, noimageai" />
+  <!-- TODO: update domain when live -->
+  <link rel="canonical" href="https://itmademyday.app/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ItMadeMyDay — Your Personal Joy Vault" />
+  <meta property="og:description" content="A free iOS app for saving moments that made your day. Compliments, memories, quotes, photos, and links — all private, all on your device." />
+  <!-- TODO: update domain when live -->
+  <meta property="og:url" content="https://itmademyday.app/" />
+  <!-- TODO: add real OG image -->
+  <meta property="og:image" content="https://itmademyday.app/images/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="ItMadeMyDay" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ItMadeMyDay — Your Personal Joy Vault" />
+  <meta name="twitter:description" content="A free iOS app for saving moments that made your day. Compliments, memories, quotes, photos, and links — all private, all on your device." />
+  <!-- TODO: add real OG image -->
+  <meta name="twitter:image" content="https://itmademyday.app/images/og-image.png" />
+
+  <!-- Legal / Author -->
+  <meta name="copyright" content="© 2026 Ananya Banerjee. All rights reserved." />
+  <meta name="author" content="Ananya Banerjee" />
+  <meta name="category" content="Lifestyle, Health &amp; Fitness" />
+
+  <link rel="icon" type="image/jpeg" href="logo.jpeg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Nunito:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+    crossorigin="anonymous"
+  />
+
+  <!-- JSON-LD: SoftwareApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "ItMadeMyDay",
+    "operatingSystem": "iOS",
+    "applicationCategory": "LifestyleApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "ItMadeMyDay is a free iOS app for capturing and revisiting moments that made your day — compliments, memories, heart-to-hearts, quotes, photos, and links. Fully private with no account required and no data collected.",
+    "author": {
+      "@type": "Person",
+      "name": "Ananya Banerjee"
+    },
+    "url": "https://itmademyday.app/"
+  }
+  </script>
+
+  <!-- JSON-LD: WebPage (speakable) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "ItMadeMyDay — Your Personal Joy Vault",
+    "url": "https://itmademyday.app/",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": [".product-summary", "h1"]
+    },
+    "description": "ItMadeMyDay is a free iOS app for saving moments that made your day. Fully private — no account, no cloud, no data collected."
+  }
+  </script>
+
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is ItMadeMyDay free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. ItMadeMyDay is free to download and use. There are no in-app purchases, no subscriptions, and no premium tiers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does ItMadeMyDay collect any personal data?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. ItMadeMyDay collects zero personal data. All moments you save are stored exclusively on your device using local storage. Nothing is transmitted to any server."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What kinds of moments can I save?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can save six types of moments: Compliments, Memories, Heart-to-Hearts (meaningful conversations), Quotes, Links, and Photos."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the Boost feature?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Boost lets you browse your saved moments filtered by how you are currently feeling — Sad, Anxious, Lonely, Celebrating, or Grateful — so you can find the right moment at the right time."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are Collections?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Collections are curated groups of moments that you organize yourself. You can create any Collection you like and add moments to it for easy browsing later."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I export or back up my moments?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. You can export all your moments as a JSON file from the Settings screen. You can also import that file back at any time to restore your vault."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES
+    ============================================================ */
+    :root {
+      --bg:          #FBF8F3;
+      --bg-card:     #FFFEFB;
+      --bg-amber:    #FEF3D8;
+      --border:      #EDE6D6;
+      --text:        #2A2320;
+      --text-mid:    #6A5E52;
+      --text-muted:  #9A8E83;
+      --amber:       #F5A623;
+      --amber-dark:  #D4880D;
+      --amber-deep:  #A86200;
+      --font-display: 'Bricolage Grotesque', sans-serif;
+      --font-body:    'Nunito', sans-serif;
+      --radius-card:  16px;
+      --radius-sm:    10px;
+      --max-w:        1160px;
+    }
+
+    /* ============================================================
+       RESET
+    ============================================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 1rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ============================================================
+       TYPOGRAPHY
+    ============================================================ */
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+    }
+
+    h2 {
+      font-size: clamp(1.75rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    /* ============================================================
+       REVEAL ANIMATION
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 650ms cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal:nth-child(2) { transition-delay: 80ms; }
+    .reveal:nth-child(3) { transition-delay: 160ms; }
+    .reveal:nth-child(4) { transition-delay: 240ms; }
+    .reveal:nth-child(5) { transition-delay: 320ms; }
+    .reveal:nth-child(6) { transition-delay: 400ms; }
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(251, 248, 243, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    .navbar-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      height: 64px;
+    }
+
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .navbar-logo img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .navbar-logo-text {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .navbar-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-left: auto;
+      list-style: none;
+    }
+
+    .navbar-links a {
+      font-family: var(--font-body);
+      font-size: 0.925rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      transition: color 200ms ease;
+    }
+
+    .navbar-links a:hover {
+      color: var(--text);
+    }
+
+    .navbar-cta {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--text);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 50px;
+      transition: background 200ms ease, transform 200ms ease;
+      flex-shrink: 0;
+    }
+
+    .navbar-cta:hover {
+      background: #1a1210;
+      transform: translateY(-1px);
+    }
+
+    .navbar-cta svg {
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 80px 24px 100px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-amber);
+      border: 1px solid #F5D78C;
+      color: var(--amber-deep);
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 50px;
+      width: fit-content;
+    }
+
+    .hero-description {
+      font-size: 1.1rem;
+      color: var(--text-mid);
+      max-width: 440px;
+      line-height: 1.75;
+    }
+
+    .hero-cta-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .coming-soon-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #EDEAE4;
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 12px 22px;
+      border-radius: 50px;
+      cursor: default;
+      width: fit-content;
+    }
+
+    .hero-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Phone cluster */
+    .hero-phones {
+      position: relative;
+      height: 580px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .phone-frame {
+      position: absolute;
+      background: #1c1c1e;
+      border-radius: 48px;
+      padding: 6px;
+      box-shadow: 0 30px 80px rgba(42, 35, 32, 0.2), inset 0 0 0 1px rgba(255,255,255,0.07);
+    }
+
+    .phone-frame-center {
+      width: 220px;
+      aspect-ratio: 9 / 19.5;
+      z-index: 3;
+      transform: translateX(0) translateY(0);
+    }
+
+    .phone-frame-left {
+      width: 190px;
+      aspect-ratio: 9 / 19.5;
+      border-radius: 44px;
+      z-index: 2;
+      transform: translateX(-155px) translateY(30px) rotate(-6deg);
+      transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .phone-frame-right {
+      width: 190px;
+      aspect-ratio: 9 / 19.5;
+      border-radius: 44px;
+      z-index: 2;
+      transform: translateX(155px) translateY(30px) rotate(6deg);
+      transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .phone-frame-left:hover {
+      transform: translateX(-155px) translateY(20px) rotate(-2deg);
+    }
+
+    .phone-frame-right:hover {
+      transform: translateX(155px) translateY(20px) rotate(2deg);
+    }
+
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 44px;
+      overflow: hidden;
+      background: #f5f5f5;
+      position: relative;
+    }
+
+    .phone-frame-left .phone-screen,
+    .phone-frame-right .phone-screen {
+      border-radius: 40px;
+    }
+
+    .phone-island {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 26px;
+      background: #1c1c1e;
+      border-radius: 20px;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .phone-screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+    }
+
+    /* ============================================================
+       FEATURES BENTO
+    ============================================================ */
+    .features-section {
+      padding: 96px 24px;
+      background: var(--bg);
+    }
+
+    .features-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-header h2 {
+      color: var(--text);
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+
+    .bento-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: transform 200ms ease, box-shadow 200ms ease;
+    }
+
+    .bento-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(42, 35, 32, 0.07);
+    }
+
+    .bento-card-1 { grid-column: span 7; }
+    .bento-card-2 { grid-column: span 5; }
+    .bento-card-3 { grid-column: span 4; }
+    .bento-card-4 { grid-column: span 4; }
+    .bento-card-5 { grid-column: span 4; }
+
+    .bento-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--bg-amber);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .bento-icon svg {
+      color: var(--amber-dark);
+    }
+
+    .bento-card h3 {
+      color: var(--text);
+    }
+
+    .bento-card p {
+      font-size: 0.95rem;
+      color: var(--text-mid);
+      line-height: 1.65;
+    }
+
+    .category-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-mid);
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 50px;
+    }
+
+    /* ============================================================
+       SCREENSHOTS DARK SECTION
+    ============================================================ */
+    .screenshots-dark-section {
+      background: var(--text);
+      padding: 96px 24px;
+      overflow: hidden;
+    }
+
+    .screenshots-dark-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .screenshots-dark-section .section-header h2 {
+      color: #fff;
+    }
+
+    .screenshots-dark-section .section-header p {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 1rem;
+      margin-top: 10px;
+    }
+
+    .screenshots-row {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding-bottom: 16px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .screenshots-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .screenshot-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+    }
+
+    .screenshot-phone {
+      width: 175px;
+      aspect-ratio: 9 / 19.5;
+      background: #1c1c1e;
+      border-radius: 44px;
+      padding: 5px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255,255,255,0.07);
+      position: relative;
+    }
+
+    .screenshot-phone .phone-screen {
+      border-radius: 40px;
+    }
+
+    .screenshot-label {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.4);
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+
+    /* ============================================================
+       PRIVACY SECTION
+    ============================================================ */
+    .privacy-section {
+      padding: 96px 24px;
+      background: var(--bg);
+    }
+
+    .privacy-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .privacy-content h2 {
+      margin-bottom: 18px;
+    }
+
+    .privacy-content > p {
+      color: var(--text-mid);
+      font-size: 1rem;
+      margin-bottom: 36px;
+      max-width: 420px;
+    }
+
+    .privacy-pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .pillar-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .pillar-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--bg-amber);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .pillar-icon svg {
+      color: var(--amber-dark);
+    }
+
+    .pillar-text strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 0.975rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .pillar-text span {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+    }
+
+    .privacy-stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 48px 40px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .privacy-stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 10vw, 8rem);
+      font-weight: 800;
+      color: var(--amber);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .privacy-stat-label {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .privacy-stat-sub {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      max-width: 280px;
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       FAQ
+    ============================================================ */
+    .faq-section {
+      padding: 96px 24px;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .faq-inner > h2 {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      cursor: pointer;
+      text-align: left;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      transition: background 200ms ease;
+    }
+
+    .faq-question:hover {
+      background: var(--bg);
+    }
+
+    .faq-toggle {
+      width: 28px;
+      height: 28px;
+      background: var(--bg-amber);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 200ms ease;
+    }
+
+    .faq-question[aria-expanded="true"] .faq-toggle {
+      background: var(--amber);
+    }
+
+    .faq-toggle-icon {
+      width: 14px;
+      height: 14px;
+      position: relative;
+    }
+
+    .faq-toggle-icon::before,
+    .faq-toggle-icon::after {
+      content: '';
+      position: absolute;
+      background: var(--amber-deep);
+      border-radius: 2px;
+      transition: transform 250ms ease, opacity 250ms ease;
+    }
+
+    .faq-question[aria-expanded="true"] .faq-toggle-icon::before,
+    .faq-question[aria-expanded="true"] .faq-toggle-icon::after {
+      background: #fff;
+    }
+
+    .faq-toggle-icon::before {
+      width: 2px;
+      height: 14px;
+      top: 0;
+      left: 6px;
+    }
+
+    .faq-toggle-icon::after {
+      width: 14px;
+      height: 2px;
+      top: 6px;
+      left: 0;
+    }
+
+    .faq-question[aria-expanded="true"] .faq-toggle-icon::before {
+      transform: rotate(90deg);
+      opacity: 0;
+    }
+
+    .faq-answer-wrap {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .faq-answer-wrap.open {
+      grid-template-rows: 1fr;
+    }
+
+    .faq-answer-inner {
+      overflow: hidden;
+    }
+
+    .faq-answer {
+      padding: 0 24px 20px;
+      font-size: 0.95rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       CTA SECTION
+    ============================================================ */
+    .cta-section {
+      padding: 96px 24px;
+      background: var(--bg);
+      text-align: center;
+    }
+
+    .cta-inner {
+      max-width: 560px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .cta-section h2 {
+      color: var(--text);
+    }
+
+    .cta-section p {
+      color: var(--text-mid);
+      font-size: 1rem;
+    }
+
+    .cta-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      background: var(--bg);
+    }
+
+    .footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-logo img {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      object-fit: cover;
+      opacity: 0.6;
+    }
+
+    .footer-logo-text {
+      font-family: var(--font-display);
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      transition: color 200ms ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--text-mid);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 960px) {
+      .bento-card-1 { grid-column: span 12; }
+      .bento-card-2 { grid-column: span 12; }
+      .bento-card-3 { grid-column: span 6; }
+      .bento-card-4 { grid-column: span 6; }
+      .bento-card-5 { grid-column: span 12; }
+    }
+
+    @media (max-width: 768px) {
+      .navbar-links {
+        display: none;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 48px 20px 64px;
+        gap: 56px;
+      }
+
+      .hero-phones {
+        height: 440px;
+      }
+
+      .phone-frame-center {
+        width: 180px;
+      }
+
+      .phone-frame-left {
+        width: 154px;
+        transform: translateX(-126px) translateY(24px) rotate(-6deg);
+      }
+
+      .phone-frame-right {
+        width: 154px;
+        transform: translateX(126px) translateY(24px) rotate(6deg);
+      }
+
+      .privacy-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .bento-card-3 { grid-column: span 12; }
+      .bento-card-4 { grid-column: span 12; }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-phones {
+        height: 360px;
+      }
+
+      .phone-frame-center {
+        width: 150px;
+      }
+
+      .phone-frame-left {
+        width: 130px;
+        transform: translateX(-106px) translateY(20px) rotate(-6deg);
+      }
+
+      .phone-frame-right {
+        width: 130px;
+        transform: translateX(106px) translateY(20px) rotate(6deg);
+      }
+
+      .privacy-stat-card {
+        padding: 36px 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header role="banner" class="navbar">
+    <div class="navbar-inner">
+      <a href="/" class="navbar-logo" aria-label="ItMadeMyDay home">
+        <img src="logo.jpeg" alt="ItMadeMyDay logo" width="32" height="32" loading="eager" />
+        <span class="navbar-logo-text">ItMadeMyDay</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <ul class="navbar-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+      </nav>
+      <a href="#download" class="navbar-cta" aria-label="Download on the App Store">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path d="M11.182 10.506c-.243.588-.358.85-.67 1.37-.435.706-1.047 1.585-1.806 1.592-.675.007-.849-.44-1.764-.434-.915.005-1.106.443-1.78.437-.76-.007-1.337-.804-1.772-1.51-1.212-1.962-1.34-4.265-.592-5.487.531-.876 1.368-1.39 2.154-1.39.801 0 1.305.44 1.967.44.643 0 1.035-.442 1.963-.442.703 0 1.45.383 1.98 1.045-.174.1-1.874 1.093-1.853 3.26.019 2.059 1.809 2.745 2.173 2.119zM8.967 2.615C9.264 1.989 9.356 1 9.095.5 8.412.546 7.61.97 7.258 1.565c-.322.542-.45 1.55-.22 2.072.74.025 1.595-.45 1.929-1.022z"/>
+        </svg>
+        App Store
+      </a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" aria-label="Hero">
+      <div class="hero-content">
+        <div class="hero-eyebrow reveal">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
+            <path d="M6 0l1.35 4.15L11.5 4.5l-3.2 2.8.95 4.2L6 9.2l-3.25 2.3.95-4.2L.5 4.5l4.15-.35z"/>
+          </svg>
+          iOS App
+        </div>
+        <h1 class="reveal">Your Personal<br>Joy Vault</h1>
+        <p class="hero-description product-summary reveal">
+          ItMadeMyDay is a private iOS app for saving the moments that made your day — compliments you received, memories you want to keep, meaningful conversations, quotes that moved you, links you loved, and photos worth holding onto.
+        </p>
+        <div class="hero-cta-wrap reveal">
+          <span class="coming-soon-pill" aria-label="Coming soon to the App Store">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path d="M11.182 10.506c-.243.588-.358.85-.67 1.37-.435.706-1.047 1.585-1.806 1.592-.675.007-.849-.44-1.764-.434-.915.005-1.106.443-1.78.437-.76-.007-1.337-.804-1.772-1.51-1.212-1.962-1.34-4.265-.592-5.487.531-.876 1.368-1.39 2.154-1.39.801 0 1.305.44 1.967.44.643 0 1.035-.442 1.963-.442.703 0 1.45.383 1.98 1.045-.174.1-1.874 1.093-1.853 3.26.019 2.059 1.809 2.745 2.173 2.119zM8.967 2.615C9.264 1.989 9.356 1 9.095.5 8.412.546 7.61.97 7.258 1.565c-.322.542-.45 1.55-.22 2.072.74.025 1.595-.45 1.929-1.022z"/>
+            </svg>
+            Coming Soon to App Store
+          </span>
+          <span class="hero-note">Free · iOS · No account required · No data collected</span>
+        </div>
+      </div>
+
+      <!-- Phone cluster -->
+      <div class="hero-phones" aria-label="App screenshots">
+        <!-- Left phone: Boost -->
+        <div class="phone-frame phone-frame-left">
+          <div class="phone-screen">
+            <div class="phone-island"></div>
+            <img
+              src="images/screenshot-boost-light.png"
+              alt="ItMadeMyDay Boost screen showing mood-based browsing"
+              width="190"
+              height="411"
+              loading="eager"
+            />
+          </div>
+        </div>
+
+        <!-- Center phone: Home -->
+        <div class="phone-frame phone-frame-center">
+          <div class="phone-screen">
+            <div class="phone-island"></div>
+            <img
+              src="images/screenshot-home-light.png"
+              alt="ItMadeMyDay Home screen showing the joy vault"
+              width="220"
+              height="477"
+              loading="eager"
+            />
+          </div>
+        </div>
+
+        <!-- Right phone: Collections -->
+        <div class="phone-frame phone-frame-right">
+          <div class="phone-screen">
+            <div class="phone-island"></div>
+            <img
+              src="images/screenshot-collections-light.png"
+              alt="ItMadeMyDay Collections screen"
+              width="190"
+              height="411"
+              loading="eager"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES BENTO -->
+    <section id="features" class="features-section" aria-labelledby="features-heading">
+      <div class="features-inner">
+        <div class="section-header">
+          <h2 id="features-heading" class="reveal">Everything you need to hold onto the good</h2>
+        </div>
+        <div class="bento-grid">
+
+          <!-- Card 1: Your Vault -->
+          <div class="bento-card bento-card-1 reveal">
+            <div class="bento-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="6" width="18" height="14" rx="2" ry="2"/>
+                <circle cx="12" cy="13" r="2"/>
+                <path d="M12 11v-5"/>
+                <path d="M7 6V4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2"/>
+              </svg>
+            </div>
+            <h3>Your Vault</h3>
+            <p>Every good moment deserves to be saved. ItMadeMyDay gives you a private, organized vault for every kind of moment that matters — without any setup.</p>
+            <div class="category-chips" aria-label="Moment categories">
+              <span class="chip">Compliments</span>
+              <span class="chip">Memories</span>
+              <span class="chip">Heart-to-Hearts</span>
+              <span class="chip">Quotes</span>
+              <span class="chip">Photos</span>
+              <span class="chip">Links</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Boost Your Day -->
+          <div class="bento-card bento-card-2 reveal">
+            <div class="bento-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="4"/>
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+              </svg>
+            </div>
+            <h3>Boost Your Day</h3>
+            <p>Browse your saved moments filtered by how you are currently feeling. Sad, Anxious, Lonely, Celebrating, or Grateful — the right moment finds you at the right time.</p>
+          </div>
+
+          <!-- Card 3: Collections -->
+          <div class="bento-card bento-card-3 reveal">
+            <div class="bento-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>
+              </svg>
+            </div>
+            <h3>Collections</h3>
+            <p>Group your moments into curated Collections — themed sets you create and organize yourself, for easy browsing later.</p>
+          </div>
+
+          <!-- Card 4: Fully Private -->
+          <div class="bento-card bento-card-4 reveal">
+            <div class="bento-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <h3>Fully Private</h3>
+            <p>No account. No cloud. No server. Your moments are stored exclusively on your device and never leave it. Not even we can see them.</p>
+          </div>
+
+          <!-- Card 5: Daily Reminder -->
+          <div class="bento-card bento-card-5 reveal">
+            <div class="bento-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+            </div>
+            <h3>Daily Reminder</h3>
+            <p>Set a gentle daily nudge to log a moment before the day ends. A small habit that builds a meaningful record of your good days over time.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREENSHOTS DARK SECTION -->
+    <section class="screenshots-dark-section" aria-labelledby="screenshots-heading">
+      <div class="screenshots-dark-inner">
+        <div class="section-header" style="margin-bottom: 48px;">
+          <h2 id="screenshots-heading" class="reveal" style="color: #fff;">Light and dark. Your choice.</h2>
+          <p class="reveal">ItMadeMyDay looks beautiful in both light and dark mode, following your system preference automatically.</p>
+        </div>
+        <div class="screenshots-row" role="region" aria-label="App screenshots">
+          <div class="screenshot-item reveal">
+            <div class="screenshot-phone">
+              <div class="phone-screen">
+                <div class="phone-island"></div>
+                <img src="images/screenshot-home-light.png" alt="Home screen in light mode" width="175" height="379" loading="lazy" />
+              </div>
+            </div>
+            <span class="screenshot-label">Home · Light</span>
+          </div>
+          <div class="screenshot-item reveal">
+            <div class="screenshot-phone">
+              <div class="phone-screen">
+                <div class="phone-island"></div>
+                <img src="images/screenshot-boost-light.png" alt="Boost screen in light mode" width="175" height="379" loading="lazy" />
+              </div>
+            </div>
+            <span class="screenshot-label">Boost · Light</span>
+          </div>
+          <div class="screenshot-item reveal">
+            <div class="screenshot-phone">
+              <div class="phone-screen">
+                <div class="phone-island"></div>
+                <img src="images/screenshot-home-dark.png" alt="Home screen in dark mode" width="175" height="379" loading="lazy" />
+              </div>
+            </div>
+            <span class="screenshot-label">Home · Dark</span>
+          </div>
+          <div class="screenshot-item reveal">
+            <div class="screenshot-phone">
+              <div class="phone-screen">
+                <div class="phone-island"></div>
+                <img src="images/screenshot-boost-dark.png" alt="Boost screen in dark mode" width="175" height="379" loading="lazy" />
+              </div>
+            </div>
+            <span class="screenshot-label">Boost · Dark</span>
+          </div>
+          <div class="screenshot-item reveal">
+            <div class="screenshot-phone">
+              <div class="phone-screen">
+                <div class="phone-island"></div>
+                <img src="images/screenshot-settings-light.png" alt="Settings screen in light mode" width="175" height="379" loading="lazy" />
+              </div>
+            </div>
+            <span class="screenshot-label">Settings</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIVACY PROMISE -->
+    <section class="privacy-section" aria-labelledby="privacy-heading">
+      <div class="privacy-inner">
+        <div class="privacy-content">
+          <h2 id="privacy-heading" class="reveal">Your moments stay yours</h2>
+          <p class="reveal">ItMadeMyDay was built with a single rule: your personal moments belong to you and no one else. There is no server, no database, no account, and no data collection of any kind.</p>
+          <div class="privacy-pillars">
+            <div class="pillar-row reveal">
+              <div class="pillar-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+              </div>
+              <div class="pillar-text">
+                <strong>No Account Required</strong>
+                <span>Open the app and start saving. No sign-up, no email, no password.</span>
+              </div>
+            </div>
+            <div class="pillar-row reveal">
+              <div class="pillar-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M18 20V10"/>
+                  <path d="M12 20V4"/>
+                  <path d="M6 20v-6"/>
+                </svg>
+              </div>
+              <div class="pillar-text">
+                <strong>No Cloud Sync</strong>
+                <span>All data lives on your device. Nothing is sent to any server, ever.</span>
+              </div>
+            </div>
+            <div class="pillar-row reveal">
+              <div class="pillar-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+                </svg>
+              </div>
+              <div class="pillar-text">
+                <strong>Zero Data Collection</strong>
+                <span>No analytics, no tracking, no telemetry — not even anonymous usage stats.</span>
+              </div>
+            </div>
+            <div class="pillar-row reveal">
+              <div class="pillar-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+              </div>
+              <div class="pillar-text">
+                <strong>You Own Your Data</strong>
+                <span>Export your moments as JSON anytime from Settings. Import them back whenever you like.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="privacy-stat-card reveal">
+          <div class="privacy-stat-number" aria-label="Zero">0</div>
+          <div class="privacy-stat-label">bytes of data collected</div>
+          <p class="privacy-stat-sub">Everything stays on your device. ItMadeMyDay has no server, no database, no user accounts.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq-section" aria-labelledby="faq-heading">
+      <div class="faq-inner">
+        <h2 id="faq-heading" class="reveal">Common questions</h2>
+        <div class="faq-list" role="list">
+
+          <div class="faq-item reveal" role="listitem">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-1">
+              Is ItMadeMyDay free?
+              <span class="faq-toggle" aria-hidden="true">
+                <span class="faq-toggle-icon"></span>
+              </span>
+            </button>
+            <div class="faq-answer-wrap" id="faq-answer-1" role="region">
+              <div class="faq-answer-inner">
+                <p class="faq-answer">Yes. ItMadeMyDay is free to download and use. There are no in-app purchases, no subscriptions, and no premium tiers. Everything is included from the start.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal" role="listitem">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-2">
+              Does ItMadeMyDay collect any personal data?
+              <span class="faq-toggle" aria-hidden="true">
+                <span class="faq-toggle-icon"></span>
+              </span>
+            </button>
+            <div class="faq-answer-wrap" id="faq-answer-2" role="region">
+              <div class="faq-answer-inner">
+                <p class="faq-answer">No. ItMadeMyDay collects zero personal data. All moments you save are stored exclusively on your device using local storage. Nothing is transmitted to any server, anywhere, ever.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal" role="listitem">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-3">
+              What kinds of moments can I save?
+              <span class="faq-toggle" aria-hidden="true">
+                <span class="faq-toggle-icon"></span>
+              </span>
+            </button>
+            <div class="faq-answer-wrap" id="faq-answer-3" role="region">
+              <div class="faq-answer-inner">
+                <p class="faq-answer">You can save six types of moments: Compliments (kind things people said to you), Memories (experiences worth keeping), Heart-to-Hearts (meaningful conversations), Quotes (words that moved you), Links (articles, videos, pages you loved), and Photos.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal" role="listitem">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-4">
+              What is the Boost feature?
+              <span class="faq-toggle" aria-hidden="true">
+                <span class="faq-toggle-icon"></span>
+              </span>
+            </button>
+            <div class="faq-answer-wrap" id="faq-answer-4" role="region">
+              <div class="faq-answer-inner">
+                <p class="faq-answer">Boost lets you browse your saved moments filtered by how you are currently feeling — Sad, Anxious, Lonely, Celebrating, or Grateful. It surfaces the moments most likely to help, comfort, or resonate with you in that moment.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal" role="listitem">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-5">
+              What are Collections?
+              <span class="faq-toggle" aria-hidden="true">
+                <span class="faq-toggle-icon"></span>
+              </span>
+            </button>
+            <div class="faq-answer-wrap" id="faq-answer-5" role="region">
+              <div class="faq-answer-inner">
+                <p class="faq-answer">Collections are curated groups of moments that you organize yourself. You can create any Collection you like — a set of your favorite compliments, memories from a particular trip, or quotes from a book — and add moments to it for easy browsing later.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal" role="listitem">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-6">
+              Can I export or back up my moments?
+              <span class="faq-toggle" aria-hidden="true">
+                <span class="faq-toggle-icon"></span>
+              </span>
+            </button>
+            <div class="faq-answer-wrap" id="faq-answer-6" role="region">
+              <div class="faq-answer-inner">
+                <p class="faq-answer">Yes. You can export all your moments as a JSON file from the Settings screen at any time. You can also import that file back into the app to restore your vault, or transfer it to a new device.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section id="download" class="cta-section" aria-labelledby="cta-heading">
+      <div class="cta-inner">
+        <h2 id="cta-heading" class="reveal">Start saving what matters</h2>
+        <p class="reveal">ItMadeMyDay is coming to the App Store soon. Free, private, and built to help you hold onto the good.</p>
+        <span class="coming-soon-pill reveal" aria-label="Coming soon to the App Store">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path d="M11.182 10.506c-.243.588-.358.85-.67 1.37-.435.706-1.047 1.585-1.806 1.592-.675.007-.849-.44-1.764-.434-.915.005-1.106.443-1.78.437-.76-.007-1.337-.804-1.772-1.51-1.212-1.962-1.34-4.265-.592-5.487.531-.876 1.368-1.39 2.154-1.39.801 0 1.305.44 1.967.44.643 0 1.035-.442 1.963-.442.703 0 1.45.383 1.98 1.045-.174.1-1.874 1.093-1.853 3.26.019 2.059 1.809 2.745 2.173 2.119zM8.967 2.615C9.264 1.989 9.356 1 9.095.5 8.412.546 7.61.97 7.258 1.565c-.322.542-.45 1.55-.22 2.072.74.025 1.595-.45 1.929-1.022z"/>
+          </svg>
+          Coming Soon — App Store
+        </span>
+        <span class="cta-note reveal">Free · No account required · iOS</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img src="logo.jpeg" alt="ItMadeMyDay" width="24" height="24" loading="lazy" />
+        <span class="footer-logo-text">ItMadeMyDay</span>
+      </div>
+      <p class="footer-copy">
+        &copy; <span id="year"></span> Ananya Banerjee. All rights reserved. ItMadeMyDay&trade;
+      </p>
+      <nav aria-label="Legal navigation">
+        <ul class="footer-links">
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Use</a></li>
+          <li><a href="support.html">Support</a></li>
+          <li><a href="dmca.html">DMCA</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // Dynamic year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // IntersectionObserver for reveal animations
+    (function () {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+      document.querySelectorAll('.reveal').forEach(function (el) {
+        observer.observe(el);
+      });
+    })();
+
+    // FAQ accordion
+    (function () {
+      var questions = document.querySelectorAll('.faq-question');
+
+      questions.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var expanded = btn.getAttribute('aria-expanded') === 'true';
+          var answerId = btn.getAttribute('aria-controls');
+          var answerWrap = document.getElementById(answerId);
+
+          // Close all others
+          questions.forEach(function (other) {
+            if (other !== btn) {
+              other.setAttribute('aria-expanded', 'false');
+              var otherId = other.getAttribute('aria-controls');
+              var otherWrap = document.getElementById(otherId);
+              if (otherWrap) otherWrap.classList.remove('open');
+            }
+          });
+
+          // Toggle current
+          var newExpanded = !expanded;
+          btn.setAttribute('aria-expanded', String(newExpanded));
+          if (answerWrap) {
+            if (newExpanded) {
+              answerWrap.classList.add('open');
+            } else {
+              answerWrap.classList.remove('open');
+            }
+          }
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>

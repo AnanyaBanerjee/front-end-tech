@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>DMCA Policy — ItMadeMyDay</title>
+  <meta name="description" content="DMCA copyright policy for ItMadeMyDay." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <meta name="copyright" content="© 2026 Ananya Banerjee. All rights reserved." />
+  <meta name="author" content="Ananya Banerjee" />
+
+  <link rel="icon" type="image/jpeg" href="logo.jpeg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Nunito:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+    crossorigin="anonymous"
+  />
+
+  <style>
+    :root {
+      --bg:          #FBF8F3;
+      --bg-card:     #FFFEFB;
+      --bg-amber:    #FEF3D8;
+      --border:      #EDE6D6;
+      --text:        #2A2320;
+      --text-mid:    #6A5E52;
+      --text-muted:  #9A8E83;
+      --amber:       #F5A623;
+      --amber-dark:  #D4880D;
+      --amber-deep:  #A86200;
+      --font-display: 'Bricolage Grotesque', sans-serif;
+      --font-body:    'Nunito', sans-serif;
+      --radius-card:  16px;
+      --max-w:        1160px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 1rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3 { font-family: var(--font-display); }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-top: 40px;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(251,248,243,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    .navbar-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      height: 64px;
+    }
+
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .navbar-logo img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .navbar-logo-text {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .navbar-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-left: auto;
+      list-style: none;
+    }
+
+    .navbar-links a {
+      font-family: var(--font-body);
+      font-size: 0.925rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      transition: color 200ms ease;
+    }
+
+    .navbar-links a:hover { color: var(--text); }
+
+    .navbar-cta {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--text);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 50px;
+      transition: background 200ms ease, transform 200ms ease;
+      flex-shrink: 0;
+    }
+
+    .navbar-cta:hover { background: #1a1210; transform: translateY(-1px); }
+
+    /* LEGAL CONTENT */
+    .legal-content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 72px 24px 96px;
+    }
+
+    .legal-content h1 { margin-bottom: 8px; }
+
+    .legal-date {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .legal-intro {
+      font-size: 1rem;
+      color: var(--text-mid);
+      margin-bottom: 8px;
+    }
+
+    .legal-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 32px 0;
+    }
+
+    .legal-content p {
+      font-size: 0.975rem;
+      color: var(--text-mid);
+      margin-bottom: 14px;
+    }
+
+    .legal-content ul {
+      margin: 10px 0 14px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .legal-content li {
+      font-size: 0.975rem;
+      color: var(--text-mid);
+    }
+
+    .email-protect {
+      color: var(--amber-deep);
+      font-weight: 700;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      background: var(--bg);
+    }
+
+    .footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-logo img {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      object-fit: cover;
+      opacity: 0.6;
+    }
+
+    .footer-logo-text {
+      font-family: var(--font-display);
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      transition: color 200ms ease;
+    }
+
+    .footer-links a:hover { color: var(--text-mid); }
+
+    @media (max-width: 768px) {
+      .navbar-links { display: none; }
+      .footer-inner { flex-direction: column; text-align: center; gap: 16px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header role="banner" class="navbar">
+    <div class="navbar-inner">
+      <a href="/" class="navbar-logo" aria-label="ItMadeMyDay home">
+        <img src="logo.jpeg" alt="ItMadeMyDay logo" width="32" height="32" loading="eager" />
+        <span class="navbar-logo-text">ItMadeMyDay</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <ul class="navbar-links">
+          <li><a href="index.html#features">Features</a></li>
+          <li><a href="index.html#faq">FAQ</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+      </nav>
+      <a href="index.html#download" class="navbar-cta" aria-label="Download on the App Store">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path d="M11.182 10.506c-.243.588-.358.85-.67 1.37-.435.706-1.047 1.585-1.806 1.592-.675.007-.849-.44-1.764-.434-.915.005-1.106.443-1.78.437-.76-.007-1.337-.804-1.772-1.51-1.212-1.962-1.34-4.265-.592-5.487.531-.876 1.368-1.39 2.154-1.39.801 0 1.305.44 1.967.44.643 0 1.035-.442 1.963-.442.703 0 1.45.383 1.98 1.045-.174.1-1.874 1.093-1.853 3.26.019 2.059 1.809 2.745 2.173 2.119zM8.967 2.615C9.264 1.989 9.356 1 9.095.5 8.412.546 7.61.97 7.258 1.565c-.322.542-.45 1.55-.22 2.072.74.025 1.595-.45 1.929-1.022z"/>
+        </svg>
+        App Store
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <div class="legal-content">
+      <h1>DMCA Policy</h1>
+      <p class="legal-date">Last updated: April 12, 2026</p>
+      <p class="legal-intro">ItMadeMyDay is operated by Ananya Banerjee. We respect intellectual property rights and expect users and third parties to do the same. This page describes our policy under the Digital Millennium Copyright Act (DMCA).</p>
+
+      <hr class="legal-divider" />
+
+      <h2>Our Content</h2>
+      <p>All content on the ItMadeMyDay website and within the ItMadeMyDay iOS application — including but not limited to app design, illustrations, written copy, code, logos, and trademarks — is owned by Ananya Banerjee and is protected by applicable copyright and intellectual property laws. Unauthorized reproduction, distribution, or use of this content is prohibited.</p>
+
+      <h2>Reporting Infringement</h2>
+      <p>If you believe that content on our website or app infringes upon your copyright, please send a written notice to <span class="email-protect" data-user="dmca" data-domain="itmademyday.app"></span> with the following information:</p>
+      <ul>
+        <li>A description of the copyrighted work you claim has been infringed</li>
+        <li>The specific URL or location of the allegedly infringing content on our site or app</li>
+        <li>Your name, address, telephone number, and email address</li>
+        <li>A statement that you have a good faith belief that the disputed use is not authorized by the copyright owner, its agent, or the law</li>
+        <li>A statement that the information in your notice is accurate and, under penalty of perjury, that you are the copyright owner or authorized to act on the copyright owner's behalf</li>
+        <li>Your electronic or physical signature</li>
+      </ul>
+      <p>We will review your notice and respond in accordance with applicable law. We reserve the right to remove content that we believe in good faith infringes upon the intellectual property rights of others.</p>
+
+      <h2>Counter-Notification</h2>
+      <p>If you believe that content you submitted was removed in error, you may send a counter-notification to <span class="email-protect" data-user="dmca" data-domain="itmademyday.app"></span> including:</p>
+      <ul>
+        <li>Identification of the content that was removed and the location where it appeared before removal</li>
+        <li>A statement under penalty of perjury that you have a good faith belief that the content was removed as a result of mistake or misidentification</li>
+        <li>Your name, address, and telephone number</li>
+        <li>A statement that you consent to the jurisdiction of the appropriate court</li>
+        <li>Your electronic or physical signature</li>
+      </ul>
+      <p>We will process counter-notifications in accordance with applicable law. Please note that submitting a false counter-notification may result in legal liability.</p>
+
+      <h2>Repeat Infringers</h2>
+      <p>It is our policy to terminate access to our services for users who repeatedly infringe upon the intellectual property rights of others. We will take appropriate action against repeat infringers, including removing their access to ItMadeMyDay.</p>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img src="logo.jpeg" alt="ItMadeMyDay" width="24" height="24" loading="lazy" />
+        <span class="footer-logo-text">ItMadeMyDay</span>
+      </div>
+      <p class="footer-copy">
+        &copy; <span id="year"></span> Ananya Banerjee. All rights reserved. ItMadeMyDay&trade;
+      </p>
+      <nav aria-label="Legal navigation">
+        <ul class="footer-links">
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Use</a></li>
+          <li><a href="support.html">Support</a></li>
+          <li><a href="dmca.html">DMCA</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    document.querySelectorAll('.email-protect').forEach(function (el) {
+      el.textContent = el.dataset.user + '@' + el.dataset.domain;
+    });
+  </script>
+
+</body>
+</html>
