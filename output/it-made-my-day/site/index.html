@@ -1795,11 +1795,97 @@
       margin: 0 auto;
     }
 
-    .stories-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+    .stories-track-wrap {
+      position: relative;
       margin-top: 56px;
+    }
+
+    .stories-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 300ms cubic-bezier(0.34,1.56,0.64,1), box-shadow 250ms ease, opacity 250ms ease;
+      color: var(--text);
+    }
+
+    .stories-arrow:hover {
+      transform: translateY(-50%) scale(1.12);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    }
+
+    .stories-arrow:active {
+      transform: translateY(-50%) scale(0.96);
+    }
+
+    .stories-arrow-left  { left: 4px; }
+    .stories-arrow-right { right: 4px; }
+
+    .stories-arrow.hidden { opacity: 0; pointer-events: none; }
+
+    [data-theme="dark"] .stories-arrow {
+      background: var(--bg-card);
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    .stories-grid {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 24px;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 24px 40px 40px;
+      cursor: grab;
+      align-items: flex-start;
+    }
+
+    .stories-grid::-webkit-scrollbar { display: none; }
+    .stories-grid:active { cursor: grabbing; }
+
+    /* Per-card emotional float animations */
+    .story-card-coral  { animation: card-float-a 4.2s ease-in-out infinite; }
+    .story-card-blue   { animation: card-float-b 5.1s ease-in-out infinite; }
+    .story-card-amber  { animation: card-float-c 3.8s ease-in-out infinite; }
+    .story-card-teal   { animation: card-float-d 4.7s ease-in-out infinite; }
+    .story-card-purple { animation: card-float-e 5.5s ease-in-out infinite; }
+
+    @keyframes card-float-a {
+      0%, 100% { transform: translateY(0px) rotate(-0.4deg); }
+      50%       { transform: translateY(-10px) rotate(0.3deg); }
+    }
+    @keyframes card-float-b {
+      0%, 100% { transform: translateY(0px) rotate(0.3deg); }
+      50%       { transform: translateY(-8px) rotate(-0.5deg); }
+    }
+    @keyframes card-float-c {
+      0%, 100% { transform: translateY(0px) rotate(-0.2deg); }
+      50%       { transform: translateY(-12px) rotate(0.4deg); }
+    }
+    @keyframes card-float-d {
+      0%, 100% { transform: translateY(0px) rotate(0.5deg); }
+      50%       { transform: translateY(-7px) rotate(-0.3deg); }
+    }
+    @keyframes card-float-e {
+      0%, 100% { transform: translateY(0px) rotate(-0.3deg); }
+      50%       { transform: translateY(-11px) rotate(0.2deg); }
+    }
+
+    /* Pause float on hover so user can read */
+    .story-card:hover {
+      animation-play-state: paused;
     }
 
     .story-card {
@@ -1813,6 +1899,8 @@
       position: relative;
       overflow: hidden;
       transition: transform 320ms cubic-bezier(0.16,1,0.3,1), box-shadow 320ms ease;
+      flex: 0 0 340px;
+      scroll-snap-align: start;
     }
 
     .story-card::before {
@@ -1823,14 +1911,17 @@
       border-radius: 3px 3px 0 0;
     }
 
-    .story-card-amber::before { background: var(--amber); }
-    .story-card-blue::before  { background: var(--blue); }
-    .story-card-teal::before  { background: var(--teal); }
+    .story-card-amber::before  { background: var(--amber); }
+    .story-card-blue::before   { background: var(--blue); }
+    .story-card-teal::before   { background: var(--teal); }
+    .story-card-coral::before   { background: var(--coral); }
+    .story-card-coral:hover     { box-shadow: 0 20px 50px rgba(251,113,133,0.12); }
+    .story-card-purple::before  { background: var(--purple); }
+    .story-card-purple:hover    { box-shadow: 0 20px 50px rgba(139,92,246,0.12); }
 
-    .story-card:hover { transform: translateY(-4px); }
-    .story-card-amber:hover { box-shadow: 0 20px 50px rgba(245,166,35,0.12); }
-    .story-card-blue:hover  { box-shadow: 0 20px 50px rgba(59,130,246,0.12); }
-    .story-card-teal:hover  { box-shadow: 0 20px 50px rgba(16,185,129,0.12); }
+    .story-card-amber:hover { box-shadow: 0 20px 50px rgba(245,166,35,0.14); }
+    .story-card-blue:hover  { box-shadow: 0 20px 50px rgba(59,130,246,0.14); }
+    .story-card-teal:hover  { box-shadow: 0 20px 50px rgba(16,185,129,0.14); }
 
     .story-time {
       font-family: var(--font-body);
@@ -2232,28 +2323,50 @@
           <h2 id="stories-heading" class="reveal">The moments you'll be grateful you saved.</h2>
           <p class="section-sub reveal">You won't always feel this good. And you won't always feel this bad. ItMadeMyDay bridges the gap.</p>
         </div>
-        <div class="stories-grid">
-          <div class="story-card story-card-amber reveal-scale">
-            <div class="story-time">11:47 PM</div>
-            <p class="story-scenario">Everything feels impossible. Another hard day at the end of a hard week.</p>
+        <div class="stories-track-wrap" id="storiesTrack">
+          <button class="stories-arrow stories-arrow-left hidden" id="storiesLeft" aria-label="Scroll left">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="stories-arrow stories-arrow-right" id="storiesRight" aria-label="Scroll right">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        <div class="stories-grid" id="storiesGrid">
+          <div class="story-card story-card-coral reveal-scale">
+            <div class="story-time">9:43 AM</div>
+            <p class="story-scenario">Month seven of the job hunt. Another automated rejection. You're starting to wonder if you're the problem.</p>
             <div class="story-divider"></div>
-            <p class="story-resolution">You open ItMadeMyDay. Your best friend's voice memo from last year fills your screen. <em>"I'm so proud of you."</em> You remember who you are. You sleep.</p>
-            <div class="story-tag">💬 Compliment saved · 8 months ago</div>
+            <p class="story-resolution">You open ItMadeMyDay. You go to your Work collection. There's the message from your old manager — <em>"You're one of the best I've worked with."</em> There's the note you saved after you shipped that project everyone said was impossible. You read them slowly. You are not the problem. You update your CV. You apply again.</p>
+            <div class="story-tag">💼 Achievement · Work · Little Wins</div>
           </div>
           <div class="story-card story-card-blue reveal-scale">
             <div class="story-time">2:14 PM</div>
             <p class="story-scenario">Another rejection email. The third this month. The door feels permanently closed.</p>
             <div class="story-divider"></div>
-            <p class="story-resolution">You open Little Wins. Seventeen moments where you proved someone wrong. You open your laptop. You write the next application. You don't give up.</p>
+            <p class="story-resolution">You open ItMadeMyDay. You go to your Little Wins collection. You scroll. Seventeen moments — every time you were told no and found a way anyway. You read them one by one. You open your laptop. You write the next application. You don't give up.</p>
             <div class="story-tag">✨ Collection · Little Wins</div>
+          </div>
+          <div class="story-card story-card-amber reveal-scale">
+            <div class="story-time">11:47 PM</div>
+            <p class="story-scenario">Everything feels impossible. Another hard day at the end of a hard week.</p>
+            <div class="story-divider"></div>
+            <p class="story-resolution">You open ItMadeMyDay. You scroll past the compliments you'd forgotten. And then — your best friend's voice memo from last year. You press play. <em>"I'm so proud of you."</em> Your chest loosens. You remember who you are. You sleep.</p>
+            <div class="story-tag">💬 Compliment saved · 8 months ago</div>
           </div>
           <div class="story-card story-card-teal reveal-scale">
             <div class="story-time">6:02 AM</div>
             <p class="story-scenario">You forgot what joy feels like. It's been so long you can't even remember the last time you were happy.</p>
             <div class="story-divider"></div>
-            <p class="story-resolution">Boost. Grateful. The photo from that perfect afternoon floods your screen — golden light, your favourite people, a moment of pure peace. You remember. You smile. You keep going.</p>
+            <p class="story-resolution">You open ItMadeMyDay. You tap Boost. You pick Grateful. The photo from that perfect afternoon fills your screen — golden light, your favourite people, a moment of pure peace you had forgotten existed. Something shifts. You remember what it feels like to be okay. You smile. You keep going.</p>
             <div class="story-tag">📸 Photo · Boost · Grateful</div>
           </div>
+          <div class="story-card story-card-purple reveal-scale">
+            <div class="story-time">3:17 AM</div>
+            <p class="story-scenario">You're lying in the dark and everything feels too heavy. Not sad about anything specific. Just… empty. Like nothing is ever going to feel okay again.</p>
+            <div class="story-divider"></div>
+            <p class="story-resolution">You open ItMadeMyDay. No plan, no category. You just scroll. A photo from a birthday. A text from your mum. A quote you saved when you were having the best day of your year. A memory you'd completely forgotten about — but it's right there, waiting. Something small and warm finds you in the dark. You don't fix everything. But you make it to morning.</p>
+            <div class="story-tag">🌙 Memory · Compliment · 3am</div>
+          </div>
+        </div>
         </div>
       </div>
     </section>
@@ -2859,6 +2972,55 @@
           el.classList.remove('fade-out');
         }, 400);
       }, 2500);
+    })();
+
+    // Stories slow auto-scroll
+    (function () {
+      var grid = document.getElementById('storiesGrid');
+      if (!grid) return;
+      var paused = false;
+      var speed = 0.5; // px per frame — slow drift
+
+      grid.addEventListener('mouseenter', function () { paused = true; });
+      grid.addEventListener('mouseleave', function () { paused = false; });
+      grid.addEventListener('touchstart', function () { paused = true; }, { passive: true });
+      grid.addEventListener('touchend', function () {
+        setTimeout(function () { paused = false; }, 2000);
+      });
+
+      // Drag to scroll
+      var isDragging = false, startX, startScrollLeft;
+      grid.addEventListener('mousedown', function (e) {
+        isDragging = true; paused = true;
+        startX = e.pageX - grid.offsetLeft;
+        startScrollLeft = grid.scrollLeft;
+        grid.style.cursor = 'grabbing';
+      });
+      window.addEventListener('mouseup', function () {
+        if (isDragging) {
+          isDragging = false;
+          grid.style.cursor = 'grab';
+          setTimeout(function () { paused = false; }, 1500);
+        }
+      });
+      grid.addEventListener('mousemove', function (e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        var x = e.pageX - grid.offsetLeft;
+        grid.scrollLeft = startScrollLeft - (x - startX);
+      });
+
+      function tick() {
+        if (!paused) {
+          grid.scrollLeft += speed;
+          // Loop back to start when reaching end
+          if (grid.scrollLeft >= grid.scrollWidth - grid.clientWidth - 2) {
+            grid.scrollLeft = 0;
+          }
+        }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
     })();
 
     // Privacy stat count-down animation
