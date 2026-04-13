@@ -73,6 +73,51 @@
       color: var(--text);
     }
 
+    /* REVEAL ANIMATIONS */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 650ms cubic-bezier(0.16,1,0.3,1), transform 650ms cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* LEGAL HERO WITH AMBIENT BLOBS */
+    .legal-page-hero {
+      position: relative;
+      overflow: hidden;
+    }
+    .legal-page-hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: -80px;
+      width: 420px; height: 420px;
+      background: radial-gradient(ellipse, rgba(245,166,35,0.14) 0%, transparent 65%);
+      filter: blur(64px);
+      pointer-events: none;
+      animation: lph-drift 9s ease-in-out infinite alternate;
+    }
+    .legal-page-hero::after {
+      content: '';
+      position: absolute;
+      top: 0; right: -60px;
+      width: 340px; height: 340px;
+      background: radial-gradient(ellipse, rgba(139,92,246,0.09) 0%, transparent 65%);
+      filter: blur(72px);
+      pointer-events: none;
+      animation: lph-drift 12s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes lph-drift {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(50px, 40px) scale(1.12); }
+    }
+    .legal-page-hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 72px 24px 40px;
+    }
+
     /* NAVBAR */
     .navbar {
       position: sticky;
@@ -154,10 +199,8 @@
     .legal-content {
       max-width: 720px;
       margin: 0 auto;
-      padding: 72px 24px 96px;
+      padding: 24px 24px 96px;
     }
-
-    .legal-content h1 { margin-bottom: 8px; }
 
     .legal-date {
       font-size: 0.875rem;
@@ -305,21 +348,24 @@
   </header>
 
   <main>
+    <div class="legal-page-hero">
+      <div class="legal-page-hero-inner">
+        <h1 class="reveal">Terms of Use</h1>
+        <p class="legal-date reveal">Last updated: April 12, 2026</p>
+        <p class="legal-intro reveal">By downloading or using ItMadeMyDay, you agree to be bound by these Terms of Use. If you do not agree to these terms, do not use the app.</p>
+      </div>
+    </div>
     <div class="legal-content">
-      <h1>Terms of Use</h1>
-      <p class="legal-date">Last updated: April 12, 2026</p>
-      <p class="legal-intro">By downloading or using ItMadeMyDay, you agree to be bound by these Terms of Use. If you do not agree to these terms, do not use the app.</p>
-
       <hr class="legal-divider" />
 
-      <h2>1. What ItMadeMyDay Is</h2>
+      <h2 class="reveal">1. What ItMadeMyDay Is</h2>
       <p>ItMadeMyDay is a free iOS application that allows users to save personal moments — including compliments, memories, meaningful conversations, quotes, links, and photos — in a private, local vault on their device. The app operates entirely offline with no server connection, no account requirement, and no data collection.</p>
 
-      <h2>2. License</h2>
+      <h2 class="reveal">2. License</h2>
       <p>Ananya Banerjee grants you a personal, non-exclusive, non-transferable, revocable license to use ItMadeMyDay on any Apple device that you own or control, subject to these Terms and the Apple App Store terms of service.</p>
       <p>This license does not include any right to resell the app, copy it for distribution, or use it for any commercial purpose.</p>
 
-      <h2>3. Acceptable Use</h2>
+      <h2 class="reveal">3. Acceptable Use</h2>
       <p>You agree that you will not:</p>
       <ul>
         <li>Reverse-engineer, decompile, disassemble, or attempt to derive the source code of the app</li>
@@ -330,30 +376,30 @@
         <li>Impersonate Ananya Banerjee or ItMadeMyDay in any way</li>
       </ul>
 
-      <h2>4. Intellectual Property</h2>
+      <h2 class="reveal">4. Intellectual Property</h2>
       <p>All content, design, code, graphics, and other materials in the ItMadeMyDay app and on this website are owned by Ananya Banerjee and protected by applicable intellectual property laws. ItMadeMyDay&trade; is a trademark of Ananya Banerjee.</p>
       <p>Nothing in these Terms grants you any rights in the app or its content other than the limited license described in Section 2.</p>
 
-      <h2>5. Your Content</h2>
+      <h2 class="reveal">5. Your Content</h2>
       <p>The moments you save in ItMadeMyDay — your text, photos, quotes, links, and all other personal entries — belong to you. Ananya Banerjee makes no claim to ownership of any content you create or save within the app.</p>
       <p>Because the app stores all data locally on your device, you are solely responsible for maintaining backups of your content. We recommend exporting your vault regularly from Settings.</p>
 
-      <h2>6. Disclaimer of Warranties</h2>
+      <h2 class="reveal">6. Disclaimer of Warranties</h2>
       <p>ItMadeMyDay is provided "as is" and "as available" without warranties of any kind, either express or implied, including but not limited to implied warranties of merchantability, fitness for a particular purpose, and non-infringement.</p>
       <p>We do not warrant that the app will be uninterrupted, error-free, or free of bugs. Your use of the app is at your sole risk.</p>
 
-      <h2>7. Limitation of Liability</h2>
+      <h2 class="reveal">7. Limitation of Liability</h2>
       <p>To the fullest extent permitted by applicable law, Ananya Banerjee shall not be liable for any indirect, incidental, special, consequential, or punitive damages — including but not limited to loss of data, loss of profits, or loss of goodwill — arising out of or related to your use of or inability to use ItMadeMyDay, even if advised of the possibility of such damages.</p>
       <p>Our total liability to you for any claims arising from these Terms or your use of the app shall not exceed the amount you paid for the app (which is zero, as ItMadeMyDay is free).</p>
 
-      <h2>8. Governing Law</h2>
+      <h2 class="reveal">8. Governing Law</h2>
       <p>These Terms shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law principles. Any disputes arising under these Terms shall be subject to the exclusive jurisdiction of the courts located in India.</p>
 
-      <h2>9. Changes to These Terms</h2>
+      <h2 class="reveal">9. Changes to These Terms</h2>
       <p>We reserve the right to modify these Terms at any time. When we do, we will revise the "Last updated" date at the top of this page. Your continued use of ItMadeMyDay after any changes constitutes your acceptance of the revised Terms.</p>
 
-      <h2>10. Contact</h2>
-      <p>For questions about these Terms, please contact us at <span class="email-protect" data-user="legal" data-domain="itmademyday.app"></span>.</p>
+      <h2 class="reveal">10. Contact</h2>
+      <p>For questions about these Terms, please contact us at <span class="email-protect" data-user="ananyabilbanerjee" data-domain="gmail.com"></span>.</p>
     </div>
   </main>
 
@@ -390,6 +436,15 @@
     document.querySelectorAll('.email-protect').forEach(function (el) {
       el.textContent = el.dataset.user + '@' + el.dataset.domain;
     });
+
+    (function () {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
+    })();
   </script>
 
 </body>

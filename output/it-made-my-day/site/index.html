@@ -1800,43 +1800,78 @@
       margin-top: 56px;
     }
 
+    /* Arrow nav pill — sits below the cards */
+    .stories-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
     .stories-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 10;
-      width: 48px;
-      height: 48px;
+      position: relative;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
-      background: #fff;
-      border: 1.5px solid var(--border);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+      border: none;
+      background: linear-gradient(135deg, #F5A623, #FC913A);
+      color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: transform 300ms cubic-bezier(0.34,1.56,0.64,1), box-shadow 250ms ease, opacity 250ms ease;
-      color: var(--text);
+      box-shadow: 0 6px 24px rgba(245,166,35,0.35);
+      transition: transform 350ms cubic-bezier(0.34,1.56,0.64,1),
+                  box-shadow 300ms ease,
+                  opacity 300ms ease;
+      overflow: visible;
     }
 
+    /* Pulse ring */
+    .stories-arrow::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px solid rgba(245,166,35,0.4);
+      animation: arrow-ping 2.4s ease-out infinite;
+      pointer-events: none;
+    }
+
+    .stories-arrow-left::before  { animation-delay: 0s; }
+    .stories-arrow-right::before { animation-delay: 1.2s; }
+
+    @keyframes arrow-ping {
+      0%   { transform: scale(1);    opacity: 0.7; }
+      70%  { transform: scale(1.5);  opacity: 0; }
+      100% { transform: scale(1.5);  opacity: 0; }
+    }
+
+    /* Chevron nudge animation */
+    .stories-arrow svg {
+      transition: transform 300ms cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    .stories-arrow-left:hover  svg { transform: translateX(-3px); }
+    .stories-arrow-right:hover svg { transform: translateX(3px); }
+
     .stories-arrow:hover {
-      transform: translateY(-50%) scale(1.12);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      transform: scale(1.14);
+      box-shadow: 0 12px 36px rgba(245,166,35,0.45);
     }
 
     .stories-arrow:active {
-      transform: translateY(-50%) scale(0.96);
+      transform: scale(0.94);
     }
 
-    .stories-arrow-left  { left: 4px; }
-    .stories-arrow-right { right: 4px; }
-
-    .stories-arrow.hidden { opacity: 0; pointer-events: none; }
+    .stories-arrow.hidden {
+      opacity: 0.25;
+      pointer-events: none;
+    }
 
     [data-theme="dark"] .stories-arrow {
-      background: var(--bg-card);
-      border-color: var(--border);
-      color: var(--text);
+      box-shadow: 0 6px 24px rgba(245,166,35,0.2);
     }
 
     .stories-grid {
@@ -2324,12 +2359,6 @@
           <p class="section-sub reveal">You won't always feel this good. And you won't always feel this bad. ItMadeMyDay bridges the gap.</p>
         </div>
         <div class="stories-track-wrap" id="storiesTrack">
-          <button class="stories-arrow stories-arrow-left hidden" id="storiesLeft" aria-label="Scroll left">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-          </button>
-          <button class="stories-arrow stories-arrow-right" id="storiesRight" aria-label="Scroll right">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-          </button>
         <div class="stories-grid" id="storiesGrid">
           <div class="story-card story-card-coral reveal-scale">
             <div class="story-time">9:43 AM</div>
@@ -2367,6 +2396,14 @@
             <div class="story-tag">🌙 Memory · Compliment · 3am</div>
           </div>
         </div>
+        </div>
+        <div class="stories-nav" aria-label="Scroll stories">
+          <button class="stories-arrow stories-arrow-left hidden" id="storiesLeft" aria-label="Previous story">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="stories-arrow stories-arrow-right" id="storiesRight" aria-label="Next story">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
         </div>
       </div>
     </section>
@@ -3010,13 +3047,41 @@
         grid.scrollLeft = startScrollLeft - (x - startX);
       });
 
+      // Arrow buttons
+      var btnLeft  = document.getElementById('storiesLeft');
+      var btnRight = document.getElementById('storiesRight');
+
+      function updateArrows() {
+        if (!btnLeft || !btnRight) return;
+        btnLeft.classList.toggle('hidden', grid.scrollLeft <= 4);
+        btnRight.classList.toggle('hidden', grid.scrollLeft >= grid.scrollWidth - grid.clientWidth - 4);
+      }
+
+      if (btnLeft) {
+        btnLeft.addEventListener('click', function () {
+          paused = true;
+          grid.scrollBy({ left: -364, behavior: 'smooth' });
+          setTimeout(function () { paused = false; }, 1200);
+        });
+      }
+      if (btnRight) {
+        btnRight.addEventListener('click', function () {
+          paused = true;
+          grid.scrollBy({ left: 364, behavior: 'smooth' });
+          setTimeout(function () { paused = false; }, 1200);
+        });
+      }
+
+      grid.addEventListener('scroll', updateArrows);
+      updateArrows();
+
       function tick() {
         if (!paused) {
           grid.scrollLeft += speed;
-          // Loop back to start when reaching end
           if (grid.scrollLeft >= grid.scrollWidth - grid.clientWidth - 2) {
             grid.scrollLeft = 0;
           }
+          updateArrows();
         }
         requestAnimationFrame(tick);
       }

@@ -177,7 +177,34 @@
       margin: 0 auto;
       padding: 80px 24px 56px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
+    .support-hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; left: -120px;
+      width: 500px; height: 500px;
+      background: radial-gradient(ellipse, rgba(245,166,35,0.16) 0%, transparent 65%);
+      filter: blur(70px);
+      pointer-events: none;
+      animation: sh-drift 8s ease-in-out infinite alternate;
+    }
+    .support-hero::after {
+      content: '';
+      position: absolute;
+      top: -40px; right: -80px;
+      width: 400px; height: 400px;
+      background: radial-gradient(ellipse, rgba(139,92,246,0.11) 0%, transparent 65%);
+      filter: blur(80px);
+      pointer-events: none;
+      animation: sh-drift 11s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes sh-drift {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(60px, 40px) scale(1.15); }
+    }
+    .support-hero > * { position: relative; z-index: 1; }
 
     .support-hero h1 { margin-bottom: 16px; }
 
@@ -202,6 +229,12 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
+      transition: transform 350ms cubic-bezier(0.16,1,0.3,1), box-shadow 300ms ease;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(245,166,35,0.12);
     }
 
     .contact-card-header {
@@ -270,12 +303,12 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      transition: transform 200ms ease, box-shadow 200ms ease;
+      transition: transform 350ms cubic-bezier(0.34,1.56,0.64,1), box-shadow 300ms ease;
     }
 
     .quick-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(42,35,32,0.07);
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 16px 48px rgba(42,35,32,0.10);
     }
 
     .quick-card-icon {
@@ -546,7 +579,7 @@
     <!-- SUPPORT HERO -->
     <section class="support-hero">
       <h1 class="reveal">We're here for you.</h1>
-      <p class="reveal">ItMadeMyDay is built to be there on your hardest days. If something isn't working, we want to fix it — quickly. Find answers below or reach out directly.</p>
+      <p class="reveal">ItMadeMyDay is built for your hardest moments. If something isn't working the way it should, we want to know — and fix it fast. Find answers below or write to us directly.</p>
     </section>
 
     <!-- CONTACT CARD -->
@@ -562,7 +595,7 @@
           <h3 id="contact-heading">Email Support</h3>
         </div>
         <p>
-          Send us a message at <span class="email-protect" data-user="support" data-domain="itmademyday.app"></span> and we will do our best to help.
+          Send us a message at <span class="email-protect" data-user="ananyabilbanerjee" data-domain="gmail.com"></span> and we will do our best to help.
         </p>
         <p class="contact-note">We aim to respond within 1–2 business days.</p>
       </div>
