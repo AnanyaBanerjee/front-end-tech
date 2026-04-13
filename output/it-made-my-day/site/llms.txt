@@ -1,30 +1,38 @@
 # ItMadeMyDay
 
-> A private iOS app for saving anything that gives you happiness, hope, or made your day — images, texts, audio, links, articles, compliments, memories, and more. No account required. No data collected. Everything stays on your device.
+> Your personal vault for the moments that touch you — so when you feel low, you always know where to find your shine. Free iOS app. No account. No cloud. Fully offline.
 
-ItMadeMyDay is a free iOS app that acts as a personal joy vault. Users save anything that matters to them — a photo, a screenshot, a voice note, an article, a compliment, a memory, a quote, a conversation, a link, an audio clip, an image, an achievement — any moment or thing that gave them happiness or hope. A Boost feature lets users browse their saved moments filtered by current mood (Sad, Anxious, Lonely, Celebrating, Grateful, or custom moods they create). Collections allow curated groups of moments with custom names and colors. Built fully local-first — no server, no sync, no tracking, no account.
+ItMadeMyDay is a free iOS app that acts as a private joy vault. When a hard day comes and your brain convinces you that nothing good has ever happened, you will need proof — real proof, in your own words, from your own life. ItMadeMyDay is where that proof lives. Users save moments that touched them (compliments, memories, achievements, heart-touching things, funny moments, gratitude, and more) in any format — text, photo, link, or audio, or multiple at once. A Boost feature surfaces saved moments filtered by mood. Collections organise moments into curated groups. Everything stays on the device. Nothing ever leaves.
 
 ## Key Pages
 
 - [Home](https://it-made-my-day.com/): App overview, features, and download
 - [Support](https://it-made-my-day.com/support.html): Help, contact, and FAQs
 - [Privacy Policy](https://it-made-my-day.com/privacy-policy.html): Zero-data privacy policy
+- [Terms of Use](https://it-made-my-day.com/terms.html): Usage terms
 
 ## What This Product Does
 
-- Saves anything that made your day or gives you happiness or hope — images, text, screenshots, audio clips, links, articles, compliments, memories, conversations, quotes, photos, achievements, and more
-- No rules about what belongs in the Vault — if it matters to you, it belongs here
-- Provides mood-based browsing via Boost (filter by Sad, Anxious, Lonely, Celebrating, Grateful, or create your own moods)
-- Organizes moments into user-created Collections with custom names and colors
-- Operates fully offline with no account, no cloud sync, and no data collection
-- Supports JSON export and import for data portability and device transfer
-- Available free on iOS with no in-app purchases or subscriptions
-- No limit on the number of moments saved — only device storage is the constraint
+- Saves moments that touched you — compliments, memories, achievements, heart-touching things, funny moments, gratitude, and any category you create yourself
+- Accepts any format: text, photo, link, audio — or mix multiple formats in a single moment
+- Lets users tag each moment with "Open this when I'm…" moods (Sad, Anxious, Doubting Myself, Lonely, Celebrating, Grateful, or custom moods they create)
+- Surfaces the right moments via Boost — pick how you feel, get the moments most likely to help
+- Organises moments into Collections (Kind Words, Little Wins, Happy Memories, or any custom collection)
+- Operates fully offline with no account, no cloud sync, and no data collection of any kind
+- Saving a moment takes 60 seconds; finding it on a hard day is priceless
+- Supports JSON export and import for backup and device transfer
+- Free with no in-app purchases, no subscriptions, no ads
+
+## Moment Categories
+
+- **Compliments** — the kind words you will forget by next week if you do not save them now
+- **Memories** — moments you were proud of, moved by, or just felt completely alive
+- **Heart-touching** — things that got to you for reasons you cannot fully explain
+- **Achievements** — every win counts, especially the ones nobody else saw
+- **Funny** — things that made you laugh until you could not breathe
+- **Gratitude** — what matters even on the hard days
+- **Custom** — create your own categories with any name
 
 ## Privacy
 
-ItMadeMyDay collects zero user data. The app has no server connection. All data is stored on the user's device and never transmitted anywhere. Deletion via Settings → Delete All Data is immediate and complete with no server-side copy.
-
-## Optional
-
-- [Terms of Use](https://it-made-my-day.com/terms.html): Usage terms
+ItMadeMyDay collects zero user data. The app has no server connection. All data is stored exclusively on the user's device and never transmitted anywhere. No account is required. The app works fully offline. Deletion via Settings → Delete All Data is immediate and complete with no server-side copy.
