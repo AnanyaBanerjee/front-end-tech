@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>(function(){var t=localStorage.getItem('immd-theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
+  <script src="theme.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Privacy Policy — ItMadeMyDay</title>
   <meta name="description" content="Privacy Policy for ItMadeMyDay. We collect no user data." />
-  <meta name="robots" content="noindex, nofollow" />
+  <meta name="robots" content="noindex, nofollow, noai, noimageai" />
 
   <meta name="copyright" content="© 2026 Ananya Banerjee. All rights reserved." />
   <meta name="author" content="Ananya Banerjee" />
@@ -414,28 +414,7 @@
     </div>
   </footer>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-    document.getElementById('themeToggle').addEventListener('click', function() {
-      var current = document.documentElement.getAttribute('data-theme');
-      var next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('immd-theme', next);
-    });
-
-    document.querySelectorAll('.email-protect').forEach(function (el) {
-      el.textContent = el.dataset.user + '@' + el.dataset.domain;
-    });
-
-    (function () {
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
-        });
-      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-      document.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
-    })();
-  </script>
+  <script src="page.js"></script>
 
 </body>
 </html>
