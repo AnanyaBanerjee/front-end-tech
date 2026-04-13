@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>(function(){var t=localStorage.getItem('immd-theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -111,7 +112,6 @@
       font-family: var(--font-display);
       font-weight: 700;
       font-size: 1.05rem;
-      color: var(--text);
       letter-spacing: -0.01em;
     }
 
@@ -225,7 +225,6 @@
       font-family: var(--font-display);
       font-size: 0.875rem;
       font-weight: 700;
-      color: var(--text-muted);
     }
 
     .footer-copy {
@@ -253,6 +252,27 @@
       .navbar-links { display: none; }
       .footer-inner { flex-direction: column; text-align: center; gap: 16px; }
     }
+
+    /* Dark mode */
+    [data-theme="dark"] {
+      --bg: #0E0E12; --bg-card: #1C1C24; --border: #28283A;
+      --text: #EEEDF8; --text-mid: #9896AA; --text-muted: #5A5868;
+    }
+    [data-theme="dark"] body { background: var(--bg); color: var(--text); }
+    [data-theme="dark"] .navbar { background: rgba(14,14,18,0.92); border-bottom-color: var(--border); }
+    [data-theme="dark"] .navbar-cta { background: var(--text); color: var(--bg); }
+    [data-theme="dark"] .legal-content { color: var(--text-mid); }
+    [data-theme="dark"] .legal-content h2, [data-theme="dark"] .legal-content h3 { color: var(--text); }
+
+    .theme-toggle {
+      background: none; border: 1.5px solid var(--border); border-radius: 50%;
+      width: 36px; height: 36px; cursor: pointer; color: var(--text-mid);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      transition: background 200ms ease;
+    }
+    .theme-toggle:hover { background: var(--bg-card); color: var(--text); }
+    .icon-sun { display: block; } .icon-moon { display: none; }
+    [data-theme="dark"] .icon-sun { display: none; } [data-theme="dark"] .icon-moon { display: block; }
   </style>
 </head>
 
@@ -263,7 +283,7 @@
     <div class="navbar-inner">
       <a href="/" class="navbar-logo" aria-label="ItMadeMyDay home">
         <img src="logo.jpeg" alt="ItMadeMyDay logo" width="32" height="32" loading="eager" />
-        <span class="navbar-logo-text">ItMadeMyDay</span>
+        <span class="navbar-logo-text"><span style="color:#3B82F6">I</span><span style="color:#3B82F6">t</span><span style="color:#EF4444">M</span><span style="color:#EF4444">a</span><span style="color:#EF4444">d</span><span style="color:#EF4444">e</span><span style="color:#FBBF24">M</span><span style="color:#FBBF24">y</span><span style="color:#10B981">D</span><span style="color:#10B981">a</span><span style="color:#10B981">y</span></span>
       </a>
       <nav aria-label="Main navigation">
         <ul class="navbar-links">
@@ -272,6 +292,10 @@
           <li><a href="support.html">Support</a></li>
         </ul>
       </nav>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
       <a href="index.html#download" class="navbar-cta" aria-label="Download on the App Store">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
           <path d="M11.182 10.506c-.243.588-.358.85-.67 1.37-.435.706-1.047 1.585-1.806 1.592-.675.007-.849-.44-1.764-.434-.915.005-1.106.443-1.78.437-.76-.007-1.337-.804-1.772-1.51-1.212-1.962-1.34-4.265-.592-5.487.531-.876 1.368-1.39 2.154-1.39.801 0 1.305.44 1.967.44.643 0 1.035-.442 1.963-.442.703 0 1.45.383 1.98 1.045-.174.1-1.874 1.093-1.853 3.26.019 2.059 1.809 2.745 2.173 2.119zM8.967 2.615C9.264 1.989 9.356 1 9.095.5 8.412.546 7.61.97 7.258 1.565c-.322.542-.45 1.55-.22 2.072.74.025 1.595-.45 1.929-1.022z"/>
@@ -331,7 +355,7 @@
     <div class="footer-inner">
       <div class="footer-logo">
         <img src="logo.jpeg" alt="ItMadeMyDay" width="24" height="24" loading="lazy" />
-        <span class="footer-logo-text">ItMadeMyDay</span>
+        <span class="footer-logo-text"><span style="color:#3B82F6">I</span><span style="color:#3B82F6">t</span><span style="color:#EF4444">M</span><span style="color:#EF4444">a</span><span style="color:#EF4444">d</span><span style="color:#EF4444">e</span><span style="color:#FBBF24">M</span><span style="color:#FBBF24">y</span><span style="color:#10B981">D</span><span style="color:#10B981">a</span><span style="color:#10B981">y</span></span>
       </div>
       <p class="footer-copy">
         &copy; <span id="year"></span> Ananya Banerjee. All rights reserved. ItMadeMyDay&trade;
@@ -349,6 +373,12 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('themeToggle').addEventListener('click', function() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('immd-theme', next);
+    });
 
     document.querySelectorAll('.email-protect').forEach(function (el) {
       el.textContent = el.dataset.user + '@' + el.dataset.domain;

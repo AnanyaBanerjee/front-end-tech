@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+  (function(){var t=localStorage.getItem('immd-theme')||'light';document.documentElement.setAttribute('data-theme',t);})();
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -134,7 +137,23 @@
         "name": "Can I export or back up my moments?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. You can export all your moments as a JSON file from the Settings screen. You can also import that file back at any time to restore your vault."
+          "text": "Yes. Go to Settings → Export My Moments to save a file of all your moments and collections. You can import it back using Settings → Import Moments at any time."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I create my own moods in ItMadeMyDay?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. In addition to built-in moods like Sad, Anxious, and Celebrating, you can create custom moods with a name, icon, and color. Custom moods appear alongside the built-in ones in the Boost tab."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I delete all my data from ItMadeMyDay?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Settings → Delete All Data permanently removes all your moments, collections, and settings. Since ItMadeMyDay has no server, the deletion is immediate and complete."
         }
       }
     ]
@@ -146,21 +165,76 @@
        CSS CUSTOM PROPERTIES
     ============================================================ */
     :root {
-      --bg:          #FBF8F3;
-      --bg-card:     #FFFEFB;
-      --bg-amber:    #FEF3D8;
-      --border:      #EDE6D6;
-      --text:        #2A2320;
-      --text-mid:    #6A5E52;
-      --text-muted:  #9A8E83;
+      /* Backgrounds */
+      --bg:          #FFFFFF;
+      --bg-soft:     #F8F9FA;
+      --bg-card:     #FFFFFF;
+      --border:      #EBEBEB;
+
+      /* Text */
+      --text:        #1A1A1A;
+      --text-mid:    #555555;
+      --text-muted:  #999999;
+
+      /* Brand palette — from logo */
       --amber:       #F5A623;
       --amber-dark:  #D4880D;
       --amber-deep:  #A86200;
+      --amber-bg:    #FFF8E7;
+      --amber-ring:  #F5D78C;
+
+      --coral:       #FF5C6C;
+      --coral-dark:  #C9293C;
+      --coral-bg:    #FFF0F2;
+      --coral-ring:  #FFB3BB;
+
+      --purple:      #8B5CF6;
+      --purple-dark: #6D28D9;
+      --purple-bg:   #F5F3FF;
+      --purple-ring: #C4B5FD;
+
+      --teal:        #10B981;
+      --teal-dark:   #059669;
+      --teal-bg:     #ECFDF5;
+      --teal-ring:   #6EE7B7;
+
+      --blue:        #3B82F6;
+      --blue-dark:   #2563EB;
+      --blue-bg:     #EFF6FF;
+      --blue-ring:   #BFDBFE;
+
+      --gold:        #F59E0B;
+      --gold-dark:   #D97706;
+      --gold-bg:     #FFFBEB;
+      --gold-ring:   #FDE68A;
+
       --font-display: 'Bricolage Grotesque', sans-serif;
       --font-body:    'Nunito', sans-serif;
-      --radius-card:  16px;
-      --radius-sm:    10px;
+      --radius-card:  20px;
+      --radius-sm:    12px;
       --max-w:        1160px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0E0E12;
+      --bg-soft: #141419;
+      --bg-card: #1C1C24;
+      --border: #28283A;
+      --text: #EEEDF8;
+      --text-mid: #9896AA;
+      --text-muted: #5A5868;
+      --amber-bg: rgba(245,166,35,0.10);
+      --amber-ring: rgba(245,166,35,0.22);
+      --coral-bg: rgba(255,92,108,0.10);
+      --coral-ring: rgba(255,92,108,0.22);
+      --purple-bg: rgba(139,92,246,0.12);
+      --purple-ring: rgba(139,92,246,0.24);
+      --teal-bg: rgba(16,185,129,0.10);
+      --teal-ring: rgba(16,185,129,0.22);
+      --blue-bg: rgba(59,130,246,0.10);
+      --blue-ring: rgba(59,130,246,0.22);
+      --gold-bg: rgba(245,158,11,0.10);
+      --gold-ring: rgba(245,158,11,0.22);
     }
 
     /* ============================================================
@@ -243,6 +317,104 @@
     .reveal:nth-child(5) { transition-delay: 320ms; }
     .reveal:nth-child(6) { transition-delay: 400ms; }
 
+    /* Slide from left */
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-32px);
+      transition: opacity 650ms cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-left:nth-child(2) { transition-delay: 100ms; }
+    .reveal-left:nth-child(3) { transition-delay: 200ms; }
+    .reveal-left:nth-child(4) { transition-delay: 300ms; }
+
+    /* Scale + fade pop (for stat card) */
+    .reveal-pop {
+      opacity: 0;
+      transform: scale(0.88) translateY(12px);
+      transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 700ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .reveal-pop.visible { opacity: 1; transform: scale(1) translateY(0); }
+
+    /* Scale + fade for bento cards */
+    .reveal-scale {
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+      transition: opacity 650ms cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-scale.visible { opacity: 1; transform: translateY(0) scale(1); }
+    .reveal-scale:nth-child(2) { transition-delay: 80ms; }
+    .reveal-scale:nth-child(3) { transition-delay: 160ms; }
+    .reveal-scale:nth-child(4) { transition-delay: 240ms; }
+    .reveal-scale:nth-child(5) { transition-delay: 320ms; }
+
+    /* Bounce in (for step circles) */
+    .reveal-bounce {
+      opacity: 0;
+      transform: scale(0);
+      transition: opacity 500ms cubic-bezier(0.34, 1.56, 0.64, 1),
+                  transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .reveal-bounce.visible { opacity: 1; transform: scale(1); }
+
+    /* ============================================================
+       KEYFRAME ANIMATIONS
+    ============================================================ */
+    @keyframes float-center {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-18px); }
+    }
+    @keyframes float-left {
+      0%, 100% { transform: translateX(-155px) translateY(30px) rotate(-6deg); }
+      50%       { transform: translateX(-155px) translateY(10px) rotate(-5deg); }
+    }
+    @keyframes float-right {
+      0%, 100% { transform: translateX(155px) translateY(30px) rotate(6deg); }
+      50%       { transform: translateX(155px) translateY(10px) rotate(5deg); }
+    }
+
+    @keyframes blob-drift-1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      40%       { transform: translate(50px, -35px) scale(1.1); }
+      70%       { transform: translate(-20px, 22px) scale(0.93); }
+    }
+    @keyframes blob-drift-2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      35%       { transform: translate(-40px, 30px) scale(1.07); }
+      65%       { transform: translate(30px, -18px) scale(0.96); }
+    }
+    @keyframes blob-drift-3 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50%       { transform: translate(25px, -30px) scale(1.05); }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 4px 16px rgba(245,166,35,0.35); }
+      50%       { box-shadow: 0 4px 36px rgba(245,166,35,0.65), 0 0 0 8px rgba(245,166,35,0.12); }
+    }
+
+    @keyframes shimmer-sweep {
+      0%   { background-position: -300% center; }
+      100% { background-position: 300% center; }
+    }
+
+    @keyframes navbar-drop {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
     /* ============================================================
        NAVBAR
     ============================================================ */
@@ -250,7 +422,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(251, 248, 243, 0.88);
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
@@ -284,7 +456,6 @@
       font-family: var(--font-display);
       font-weight: 700;
       font-size: 1.05rem;
-      color: var(--text);
       letter-spacing: -0.01em;
     }
 
@@ -332,6 +503,29 @@
       flex-shrink: 0;
     }
 
+    .theme-toggle {
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      color: var(--text-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 200ms ease, border-color 200ms ease, color 200ms ease;
+    }
+    .theme-toggle:hover {
+      background: var(--bg-soft);
+      color: var(--text);
+    }
+    .icon-sun { display: none; }
+    .icon-moon { display: block; }
+    [data-theme="dark"] .icon-sun { display: block; }
+    [data-theme="dark"] .icon-moon { display: none; }
+
     /* ============================================================
        HERO
     ============================================================ */
@@ -355,15 +549,15 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: var(--bg-amber);
-      border: 1px solid #F5D78C;
+      background: var(--amber-bg);
+      border: 1.5px solid var(--amber-ring);
       color: var(--amber-deep);
       font-family: var(--font-body);
       font-size: 0.75rem;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 5px 12px;
+      padding: 6px 14px;
       border-radius: 50px;
       width: fit-content;
     }
@@ -385,15 +579,17 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: #EDEAE4;
-      color: var(--text-muted);
+      background: var(--amber);
+      color: #fff;
       font-family: var(--font-body);
       font-size: 0.95rem;
-      font-weight: 700;
-      padding: 12px 22px;
+      font-weight: 800;
+      padding: 13px 24px;
       border-radius: 50px;
       cursor: default;
       width: fit-content;
+      box-shadow: 0 4px 16px rgba(245,166,35,0.35);
+      animation: pulse-glow 2.5s ease-in-out infinite;
     }
 
     .hero-note {
@@ -409,6 +605,45 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: visible;
+    }
+
+    /* Ambient blobs */
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero-blob-1 {
+      width: 340px;
+      height: 340px;
+      background: var(--amber);
+      opacity: 0.13;
+      top: -60px;
+      left: -80px;
+      animation: blob-drift-1 16s ease-in-out infinite;
+    }
+    .hero-blob-2 {
+      width: 300px;
+      height: 300px;
+      background: var(--coral);
+      opacity: 0.10;
+      bottom: 40px;
+      right: -60px;
+      animation: blob-drift-2 19s ease-in-out infinite;
+      animation-delay: -6s;
+    }
+    .hero-blob-3 {
+      width: 260px;
+      height: 260px;
+      background: var(--purple);
+      opacity: 0.09;
+      bottom: -20px;
+      left: 35%;
+      animation: blob-drift-3 22s ease-in-out infinite;
+      animation-delay: -10s;
     }
 
     .phone-frame {
@@ -423,7 +658,7 @@
       width: 220px;
       aspect-ratio: 9 / 19.5;
       z-index: 3;
-      transform: translateX(0) translateY(0);
+      animation: float-center 6s ease-in-out infinite;
     }
 
     .phone-frame-left {
@@ -431,8 +666,8 @@
       aspect-ratio: 9 / 19.5;
       border-radius: 44px;
       z-index: 2;
-      transform: translateX(-155px) translateY(30px) rotate(-6deg);
-      transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+      animation: float-left 7s ease-in-out infinite;
+      animation-delay: -2.5s;
     }
 
     .phone-frame-right {
@@ -440,16 +675,13 @@
       aspect-ratio: 9 / 19.5;
       border-radius: 44px;
       z-index: 2;
-      transform: translateX(155px) translateY(30px) rotate(6deg);
-      transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+      animation: float-right 8s ease-in-out infinite;
+      animation-delay: -4.5s;
     }
 
-    .phone-frame-left:hover {
-      transform: translateX(-155px) translateY(20px) rotate(-2deg);
-    }
-
+    .phone-frame-left:hover,
     .phone-frame-right:hover {
-      transform: translateX(155px) translateY(20px) rotate(2deg);
+      animation-play-state: paused;
     }
 
     .phone-screen {
@@ -492,7 +724,7 @@
     ============================================================ */
     .features-section {
       padding: 96px 24px;
-      background: var(--bg);
+      background: var(--bg-soft);
     }
 
     .features-inner {
@@ -517,7 +749,7 @@
 
     .bento-card {
       background: var(--bg-card);
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       border-radius: var(--radius-card);
       padding: 28px;
       display: flex;
@@ -526,10 +758,68 @@
       transition: transform 200ms ease, box-shadow 200ms ease;
     }
 
-    .bento-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(42, 35, 32, 0.07);
+    /* Card lift + glow on hover */
+    .bento-card {
+      position: relative;
+      overflow: hidden;
+      transition: transform 320ms cubic-bezier(0.16,1,0.3,1),
+                  box-shadow 320ms cubic-bezier(0.16,1,0.3,1);
     }
+    .bento-card::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      filter: blur(50px);
+      opacity: 0.18;
+      pointer-events: none;
+      transition: opacity 320ms ease;
+    }
+    .bento-amber::before  { background: var(--amber); }
+    .bento-purple::before { background: var(--purple); }
+    .bento-teal::before   { background: var(--teal); }
+    .bento-blue::before   { background: var(--blue); }
+    .bento-coral::before  { background: var(--coral); }
+
+    .bento-amber:hover  { transform: translateY(-6px); box-shadow: 0 24px 64px rgba(245,166,35,0.16); }
+    .bento-purple:hover { transform: translateY(-6px); box-shadow: 0 24px 64px rgba(139,92,246,0.16); }
+    .bento-teal:hover   { transform: translateY(-6px); box-shadow: 0 24px 64px rgba(16,185,129,0.16); }
+    .bento-blue:hover   { transform: translateY(-6px); box-shadow: 0 24px 64px rgba(59,130,246,0.16); }
+    .bento-coral:hover  { transform: translateY(-6px); box-shadow: 0 24px 64px rgba(255,92,108,0.16); }
+
+    .bento-card:hover::before { opacity: 0.28; }
+
+    /* Stat number decoration */
+    .bento-stat {
+      font-family: var(--font-display);
+      font-size: 4rem;
+      font-weight: 800;
+      line-height: 1;
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      letter-spacing: -0.04em;
+      opacity: 0.1;
+      transition: opacity 320ms ease;
+      pointer-events: none;
+      user-select: none;
+    }
+    .bento-card:hover .bento-stat { opacity: 0.18; }
+    .bento-amber  .bento-stat { color: var(--amber-dark); }
+    .bento-purple .bento-stat { color: var(--purple-dark); }
+    .bento-teal   .bento-stat { color: var(--teal-dark); }
+    .bento-blue   .bento-stat { color: var(--blue-dark); }
+    .bento-coral  .bento-stat { color: var(--coral-dark); }
+
+    /* Individual card colors */
+    .bento-amber  { background: var(--amber-bg);  border-color: var(--amber-ring);  }
+    .bento-purple { background: var(--purple-bg); border-color: var(--purple-ring); }
+    .bento-teal   { background: var(--teal-bg);   border-color: var(--teal-ring);   }
+    .bento-blue   { background: var(--blue-bg);   border-color: var(--blue-ring);   }
+    .bento-coral  { background: var(--coral-bg);  border-color: var(--coral-ring);  }
 
     .bento-card-1 { grid-column: span 7; }
     .bento-card-2 { grid-column: span 5; }
@@ -537,15 +827,27 @@
     .bento-card-4 { grid-column: span 4; }
     .bento-card-5 { grid-column: span 4; }
 
+    /* Icon bg/color per card color */
+    .bento-amber  .bento-icon { background: #FED7AA; color: var(--amber-dark);  }
+    .bento-purple .bento-icon { background: #DDD6FE; color: var(--purple-dark); }
+    .bento-teal   .bento-icon { background: #A7F3D0; color: var(--teal-dark);   }
+    .bento-blue   .bento-icon { background: #BFDBFE; color: var(--blue-dark);   }
+    .bento-coral  .bento-icon { background: #FECDD3; color: var(--coral-dark);  }
+
     .bento-icon {
       width: 44px;
       height: 44px;
-      background: var(--bg-amber);
+      background: var(--amber-bg);
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .bento-card:hover .bento-icon {
+      transform: scale(1.15) rotate(-8deg);
     }
 
     .bento-icon svg {
@@ -570,14 +872,45 @@
     }
 
     .chip {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      color: var(--text-mid);
+      background: #fff;
+      border: 1.5px solid var(--amber-ring);
+      color: var(--amber-dark);
       font-family: var(--font-body);
       font-size: 0.8rem;
       font-weight: 600;
       padding: 4px 12px;
       border-radius: 50px;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber-dark);
+      margin-bottom: 8px;
+    }
+
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--text-mid);
+      max-width: 560px;
+      margin: 12px auto 0;
+      line-height: 1.7;
+    }
+
+    .bento-mood-dots {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .bento-mood-dots span {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: inline-block;
+      opacity: 0.9;
     }
 
     /* ============================================================
@@ -693,7 +1026,7 @@
     .pillar-icon {
       width: 40px;
       height: 40px;
-      background: var(--bg-amber);
+      background: var(--amber-bg);
       border-radius: 9px;
       display: flex;
       align-items: center;
@@ -721,8 +1054,8 @@
     }
 
     .privacy-stat-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
+      background: var(--teal-bg);
+      border: 1.5px solid var(--teal-ring);
       border-radius: var(--radius-card);
       padding: 48px 40px;
       text-align: center;
@@ -736,7 +1069,7 @@
       font-family: var(--font-display);
       font-size: clamp(4rem, 10vw, 8rem);
       font-weight: 800;
-      color: var(--amber);
+      color: var(--teal);
       line-height: 1;
       letter-spacing: -0.04em;
     }
@@ -760,7 +1093,7 @@
     ============================================================ */
     .save-flow-section {
       padding: 96px 24px;
-      background: var(--bg);
+      background: var(--purple-bg);
     }
     .save-flow-inner {
       max-width: var(--max-w);
@@ -800,11 +1133,11 @@
     }
     .flow-step {
       display: inline-block;
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      background: var(--bg-amber);
-      color: var(--amber-deep);
+      background: var(--purple);
+      color: #fff;
       font-family: var(--font-display);
       font-size: 0.75rem;
       font-weight: 800;
@@ -896,13 +1229,13 @@
     .faq-toggle {
       width: 28px;
       height: 28px;
-      background: var(--bg-amber);
+      background: var(--bg-soft);
       border-radius: 7px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: background 200ms ease;
+      transition: background 200ms ease, color 200ms ease;
     }
 
     .faq-question[aria-expanded="true"] .faq-toggle {
@@ -973,8 +1306,8 @@
        CTA SECTION
     ============================================================ */
     .cta-section {
-      padding: 96px 24px;
-      background: var(--bg);
+      padding: 100px 24px;
+      background: var(--amber);
       text-align: center;
     }
 
@@ -988,26 +1321,31 @@
     }
 
     .cta-section h2 {
-      color: var(--text);
+      color: #fff;
     }
 
     .cta-section p {
-      color: var(--text-mid);
-      font-size: 1rem;
+      color: rgba(255,255,255,0.82);
+      font-size: 1.05rem;
     }
 
     .cta-note {
       font-size: 0.8rem;
-      color: var(--text-muted);
+      color: rgba(255,255,255,0.65);
+    }
+
+    .cta-section .coming-soon-pill {
+      background: #fff;
+      color: var(--amber-deep);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
     }
 
     /* ============================================================
        FOOTER
     ============================================================ */
     footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 24px;
-      background: var(--bg);
+      padding: 40px 24px;
+      background: #1A1A1A;
     }
 
     .footer-inner {
@@ -1027,23 +1365,21 @@
     }
 
     .footer-logo img {
-      width: 24px;
-      height: 24px;
-      border-radius: 6px;
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
       object-fit: cover;
-      opacity: 0.6;
     }
 
     .footer-logo-text {
       font-family: var(--font-display);
-      font-size: 0.875rem;
-      font-weight: 700;
-      color: var(--text-muted);
+      font-size: 0.925rem;
+      font-weight: 800;
     }
 
     .footer-copy {
       font-size: 0.8rem;
-      color: var(--text-muted);
+      color: rgba(255,255,255,0.45);
       text-align: center;
     }
 
@@ -1056,12 +1392,12 @@
 
     .footer-links a {
       font-size: 0.8rem;
-      color: var(--text-muted);
+      color: rgba(255,255,255,0.45);
       transition: color 200ms ease;
     }
 
     .footer-links a:hover {
-      color: var(--text-mid);
+      color: rgba(255,255,255,0.85);
     }
 
     /* ============================================================
@@ -1142,6 +1478,56 @@
         padding: 36px 24px;
       }
     }
+
+    /* ============================================================
+       DARK MODE OVERRIDES
+    ============================================================ */
+    [data-theme="dark"] body { background: var(--bg); }
+
+    [data-theme="dark"] .navbar {
+      background: rgba(14,14,18,0.92);
+      border-bottom-color: var(--border);
+    }
+
+    [data-theme="dark"] .bento-amber .bento-icon { background: rgba(254,215,170,0.15); }
+    [data-theme="dark"] .bento-purple .bento-icon { background: rgba(221,214,254,0.15); }
+    [data-theme="dark"] .bento-teal   .bento-icon { background: rgba(167,243,208,0.15); }
+    [data-theme="dark"] .bento-blue   .bento-icon { background: rgba(191,219,254,0.15); }
+    [data-theme="dark"] .bento-coral  .bento-icon { background: rgba(254,205,211,0.15); }
+
+    [data-theme="dark"] .hero-note { color: var(--text-muted); }
+
+    [data-theme="dark"] .category-chips .chip {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.12);
+      color: var(--text-mid);
+    }
+
+    [data-theme="dark"] .pillar-icon { filter: brightness(0.9); }
+
+    [data-theme="dark"] .privacy-stat-card {
+      background: rgba(16,185,129,0.08);
+      border: 1.5px solid rgba(16,185,129,0.2);
+    }
+
+    [data-theme="dark"] .faq-item {
+      border-bottom-color: var(--border);
+    }
+
+    [data-theme="dark"] .faq-question { color: var(--text); }
+
+    [data-theme="dark"] .save-flow-item .flow-phone {
+      background: var(--bg-soft);
+    }
+
+    [data-theme="dark"] .screenshot-dark-section-bg {
+      /* Already dark — no change needed */
+    }
+
+    [data-theme="dark"] .navbar-cta {
+      background: var(--text);
+      color: var(--bg);
+    }
   </style>
 </head>
 
@@ -1152,7 +1538,7 @@
     <div class="navbar-inner">
       <a href="/" class="navbar-logo" aria-label="ItMadeMyDay home">
         <img src="logo.jpeg" alt="ItMadeMyDay logo" width="32" height="32" loading="eager" />
-        <span class="navbar-logo-text">ItMadeMyDay</span>
+        <span class="navbar-logo-text"><span style="color:#3B82F6">I</span><span style="color:#3B82F6">t</span><span style="color:#EF4444">M</span><span style="color:#EF4444">a</span><span style="color:#EF4444">d</span><span style="color:#EF4444">e</span><span style="color:#FBBF24">M</span><span style="color:#FBBF24">y</span><span style="color:#10B981">D</span><span style="color:#10B981">a</span><span style="color:#10B981">y</span></span>
       </a>
       <nav aria-label="Main navigation">
         <ul class="navbar-links">
@@ -1161,6 +1547,12 @@
           <li><a href="support.html">Support</a></li>
         </ul>
       </nav>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <!-- Moon icon (shown in light mode) -->
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <!-- Sun icon (shown in dark mode) -->
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
       <a href="#download" class="navbar-cta" aria-label="Download on the App Store">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
           <path d="M11.182 10.506c-.243.588-.358.85-.67 1.37-.435.706-1.047 1.585-1.806 1.592-.675.007-.849-.44-1.764-.434-.915.005-1.106.443-1.78.437-.76-.007-1.337-.804-1.772-1.51-1.212-1.962-1.34-4.265-.592-5.487.531-.876 1.368-1.39 2.154-1.39.801 0 1.305.44 1.967.44.643 0 1.035-.442 1.963-.442.703 0 1.45.383 1.98 1.045-.174.1-1.874 1.093-1.853 3.26.019 2.059 1.809 2.745 2.173 2.119zM8.967 2.615C9.264 1.989 9.356 1 9.095.5 8.412.546 7.61.97 7.258 1.565c-.322.542-.45 1.55-.22 2.072.74.025 1.595-.45 1.929-1.022z"/>
@@ -1181,9 +1573,9 @@
           </svg>
           iOS App
         </div>
-        <h1 class="reveal">Your Personal<br>Joy Vault</h1>
+        <h1 class="reveal">Your Personal<br><span style="color:var(--amber)">Joy</span> Vault</h1>
         <p class="hero-description product-summary reveal">
-          ItMadeMyDay is a private iOS app for saving the moments that made your day — compliments you received, memories you want to keep, meaningful conversations, quotes that moved you, links you loved, and photos worth holding onto.
+          The moments that make life worth living are easy to forget. ItMadeMyDay keeps them safe — compliments received, memories made, conversations that stayed with you. Private. Offline. Yours.
         </p>
         <div class="hero-cta-wrap reveal">
           <span class="coming-soon-pill" aria-label="Coming soon to the App Store">
@@ -1192,12 +1584,16 @@
             </svg>
             Coming Soon to App Store
           </span>
-          <span class="hero-note">Free · iOS · No account required · No data collected</span>
+          <span class="hero-note">Free · iPhone · No account · No data · No cloud</span>
         </div>
       </div>
 
       <!-- Phone cluster -->
       <div class="hero-phones" aria-label="App screenshots">
+        <!-- Ambient blobs -->
+        <div class="hero-blob hero-blob-1" aria-hidden="true"></div>
+        <div class="hero-blob hero-blob-2" aria-hidden="true"></div>
+        <div class="hero-blob hero-blob-3" aria-hidden="true"></div>
         <!-- Left phone: Home with real content -->
         <div class="phone-frame phone-frame-left">
           <div class="phone-screen">
@@ -1246,12 +1642,15 @@
     <section id="features" class="features-section" aria-labelledby="features-heading">
       <div class="features-inner">
         <div class="section-header">
-          <h2 id="features-heading" class="reveal">Everything you need to hold onto the good</h2>
+          <p class="section-eyebrow reveal">What's inside</p>
+          <h2 id="features-heading" class="reveal">Six ways to save what matters.</h2>
+          <p class="section-sub reveal">Every kind of moment deserves its own home. ItMadeMyDay gives you six distinct types, smart collections, and a Boost tab that finds the right memory for your mood.</p>
         </div>
         <div class="bento-grid">
 
           <!-- Card 1: Your Vault -->
-          <div class="bento-card bento-card-1 reveal">
+          <div class="bento-card bento-card-1 bento-amber reveal-scale">
+            <span class="bento-stat" aria-hidden="true">6</span>
             <div class="bento-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <rect x="3" y="6" width="18" height="14" rx="2" ry="2"/>
@@ -1261,61 +1660,73 @@
               </svg>
             </div>
             <h3>Your Vault</h3>
-            <p>Every good moment deserves to be saved. ItMadeMyDay gives you a private, organized vault for every kind of moment that matters — without any setup.</p>
+            <p>Everything kind, funny, meaningful, or beautiful — saved in one private place. Six types of moments, no setup required.</p>
             <div class="category-chips" aria-label="Moment categories">
-              <span class="chip">Compliments</span>
-              <span class="chip">Memories</span>
-              <span class="chip">Heart-to-Hearts</span>
-              <span class="chip">Quotes</span>
-              <span class="chip">Photos</span>
-              <span class="chip">Links</span>
+              <span class="chip">💬 Compliments</span>
+              <span class="chip">✨ Memories</span>
+              <span class="chip">🤝 Heart-to-Hearts</span>
+              <span class="chip">📖 Quotes</span>
+              <span class="chip">📸 Photos</span>
+              <span class="chip">🔗 Links</span>
             </div>
           </div>
 
           <!-- Card 2: Boost Your Day -->
-          <div class="bento-card bento-card-2 reveal">
+          <div class="bento-card bento-card-2 bento-purple reveal-scale">
+            <span class="bento-stat" aria-hidden="true">∞</span>
             <div class="bento-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <circle cx="12" cy="12" r="4"/>
                 <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
               </svg>
             </div>
-            <h3>Boost Your Day</h3>
-            <p>Browse your saved moments filtered by how you are currently feeling. Sad, Anxious, Lonely, Celebrating, or Grateful — the right moment finds you at the right time.</p>
+            <h3>Meet Your Mood</h3>
+            <p>Feeling low? The Boost tab surfaces moments matched to how you feel right now. Use built-in moods — or create your own with a custom name, icon, and color.</p>
+            <div class="bento-mood-dots" aria-hidden="true">
+              <span style="background:#8B5CF6"></span>
+              <span style="background:#FF5C6C"></span>
+              <span style="background:#10B981"></span>
+              <span style="background:#3B82F6"></span>
+              <span style="background:#F59E0B"></span>
+              <span style="background:#EC4899"></span>
+            </div>
           </div>
 
           <!-- Card 3: Collections -->
-          <div class="bento-card bento-card-3 reveal">
+          <div class="bento-card bento-card-3 bento-teal reveal-scale">
+            <span class="bento-stat" aria-hidden="true">+</span>
             <div class="bento-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>
               </svg>
             </div>
-            <h3>Collections</h3>
-            <p>Group your moments into curated Collections — themed sets you create and organize yourself, for easy browsing later.</p>
+            <h3>Your Collections</h3>
+            <p>Group moments into themed collections you name and color yourself. Kind Words. Little Wins. People I Love. Any collection you can imagine.</p>
           </div>
 
           <!-- Card 4: Fully Private -->
-          <div class="bento-card bento-card-4 reveal">
+          <div class="bento-card bento-card-4 bento-blue reveal-scale">
+            <span class="bento-stat" aria-hidden="true">0</span>
             <div class="bento-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
               </svg>
             </div>
-            <h3>Fully Private</h3>
-            <p>No account. No cloud. No server. Your moments are stored exclusively on your device and never leave it. Not even we can see them.</p>
+            <h3>Private by Design</h3>
+            <p>No account. No cloud. No server. Zero bytes leave your device. Not even we can see what you've saved.</p>
           </div>
 
           <!-- Card 5: Daily Reminder -->
-          <div class="bento-card bento-card-5 reveal">
+          <div class="bento-card bento-card-5 bento-coral reveal-scale">
+            <span class="bento-stat" aria-hidden="true">1×</span>
             <div class="bento-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
                 <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
               </svg>
             </div>
-            <h3>Daily Reminder</h3>
-            <p>Set a gentle daily nudge to log a moment before the day ends. A small habit that builds a meaningful record of your good days over time.</p>
+            <h3>Daily Nudge</h3>
+            <p>One gentle reminder a day. A tiny habit that, over months, builds a vault full of your best moments.</p>
           </div>
 
         </div>
@@ -1326,8 +1737,8 @@
     <section class="save-flow-section" aria-labelledby="save-flow-heading">
       <div class="save-flow-inner">
         <div class="section-header reveal">
-          <h2 id="save-flow-heading">Save a moment in seconds</h2>
-          <p style="color: var(--text-mid); margin: 12px auto 0; max-width: 520px;">Pick a type, add your words or photo, choose when you want to see it again — done. Every moment takes under a minute to capture.</p>
+          <h2 id="save-flow-heading">From idea to vault in under a minute.</h2>
+          <p style="color: var(--text-mid); margin: 12px auto 0; max-width: 520px;">Open ItMadeMyDay, tap +, pick a type, add your words or a photo — and it's saved. Every moment takes less than a minute to capture.</p>
         </div>
         <div class="save-flow-phones">
           <!-- Step 1 -->
@@ -1335,7 +1746,7 @@
             <div class="flow-phone">
               <div class="phone-screen">
                 <div class="phone-island"></div>
-                <img src="images/screenshot-save-step1.png" alt="" width="200" height="433" loading="lazy" aria-hidden="true" />
+                <img src="images/screenshot-save-step1-new.png" alt="" width="200" height="433" loading="lazy" aria-hidden="true" />
               </div>
             </div>
             <div class="flow-caption">
@@ -1354,7 +1765,7 @@
             <div class="flow-phone">
               <div class="phone-screen">
                 <div class="phone-island"></div>
-                <img src="images/screenshot-save-step2.png" alt="" width="200" height="433" loading="lazy" aria-hidden="true" />
+                <img src="images/screenshot-save-step2-new.png" alt="" width="200" height="433" loading="lazy" aria-hidden="true" />
               </div>
             </div>
             <div class="flow-caption">
@@ -1390,8 +1801,8 @@
     <section class="screenshots-dark-section" aria-labelledby="screenshots-heading">
       <div class="screenshots-dark-inner">
         <div class="section-header" style="margin-bottom: 48px;">
-          <h2 id="screenshots-heading" class="reveal" style="color: #fff;">Light and dark. Your choice.</h2>
-          <p class="reveal">ItMadeMyDay looks beautiful in both light and dark mode, following your system preference automatically.</p>
+          <h2 id="screenshots-heading" class="reveal" style="color: #fff;">Every screen, your way.</h2>
+          <p class="reveal">Light and dark mode. Custom moods. Your own collections. Everything adapts to how you actually use it.</p>
         </div>
         <div class="screenshots-row" role="region" aria-label="App screenshots">
           <div class="screenshot-item reveal">
@@ -1407,10 +1818,10 @@
             <div class="screenshot-phone">
               <div class="phone-screen">
                 <div class="phone-island"></div>
-                <img src="images/screenshot-boost-light.png" alt="Boost screen in light mode" width="175" height="379" loading="lazy" />
+                <img src="images/screenshot-boost-moods-light.png" alt="Boost tab showing moods in light mode" width="175" height="379" loading="lazy" />
               </div>
             </div>
-            <span class="screenshot-label">Boost · Light</span>
+            <span class="screenshot-label">Moods · Light</span>
           </div>
           <div class="screenshot-item reveal">
             <div class="screenshot-phone">
@@ -1425,19 +1836,19 @@
             <div class="screenshot-phone">
               <div class="phone-screen">
                 <div class="phone-island"></div>
-                <img src="images/screenshot-boost-dark.png" alt="Boost screen in dark mode" width="175" height="379" loading="lazy" />
+                <img src="images/screenshot-boost-moods-dark.png" alt="Boost tab showing moods in dark mode" width="175" height="379" loading="lazy" />
               </div>
             </div>
-            <span class="screenshot-label">Boost · Dark</span>
+            <span class="screenshot-label">Moods · Dark</span>
           </div>
           <div class="screenshot-item reveal">
             <div class="screenshot-phone">
               <div class="phone-screen">
                 <div class="phone-island"></div>
-                <img src="images/screenshot-settings-light.png" alt="Settings screen in light mode" width="175" height="379" loading="lazy" />
+                <img src="images/screenshot-create-mood-light.png" alt="Create a custom mood sheet" width="175" height="379" loading="lazy" />
               </div>
             </div>
-            <span class="screenshot-label">Settings · Light</span>
+            <span class="screenshot-label">Create Mood</span>
           </div>
           <div class="screenshot-item reveal">
             <div class="screenshot-phone">
@@ -1452,10 +1863,10 @@
             <div class="screenshot-phone">
               <div class="phone-screen">
                 <div class="phone-island"></div>
-                <img src="images/screenshot-collections-grid-dark.png" alt="Collections grid in dark mode" width="175" height="379" loading="lazy" />
+                <img src="images/screenshot-new-collection-dark.png" alt="Create new collection in dark mode" width="175" height="379" loading="lazy" />
               </div>
             </div>
-            <span class="screenshot-label">Collections · Dark</span>
+            <span class="screenshot-label">New Collection</span>
           </div>
           <div class="screenshot-item reveal">
             <div class="screenshot-phone">
@@ -1470,10 +1881,10 @@
             <div class="screenshot-phone">
               <div class="phone-screen">
                 <div class="phone-island"></div>
-                <img src="images/screenshot-settings-filled-dark.png" alt="Settings with profile in dark mode" width="175" height="379" loading="lazy" />
+                <img src="images/screenshot-settings-delete-light.png" alt="Settings screen showing export, import, and delete data options" width="175" height="379" loading="lazy" />
               </div>
             </div>
-            <span class="screenshot-label">Settings · Dark</span>
+            <span class="screenshot-label">Settings · Light</span>
           </div>
         </div>
       </div>
@@ -1483,11 +1894,11 @@
     <section class="privacy-section" aria-labelledby="privacy-heading">
       <div class="privacy-inner">
         <div class="privacy-content">
-          <h2 id="privacy-heading" class="reveal">Your moments stay yours</h2>
-          <p class="reveal">ItMadeMyDay was built with a single rule: your personal moments belong to you and no one else. There is no server, no database, no account, and no data collection of any kind.</p>
+          <h2 id="privacy-heading" class="reveal">Built with one rule: your data belongs to you.</h2>
+          <p class="reveal">ItMadeMyDay was built without a backend — because we don't need one. Everything lives on your device, in your hands, under your control.</p>
           <div class="privacy-pillars">
-            <div class="pillar-row reveal">
-              <div class="pillar-icon">
+            <div class="pillar-row reveal-left">
+              <div class="pillar-icon" style="background:var(--amber-bg); color:var(--amber-dark);">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                   <circle cx="12" cy="7" r="4"/>
@@ -1498,8 +1909,8 @@
                 <span>Open the app and start saving. No sign-up, no email, no password.</span>
               </div>
             </div>
-            <div class="pillar-row reveal">
-              <div class="pillar-icon">
+            <div class="pillar-row reveal-left">
+              <div class="pillar-icon" style="background:var(--blue-bg); color:var(--blue-dark);">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M18 20V10"/>
                   <path d="M12 20V4"/>
@@ -1511,8 +1922,8 @@
                 <span>All data lives on your device. Nothing is sent to any server, ever.</span>
               </div>
             </div>
-            <div class="pillar-row reveal">
-              <div class="pillar-icon">
+            <div class="pillar-row reveal-left">
+              <div class="pillar-icon" style="background:var(--coral-bg); color:var(--coral-dark);">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <circle cx="12" cy="12" r="10"/>
                   <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
@@ -1523,8 +1934,8 @@
                 <span>No analytics, no tracking, no telemetry — not even anonymous usage stats.</span>
               </div>
             </div>
-            <div class="pillar-row reveal">
-              <div class="pillar-icon">
+            <div class="pillar-row reveal-left">
+              <div class="pillar-icon" style="background:var(--teal-bg); color:var(--teal-dark);">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                   <polyline points="7 10 12 15 17 10"/>
@@ -1532,14 +1943,28 @@
                 </svg>
               </div>
               <div class="pillar-text">
-                <strong>You Own Your Data</strong>
-                <span>Export your moments as JSON anytime from Settings. Import them back whenever you like.</span>
+                <strong>Export &amp; Import</strong>
+                <span>Export all your moments and collections as a file from Settings. Import it back anytime to restore everything.</span>
+              </div>
+            </div>
+            <div class="pillar-row reveal-left">
+              <div class="pillar-icon" style="background:#FFF0F2; color:#C9293C;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                  <path d="M10 11v6M14 11v6"/>
+                  <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+                </svg>
+              </div>
+              <div class="pillar-text">
+                <strong>Delete All Data</strong>
+                <span>Wipe everything instantly from Settings → Delete All Data. Complete, permanent, and confirmed by you.</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="privacy-stat-card reveal">
+        <div class="privacy-stat-card reveal-pop">
           <div class="privacy-stat-number" aria-label="Zero">0</div>
           <div class="privacy-stat-label">bytes of data collected</div>
           <p class="privacy-stat-sub">Everything stays on your device. ItMadeMyDay has no server, no database, no user accounts.</p>
@@ -1550,7 +1975,7 @@
     <!-- FAQ -->
     <section id="faq" class="faq-section" aria-labelledby="faq-heading">
       <div class="faq-inner">
-        <h2 id="faq-heading" class="reveal">Common questions</h2>
+        <h2 id="faq-heading" class="reveal">Good questions.</h2>
         <div class="faq-list" role="list">
 
           <div class="faq-item reveal" role="listitem">
@@ -1604,7 +2029,7 @@
             </button>
             <div class="faq-answer-wrap" id="faq-answer-4" role="region">
               <div class="faq-answer-inner">
-                <p class="faq-answer">Boost lets you browse your saved moments filtered by how you are currently feeling — Sad, Anxious, Lonely, Celebrating, or Grateful. It surfaces the moments most likely to help, comfort, or resonate with you in that moment.</p>
+                <p class="faq-answer">Boost lets you browse saved moments filtered by how you're currently feeling. Built-in moods include Sad, Anxious, Lonely, Celebrating, and Grateful. You can also create your own custom moods — name them, pick an icon, and choose a color — so the app reflects how you actually feel.</p>
               </div>
             </div>
           </div>
@@ -1618,7 +2043,7 @@
             </button>
             <div class="faq-answer-wrap" id="faq-answer-5" role="region">
               <div class="faq-answer-inner">
-                <p class="faq-answer">Collections are curated groups of moments that you organize yourself. You can create any Collection you like — a set of your favorite compliments, memories from a particular trip, or quotes from a book — and add moments to it for easy browsing later.</p>
+                <p class="faq-answer">Collections are groups of moments you create and organize yourself. The app includes examples like Kind Words, Little Wins, and Happy Memories — but you can create any collection with a custom name and color. Add moments to multiple collections, and browse them separately anytime.</p>
               </div>
             </div>
           </div>
@@ -1632,7 +2057,21 @@
             </button>
             <div class="faq-answer-wrap" id="faq-answer-6" role="region">
               <div class="faq-answer-inner">
-                <p class="faq-answer">Yes. You can export all your moments as a JSON file from the Settings screen at any time. You can also import that file back into the app to restore your vault, or transfer it to a new device.</p>
+                <p class="faq-answer">Yes. Go to Settings → Export My Moments to save a file with all your moments, collections, and settings. You can import that file back using Settings → Import Moments — restoring everything exactly as it was, or transferring it to a new device.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal" role="listitem">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-7">
+              Can I delete all my data?
+              <span class="faq-toggle" aria-hidden="true">
+                <span class="faq-toggle-icon"></span>
+              </span>
+            </button>
+            <div class="faq-answer-wrap" id="faq-answer-7" role="region">
+              <div class="faq-answer-inner">
+                <p class="faq-answer">Yes. Settings → Delete All Data permanently removes all your moments, collections, and settings from the device. This cannot be undone, so the app asks you to confirm before proceeding. Since there is no server, the deletion is complete and instant.</p>
               </div>
             </div>
           </div>
@@ -1644,8 +2083,8 @@
     <!-- CTA SECTION -->
     <section id="download" class="cta-section" aria-labelledby="cta-heading">
       <div class="cta-inner">
-        <h2 id="cta-heading" class="reveal">Start saving what matters</h2>
-        <p class="reveal">ItMadeMyDay is coming to the App Store soon. Free, private, and built to help you hold onto the good.</p>
+        <h2 id="cta-heading" class="reveal">Don't let another good moment slip away.</h2>
+        <p class="reveal">ItMadeMyDay is coming to the App Store soon. Free to download. Private by design. No account ever needed.</p>
         <span class="coming-soon-pill reveal" aria-label="Coming soon to the App Store">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
             <path d="M11.182 10.506c-.243.588-.358.85-.67 1.37-.435.706-1.047 1.585-1.806 1.592-.675.007-.849-.44-1.764-.434-.915.005-1.106.443-1.78.437-.76-.007-1.337-.804-1.772-1.51-1.212-1.962-1.34-4.265-.592-5.487.531-.876 1.368-1.39 2.154-1.39.801 0 1.305.44 1.967.44.643 0 1.035-.442 1.963-.442.703 0 1.45.383 1.98 1.045-.174.1-1.874 1.093-1.853 3.26.019 2.059 1.809 2.745 2.173 2.119zM8.967 2.615C9.264 1.989 9.356 1 9.095.5 8.412.546 7.61.97 7.258 1.565c-.322.542-.45 1.55-.22 2.072.74.025 1.595-.45 1.929-1.022z"/>
@@ -1663,7 +2102,7 @@
     <div class="footer-inner">
       <div class="footer-logo">
         <img src="logo.jpeg" alt="ItMadeMyDay" width="24" height="24" loading="lazy" />
-        <span class="footer-logo-text">ItMadeMyDay</span>
+        <span class="footer-logo-text"><span style="color:#3B82F6">I</span><span style="color:#3B82F6">t</span><span style="color:#EF4444">M</span><span style="color:#EF4444">a</span><span style="color:#EF4444">d</span><span style="color:#EF4444">e</span><span style="color:#FBBF24">M</span><span style="color:#FBBF24">y</span><span style="color:#10B981">D</span><span style="color:#10B981">a</span><span style="color:#10B981">y</span></span>
       </div>
       <p class="footer-copy">
         &copy; <span id="year"></span> Ananya Banerjee. All rights reserved. ItMadeMyDay&trade;
@@ -1683,6 +2122,14 @@
     // Dynamic year
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    // Theme toggle
+    document.getElementById('themeToggle').addEventListener('click', function() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('immd-theme', next);
+    });
+
     // IntersectionObserver for reveal animations
     (function () {
       var observer = new IntersectionObserver(function (entries) {
@@ -1694,7 +2141,7 @@
         });
       }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-      document.querySelectorAll('.reveal').forEach(function (el) {
+      document.querySelectorAll('.reveal, .reveal-left, .reveal-pop, .reveal-scale, .reveal-bounce').forEach(function (el) {
         observer.observe(el);
       });
     })();
