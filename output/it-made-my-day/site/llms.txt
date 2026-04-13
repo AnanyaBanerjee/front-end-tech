@@ -26,4 +26,3 @@ ItMadeMyDay collects zero user data. The app has no server connection. All data 
 ## Optional
 
 - [Terms of Use](https://itmademyday.app/terms.html): Usage terms
-- [DMCA](https://itmademyday.app/dmca.html): Copyright policy
