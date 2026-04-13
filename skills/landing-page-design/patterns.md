@@ -612,7 +612,104 @@ Search if many questions
 
 ---
 
-## Pattern 10: The Final CTA Section
+## Pattern 10: The Feature Spotlight (Auto-Advancing Tab Explorer)
+
+**Context:** Replacing a static card grid when you have 4–6 features with real copy worth reading. More editorial, more premium, more interactive than a bento grid.
+
+**When to use:**
+- Features have substantial body copy (2–4 sentences each)
+- You want one feature in focus at a time rather than everything competing for attention
+- The product has distinct named features (not just bullet points)
+- You want animation and interactivity without requiring user action
+
+**The Pattern:**
+```
+LAYOUT (Desktop):
+┌────────────────────────────────────────────────┐
+│  [01] ▌ Your Vault            [  CONTENT  ]   │
+│  [02]   Boost for the...      [  PANEL    ]   │
+│  [03]   Organized by...       [  AREA     ]   │
+│  [04]   Yours Alone                           │
+│  [05]   The Two-Minute...                     │
+└────────────────────────────────────────────────┘
+
+Left rail (320px fixed):
+- Numbered tabs (01–05) in brand accent color
+- Active tab: colored left bar accent + bold label
+- Inactive tabs: muted label, no bar
+- Progress bar fills bottom of active tab over N seconds
+- Auto-advances to next tab when bar completes
+
+Right panel (flex: 1):
+- All panels position: absolute, stacked
+- Active panel: opacity 1, translateY(0)
+- Inactive panels: opacity 0, translateY(12px)
+- Transition: 380ms cubic-bezier(0.16,1,0.3,1)
+- Grid: 1fr 1fr (copy left, deco right)
+
+Auto-advance JS:
+- Default interval: 4500ms
+- Clicking any tab resets and restarts timer
+- No pause on hover (keeps momentum)
+```
+
+**Decorative elements per panel (the key to making it feel alive):**
+
+```
+VAULT (amber) → Floating chip cloud
+  6 emoji+label chips, each with staggered translateY bob animation
+  Uses CSS @keyframes fsc-float with nth-child animation-delay offsets
+
+BOOST (purple) → Hexagonal mood dot ring
+  6 color dots positioned absolutely around a 190×190px container
+  Each pulses scale(1.12) with staggered delays via @keyframes mood-pulse
+
+COLLECTIONS (teal) → Fanned card stack
+  3 cards position:absolute with rotate(-7deg)/0/rotate(6deg)
+  On .fs-deco:hover → fan open: rotate(-14deg)/0/rotate(14deg) + translateY
+
+PRIVACY (blue) → Breathing stat display
+  Giant number "0" at 7rem, color-matched, @keyframes fs-zero-breathe
+  Subtext "bytes ever sent" in uppercase tracking
+
+RITUAL (coral) → Floating notification card
+  iOS-style card with icon + title + body + timestamp
+  @keyframes fs-notif-bob: translateY + subtle rotate swing
+```
+
+**Responsive behaviour:**
+```
+≤960px: Grid collapses to 1-col
+  Nav becomes horizontal scrollable tab row (overflow-x: auto)
+  Tab ::before bar rotates from left-edge to bottom-edge
+  fs-panels gets explicit min-height
+
+≤768px: Panel switches to single column (copy above, deco below)
+
+≤480px: Tabs narrower, deco elements scale down
+```
+
+**CSS architecture:**
+```css
+/* Tab accent color via CSS custom property */
+.fs-tab-0 { --accent-color: #F5A623; }
+.fs-tab-1 { --accent-color: #8B5CF6; }
+/* ... etc */
+
+/* Progress bar animation resets on tab activation */
+/* bar.style.animation = 'none'; bar.offsetHeight; bar.style.animation = ''; */
+/* This forces reflow so CSS animation restarts from 0% */
+
+/* Panels stack via position:absolute inset:0 */
+/* z-index: 0 / 1 on inactive / active */
+/* No display:none — opacity+transform for cross-fade */
+```
+
+**Live implementation:** `output/it-made-my-day/site/index.html` — `#features` section
+
+---
+
+## Pattern 11: The Final CTA Section
 
 **Context:** The bottom-of-page conversion opportunity.
 
