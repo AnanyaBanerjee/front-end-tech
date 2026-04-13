@@ -1032,29 +1032,54 @@
     .fs-deco:hover .fs-coll-card:nth-child(3) { transform:rotate(14deg) translateY(-12px); }
 
     /* === Privacy — zero stat === */
-    .fs-zero-display { text-align: center; }
-    .fs-zero-num {
-      font-family: var(--font-display);
-      font-size: 7rem;
-      font-weight: 900;
-      line-height: 1;
-      color: #3B82F6;
-      letter-spacing: -0.06em;
-      animation: fs-zero-breathe 4s ease-in-out infinite;
-    }
-    .fs-zero-label {
+    /* === Vault showcase === */
+    .fs-vault-showcase { width: 100%; }
+    .fs-vault-label {
       font-family: var(--font-body);
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 800;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #3B82F6;
-      opacity: 0.65;
-      margin-top: 6px;
+      color: var(--amber-deep);
+      margin-bottom: 10px;
+      opacity: 0.7;
     }
-    @keyframes fs-zero-breathe {
-      0%,100% { transform: scale(1); opacity: 1; }
-      50%      { transform: scale(1.05); opacity: 0.8; }
+    .fs-chip-custom {
+      background: rgba(245,166,35,0.15);
+      border-style: dashed;
+    }
+    .fs-formats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .fs-format {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(245,166,35,0.3);
+      color: var(--amber-deep);
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 10px;
+    }
+
+    /* === Privacy badges === */
+    .fs-privacy-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+    .fs-privacy-badge {
+      background: rgba(255,255,255,0.85);
+      border: 1px solid rgba(59,130,246,0.2);
+      color: var(--text-mid);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: 12px;
     }
 
     /* === Ritual — notification card === */
@@ -1656,6 +1681,126 @@
       overflow-wrap: break-word;
       word-break: break-word;
     }
+
+    .flow-caption-formats {
+      margin-top: 12px;
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .flow-fmt-label {
+      display: block !important;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .flow-fmt-row {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      gap: 6px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .flow-fmt {
+      display: inline-flex !important;
+      align-items: center;
+      gap: 3px;
+      background: var(--amber-bg);
+      border: 1px solid var(--amber-ring);
+      color: var(--amber-deep);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateY(8px) scale(0.88);
+      animation: fmt-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .flow-fmt-1 { animation-delay: 0.05s; }
+    .flow-fmt-2 { animation-delay: 0.15s; }
+    .flow-fmt-3 { animation-delay: 0.25s; }
+    .flow-fmt-4 { animation-delay: 0.35s; }
+
+    @keyframes fmt-pop {
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .flow-fmt-hint {
+      display: block !important;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .flow-context-block {
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .flow-ctx-label {
+      display: block !important;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .flow-ctx-row {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: wrap !important;
+      gap: 5px;
+      justify-content: center;
+    }
+
+    .flow-ctx-pill {
+      display: inline-flex !important;
+      align-items: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateY(6px) scale(0.9);
+      animation: fmt-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .flow-ctx-mood {
+      background: var(--purple-bg);
+      border: 1px solid var(--purple-ring);
+      color: var(--purple-dark);
+    }
+
+    .flow-ctx-coll {
+      background: var(--teal-bg);
+      border: 1px solid var(--teal-ring);
+      color: var(--teal-dark);
+    }
+
+    .flow-ctx-custom {
+      background: transparent;
+      border: 1px dashed var(--border);
+      color: var(--text-muted);
+    }
+
+    .flow-ctx-row .flow-ctx-pill:nth-child(1) { animation-delay: 0.05s; }
+    .flow-ctx-row .flow-ctx-pill:nth-child(2) { animation-delay: 0.15s; }
+    .flow-ctx-row .flow-ctx-pill:nth-child(3) { animation-delay: 0.25s; }
+    .flow-ctx-row .flow-ctx-pill:nth-child(4) { animation-delay: 0.35s; }
     .save-flow-arrow {
       font-size: 1.25rem;
       color: var(--border);
@@ -2055,6 +2200,13 @@
     .cycle-word.fade-out { opacity: 0; transform: translateY(-8px); }
     .cycle-word.fade-in  { opacity: 1; transform: translateY(0); }
 
+    .app-name { font-weight: 700; }
+
+    .immd-it   { color: var(--blue); }
+    .immd-made { color: var(--coral); }
+    .immd-my   { color: var(--amber); }
+    .immd-day  { color: var(--teal); }
+
     .hero-cycle-line {
       font-size: 1.1rem;
       color: var(--text-mid);
@@ -2273,6 +2425,11 @@
       font-weight: 700;
     }
 
+    .story-app {
+      color: var(--amber-dark);
+      font-weight: 600;
+    }
+
     .story-tag {
       margin-top: auto;
       font-family: var(--font-body);
@@ -2471,7 +2628,7 @@
         <h1 class="reveal">Joy doesn't expire.</h1>
         <p class="hero-cycle-line reveal">On <span id="cycleWord" class="cycle-word">your worst Monday</span>, it's here waiting for you.</p>
         <p class="hero-description product-summary reveal">
-          The compliment you brushed off. The photo from that perfect afternoon. The text that made you cry happy tears. The moment you proved yourself right. ItMadeMyDay keeps them safe — so when the world feels heavy, you have proof it's worth it.
+          The compliment you brushed off. The photo from that perfect afternoon. The text that made you cry happy tears. The moment you proved yourself right. <span class="app-name">ItMadeMyDay</span> is your personal vault for these moments — kept safe, so when the world feels heavy, you always know where to find your shine.
         </p>
         <div class="hero-cta-wrap reveal">
           <span class="coming-soon-pill" aria-label="Coming soon to the App Store">
@@ -2539,8 +2696,8 @@
       <div class="features-inner">
         <div class="section-header">
           <p class="section-eyebrow reveal">What's inside</p>
-          <h2 id="features-heading" class="reveal">Six ways to save what matters.</h2>
-          <p class="section-sub reveal">Every kind of moment deserves its own home. ItMadeMyDay gives you six distinct types, smart collections, and a Boost tab that finds the right memory for your mood.</p>
+          <h2 id="features-heading" class="reveal">Five ways to save what matters.</h2>
+          <p class="section-sub reveal">Compliments. Memories. Achievements. Heart-touching moments. Funny things. Every kind of moment deserves its own home — with smart Collections and a Boost tab that finds the right one for your mood.</p>
         </div>
         <div class="feature-spotlight reveal">
           <!-- Left: vertical tab nav -->
@@ -2579,16 +2736,27 @@
             <div id="fs-panel-0" class="fs-panel fs-panel-0 active" role="tabpanel">
               <div class="fs-panel-copy">
                 <h3>Your Vault</h3>
-                <p>Compliments, memories, conversations, quotes, photos, links — saved the moment they happen, so they're waiting for you when you need them most.</p>
+                <p>A compliment, a memory, a funny moment, an achievement — whatever touched you. Save it as text, a photo, a link, or an audio clip. Every kind of moment gets its own home, in the format that fits.</p>
               </div>
               <div class="fs-deco" aria-hidden="true">
-                <div class="fs-chips-cloud">
-                  <span class="fs-chip">💬 Compliments</span>
-                  <span class="fs-chip">✨ Memories</span>
-                  <span class="fs-chip">🤝 Heart-to-Hearts</span>
-                  <span class="fs-chip">📖 Quotes</span>
-                  <span class="fs-chip">📸 Photos</span>
-                  <span class="fs-chip">🔗 Links</span>
+                <div class="fs-vault-showcase">
+                  <div class="fs-vault-label">What kind of moment?</div>
+                  <div class="fs-chips-cloud">
+                    <span class="fs-chip">💬 Compliment</span>
+                    <span class="fs-chip">✨ Memory</span>
+                    <span class="fs-chip">🏆 Achievement</span>
+                    <span class="fs-chip">💛 Heart-touching</span>
+                    <span class="fs-chip">😂 Funny</span>
+                    <span class="fs-chip">🙏 Gratitude</span>
+                    <span class="fs-chip fs-chip-custom">+ Your own</span>
+                  </div>
+                  <div class="fs-vault-label" style="margin-top:14px;">Save it as</div>
+                  <div class="fs-formats">
+                    <div class="fs-format">📝 Text</div>
+                    <div class="fs-format">📸 Photo</div>
+                    <div class="fs-format">🔗 Link</div>
+                    <div class="fs-format">🎵 Audio</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2633,9 +2801,11 @@
                 <p>No account. No server. No one else ever sees this. The most personal place on your phone — the one that holds the truest version of what makes you, you.</p>
               </div>
               <div class="fs-deco" aria-hidden="true">
-                <div class="fs-zero-display">
-                  <div class="fs-zero-num">0</div>
-                  <div class="fs-zero-label">bytes ever sent</div>
+                <div class="fs-privacy-badges">
+                  <div class="fs-privacy-badge">🔒 No account required</div>
+                  <div class="fs-privacy-badge">🚫 No server, ever</div>
+                  <div class="fs-privacy-badge">📱 Stays on your device</div>
+                  <div class="fs-privacy-badge">✈️ Works fully offline</div>
                 </div>
               </div>
             </div>
@@ -2677,35 +2847,35 @@
             <div class="story-time">9:43 AM</div>
             <p class="story-scenario">Month seven of the job hunt. Another automated rejection. You're starting to wonder if you're the problem.</p>
             <div class="story-divider"></div>
-            <p class="story-resolution">You open ItMadeMyDay. You go to your Work collection. There's the message from your old manager — <em>"You're one of the best I've worked with."</em> There's the note you saved after you shipped that project everyone said was impossible. You read them slowly. You are not the problem. You update your CV. You apply again.</p>
+            <p class="story-resolution"><span class="story-app">You open ItMadeMyDay.</span> <span class="story-app">You go to your Work collection.</span> There's the message from your old manager — <em>"You're one of the best I've worked with."</em> There's the note you saved after you shipped that project everyone said was impossible. You read them slowly. You are not the problem. You update your CV. You apply again.</p>
             <div class="story-tag">💼 Achievement · Work · Little Wins</div>
           </div>
           <div class="story-card story-card-blue reveal-scale">
             <div class="story-time">2:14 PM</div>
             <p class="story-scenario">Another rejection email. The third this month. The door feels permanently closed.</p>
             <div class="story-divider"></div>
-            <p class="story-resolution">You open ItMadeMyDay. You go to your Little Wins collection. You scroll. Seventeen moments — every time you were told no and found a way anyway. You read them one by one. You open your laptop. You write the next application. You don't give up.</p>
+            <p class="story-resolution"><span class="story-app">You open ItMadeMyDay.</span> <span class="story-app">You go to your Little Wins collection.</span> You scroll. Seventeen moments — every time you were told no and found a way anyway. You read them one by one. You open your laptop. You write the next application. <em>"You don't give up."</em></p>
             <div class="story-tag">✨ Collection · Little Wins</div>
           </div>
           <div class="story-card story-card-amber reveal-scale">
             <div class="story-time">11:47 PM</div>
             <p class="story-scenario">Everything feels impossible. Another hard day at the end of a hard week.</p>
             <div class="story-divider"></div>
-            <p class="story-resolution">You open ItMadeMyDay. You scroll past the compliments you'd forgotten. And then — your best friend's voice memo from last year. You press play. <em>"I'm so proud of you."</em> Your chest loosens. You remember who you are. You sleep.</p>
+            <p class="story-resolution"><span class="story-app">You open ItMadeMyDay.</span> You scroll past the compliments you'd forgotten. And then — your best friend's voice memo from last year. <span class="story-app">You press play.</span> <em>"I'm so proud of you."</em> Your chest loosens. You remember who you are. You sleep.</p>
             <div class="story-tag">💬 Compliment saved · 8 months ago</div>
           </div>
           <div class="story-card story-card-teal reveal-scale">
             <div class="story-time">6:02 AM</div>
             <p class="story-scenario">You forgot what joy feels like. It's been so long you can't even remember the last time you were happy.</p>
             <div class="story-divider"></div>
-            <p class="story-resolution">You open ItMadeMyDay. You tap Boost. You pick Grateful. The photo from that perfect afternoon fills your screen — golden light, your favourite people, a moment of pure peace you had forgotten existed. Something shifts. You remember what it feels like to be okay. You smile. You keep going.</p>
+            <p class="story-resolution"><span class="story-app">You open ItMadeMyDay.</span> <span class="story-app">You tap Boost. You pick Grateful.</span> The photo from that perfect afternoon fills your screen — golden light, your favourite people, a moment of pure peace you had forgotten existed. Something shifts. <em>"You remember what it feels like to be okay."</em> You smile. You keep going.</p>
             <div class="story-tag">📸 Photo · Boost · Grateful</div>
           </div>
           <div class="story-card story-card-purple reveal-scale">
             <div class="story-time">3:17 AM</div>
             <p class="story-scenario">You're lying in the dark and everything feels too heavy. Not sad about anything specific. Just… empty. Like nothing is ever going to feel okay again.</p>
             <div class="story-divider"></div>
-            <p class="story-resolution">You open ItMadeMyDay. No plan, no category. You just scroll. A photo from a birthday. A text from your mum. A quote you saved when you were having the best day of your year. A memory you'd completely forgotten about — but it's right there, waiting. Something small and warm finds you in the dark. You don't fix everything. But you make it to morning.</p>
+            <p class="story-resolution"><span class="story-app">You open ItMadeMyDay.</span> No plan, no category. You just scroll. A photo from a birthday. A text from your mum. A quote you saved when you were having the best day of your year. A memory you'd completely forgotten about — but it's right there, waiting. <em>"Something small and warm finds you in the dark."</em> You don't fix everything. But you make it to morning.</p>
             <div class="story-tag">🌙 Memory · Compliment · 3am</div>
           </div>
         </div>
@@ -2743,7 +2913,17 @@
             <div class="flow-caption">
               <span class="flow-step">1</span>
               <strong>What kind of moment?</strong>
-              <span>Compliment, Memory, Achievement, Heart-to-Heart, and more</span>
+              <span>Compliment, Memory, Achievement, Heart-touching, Funny, Gratitude — or create your own</span>
+              <span class="flow-caption-formats">
+                <span class="flow-fmt-label">A moment can be anything</span>
+                <span class="flow-fmt-row">
+                  <span class="flow-fmt flow-fmt-1">📝 Text</span>
+                  <span class="flow-fmt flow-fmt-2">📸 Photo</span>
+                  <span class="flow-fmt flow-fmt-3">🔗 Link</span>
+                  <span class="flow-fmt flow-fmt-4">🎵 Audio</span>
+                </span>
+                <span class="flow-fmt-hint">one kind or all at once — whatever the moment needs</span>
+              </span>
             </div>
           </div>
 
@@ -2762,7 +2942,22 @@
             <div class="flow-caption">
               <span class="flow-step">2</span>
               <strong>Give it context</strong>
-              <span>Add tags, pick a mood it belongs to, choose a collection</span>
+              <span class="flow-context-block">
+                <span class="flow-ctx-label">Open this when I'm…</span>
+                <span class="flow-ctx-row">
+                  <span class="flow-ctx-pill flow-ctx-mood">😔 Doubting Myself</span>
+                  <span class="flow-ctx-pill flow-ctx-mood">😰 Anxious</span>
+                  <span class="flow-ctx-pill flow-ctx-mood">🎉 Celebrating</span>
+                  <span class="flow-ctx-pill flow-ctx-custom">+ Create your own</span>
+                </span>
+                <span class="flow-ctx-label" style="margin-top:8px">Add to collection</span>
+                <span class="flow-ctx-row">
+                  <span class="flow-ctx-pill flow-ctx-coll">✨ Kind Words</span>
+                  <span class="flow-ctx-pill flow-ctx-coll">🏆 Little Wins</span>
+                  <span class="flow-ctx-pill flow-ctx-coll">💛 Happy Memories</span>
+                  <span class="flow-ctx-pill flow-ctx-custom">+ New collection</span>
+                </span>
+              </span>
             </div>
           </div>
 
@@ -3308,6 +3503,25 @@
   </footer>
 
   <script src="main.js"></script>
+
+  <script>
+    // Multicolor app name — replaces every text instance of "ItMadeMyDay" in the DOM
+    (function () {
+      const colored = '<span class="immd-it">It</span><span class="immd-made">Made</span><span class="immd-my">My</span><span class="immd-day">Day</span>';
+      function walk(node) {
+        if (node.nodeType === 3) {
+          if (node.nodeValue.includes('ItMadeMyDay')) {
+            const wrap = document.createElement('span');
+            wrap.innerHTML = node.nodeValue.replace(/ItMadeMyDay/g, colored);
+            node.parentNode.replaceChild(wrap, node);
+          }
+        } else if (node.nodeType === 1 && node.tagName !== 'SCRIPT' && node.tagName !== 'STYLE') {
+          Array.from(node.childNodes).forEach(walk);
+        }
+      }
+      document.addEventListener('DOMContentLoaded', function () { walk(document.body); });
+    })();
+  </script>
 
 </body>
 </html>
