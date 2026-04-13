@@ -759,173 +759,400 @@
       color: var(--text);
     }
 
-    .bento-grid {
+    /* ============================================================
+       FEATURE SPOTLIGHT
+    ============================================================ */
+    .feature-spotlight {
       display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 20px;
+      grid-template-columns: 320px 1fr;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      overflow: hidden;
+      background: var(--bg-card);
+      box-shadow: 0 4px 60px rgba(0,0,0,0.05), inset 0 0 0 1px rgba(255,255,255,0.6);
+      min-height: 460px;
     }
 
-    /* Base card — glass + gradient foundation */
-    .bento-card {
+    /* Left nav rail */
+    .fs-nav {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border);
+    }
+
+    .fs-tab {
       position: relative;
+      background: none;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      padding: 22px 24px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      transition: background 250ms ease;
       overflow: hidden;
-      border-radius: 28px;
-      padding: 40px;
+    }
+    .fs-tab:last-child { border-bottom: none; }
+    .fs-tab:hover { background: var(--bg); }
+    .fs-tab.active { background: var(--bg); }
+
+    .fs-tab-num {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      color: var(--accent-color, var(--amber));
+      opacity: 0.5;
+      transition: opacity 250ms ease;
+    }
+    .fs-tab.active .fs-tab-num { opacity: 1; }
+
+    .fs-tab-label {
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      line-height: 1.3;
+      transition: color 250ms ease;
+    }
+    .fs-tab.active .fs-tab-label { color: var(--text); }
+
+    /* Left accent bar */
+    .fs-tab::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent-color, var(--amber));
+      transform: scaleY(0);
+      transform-origin: center;
+      transition: transform 300ms cubic-bezier(0.34,1.56,0.64,1);
+      border-radius: 0 2px 2px 0;
+    }
+    .fs-tab.active::before { transform: scaleY(1); }
+
+    /* Auto-advance progress bar */
+    .fs-progress {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      overflow: hidden;
+    }
+    .fs-progress-bar {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: var(--accent-color, var(--amber));
+      border-radius: 0 2px 2px 0;
+    }
+    .fs-tab.active .fs-progress-bar {
+      animation: fs-fill 4.5s linear forwards;
+    }
+    @keyframes fs-fill {
+      from { width: 0%; }
+      to   { width: 100%; }
+    }
+
+    /* Per-tab accent colours */
+    .fs-tab-0 { --accent-color: #F5A623; }
+    .fs-tab-1 { --accent-color: #8B5CF6; }
+    .fs-tab-2 { --accent-color: #10B981; }
+    .fs-tab-3 { --accent-color: #3B82F6; }
+    .fs-tab-4 { --accent-color: #FF5C6C; }
+
+    /* Right panel container */
+    .fs-panels {
+      position: relative;
+      min-height: 460px;
+    }
+
+    /* Individual panels — absolutely stacked, cross-fade */
+    .fs-panel {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      padding: 52px 48px;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 380ms cubic-bezier(0.16,1,0.3,1),
+                  transform 380ms cubic-bezier(0.16,1,0.3,1);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .fs-panel.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      z-index: 1;
+    }
+
+    .fs-panel-copy {
       display: flex;
       flex-direction: column;
       gap: 18px;
-      transition: transform 450ms cubic-bezier(0.16,1,0.3,1),
-                  box-shadow 450ms cubic-bezier(0.16,1,0.3,1);
     }
-
-    /* Colored ambient orb — top-right corner of each card */
-    .bento-card::before {
-      content: '';
-      position: absolute;
-      top: -70px; right: -70px;
-      width: 220px; height: 220px;
-      border-radius: 50%;
-      filter: blur(70px);
-      opacity: 0.22;
-      pointer-events: none;
-      transition: opacity 500ms ease, transform 500ms ease;
-      z-index: 0;
-    }
-    .bento-card:hover::before { opacity: 0.38; transform: scale(1.25); }
-
-    .bento-amber::before  { background: var(--amber); }
-    .bento-purple::before { background: var(--purple); }
-    .bento-teal::before   { background: var(--teal); }
-    .bento-blue::before   { background: var(--blue); }
-    .bento-coral::before  { background: var(--coral); }
-
-    /* Gradient backgrounds — warm watercolor feel */
-    .bento-amber  {
-      background: linear-gradient(145deg, #FFF4D0 0%, #FFFBF0 50%, #FFFFFF 100%);
-      border: 1px solid rgba(245,166,35,0.22);
-      box-shadow: 0 2px 30px rgba(245,166,35,0.07), inset 0 0 0 1px rgba(255,255,255,0.75);
-    }
-    .bento-purple {
-      background: linear-gradient(145deg, #EDE9FF 0%, #F7F5FF 50%, #FFFFFF 100%);
-      border: 1px solid rgba(139,92,246,0.2);
-      box-shadow: 0 2px 30px rgba(139,92,246,0.07), inset 0 0 0 1px rgba(255,255,255,0.75);
-    }
-    .bento-teal {
-      background: linear-gradient(145deg, #D8FDF0 0%, #F0FDFB 50%, #FFFFFF 100%);
-      border: 1px solid rgba(16,185,129,0.2);
-      box-shadow: 0 2px 30px rgba(16,185,129,0.07), inset 0 0 0 1px rgba(255,255,255,0.75);
-    }
-    .bento-blue {
-      background: linear-gradient(145deg, #DBEAFE 0%, #EFF6FF 50%, #FFFFFF 100%);
-      border: 1px solid rgba(59,130,246,0.2);
-      box-shadow: 0 2px 30px rgba(59,130,246,0.07), inset 0 0 0 1px rgba(255,255,255,0.75);
-    }
-    .bento-coral {
-      background: linear-gradient(145deg, #FFE0E4 0%, #FFF5F6 50%, #FFFFFF 100%);
-      border: 1px solid rgba(255,92,108,0.2);
-      box-shadow: 0 2px 30px rgba(255,92,108,0.07), inset 0 0 0 1px rgba(255,255,255,0.75);
-    }
-
-    /* Hover — lift with slight tilt, colored shadow */
-    .bento-amber:hover  { transform: translateY(-10px) rotate(-1deg);   box-shadow: 0 40px 80px rgba(245,166,35,0.18), inset 0 0 0 1px rgba(255,255,255,0.9); }
-    .bento-purple:hover { transform: translateY(-10px) rotate(1deg);    box-shadow: 0 40px 80px rgba(139,92,246,0.18), inset 0 0 0 1px rgba(255,255,255,0.9); }
-    .bento-teal:hover   { transform: translateY(-10px) rotate(-0.6deg); box-shadow: 0 40px 80px rgba(16,185,129,0.18), inset 0 0 0 1px rgba(255,255,255,0.9); }
-    .bento-blue:hover   { transform: translateY(-10px) rotate(0.8deg);  box-shadow: 0 40px 80px rgba(59,130,246,0.18), inset 0 0 0 1px rgba(255,255,255,0.9); }
-    .bento-coral:hover  { transform: translateY(-10px) rotate(-0.7deg); box-shadow: 0 40px 80px rgba(255,92,108,0.18), inset 0 0 0 1px rgba(255,255,255,0.9); }
-
-    /* Huge watermark glyph — dramatic and artistic */
-    .bento-stat {
+    .fs-panel-copy h3 {
       font-family: var(--font-display);
-      font-size: 10rem;
-      font-weight: 900;
-      line-height: 1;
-      position: absolute;
-      bottom: -24px;
-      right: 12px;
-      top: auto;
-      letter-spacing: -0.06em;
-      opacity: 0.065;
-      transition: opacity 450ms ease, transform 450ms cubic-bezier(0.16,1,0.3,1);
-      pointer-events: none;
-      user-select: none;
-      z-index: 0;
+      font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: var(--text);
     }
-    .bento-card:hover .bento-stat { opacity: 0.12; transform: scale(1.04) translateY(-4px); }
-    .bento-amber  .bento-stat { color: var(--amber-dark); }
-    .bento-purple .bento-stat { color: var(--purple-dark); }
-    .bento-teal   .bento-stat { color: var(--teal-dark); }
-    .bento-blue   .bento-stat { color: var(--blue-dark); }
-    .bento-coral  .bento-stat { color: var(--coral-dark); }
+    .fs-panel-copy p {
+      font-size: 0.975rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+    }
 
-    .bento-card-1 { grid-column: span 7; }
-    .bento-card-2 { grid-column: span 5; }
-    .bento-card-3 { grid-column: span 4; }
-    .bento-card-4 { grid-column: span 4; }
-    .bento-card-5 { grid-column: span 4; }
+    /* Decorative deco box */
+    .fs-deco {
+      border-radius: 20px;
+      padding: 36px 28px;
+      min-height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-    /* Icon — circular, glass surface, floating feel */
-    .bento-icon {
-      width: 52px;
-      height: 52px;
+    /* Deco tinted backgrounds per panel */
+    .fs-panel-0 .fs-deco { background: linear-gradient(145deg,#FFF4D0,#FFFBF0); border: 1px solid rgba(245,166,35,0.2); }
+    .fs-panel-1 .fs-deco { background: linear-gradient(145deg,#EDE9FF,#F5F3FF); border: 1px solid rgba(139,92,246,0.2); }
+    .fs-panel-2 .fs-deco { background: linear-gradient(145deg,#D8FDF0,#EDFDF7); border: 1px solid rgba(16,185,129,0.2); }
+    .fs-panel-3 .fs-deco { background: linear-gradient(145deg,#DBEAFE,#EFF6FF); border: 1px solid rgba(59,130,246,0.2); }
+    .fs-panel-4 .fs-deco { background: linear-gradient(145deg,#FFE0E4,#FFF0F2); border: 1px solid rgba(255,92,108,0.2); }
+
+    /* === Vault — floating chips cloud === */
+    .fs-chips-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .fs-chip {
+      background: rgba(255,255,255,0.85);
+      border: 1px solid rgba(245,166,35,0.28);
+      color: var(--amber-deep);
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 50px;
+      animation: fsc-float 3s ease-in-out infinite;
+    }
+    .fs-chip:nth-child(1) { animation-delay: 0s; }
+    .fs-chip:nth-child(2) { animation-delay: 0.5s; }
+    .fs-chip:nth-child(3) { animation-delay: 1s; }
+    .fs-chip:nth-child(4) { animation-delay: 1.5s; }
+    .fs-chip:nth-child(5) { animation-delay: 2s; }
+    .fs-chip:nth-child(6) { animation-delay: 2.5s; }
+    @keyframes fsc-float {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-6px); }
+    }
+
+    /* === Boost — mood dot ring === */
+    .fs-mood-ring {
+      position: relative;
+      width: 190px;
+      height: 190px;
+    }
+    .fs-mood-dot {
+      position: absolute;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
-      border: 1.5px solid rgba(255,255,255,0.8);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-      transition: transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
-      position: relative; z-index: 1;
-    }
-    .bento-amber  .bento-icon { background: rgba(254,215,170,0.75); color: var(--amber-dark); }
-    .bento-purple .bento-icon { background: rgba(221,214,254,0.75); color: var(--purple-dark); }
-    .bento-teal   .bento-icon { background: rgba(167,243,208,0.75); color: var(--teal-dark); }
-    .bento-blue   .bento-icon { background: rgba(191,219,254,0.75); color: var(--blue-dark); }
-    .bento-coral  .bento-icon { background: rgba(254,205,211,0.75); color: var(--coral-dark); }
-
-    .bento-card:hover .bento-icon { transform: scale(1.18) rotate(-10deg); }
-
-    .bento-card h3 {
-      font-family: var(--font-display);
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-      position: relative; z-index: 1;
-    }
-
-    .bento-card p {
-      font-size: 0.95rem;
-      color: var(--text-mid);
-      line-height: 1.7;
-      position: relative; z-index: 1;
-    }
-
-    .category-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 4px;
-      position: relative; z-index: 1;
-    }
-
-    /* Chips — frosted glass pills */
-    .chip {
-      background: rgba(255,255,255,0.72);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(245,166,35,0.22);
-      color: var(--amber-deep);
       font-family: var(--font-body);
-      font-size: 0.78rem;
-      font-weight: 700;
-      padding: 5px 14px;
-      border-radius: 50px;
-      letter-spacing: 0.01em;
-      transition: background 200ms ease;
+      font-size: 0.55rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.22);
+      animation: mood-pulse 3s ease-in-out infinite;
     }
-    .chip:hover { background: rgba(255,255,255,0.92); }
+    /* 6 dots in a hexagon at r≈72px from center(95,95) */
+    .fs-mood-dot:nth-child(1) { top:  4px; left: 71px; animation-delay: 0s; }
+    .fs-mood-dot:nth-child(2) { top: 58px; left: 133px; animation-delay: 0.5s; }
+    .fs-mood-dot:nth-child(3) { top: 130px; left: 133px; animation-delay: 1s; }
+    .fs-mood-dot:nth-child(4) { top: 143px; left: 71px; animation-delay: 1.5s; }
+    .fs-mood-dot:nth-child(5) { top: 130px; left:  8px; animation-delay: 2s; }
+    .fs-mood-dot:nth-child(6) { top:  58px; left:  8px; animation-delay: 2.5s; }
+    @keyframes mood-pulse {
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.12); }
+    }
+
+    /* === Collections — fanned cards === */
+    .fs-collection-fan {
+      position: relative;
+      width: 200px;
+      height: 170px;
+    }
+    .fs-coll-card {
+      position: absolute;
+      width: 168px;
+      padding: 18px 22px;
+      border-radius: 14px;
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      font-weight: 700;
+      border: 1px solid rgba(0,0,0,0.07);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.09);
+      transition: transform 400ms cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .fs-coll-card:nth-child(1) { background:#FFF4D0; color:var(--amber-dark); top:24px; left:16px; transform:rotate(-7deg); z-index:1; }
+    .fs-coll-card:nth-child(2) { background:#D8FDF0; color:#065f46; top:12px; left:20px; transform:rotate(0deg); z-index:2; }
+    .fs-coll-card:nth-child(3) { background:#EDE9FF; color:#5b21b6; top:24px; left:24px; transform:rotate(6deg); z-index:3; }
+    .fs-deco:hover .fs-coll-card:nth-child(1) { transform:rotate(-14deg) translateY(-12px); }
+    .fs-deco:hover .fs-coll-card:nth-child(2) { transform:rotate(0deg) translateY(-20px); }
+    .fs-deco:hover .fs-coll-card:nth-child(3) { transform:rotate(14deg) translateY(-12px); }
+
+    /* === Privacy — zero stat === */
+    .fs-zero-display { text-align: center; }
+    .fs-zero-num {
+      font-family: var(--font-display);
+      font-size: 7rem;
+      font-weight: 900;
+      line-height: 1;
+      color: #3B82F6;
+      letter-spacing: -0.06em;
+      animation: fs-zero-breathe 4s ease-in-out infinite;
+    }
+    .fs-zero-label {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #3B82F6;
+      opacity: 0.65;
+      margin-top: 6px;
+    }
+    @keyframes fs-zero-breathe {
+      0%,100% { transform: scale(1); opacity: 1; }
+      50%      { transform: scale(1.05); opacity: 0.8; }
+    }
+
+    /* === Ritual — notification card === */
+    .fs-notif {
+      background: rgba(255,255,255,0.95);
+      border-radius: 18px;
+      padding: 20px 22px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      box-shadow: 0 14px 44px rgba(255,92,108,0.16), 0 2px 8px rgba(0,0,0,0.07);
+      border: 1px solid rgba(255,92,108,0.18);
+      max-width: 280px;
+      animation: fs-notif-bob 4s ease-in-out infinite;
+    }
+    .fs-notif-icon { font-size: 1.6rem; flex-shrink: 0; margin-top: 2px; }
+    .fs-notif-title {
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+    .fs-notif-body {
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      line-height: 1.55;
+    }
+    .fs-notif-time {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 7px;
+      font-weight: 600;
+    }
+    @keyframes fs-notif-bob {
+      0%,100% { transform: translateY(0) rotate(-1deg); }
+      50%      { transform: translateY(-10px) rotate(1.2deg); }
+    }
+
+    /* Dark mode */
+    [data-theme="dark"] .feature-spotlight {
+      background: var(--bg-card);
+      border-color: var(--border);
+      box-shadow: 0 4px 60px rgba(0,0,0,0.25);
+    }
+    [data-theme="dark"] .fs-nav { border-right-color: var(--border); }
+    [data-theme="dark"] .fs-tab { border-bottom-color: var(--border); }
+    [data-theme="dark"] .fs-tab.active { background: rgba(255,255,255,0.04); }
+    [data-theme="dark"] .fs-panel-0 .fs-deco { background: rgba(245,166,35,0.09); border-color: rgba(245,166,35,0.2); }
+    [data-theme="dark"] .fs-panel-1 .fs-deco { background: rgba(139,92,246,0.09); border-color: rgba(139,92,246,0.2); }
+    [data-theme="dark"] .fs-panel-2 .fs-deco { background: rgba(16,185,129,0.09); border-color: rgba(16,185,129,0.2); }
+    [data-theme="dark"] .fs-panel-3 .fs-deco { background: rgba(59,130,246,0.09); border-color: rgba(59,130,246,0.2); }
+    [data-theme="dark"] .fs-panel-4 .fs-deco { background: rgba(255,92,108,0.09); border-color: rgba(255,92,108,0.2); }
+    [data-theme="dark"] .fs-chip { background: rgba(255,255,255,0.07); }
+    [data-theme="dark"] .fs-notif { background: var(--bg-card); }
+    [data-theme="dark"] .fs-coll-card:nth-child(1) { background: rgba(245,166,35,0.15); color: var(--amber); }
+    [data-theme="dark"] .fs-coll-card:nth-child(2) { background: rgba(16,185,129,0.15); color: #6ee7b7; }
+    [data-theme="dark"] .fs-coll-card:nth-child(3) { background: rgba(139,92,246,0.15); color: #c4b5fd; }
+    [data-theme="dark"] .fs-zero-num { color: #60a5fa; }
+    [data-theme="dark"] .fs-zero-label { color: #60a5fa; }
+    [data-theme="dark"] .features-section::before { opacity: 0.6; }
+
+    /* Spotlight responsive */
+    @media (max-width: 960px) {
+      .feature-spotlight {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+      .fs-nav {
+        flex-direction: row;
+        overflow-x: auto;
+        scrollbar-width: none;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .fs-nav::-webkit-scrollbar { display: none; }
+      .fs-tab {
+        flex: 0 0 auto;
+        min-width: 130px;
+        border-bottom: none;
+        border-right: 1px solid var(--border);
+        padding: 16px 18px;
+      }
+      .fs-tab:last-child { border-right: none; }
+      .fs-tab::before {
+        top: auto; left: 0; right: 0; bottom: 0;
+        width: auto; height: 3px;
+        transform: scaleX(0);
+        transform-origin: center;
+        border-radius: 2px 2px 0 0;
+      }
+      .fs-tab.active::before { transform: scaleX(1); }
+      .fs-panels { min-height: 460px; }
+    }
+
+    @media (max-width: 768px) {
+      .fs-panel {
+        grid-template-columns: 1fr;
+        padding: 32px 28px;
+        gap: 28px;
+      }
+      .fs-deco { min-height: 200px; }
+      .fs-panel-copy h3 { font-size: 1.5rem; }
+      .fs-panels { min-height: 560px; }
+    }
+
+    @media (max-width: 480px) {
+      .fs-tab { min-width: 110px; padding: 14px 14px; }
+      .fs-tab-label { font-size: 0.78rem; }
+      .fs-panel { padding: 24px 20px; gap: 20px; }
+      .fs-mood-ring { transform: scale(0.85); }
+      .fs-notif { max-width: 240px; }
+    }
 
     /* Section eyebrow — editorial style with flanking lines */
     .section-eyebrow {
@@ -957,41 +1184,6 @@
       line-height: 1.75;
     }
 
-    /* Mood dots — larger, animated wave on hover */
-    .bento-mood-dots {
-      display: flex;
-      gap: 10px;
-      margin-top: 16px;
-      position: relative; z-index: 1;
-    }
-    .bento-mood-dots span {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: inline-block;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
-      transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .bento-card:hover .bento-mood-dots span:nth-child(1) { transform: translateY(-5px); transition-delay: 0ms; }
-    .bento-card:hover .bento-mood-dots span:nth-child(2) { transform: translateY(-5px); transition-delay: 50ms; }
-    .bento-card:hover .bento-mood-dots span:nth-child(3) { transform: translateY(-5px); transition-delay: 100ms; }
-    .bento-card:hover .bento-mood-dots span:nth-child(4) { transform: translateY(-5px); transition-delay: 150ms; }
-    .bento-card:hover .bento-mood-dots span:nth-child(5) { transform: translateY(-5px); transition-delay: 200ms; }
-    .bento-card:hover .bento-mood-dots span:nth-child(6) { transform: translateY(-5px); transition-delay: 250ms; }
-
-    /* Dark mode bento cards — aurora on dark */
-    [data-theme="dark"] .bento-amber  { background: linear-gradient(145deg, rgba(245,166,35,0.13) 0%, rgba(245,166,35,0.04) 60%, transparent 100%); border-color: rgba(245,166,35,0.2); box-shadow: 0 2px 30px rgba(245,166,35,0.08); }
-    [data-theme="dark"] .bento-purple { background: linear-gradient(145deg, rgba(139,92,246,0.14) 0%, rgba(139,92,246,0.04) 60%, transparent 100%); border-color: rgba(139,92,246,0.22); box-shadow: 0 2px 30px rgba(139,92,246,0.08); }
-    [data-theme="dark"] .bento-teal   { background: linear-gradient(145deg, rgba(16,185,129,0.13) 0%, rgba(16,185,129,0.04) 60%, transparent 100%); border-color: rgba(16,185,129,0.2); box-shadow: 0 2px 30px rgba(16,185,129,0.08); }
-    [data-theme="dark"] .bento-blue   { background: linear-gradient(145deg, rgba(59,130,246,0.13) 0%, rgba(59,130,246,0.04) 60%, transparent 100%); border-color: rgba(59,130,246,0.2); box-shadow: 0 2px 30px rgba(59,130,246,0.08); }
-    [data-theme="dark"] .bento-coral  { background: linear-gradient(145deg, rgba(255,92,108,0.13) 0%, rgba(255,92,108,0.04) 60%, transparent 100%); border-color: rgba(255,92,108,0.2); box-shadow: 0 2px 30px rgba(255,92,108,0.08); }
-    [data-theme="dark"] .chip { background: rgba(255,255,255,0.08); border-color: rgba(245,166,35,0.2); color: var(--amber); }
-    [data-theme="dark"] .bento-icon { border-color: rgba(255,255,255,0.12); }
-    [data-theme="dark"] .bento-amber  .bento-icon { background: rgba(254,215,170,0.15); }
-    [data-theme="dark"] .bento-purple .bento-icon { background: rgba(221,214,254,0.15); }
-    [data-theme="dark"] .bento-teal   .bento-icon { background: rgba(167,243,208,0.15); }
-    [data-theme="dark"] .bento-blue   .bento-icon { background: rgba(191,219,254,0.15); }
-    [data-theme="dark"] .bento-coral  .bento-icon { background: rgba(254,205,211,0.15); }
     [data-theme="dark"] .features-section::before { opacity: 0.6; }
 
     /* ============================================================
@@ -1688,13 +1880,7 @@
     /* ============================================================
        RESPONSIVE
     ============================================================ */
-    @media (max-width: 960px) {
-      .bento-card-1 { grid-column: span 12; }
-      .bento-card-2 { grid-column: span 12; }
-      .bento-card-3 { grid-column: span 6; }
-      .bento-card-4 { grid-column: span 6; }
-      .bento-card-5 { grid-column: span 12; }
-    }
+    /* bento grid collapsed at 960px — now handled by spotlight responsive rules */
 
     @media (max-width: 768px) {
       .navbar-links {
@@ -1729,9 +1915,6 @@
         grid-template-columns: 1fr;
         gap: 40px;
       }
-
-      .bento-card-3 { grid-column: span 12; }
-      .bento-card-4 { grid-column: span 12; }
 
       .footer-inner {
         flex-direction: column;
@@ -2308,89 +2491,123 @@
           <h2 id="features-heading" class="reveal">Six ways to save what matters.</h2>
           <p class="section-sub reveal">Every kind of moment deserves its own home. ItMadeMyDay gives you six distinct types, smart collections, and a Boost tab that finds the right memory for your mood.</p>
         </div>
-        <div class="bento-grid">
+        <div class="feature-spotlight reveal">
+          <!-- Left: vertical tab nav -->
+          <nav class="fs-nav" role="tablist" aria-label="App features">
+            <button class="fs-tab fs-tab-0 active" role="tab" aria-selected="true" aria-controls="fs-panel-0" data-idx="0">
+              <span class="fs-tab-num">01</span>
+              <span class="fs-tab-label">Your Vault</span>
+              <span class="fs-progress" aria-hidden="true"><span class="fs-progress-bar"></span></span>
+            </button>
+            <button class="fs-tab fs-tab-1" role="tab" aria-selected="false" aria-controls="fs-panel-1" data-idx="1">
+              <span class="fs-tab-num">02</span>
+              <span class="fs-tab-label">Boost for the Hard Days</span>
+              <span class="fs-progress" aria-hidden="true"><span class="fs-progress-bar"></span></span>
+            </button>
+            <button class="fs-tab fs-tab-2" role="tab" aria-selected="false" aria-controls="fs-panel-2" data-idx="2">
+              <span class="fs-tab-num">03</span>
+              <span class="fs-tab-label">Organized by What Matters</span>
+              <span class="fs-progress" aria-hidden="true"><span class="fs-progress-bar"></span></span>
+            </button>
+            <button class="fs-tab fs-tab-3" role="tab" aria-selected="false" aria-controls="fs-panel-3" data-idx="3">
+              <span class="fs-tab-num">04</span>
+              <span class="fs-tab-label">Yours Alone</span>
+              <span class="fs-progress" aria-hidden="true"><span class="fs-progress-bar"></span></span>
+            </button>
+            <button class="fs-tab fs-tab-4" role="tab" aria-selected="false" aria-controls="fs-panel-4" data-idx="4">
+              <span class="fs-tab-num">05</span>
+              <span class="fs-tab-label">The Two-Minute Ritual</span>
+              <span class="fs-progress" aria-hidden="true"><span class="fs-progress-bar"></span></span>
+            </button>
+          </nav>
 
-          <!-- Card 1: Your Vault -->
-          <div class="bento-card bento-card-1 bento-amber reveal-scale">
-            <span class="bento-stat" aria-hidden="true">6</span>
-            <div class="bento-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <rect x="3" y="6" width="18" height="14" rx="2" ry="2"/>
-                <circle cx="12" cy="13" r="2"/>
-                <path d="M12 11v-5"/>
-                <path d="M7 6V4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2"/>
-              </svg>
+          <!-- Right: content panels -->
+          <div class="fs-panels">
+
+            <!-- Panel 0: Your Vault -->
+            <div id="fs-panel-0" class="fs-panel fs-panel-0 active" role="tabpanel">
+              <div class="fs-panel-copy">
+                <h3>Your Vault</h3>
+                <p>Compliments, memories, conversations, quotes, photos, links — saved the moment they happen, so they're waiting for you when you need them most.</p>
+              </div>
+              <div class="fs-deco" aria-hidden="true">
+                <div class="fs-chips-cloud">
+                  <span class="fs-chip">💬 Compliments</span>
+                  <span class="fs-chip">✨ Memories</span>
+                  <span class="fs-chip">🤝 Heart-to-Hearts</span>
+                  <span class="fs-chip">📖 Quotes</span>
+                  <span class="fs-chip">📸 Photos</span>
+                  <span class="fs-chip">🔗 Links</span>
+                </div>
+              </div>
             </div>
-            <h3>Your Vault</h3>
-            <p>Compliments, memories, conversations, quotes, photos, links — saved the moment they happen, so they're waiting for you when you need them most.</p>
-            <div class="category-chips" aria-label="Moment categories">
-              <span class="chip">💬 Compliments</span>
-              <span class="chip">✨ Memories</span>
-              <span class="chip">🤝 Heart-to-Hearts</span>
-              <span class="chip">📖 Quotes</span>
-              <span class="chip">📸 Photos</span>
-              <span class="chip">🔗 Links</span>
+
+            <!-- Panel 1: Boost -->
+            <div id="fs-panel-1" class="fs-panel fs-panel-1" role="tabpanel">
+              <div class="fs-panel-copy">
+                <h3>Boost for the Hard Days</h3>
+                <p>Tell the app how you're feeling. It finds the moments most likely to pull you back to joy. Built-in moods, or create your own. It knows what you need before you do.</p>
+              </div>
+              <div class="fs-deco" aria-hidden="true">
+                <div class="fs-mood-ring">
+                  <div class="fs-mood-dot" style="background:#8B5CF6">Sad</div>
+                  <div class="fs-mood-dot" style="background:#FF5C6C">Anxious</div>
+                  <div class="fs-mood-dot" style="background:#10B981">Grateful</div>
+                  <div class="fs-mood-dot" style="background:#3B82F6">Lonely</div>
+                  <div class="fs-mood-dot" style="background:#F59E0B">Win</div>
+                  <div class="fs-mood-dot" style="background:#EC4899">Custom</div>
+                </div>
+              </div>
             </div>
+
+            <!-- Panel 2: Collections -->
+            <div id="fs-panel-2" class="fs-panel fs-panel-2" role="tabpanel">
+              <div class="fs-panel-copy">
+                <h3>Organized by What Matters</h3>
+                <p>Kind Words when someone doubts you. Little Wins when you doubt yourself. Happy Memories when you've forgotten who you are. Every collection is a different kind of armour.</p>
+              </div>
+              <div class="fs-deco" aria-hidden="true">
+                <div class="fs-collection-fan">
+                  <div class="fs-coll-card">Kind Words</div>
+                  <div class="fs-coll-card">Little Wins</div>
+                  <div class="fs-coll-card">Happy Memories</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel 3: Privacy -->
+            <div id="fs-panel-3" class="fs-panel fs-panel-3" role="tabpanel">
+              <div class="fs-panel-copy">
+                <h3>Yours Alone</h3>
+                <p>No account. No server. No one else ever sees this. The most personal place on your phone — the one that holds the truest version of what makes you, you.</p>
+              </div>
+              <div class="fs-deco" aria-hidden="true">
+                <div class="fs-zero-display">
+                  <div class="fs-zero-num">0</div>
+                  <div class="fs-zero-label">bytes ever sent</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel 4: Ritual -->
+            <div id="fs-panel-4" class="fs-panel fs-panel-4" role="tabpanel">
+              <div class="fs-panel-copy">
+                <h3>The Two-Minute Ritual</h3>
+                <p>One gentle nudge a day to save something good before it fades. Small habit. Enormous return. Your future self will thank you on a day you can't predict yet.</p>
+              </div>
+              <div class="fs-deco" aria-hidden="true">
+                <div class="fs-notif">
+                  <div class="fs-notif-icon">🔔</div>
+                  <div>
+                    <div class="fs-notif-title">ItMadeMyDay</div>
+                    <div class="fs-notif-body">Something good happened today. Save it before it fades.</div>
+                    <div class="fs-notif-time">9:00 AM · now</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
-
-          <!-- Card 2: Boost Your Day -->
-          <div class="bento-card bento-card-2 bento-purple reveal-scale">
-            <span class="bento-stat" aria-hidden="true">∞</span>
-            <div class="bento-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="4"/>
-                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-              </svg>
-            </div>
-            <h3>Boost for the Hard Days</h3>
-            <p>Tell the app how you're feeling. It finds the moments most likely to pull you back to joy. Built-in moods, or create your own. It knows what you need before you do.</p>
-            <div class="bento-mood-dots" aria-hidden="true">
-              <span style="background:#8B5CF6"></span>
-              <span style="background:#FF5C6C"></span>
-              <span style="background:#10B981"></span>
-              <span style="background:#3B82F6"></span>
-              <span style="background:#F59E0B"></span>
-              <span style="background:#EC4899"></span>
-            </div>
-          </div>
-
-          <!-- Card 3: Collections -->
-          <div class="bento-card bento-card-3 bento-teal reveal-scale">
-            <span class="bento-stat" aria-hidden="true">+</span>
-            <div class="bento-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>
-              </svg>
-            </div>
-            <h3>Organized by What Matters</h3>
-            <p>Kind Words when someone doubts you. Little Wins when you doubt yourself. Happy Memories when you've forgotten who you are. Every collection is a different kind of armour.</p>
-          </div>
-
-          <!-- Card 4: Fully Private -->
-          <div class="bento-card bento-card-4 bento-blue reveal-scale">
-            <span class="bento-stat" aria-hidden="true">0</span>
-            <div class="bento-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              </svg>
-            </div>
-            <h3>Yours Alone</h3>
-            <p>No account. No server. No one else ever sees this. The most personal place on your phone — the one that holds the truest version of what makes you, you.</p>
-          </div>
-
-          <!-- Card 5: Daily Reminder -->
-          <div class="bento-card bento-card-5 bento-coral reveal-scale">
-            <span class="bento-stat" aria-hidden="true">1×</span>
-            <div class="bento-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-              </svg>
-            </div>
-            <h3>The Two-Minute Ritual</h3>
-            <p>One gentle nudge a day to save something good before it fades. Small habit. Enormous return. Your future self will thank you on a day you can't predict yet.</p>
-          </div>
-
         </div>
       </div>
     </section>
@@ -3053,6 +3270,51 @@
           el.classList.remove('fade-out');
         }, 400);
       }, 2500);
+    })();
+
+    // Feature spotlight auto-advance
+    (function () {
+      var tabs = document.querySelectorAll('.fs-tab');
+      var panels = document.querySelectorAll('.fs-panel');
+      if (!tabs.length) return;
+      var current = 0;
+      var interval;
+      var DURATION = 4500;
+
+      function activate(idx) {
+        tabs.forEach(function (t, i) {
+          var isActive = i === idx;
+          t.classList.toggle('active', isActive);
+          t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+          // Reset CSS progress bar animation
+          var bar = t.querySelector('.fs-progress-bar');
+          if (bar) {
+            bar.style.animation = 'none';
+            bar.offsetHeight; // reflow
+            bar.style.animation = '';
+          }
+        });
+        panels.forEach(function (p, i) {
+          p.classList.toggle('active', i === idx);
+        });
+        current = idx;
+      }
+
+      function startAuto() {
+        clearInterval(interval);
+        interval = setInterval(function () {
+          activate((current + 1) % tabs.length);
+        }, DURATION);
+      }
+
+      tabs.forEach(function (tab, idx) {
+        tab.addEventListener('click', function () {
+          activate(idx);
+          startAuto();
+        });
+      });
+
+      startAuto();
     })();
 
     // Stories slow auto-scroll
