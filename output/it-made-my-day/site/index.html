@@ -720,21 +720,39 @@
     }
 
     /* ============================================================
-       FEATURES BENTO
+       FEATURES BENTO — Dreamy editorial redesign
     ============================================================ */
     .features-section {
-      padding: 96px 24px;
-      background: var(--bg-soft);
+      padding: 130px 24px;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Ambient aurora behind cards */
+    .features-section::before {
+      content: '';
+      position: absolute;
+      top: -120px; left: 50%;
+      transform: translateX(-50%);
+      width: 1000px; height: 700px;
+      background:
+        radial-gradient(ellipse at 25% 40%, rgba(245,166,35,0.08) 0%, transparent 55%),
+        radial-gradient(ellipse at 75% 25%, rgba(139,92,246,0.07) 0%, transparent 50%),
+        radial-gradient(ellipse at 55% 85%, rgba(16,185,129,0.06) 0%, transparent 50%);
+      pointer-events: none;
     }
 
     .features-inner {
       max-width: var(--max-w);
       margin: 0 auto;
+      position: relative;
+      z-index: 1;
     }
 
     .section-header {
       text-align: center;
-      margin-bottom: 56px;
+      margin-bottom: 72px;
     }
 
     .section-header h2 {
@@ -744,82 +762,100 @@
     .bento-grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
-      gap: 16px;
+      gap: 20px;
     }
 
-    .bento-card {
-      background: var(--bg-card);
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-card);
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      transition: transform 200ms ease, box-shadow 200ms ease;
-    }
-
-    /* Card lift + glow on hover */
+    /* Base card — glass + gradient foundation */
     .bento-card {
       position: relative;
       overflow: hidden;
-      transition: transform 320ms cubic-bezier(0.16,1,0.3,1),
-                  box-shadow 320ms cubic-bezier(0.16,1,0.3,1);
+      border-radius: 28px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      transition: transform 450ms cubic-bezier(0.16,1,0.3,1),
+                  box-shadow 450ms cubic-bezier(0.16,1,0.3,1);
     }
+
+    /* Colored ambient orb — top-right corner of each card */
     .bento-card::before {
       content: '';
       position: absolute;
-      top: -40px;
-      right: -40px;
-      width: 160px;
-      height: 160px;
+      top: -70px; right: -70px;
+      width: 220px; height: 220px;
       border-radius: 50%;
-      filter: blur(50px);
-      opacity: 0.18;
+      filter: blur(70px);
+      opacity: 0.22;
       pointer-events: none;
-      transition: opacity 320ms ease;
+      transition: opacity 500ms ease, transform 500ms ease;
+      z-index: 0;
     }
+    .bento-card:hover::before { opacity: 0.38; transform: scale(1.25); }
+
     .bento-amber::before  { background: var(--amber); }
     .bento-purple::before { background: var(--purple); }
     .bento-teal::before   { background: var(--teal); }
     .bento-blue::before   { background: var(--blue); }
     .bento-coral::before  { background: var(--coral); }
 
-    .bento-amber:hover  { transform: translateY(-6px); box-shadow: 0 24px 64px rgba(245,166,35,0.16); }
-    .bento-purple:hover { transform: translateY(-6px); box-shadow: 0 24px 64px rgba(139,92,246,0.16); }
-    .bento-teal:hover   { transform: translateY(-6px); box-shadow: 0 24px 64px rgba(16,185,129,0.16); }
-    .bento-blue:hover   { transform: translateY(-6px); box-shadow: 0 24px 64px rgba(59,130,246,0.16); }
-    .bento-coral:hover  { transform: translateY(-6px); box-shadow: 0 24px 64px rgba(255,92,108,0.16); }
+    /* Gradient backgrounds — warm watercolor feel */
+    .bento-amber  {
+      background: linear-gradient(145deg, #FFF4D0 0%, #FFFBF0 50%, #FFFFFF 100%);
+      border: 1px solid rgba(245,166,35,0.22);
+      box-shadow: 0 2px 30px rgba(245,166,35,0.07), inset 0 0 0 1px rgba(255,255,255,0.75);
+    }
+    .bento-purple {
+      background: linear-gradient(145deg, #EDE9FF 0%, #F7F5FF 50%, #FFFFFF 100%);
+      border: 1px solid rgba(139,92,246,0.2);
+      box-shadow: 0 2px 30px rgba(139,92,246,0.07), inset 0 0 0 1px rgba(255,255,255,0.75);
+    }
+    .bento-teal {
+      background: linear-gradient(145deg, #D8FDF0 0%, #F0FDFB 50%, #FFFFFF 100%);
+      border: 1px solid rgba(16,185,129,0.2);
+      box-shadow: 0 2px 30px rgba(16,185,129,0.07), inset 0 0 0 1px rgba(255,255,255,0.75);
+    }
+    .bento-blue {
+      background: linear-gradient(145deg, #DBEAFE 0%, #EFF6FF 50%, #FFFFFF 100%);
+      border: 1px solid rgba(59,130,246,0.2);
+      box-shadow: 0 2px 30px rgba(59,130,246,0.07), inset 0 0 0 1px rgba(255,255,255,0.75);
+    }
+    .bento-coral {
+      background: linear-gradient(145deg, #FFE0E4 0%, #FFF5F6 50%, #FFFFFF 100%);
+      border: 1px solid rgba(255,92,108,0.2);
+      box-shadow: 0 2px 30px rgba(255,92,108,0.07), inset 0 0 0 1px rgba(255,255,255,0.75);
+    }
 
-    .bento-card:hover::before { opacity: 0.28; }
+    /* Hover — lift with slight tilt, colored shadow */
+    .bento-amber:hover  { transform: translateY(-10px) rotate(-1deg);   box-shadow: 0 40px 80px rgba(245,166,35,0.18), inset 0 0 0 1px rgba(255,255,255,0.9); }
+    .bento-purple:hover { transform: translateY(-10px) rotate(1deg);    box-shadow: 0 40px 80px rgba(139,92,246,0.18), inset 0 0 0 1px rgba(255,255,255,0.9); }
+    .bento-teal:hover   { transform: translateY(-10px) rotate(-0.6deg); box-shadow: 0 40px 80px rgba(16,185,129,0.18), inset 0 0 0 1px rgba(255,255,255,0.9); }
+    .bento-blue:hover   { transform: translateY(-10px) rotate(0.8deg);  box-shadow: 0 40px 80px rgba(59,130,246,0.18), inset 0 0 0 1px rgba(255,255,255,0.9); }
+    .bento-coral:hover  { transform: translateY(-10px) rotate(-0.7deg); box-shadow: 0 40px 80px rgba(255,92,108,0.18), inset 0 0 0 1px rgba(255,255,255,0.9); }
 
-    /* Stat number decoration */
+    /* Huge watermark glyph — dramatic and artistic */
     .bento-stat {
       font-family: var(--font-display);
-      font-size: 4rem;
-      font-weight: 800;
+      font-size: 10rem;
+      font-weight: 900;
       line-height: 1;
       position: absolute;
-      top: 16px;
-      right: 20px;
-      letter-spacing: -0.04em;
-      opacity: 0.1;
-      transition: opacity 320ms ease;
+      bottom: -24px;
+      right: 12px;
+      top: auto;
+      letter-spacing: -0.06em;
+      opacity: 0.065;
+      transition: opacity 450ms ease, transform 450ms cubic-bezier(0.16,1,0.3,1);
       pointer-events: none;
       user-select: none;
+      z-index: 0;
     }
-    .bento-card:hover .bento-stat { opacity: 0.18; }
+    .bento-card:hover .bento-stat { opacity: 0.12; transform: scale(1.04) translateY(-4px); }
     .bento-amber  .bento-stat { color: var(--amber-dark); }
     .bento-purple .bento-stat { color: var(--purple-dark); }
     .bento-teal   .bento-stat { color: var(--teal-dark); }
     .bento-blue   .bento-stat { color: var(--blue-dark); }
     .bento-coral  .bento-stat { color: var(--coral-dark); }
-
-    /* Individual card colors */
-    .bento-amber  { background: var(--amber-bg);  border-color: var(--amber-ring);  }
-    .bento-purple { background: var(--purple-bg); border-color: var(--purple-ring); }
-    .bento-teal   { background: var(--teal-bg);   border-color: var(--teal-ring);   }
-    .bento-blue   { background: var(--blue-bg);   border-color: var(--blue-ring);   }
-    .bento-coral  { background: var(--coral-bg);  border-color: var(--coral-ring);  }
 
     .bento-card-1 { grid-column: span 7; }
     .bento-card-2 { grid-column: span 5; }
@@ -827,41 +863,43 @@
     .bento-card-4 { grid-column: span 4; }
     .bento-card-5 { grid-column: span 4; }
 
-    /* Icon bg/color per card color */
-    .bento-amber  .bento-icon { background: #FED7AA; color: var(--amber-dark);  }
-    .bento-purple .bento-icon { background: #DDD6FE; color: var(--purple-dark); }
-    .bento-teal   .bento-icon { background: #A7F3D0; color: var(--teal-dark);   }
-    .bento-blue   .bento-icon { background: #BFDBFE; color: var(--blue-dark);   }
-    .bento-coral  .bento-icon { background: #FECDD3; color: var(--coral-dark);  }
-
+    /* Icon — circular, glass surface, floating feel */
     .bento-icon {
-      width: 44px;
-      height: 44px;
-      background: var(--amber-bg);
-      border-radius: var(--radius-sm);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: 1.5px solid rgba(255,255,255,0.8);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      transition: transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative; z-index: 1;
     }
+    .bento-amber  .bento-icon { background: rgba(254,215,170,0.75); color: var(--amber-dark); }
+    .bento-purple .bento-icon { background: rgba(221,214,254,0.75); color: var(--purple-dark); }
+    .bento-teal   .bento-icon { background: rgba(167,243,208,0.75); color: var(--teal-dark); }
+    .bento-blue   .bento-icon { background: rgba(191,219,254,0.75); color: var(--blue-dark); }
+    .bento-coral  .bento-icon { background: rgba(254,205,211,0.75); color: var(--coral-dark); }
 
-    .bento-card:hover .bento-icon {
-      transform: scale(1.15) rotate(-8deg);
-    }
-
-    .bento-icon svg {
-      color: var(--amber-dark);
-    }
+    .bento-card:hover .bento-icon { transform: scale(1.18) rotate(-10deg); }
 
     .bento-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
       color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      position: relative; z-index: 1;
     }
 
     .bento-card p {
       font-size: 0.95rem;
       color: var(--text-mid);
-      line-height: 1.65;
+      line-height: 1.7;
+      position: relative; z-index: 1;
     }
 
     .category-chips {
@@ -869,49 +907,92 @@
       flex-wrap: wrap;
       gap: 8px;
       margin-top: 4px;
+      position: relative; z-index: 1;
     }
 
+    /* Chips — frosted glass pills */
     .chip {
-      background: #fff;
-      border: 1.5px solid var(--amber-ring);
-      color: var(--amber-dark);
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(245,166,35,0.22);
+      color: var(--amber-deep);
       font-family: var(--font-body);
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 4px 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 5px 14px;
       border-radius: 50px;
+      letter-spacing: 0.01em;
+      transition: background 200ms ease;
     }
+    .chip:hover { background: rgba(255,255,255,0.92); }
 
+    /* Section eyebrow — editorial style with flanking lines */
     .section-eyebrow {
       font-family: var(--font-body);
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 800;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--amber-dark);
-      margin-bottom: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .section-eyebrow::before,
+    .section-eyebrow::after {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.35;
     }
 
     .section-sub {
       font-size: 1.05rem;
       color: var(--text-mid);
-      max-width: 560px;
-      margin: 12px auto 0;
-      line-height: 1.7;
+      max-width: 540px;
+      margin: 14px auto 0;
+      line-height: 1.75;
     }
 
+    /* Mood dots — larger, animated wave on hover */
     .bento-mood-dots {
       display: flex;
-      gap: 8px;
-      margin-top: 12px;
+      gap: 10px;
+      margin-top: 16px;
+      position: relative; z-index: 1;
     }
     .bento-mood-dots span {
-      width: 20px;
-      height: 20px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       display: inline-block;
-      opacity: 0.9;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+      transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
     }
+    .bento-card:hover .bento-mood-dots span:nth-child(1) { transform: translateY(-5px); transition-delay: 0ms; }
+    .bento-card:hover .bento-mood-dots span:nth-child(2) { transform: translateY(-5px); transition-delay: 50ms; }
+    .bento-card:hover .bento-mood-dots span:nth-child(3) { transform: translateY(-5px); transition-delay: 100ms; }
+    .bento-card:hover .bento-mood-dots span:nth-child(4) { transform: translateY(-5px); transition-delay: 150ms; }
+    .bento-card:hover .bento-mood-dots span:nth-child(5) { transform: translateY(-5px); transition-delay: 200ms; }
+    .bento-card:hover .bento-mood-dots span:nth-child(6) { transform: translateY(-5px); transition-delay: 250ms; }
+
+    /* Dark mode bento cards — aurora on dark */
+    [data-theme="dark"] .bento-amber  { background: linear-gradient(145deg, rgba(245,166,35,0.13) 0%, rgba(245,166,35,0.04) 60%, transparent 100%); border-color: rgba(245,166,35,0.2); box-shadow: 0 2px 30px rgba(245,166,35,0.08); }
+    [data-theme="dark"] .bento-purple { background: linear-gradient(145deg, rgba(139,92,246,0.14) 0%, rgba(139,92,246,0.04) 60%, transparent 100%); border-color: rgba(139,92,246,0.22); box-shadow: 0 2px 30px rgba(139,92,246,0.08); }
+    [data-theme="dark"] .bento-teal   { background: linear-gradient(145deg, rgba(16,185,129,0.13) 0%, rgba(16,185,129,0.04) 60%, transparent 100%); border-color: rgba(16,185,129,0.2); box-shadow: 0 2px 30px rgba(16,185,129,0.08); }
+    [data-theme="dark"] .bento-blue   { background: linear-gradient(145deg, rgba(59,130,246,0.13) 0%, rgba(59,130,246,0.04) 60%, transparent 100%); border-color: rgba(59,130,246,0.2); box-shadow: 0 2px 30px rgba(59,130,246,0.08); }
+    [data-theme="dark"] .bento-coral  { background: linear-gradient(145deg, rgba(255,92,108,0.13) 0%, rgba(255,92,108,0.04) 60%, transparent 100%); border-color: rgba(255,92,108,0.2); box-shadow: 0 2px 30px rgba(255,92,108,0.08); }
+    [data-theme="dark"] .chip { background: rgba(255,255,255,0.08); border-color: rgba(245,166,35,0.2); color: var(--amber); }
+    [data-theme="dark"] .bento-icon { border-color: rgba(255,255,255,0.12); }
+    [data-theme="dark"] .bento-amber  .bento-icon { background: rgba(254,215,170,0.15); }
+    [data-theme="dark"] .bento-purple .bento-icon { background: rgba(221,214,254,0.15); }
+    [data-theme="dark"] .bento-teal   .bento-icon { background: rgba(167,243,208,0.15); }
+    [data-theme="dark"] .bento-blue   .bento-icon { background: rgba(191,219,254,0.15); }
+    [data-theme="dark"] .bento-coral  .bento-icon { background: rgba(254,205,211,0.15); }
+    [data-theme="dark"] .features-section::before { opacity: 0.6; }
 
     /* ============================================================
        SCREENSHOTS DARK SECTION
@@ -1847,8 +1928,8 @@
                 <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>
               </svg>
             </div>
-            <h3>Your Collections</h3>
-            <p>Group moments into themed collections you name and color yourself. Kind Words. Little Wins. People I Love. Any collection you can imagine.</p>
+            <h3>Organized by What Matters</h3>
+            <p>Kind Words when someone doubts you. Little Wins when you doubt yourself. Happy Memories when you've forgotten who you are. Every collection is a different kind of armour.</p>
           </div>
 
           <!-- Card 4: Fully Private -->
@@ -1859,8 +1940,8 @@
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
               </svg>
             </div>
-            <h3>Private by Design</h3>
-            <p>No account. No cloud. No server. Zero bytes leave your device. Not even we can see what you've saved.</p>
+            <h3>Yours Alone</h3>
+            <p>No account. No server. No one else ever sees this. The most personal place on your phone — the one that holds the truest version of what makes you, you.</p>
           </div>
 
           <!-- Card 5: Daily Reminder -->
@@ -1872,10 +1953,44 @@
                 <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
               </svg>
             </div>
-            <h3>Daily Nudge</h3>
-            <p>One gentle reminder a day. A tiny habit that, over months, builds a vault full of your best moments.</p>
+            <h3>The Two-Minute Ritual</h3>
+            <p>One gentle nudge a day to save something good before it fades. Small habit. Enormous return. Your future self will thank you on a day you can't predict yet.</p>
           </div>
 
+        </div>
+      </div>
+    </section>
+
+    <!-- EMOTIONAL STORIES SECTION -->
+    <section class="stories-section" aria-labelledby="stories-heading">
+      <div class="stories-inner">
+        <div class="section-header">
+          <p class="section-eyebrow reveal" style="color:var(--coral-dark)">Why it matters</p>
+          <h2 id="stories-heading" class="reveal">The moments you'll be grateful you saved.</h2>
+          <p class="section-sub reveal">You won't always feel this good. And you won't always feel this bad. ItMadeMyDay bridges the gap.</p>
+        </div>
+        <div class="stories-grid">
+          <div class="story-card story-card-amber reveal-scale">
+            <div class="story-time">11:47 PM</div>
+            <p class="story-scenario">Everything feels impossible. Another hard day at the end of a hard week.</p>
+            <div class="story-divider"></div>
+            <p class="story-resolution">You open ItMadeMyDay. Your best friend's voice memo from last year fills your screen. <em>"I'm so proud of you."</em> You remember who you are. You sleep.</p>
+            <div class="story-tag">💬 Compliment saved · 8 months ago</div>
+          </div>
+          <div class="story-card story-card-blue reveal-scale">
+            <div class="story-time">2:14 PM</div>
+            <p class="story-scenario">Another rejection email. The third this month. The door feels permanently closed.</p>
+            <div class="story-divider"></div>
+            <p class="story-resolution">You open Little Wins. Seventeen moments where you proved someone wrong. You open your laptop. You write the next application. You don't give up.</p>
+            <div class="story-tag">✨ Collection · Little Wins</div>
+          </div>
+          <div class="story-card story-card-teal reveal-scale">
+            <div class="story-time">6:02 AM</div>
+            <p class="story-scenario">You forgot what joy feels like. It's been so long you can't even remember the last time you were happy.</p>
+            <div class="story-divider"></div>
+            <p class="story-resolution">Boost. Grateful. The photo from that perfect afternoon floods your screen — golden light, your favourite people, a moment of pure peace. You remember. You smile. You keep going.</p>
+            <div class="story-tag">📸 Photo · Boost · Grateful</div>
+          </div>
         </div>
       </div>
     </section>
@@ -1884,8 +1999,8 @@
     <section class="save-flow-section" aria-labelledby="save-flow-heading">
       <div class="save-flow-inner">
         <div class="section-header reveal">
-          <h2 id="save-flow-heading">From idea to vault in under a minute.</h2>
-          <p style="color: var(--text-mid); margin: 12px auto 0; max-width: 520px;">Open ItMadeMyDay, tap +, pick a type, add your words or a photo — and it's saved. Every moment takes less than a minute to capture.</p>
+          <h2 id="save-flow-heading">Saving a moment takes 60 seconds. Finding it on a hard day — priceless.</h2>
+          <p style="color: var(--text-mid); margin: 12px auto 0; max-width: 520px;">Every great memory starts with a single tap. ItMadeMyDay makes the saving as effortless as the moment itself — so you never lose the ones that matter.</p>
         </div>
         <div class="save-flow-phones">
           <!-- Step 1 -->
@@ -1898,8 +2013,8 @@
             </div>
             <div class="flow-caption">
               <span class="flow-step">1</span>
-              <strong>Choose a type</strong>
-              <span>Compliment, Memory, Self Love, and more</span>
+              <strong>What kind of moment?</strong>
+              <span>Compliment, Memory, Achievement, Heart-to-Heart, and more</span>
             </div>
           </div>
 
@@ -1917,8 +2032,8 @@
             </div>
             <div class="flow-caption">
               <span class="flow-step">2</span>
-              <strong>Add details</strong>
-              <span>Tags, moods, and the Collection it belongs to</span>
+              <strong>Give it context</strong>
+              <span>Add tags, pick a mood it belongs to, choose a collection</span>
             </div>
           </div>
 
@@ -1936,8 +2051,8 @@
             </div>
             <div class="flow-caption">
               <span class="flow-step">3</span>
-              <strong>It's in your Vault</strong>
-              <span>Browse, filter, and revisit anytime</span>
+              <strong>It's yours, forever</strong>
+              <span>Waiting patiently in your vault — ready for whenever you need it</span>
             </div>
           </div>
         </div>
@@ -1948,8 +2063,8 @@
     <section class="screenshots-dark-section" aria-labelledby="screenshots-heading">
       <div class="screenshots-dark-inner">
         <div class="section-header" style="margin-bottom: 48px;">
-          <h2 id="screenshots-heading" class="reveal" style="color: #fff;">Every screen, your way.</h2>
-          <p class="reveal">Light and dark mode. Custom moods. Your own collections. Everything adapts to how you actually use it.</p>
+          <h2 id="screenshots-heading" class="reveal" style="color: #fff;">Beautiful in any light. Just like your memories.</h2>
+          <p class="reveal">ItMadeMyDay follows your system theme automatically — warm light for the afternoon, deep dark for the nights when you need it most.</p>
         </div>
         <div class="screenshots-row" role="region" aria-label="App screenshots">
           <div class="screenshot-item reveal">
@@ -2041,8 +2156,8 @@
     <section class="privacy-section" aria-labelledby="privacy-heading">
       <div class="privacy-inner">
         <div class="privacy-content">
-          <h2 id="privacy-heading" class="reveal">Built with one rule: your data belongs to you.</h2>
-          <p class="reveal">ItMadeMyDay was built without a backend — because we don't need one. Everything lives on your device, in your hands, under your control.</p>
+          <h2 id="privacy-heading" class="reveal">Your most private place deserves the most private app.</h2>
+          <p class="reveal">The things you save in ItMadeMyDay are the most personal things on your phone. The compliment that made you cry. The voice note you don't want anyone to hear. The memory you'd never post publicly. None of it ever leaves your device. Not one byte. Not ever.</p>
           <div class="privacy-pillars">
             <div class="pillar-row reveal-left">
               <div class="pillar-icon" style="background:var(--amber-bg); color:var(--amber-dark);">
@@ -2090,8 +2205,8 @@
                 </svg>
               </div>
               <div class="pillar-text">
-                <strong>Export &amp; Import</strong>
-                <span>Export all your moments and collections as a file from Settings. Import it back anytime to restore everything.</span>
+                <strong>Full Data Control</strong>
+                <span>Export everything as a file anytime. Import it back when you need it. You decide what happens to your memories.</span>
               </div>
             </div>
             <div class="pillar-row reveal-left">
@@ -2119,11 +2234,32 @@
       </div>
     </section>
 
+    <!-- PULL QUOTE -->
+    <section class="pullquote-section" aria-label="Core philosophy">
+      <div class="pullquote-inner">
+        <blockquote class="pullquote reveal">
+          <p>On your worst day, your best day is still inside you. You just need somewhere to keep it.</p>
+        </blockquote>
+      </div>
+    </section>
+
     <!-- FAQ -->
     <section id="faq" class="faq-section" aria-labelledby="faq-heading">
       <div class="faq-inner">
         <h2 id="faq-heading" class="reveal">Good questions.</h2>
         <div class="faq-list" role="list">
+
+          <div class="faq-item reveal" role="listitem">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-0">
+              What is ItMadeMyDay really for?
+              <span class="faq-toggle" aria-hidden="true"><span class="faq-toggle-icon"></span></span>
+            </button>
+            <div class="faq-answer-wrap" id="faq-answer-0" role="region">
+              <div class="faq-answer-inner">
+                <p class="faq-answer">ItMadeMyDay is for the hard days. It's a private vault where you save the moments that made you smile, feel seen, feel proud, or feel loved — so that when life gets difficult, you can open the app and remember who you are and why it's worth it. It's not a journal. It's not a photo album. It's a happiness reserve you build every day, for the days when you need it most.</p>
+              </div>
+            </div>
+          </div>
 
           <div class="faq-item reveal" role="listitem">
             <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-1">
@@ -2176,7 +2312,7 @@
             </button>
             <div class="faq-answer-wrap" id="faq-answer-4" role="region">
               <div class="faq-answer-inner">
-                <p class="faq-answer">Boost lets you browse saved moments filtered by how you're currently feeling. Built-in moods include Sad, Anxious, Lonely, Celebrating, and Grateful. You can also create your own custom moods — name them, pick an icon, and choose a color — so the app reflects how you actually feel.</p>
+                <p class="faq-answer">Boost is the heart of the app. You tell it how you're feeling — Sad, Anxious, Celebrating, Lonely, Grateful, or a custom mood you created — and it surfaces the saved moments most likely to help. It's not random. It's the app reaching into your vault and saying: here's proof that things have been good, and they will be again.</p>
               </div>
             </div>
           </div>
@@ -2230,8 +2366,8 @@
     <!-- CTA SECTION -->
     <section id="download" class="cta-section" aria-labelledby="cta-heading">
       <div class="cta-inner">
-        <h2 id="cta-heading" class="reveal">Don't let another good moment slip away.</h2>
-        <p class="reveal">ItMadeMyDay is coming to the App Store soon. Free to download. Private by design. No account ever needed.</p>
+        <h2 id="cta-heading" class="reveal">The next hard day is coming. Be ready.</h2>
+        <p class="reveal">Start collecting the moments that make life worth living. When the world gets heavy, you'll know exactly where to look.</p>
         <span class="coming-soon-pill reveal" aria-label="Coming soon to the App Store">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
             <path d="M11.182 10.506c-.243.588-.358.85-.67 1.37-.435.706-1.047 1.585-1.806 1.592-.675.007-.849-.44-1.764-.434-.915.005-1.106.443-1.78.437-.76-.007-1.337-.804-1.772-1.51-1.212-1.962-1.34-4.265-.592-5.487.531-.876 1.368-1.39 2.154-1.39.801 0 1.305.44 1.967.44.643 0 1.035-.442 1.963-.442.703 0 1.45.383 1.98 1.045-.174.1-1.874 1.093-1.853 3.26.019 2.059 1.809 2.745 2.173 2.119zM8.967 2.615C9.264 1.989 9.356 1 9.095.5 8.412.546 7.61.97 7.258 1.565c-.322.542-.45 1.55-.22 2.072.74.025 1.595-.45 1.929-1.022z"/>
@@ -2291,6 +2427,22 @@
       document.querySelectorAll('.reveal, .reveal-left, .reveal-pop, .reveal-scale, .reveal-bounce').forEach(function (el) {
         observer.observe(el);
       });
+    })();
+
+    // Cycling headline word
+    (function() {
+      var words = ["your worst Monday","that 2am moment","a heartbreak","a rejection","the hardest night","a moment of doubt"];
+      var i = 0;
+      var el = document.getElementById('cycleWord');
+      if (!el) return;
+      setInterval(function() {
+        el.classList.add('fade-out');
+        setTimeout(function() {
+          i = (i + 1) % words.length;
+          el.textContent = words[i];
+          el.classList.remove('fade-out');
+        }, 400);
+      }, 2500);
     })();
 
     // FAQ accordion
