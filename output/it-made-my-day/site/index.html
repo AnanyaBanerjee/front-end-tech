@@ -1098,6 +1098,27 @@
     .privacy-section {
       padding: 96px 24px;
       background: var(--bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Ambient teal orb behind the stat card */
+    .privacy-section::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 4%;
+      transform: translateY(-50%);
+      width: 560px;
+      height: 560px;
+      background: radial-gradient(ellipse at center, rgba(16,185,129,0.08) 0%, transparent 68%);
+      pointer-events: none;
+      animation: privacy-orb-breathe 7s ease-in-out infinite;
+    }
+
+    @keyframes privacy-orb-breathe {
+      0%, 100% { transform: translateY(-50%) scale(1);   opacity: 0.8; }
+      50%       { transform: translateY(-50%) scale(1.18); opacity: 1; }
     }
 
     .privacy-inner {
@@ -1107,6 +1128,8 @@
       grid-template-columns: 1fr 1fr;
       gap: 64px;
       align-items: center;
+      position: relative;
+      z-index: 1;
     }
 
     .privacy-content h2 {
@@ -1130,6 +1153,12 @@
       display: flex;
       align-items: flex-start;
       gap: 14px;
+      transition: transform 350ms cubic-bezier(0.16,1,0.3,1);
+      cursor: default;
+    }
+
+    .pillar-row:hover {
+      transform: translateX(8px);
     }
 
     .pillar-icon {
@@ -1142,6 +1171,12 @@
       justify-content: center;
       flex-shrink: 0;
       margin-top: 2px;
+      transition: transform 400ms cubic-bezier(0.34,1.56,0.64,1), box-shadow 300ms ease;
+    }
+
+    .pillar-row:hover .pillar-icon {
+      transform: scale(1.22) rotate(-10deg);
+      box-shadow: 0 8px 22px rgba(0,0,0,0.12);
     }
 
     .pillar-icon svg {
@@ -1162,16 +1197,70 @@
       color: var(--text-mid);
     }
 
+    /* Stat card */
     .privacy-stat-card {
       background: var(--teal-bg);
       border: 1.5px solid var(--teal-ring);
       border-radius: var(--radius-card);
-      padding: 48px 40px;
+      padding: 56px 40px 48px;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 12px;
+      position: relative;
+      overflow: hidden;
+      animation: privacy-card-float 6s ease-in-out infinite;
+    }
+
+    @keyframes privacy-card-float {
+      0%, 100% { transform: translateY(0);    box-shadow: 0 20px 60px rgba(16,185,129,0.10); }
+      50%       { transform: translateY(-14px); box-shadow: 0 40px 90px rgba(16,185,129,0.18); }
+    }
+
+    /* Scanning light line */
+    .privacy-scan {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, rgba(16,185,129,0.6) 50%, transparent 100%);
+      animation: privacy-scan-move 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes privacy-scan-move {
+      0%   { top: 0%;   opacity: 0; }
+      5%   { opacity: 1; }
+      95%  { opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+
+    /* Sonar rings */
+    .privacy-rings {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -52%);
+      width: 1px;
+      height: 1px;
+      pointer-events: none;
+    }
+
+    .privacy-ring {
+      position: absolute;
+      top: 50%; left: 50%;
+      border: 1.5px solid rgba(16,185,129,0.5);
+      border-radius: 50%;
+      animation: sonar-ring 3s ease-out infinite;
+    }
+
+    .privacy-ring:nth-child(1) { width: 80px;  height: 80px;  margin: -40px 0 0 -40px; animation-delay: 0s; }
+    .privacy-ring:nth-child(2) { width: 80px;  height: 80px;  margin: -40px 0 0 -40px; animation-delay: 1s; }
+    .privacy-ring:nth-child(3) { width: 80px;  height: 80px;  margin: -40px 0 0 -40px; animation-delay: 2s; }
+
+    @keyframes sonar-ring {
+      0%   { transform: scale(1);   opacity: 0.55; }
+      100% { transform: scale(4.5); opacity: 0; }
     }
 
     .privacy-stat-number {
@@ -1181,6 +1270,13 @@
       color: var(--teal);
       line-height: 1;
       letter-spacing: -0.04em;
+      position: relative;
+      z-index: 1;
+      transition: transform 350ms cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    .privacy-stat-card:hover .privacy-stat-number {
+      transform: scale(1.06);
     }
 
     .privacy-stat-label {
@@ -1188,6 +1284,8 @@
       font-size: 1.05rem;
       font-weight: 700;
       color: var(--text);
+      position: relative;
+      z-index: 1;
     }
 
     .privacy-stat-sub {
@@ -1195,6 +1293,13 @@
       color: var(--text-muted);
       max-width: 280px;
       line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    [data-theme="dark"] .privacy-stat-card {
+      background: rgba(16,185,129,0.07);
+      border-color: rgba(16,185,129,0.18);
     }
 
     /* ============================================================
@@ -1202,7 +1307,11 @@
     ============================================================ */
     .save-flow-section {
       padding: 96px 24px;
-      background: var(--purple-bg);
+      background: linear-gradient(160deg, #FFF4D0 0%, #FFE8A3 40%, #FFDDA0 100%);
+    }
+
+    [data-theme="dark"] .save-flow-section {
+      background: linear-gradient(160deg, rgba(245,166,35,0.12) 0%, rgba(245,140,20,0.10) 100%);
     }
     .save-flow-inner {
       max-width: var(--max-w);
@@ -2325,7 +2434,7 @@
           <h2 id="privacy-heading" class="reveal">Your most private place deserves the most private app.</h2>
           <p class="reveal">The things you save in ItMadeMyDay are the most personal things on your phone. The compliment that made you cry. The voice note you don't want anyone to hear. The memory you'd never post publicly. None of it ever leaves your device. Not one byte. Not ever.</p>
           <div class="privacy-pillars">
-            <div class="pillar-row reveal-left">
+            <div class="pillar-row reveal-left" style="transition-delay:0ms">
               <div class="pillar-icon" style="background:var(--amber-bg); color:var(--amber-dark);">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -2337,7 +2446,7 @@
                 <span>Open the app and start saving. No sign-up, no email, no password.</span>
               </div>
             </div>
-            <div class="pillar-row reveal-left">
+            <div class="pillar-row reveal-left" style="transition-delay:80ms">
               <div class="pillar-icon" style="background:var(--blue-bg); color:var(--blue-dark);">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M18 20V10"/>
@@ -2350,7 +2459,7 @@
                 <span>All data lives on your device. Nothing is sent to any server, ever.</span>
               </div>
             </div>
-            <div class="pillar-row reveal-left">
+            <div class="pillar-row reveal-left" style="transition-delay:160ms">
               <div class="pillar-icon" style="background:var(--coral-bg); color:var(--coral-dark);">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <circle cx="12" cy="12" r="10"/>
@@ -2362,7 +2471,7 @@
                 <span>No analytics, no tracking, no telemetry — not even anonymous usage stats.</span>
               </div>
             </div>
-            <div class="pillar-row reveal-left">
+            <div class="pillar-row reveal-left" style="transition-delay:240ms">
               <div class="pillar-icon" style="background:var(--teal-bg); color:var(--teal-dark);">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -2375,7 +2484,7 @@
                 <span>Export everything as a file anytime. Import it back when you need it. You decide what happens to your memories.</span>
               </div>
             </div>
-            <div class="pillar-row reveal-left">
+            <div class="pillar-row reveal-left" style="transition-delay:320ms">
               <div class="pillar-icon" style="background:#FFF0F2; color:#C9293C;">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <polyline points="3 6 5 6 21 6"/>
@@ -2393,7 +2502,15 @@
         </div>
 
         <div class="privacy-stat-card reveal-pop">
-          <div class="privacy-stat-number" aria-label="Zero">0</div>
+          <!-- Sonar rings -->
+          <div class="privacy-rings" aria-hidden="true">
+            <span class="privacy-ring"></span>
+            <span class="privacy-ring"></span>
+            <span class="privacy-ring"></span>
+          </div>
+          <!-- Scanning light -->
+          <div class="privacy-scan" aria-hidden="true"></div>
+          <div class="privacy-stat-number" id="privacyStat" aria-label="Zero">0</div>
           <div class="privacy-stat-label">bytes of data collected</div>
           <p class="privacy-stat-sub">Everything stays on your device. ItMadeMyDay has no server, no database, no user accounts.</p>
         </div>
@@ -2404,7 +2521,7 @@
     <section class="pullquote-section" aria-label="Core philosophy">
       <div class="pullquote-inner">
         <blockquote class="pullquote reveal">
-          <p>On your worst day, your best day is still inside you. You just need somewhere to keep it.</p>
+          <p>Hard days lie. Your saved moments tell the truth. Every good day you've ever had is still yours. You just need to be able to find it.</p>
         </blockquote>
       </div>
     </section>
@@ -2609,6 +2726,37 @@
           el.classList.remove('fade-out');
         }, 400);
       }, 2500);
+    })();
+
+    // Privacy stat count-down animation
+    (function () {
+      var statEl = document.getElementById('privacyStat');
+      if (!statEl) return;
+      var triggered = false;
+      var observer = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting && !triggered) {
+          triggered = true;
+          observer.disconnect();
+          var start = 2847;
+          var duration = 1800;
+          var startTime = null;
+          function ease(t) { return 1 - Math.pow(1 - t, 3); }
+          function step(timestamp) {
+            if (!startTime) startTime = timestamp;
+            var progress = Math.min((timestamp - startTime) / duration, 1);
+            var value = Math.round(start * (1 - ease(progress)));
+            statEl.textContent = value;
+            if (progress < 1) {
+              requestAnimationFrame(step);
+            } else {
+              statEl.textContent = '0';
+              statEl.setAttribute('aria-label', 'Zero');
+            }
+          }
+          requestAnimationFrame(step);
+        }
+      }, { threshold: 0.5 });
+      observer.observe(statEl);
     })();
 
     // FAQ accordion
