@@ -1617,18 +1617,20 @@
       background: radial-gradient(ellipse at center, rgba(245,166,35,0.07) 0%, transparent 65%);
     }
     .save-flow-inner {
-      max-width: var(--max-w);
+      max-width: 1100px;
       margin: 0 auto;
+      padding: 0 32px;
     }
     .save-flow-section .section-header {
       margin-bottom: 56px;
     }
     .save-flow-phones {
       display: flex;
-      gap: 24px;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 12px;
       align-items: flex-start;
       justify-content: center;
-      flex-wrap: nowrap;
     }
     .save-flow-item {
       display: flex;
@@ -1638,19 +1640,21 @@
       flex: 0 0 auto;
     }
     .save-flow-item .flow-phone {
-      width: 180px;
-      aspect-ratio: 9 / 19.5;
+      width: 220px;
+      height: 477px;
       background: #1c1c1e;
-      border-radius: 40px;
-      padding: 5px;
+      border-radius: 44px;
+      padding: 6px;
       box-shadow: 0 20px 60px rgba(42,35,32,0.14), inset 0 0 0 1px rgba(255,255,255,0.07);
       position: relative;
+      flex-shrink: 0;
     }
     .save-flow-item .flow-phone .phone-screen {
       border-radius: 40px;
     }
     .flow-caption {
       text-align: center;
+      width: 260px;
     }
     .flow-step {
       display: inline-block;
@@ -2942,6 +2946,7 @@
             <div class="flow-caption">
               <span class="flow-step">2</span>
               <strong>Give it context</strong>
+              <span>Tell the app when to show it and where it belongs</span>
               <span class="flow-context-block">
                 <span class="flow-ctx-label">Open this when I'm…</span>
                 <span class="flow-ctx-row">
@@ -2965,7 +2970,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </div>
 
-          <!-- Step 3: result -->
+          <!-- Step 3 -->
           <div class="save-flow-item reveal">
             <div class="flow-phone">
               <div class="phone-screen">
