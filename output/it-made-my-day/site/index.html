@@ -1307,11 +1307,78 @@
     ============================================================ */
     .save-flow-section {
       padding: 96px 24px;
-      background: linear-gradient(160deg, #FFF4D0 0%, #FFE8A3 40%, #FFDDA0 100%);
+      background: #FFFFFF;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .save-flow-section .save-flow-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Moving shadow blobs */
+    .sf-blob {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(72px);
+    }
+
+    .sf-blob-1 {
+      width: 620px; height: 620px;
+      top: -200px; left: -160px;
+      background: radial-gradient(ellipse at center, rgba(255,209,80,0.45) 0%, transparent 70%);
+      animation: sf-drift-1 4s ease-in-out infinite;
+    }
+
+    .sf-blob-2 {
+      width: 500px; height: 500px;
+      bottom: -160px; right: -100px;
+      background: radial-gradient(ellipse at center, rgba(252,145,58,0.38) 0%, transparent 68%);
+      animation: sf-drift-2 3.5s ease-in-out infinite;
+    }
+
+    .sf-blob-3 {
+      width: 380px; height: 380px;
+      top: 40%; left: 55%;
+      background: radial-gradient(ellipse at center, rgba(245,166,35,0.28) 0%, transparent 65%);
+      animation: sf-drift-3 5s ease-in-out infinite;
+    }
+
+    @keyframes sf-drift-1 {
+      0%, 100% { transform: translate(0, 0); }
+      30%       { transform: translate(140px, 100px); }
+      60%       { transform: translate(70px, 200px); }
+    }
+
+    @keyframes sf-drift-2 {
+      0%, 100% { transform: translate(0, 0); }
+      25%       { transform: translate(-130px, -80px); }
+      55%       { transform: translate(-200px, 60px); }
+      80%       { transform: translate(-80px, -120px); }
+    }
+
+    @keyframes sf-drift-3 {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+      35%       { transform: translate(-100px, 80px) scale(1.25); opacity: 1; }
+      70%       { transform: translate(80px, -100px) scale(0.8); opacity: 0.35; }
     }
 
     [data-theme="dark"] .save-flow-section {
-      background: linear-gradient(160deg, rgba(245,166,35,0.12) 0%, rgba(245,140,20,0.10) 100%);
+      background: var(--bg);
+    }
+
+    [data-theme="dark"] .sf-blob-1 {
+      background: radial-gradient(ellipse at center, rgba(245,166,35,0.12) 0%, transparent 70%);
+    }
+
+    [data-theme="dark"] .sf-blob-2 {
+      background: radial-gradient(ellipse at center, rgba(252,145,58,0.09) 0%, transparent 68%);
+    }
+
+    [data-theme="dark"] .sf-blob-3 {
+      background: radial-gradient(ellipse at center, rgba(245,166,35,0.07) 0%, transparent 65%);
     }
     .save-flow-inner {
       max-width: var(--max-w);
@@ -1322,10 +1389,10 @@
     }
     .save-flow-phones {
       display: flex;
-      gap: 32px;
+      gap: 24px;
       align-items: flex-start;
       justify-content: center;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
     }
     .save-flow-item {
       display: flex;
@@ -1335,10 +1402,10 @@
       flex: 0 0 auto;
     }
     .save-flow-item .flow-phone {
-      width: 200px;
+      width: 180px;
       aspect-ratio: 9 / 19.5;
       background: #1c1c1e;
-      border-radius: 44px;
+      border-radius: 40px;
       padding: 5px;
       box-shadow: 0 20px 60px rgba(42,35,32,0.14), inset 0 0 0 1px rgba(255,255,255,0.07);
       position: relative;
@@ -1821,13 +1888,69 @@
        PULL QUOTE SECTION
     ============================================================ */
     .pullquote-section {
-      padding: 80px 24px;
+      padding: 120px 24px;
       text-align: center;
-      background: var(--bg);
+      background: #fff;
+      position: relative;
+      overflow: hidden;
     }
+
+    /* Colour splash blobs */
+    .pq-blob {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(80px);
+      opacity: 0.55;
+    }
+
+    .pq-blob-1 {
+      width: 500px; height: 500px;
+      top: -140px; left: -100px;
+      background: #FBBF24;
+      animation: pq-b1 3s ease-in-out infinite alternate;
+    }
+    .pq-blob-2 {
+      width: 420px; height: 420px;
+      bottom: -120px; right: -80px;
+      background: #F87171;
+      animation: pq-b2 3.8s ease-in-out infinite alternate;
+    }
+    .pq-blob-3 {
+      width: 360px; height: 360px;
+      top: 30%; left: 60%;
+      background: #34D399;
+      animation: pq-b3 4.4s ease-in-out infinite alternate;
+    }
+    .pq-blob-4 {
+      width: 300px; height: 300px;
+      top: 50%; left: 5%;
+      background: #818CF8;
+      animation: pq-b4 2.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes pq-b1 {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(120px, 90px) scale(1.2); }
+    }
+    @keyframes pq-b2 {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(-110px, -80px) scale(1.15); }
+    }
+    @keyframes pq-b3 {
+      from { transform: translate(0, 0) scale(1); opacity: 0.55; }
+      to   { transform: translate(-90px, 70px) scale(1.25); opacity: 0.8; }
+    }
+    @keyframes pq-b4 {
+      from { transform: translate(0, 0) scale(1); opacity: 0.55; }
+      to   { transform: translate(80px, -60px) scale(1.3); opacity: 0.75; }
+    }
+
     .pullquote-inner {
       max-width: 700px;
       margin: 0 auto;
+      position: relative;
+      z-index: 1;
     }
     .pullquote p {
       font-family: var(--font-display);
@@ -1839,6 +1962,9 @@
     }
     .pullquote p::before { content: '\201C'; color: var(--amber); }
     .pullquote p::after  { content: '\201D'; color: var(--amber); }
+
+    [data-theme="dark"] .pullquote-section { background: var(--bg); }
+    [data-theme="dark"] .pq-blob { opacity: 0.12; }
 
     /* ============================================================
        DARK MODE OVERRIDES
@@ -2134,6 +2260,9 @@
 
     <!-- SAVE A MOMENT FLOW -->
     <section class="save-flow-section" aria-labelledby="save-flow-heading">
+      <div class="sf-blob sf-blob-1" aria-hidden="true"></div>
+      <div class="sf-blob sf-blob-2" aria-hidden="true"></div>
+      <div class="sf-blob sf-blob-3" aria-hidden="true"></div>
       <div class="save-flow-inner">
         <div class="section-header reveal">
           <h2 id="save-flow-heading">Saving a moment takes 60 seconds. Finding it on a hard day — priceless.</h2>
@@ -2519,6 +2648,10 @@
 
     <!-- PULL QUOTE -->
     <section class="pullquote-section" aria-label="Core philosophy">
+      <div class="pq-blob pq-blob-1" aria-hidden="true"></div>
+      <div class="pq-blob pq-blob-2" aria-hidden="true"></div>
+      <div class="pq-blob pq-blob-3" aria-hidden="true"></div>
+      <div class="pq-blob pq-blob-4" aria-hidden="true"></div>
       <div class="pullquote-inner">
         <blockquote class="pullquote reveal">
           <p>Hard days lie. Your saved moments tell the truth. Every good day you've ever had is still yours. You just need to be able to find it.</p>
