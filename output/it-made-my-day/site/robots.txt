@@ -18,11 +18,22 @@ Disallow: /
 User-agent: Claude-Web
 Disallow: /
 
+User-agent: ClaudeBot
+Disallow: /
+
 User-agent: Omgilibot
 Disallow: /
 
 User-agent: Google-Extended
 Disallow: /
 
-# TODO: update with real domain when live
-Sitemap: https://itmademyday.app/sitemap.xml
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+Sitemap: https://it-made-my-day.com/sitemap.xml

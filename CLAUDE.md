@@ -16,6 +16,7 @@
 | **Legal** | `skills/legal/SKILL.md` | Copyright footer, Privacy Policy, Terms of Use, DMCA page, `noai` meta tag, AI crawlers blocked in `robots.txt` |
 | **SEO** | `skills/seo/SKILL.md` | `<title>`, meta description, Open Graph tags, JSON-LD structured data, semantic HTML, image alt attributes *(skip OG/JSON-LD on legal pages)* |
 | **AEO** | `skills/aeo/SKILL.md` | `llms.txt`, speakable schema, factual headlines, FAQ section, no marketing speak in meta description |
+| **Mobile** | `skills/mobile/SKILL.md` | Touch targets ≥ 44px, viewport meta, mobile nav with hamburger, responsive type with clamp(), 16px inputs (no iOS zoom), thumb zone CTAs, `prefers-reduced-motion` |
 
 **If you are building any page and have not applied all four — stop and apply them before delivering.**
 

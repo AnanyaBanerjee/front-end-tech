@@ -21,6 +21,7 @@ PHASE 3 — Build the page
   5. legal/SKILL.md        ← copyright, privacy policy, terms, DMCA, noai
   6. seo/SKILL.md          ← title, meta, OG tags, JSON-LD, semantic HTML
   7. aeo/SKILL.md          ← llms.txt, speakable schema, factual copy, FAQ
+  8. mobile/SKILL.md       ← touch targets, responsive type, mobile nav, thumb zones, audit
 
 PHASE 4 — After any change
   8. sync/SKILL.md         ← propagate changes across all affected files
@@ -55,6 +56,7 @@ Pick exactly ONE style skill per project. Never mix two style skills on the same
 | Legal | `skills/legal/SKILL.md` | Copyright footer, `noai` meta tag, `privacy-policy.html`, `terms.html`, `dmca.html` — all matching the main site design exactly |
 | SEO | `skills/seo/SKILL.md` | `<title>`, `<meta description>`, Open Graph, Twitter card, JSON-LD structured data, semantic HTML, image alt attributes, `robots.txt`, `sitemap.xml` |
 | AEO | `skills/aeo/SKILL.md` | `llms.txt` at site root, speakable JSON-LD schema, factual headlines, FAQ section, no marketing speak in meta |
+| Mobile | `skills/mobile/SKILL.md` | Phone-first layout, touch targets ≥ 44px, responsive type with clamp(), mobile nav (hamburger + drawer), thumb zone CTAs, 16px input font (no iOS zoom), `prefers-reduced-motion`, horizontal scroll carousels, 29-point mobile audit |
 
 ### Pre-build (run before any visual work)
 
