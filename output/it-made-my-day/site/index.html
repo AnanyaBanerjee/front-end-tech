@@ -1480,6 +1480,149 @@
     }
 
     /* ============================================================
+       CYCLE WORD ANIMATION
+    ============================================================ */
+    .cycle-word {
+      display: inline-block;
+      color: var(--amber);
+      font-style: italic;
+      transition: opacity 400ms ease, transform 400ms ease;
+    }
+    .cycle-word.fade-out { opacity: 0; transform: translateY(-8px); }
+    .cycle-word.fade-in  { opacity: 1; transform: translateY(0); }
+
+    .hero-cycle-line {
+      font-size: 1.1rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+    }
+
+    /* ============================================================
+       EMOTIONAL STORIES SECTION
+    ============================================================ */
+    .stories-section {
+      padding: 100px 24px;
+      background: var(--bg-soft);
+    }
+
+    .stories-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .stories-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 56px;
+    }
+
+    .story-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 320ms cubic-bezier(0.16,1,0.3,1), box-shadow 320ms ease;
+    }
+
+    .story-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 3px 3px 0 0;
+    }
+
+    .story-card-amber::before { background: var(--amber); }
+    .story-card-blue::before  { background: var(--blue); }
+    .story-card-teal::before  { background: var(--teal); }
+
+    .story-card:hover { transform: translateY(-4px); }
+    .story-card-amber:hover { box-shadow: 0 20px 50px rgba(245,166,35,0.12); }
+    .story-card-blue:hover  { box-shadow: 0 20px 50px rgba(59,130,246,0.12); }
+    .story-card-teal:hover  { box-shadow: 0 20px 50px rgba(16,185,129,0.12); }
+
+    .story-time {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .story-scenario {
+      font-size: 1rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    .story-divider {
+      width: 32px;
+      height: 2px;
+      background: var(--border);
+      border-radius: 2px;
+    }
+
+    .story-resolution {
+      font-size: 1rem;
+      color: var(--text);
+      line-height: 1.7;
+      font-weight: 500;
+    }
+
+    .story-resolution em {
+      color: var(--amber-dark);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    .story-tag {
+      margin-top: auto;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    [data-theme="dark"] .story-card { background: var(--bg-card); }
+
+    @media (max-width: 900px) {
+      .stories-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
+       PULL QUOTE SECTION
+    ============================================================ */
+    .pullquote-section {
+      padding: 80px 24px;
+      text-align: center;
+      background: var(--bg);
+    }
+    .pullquote-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .pullquote p {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .pullquote p::before { content: '\201C'; color: var(--amber); }
+    .pullquote p::after  { content: '\201D'; color: var(--amber); }
+
+    /* ============================================================
        DARK MODE OVERRIDES
     ============================================================ */
     [data-theme="dark"] body { background: var(--bg); }
@@ -1528,6 +1671,9 @@
       background: var(--text);
       color: var(--bg);
     }
+
+    [data-theme="dark"] .stories-section { background: var(--bg-soft); }
+    [data-theme="dark"] .pullquote-section { background: var(--bg); }
   </style>
 </head>
 
@@ -1573,9 +1719,10 @@
           </svg>
           iOS App
         </div>
-        <h1 class="reveal">Your Personal<br><span style="color:var(--amber)">Joy</span> Vault</h1>
+        <h1 class="reveal">Joy doesn't expire.</h1>
+        <p class="hero-cycle-line reveal">On <span id="cycleWord" class="cycle-word">your worst Monday</span>, it's here waiting for you.</p>
         <p class="hero-description product-summary reveal">
-          The moments that make life worth living are easy to forget. ItMadeMyDay keeps them safe — compliments received, memories made, conversations that stayed with you. Private. Offline. Yours.
+          The compliment you brushed off. The photo from that perfect afternoon. The text that made you cry happy tears. The moment you proved yourself right. ItMadeMyDay keeps them safe — so when the world feels heavy, you have proof it's worth it.
         </p>
         <div class="hero-cta-wrap reveal">
           <span class="coming-soon-pill" aria-label="Coming soon to the App Store">
@@ -1584,7 +1731,7 @@
             </svg>
             Coming Soon to App Store
           </span>
-          <span class="hero-note">Free · iPhone · No account · No data · No cloud</span>
+          <span class="hero-note">Free · iPhone · Private · No account · No cloud · Fully offline</span>
         </div>
       </div>
 
@@ -1660,7 +1807,7 @@
               </svg>
             </div>
             <h3>Your Vault</h3>
-            <p>Everything kind, funny, meaningful, or beautiful — saved in one private place. Six types of moments, no setup required.</p>
+            <p>Compliments, memories, conversations, quotes, photos, links — saved the moment they happen, so they're waiting for you when you need them most.</p>
             <div class="category-chips" aria-label="Moment categories">
               <span class="chip">💬 Compliments</span>
               <span class="chip">✨ Memories</span>
@@ -1680,8 +1827,8 @@
                 <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
               </svg>
             </div>
-            <h3>Meet Your Mood</h3>
-            <p>Feeling low? The Boost tab surfaces moments matched to how you feel right now. Use built-in moods — or create your own with a custom name, icon, and color.</p>
+            <h3>Boost for the Hard Days</h3>
+            <p>Tell the app how you're feeling. It finds the moments most likely to pull you back to joy. Built-in moods, or create your own. It knows what you need before you do.</p>
             <div class="bento-mood-dots" aria-hidden="true">
               <span style="background:#8B5CF6"></span>
               <span style="background:#FF5C6C"></span>
