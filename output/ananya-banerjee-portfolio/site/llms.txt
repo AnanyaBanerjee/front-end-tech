@@ -1,0 +1,40 @@
+# Ananya Banerjee — ananyabanerjee.org
+
+> Ananya Banerjee is a Senior Software Engineer at LinkedIn, iOS app developer, AI researcher, and writer based in the San Francisco Bay Area.
+
+## Who I Am
+
+Ananya Banerjee holds an MS in Computer Science from the University of Texas at Dallas (Master's Research Fellow, Jonsson Scholarship recipient) and a BE from BITS Pilani. She is a two-time hackathon champion and CIFAR Deep Learning Reinforcement Learning Summer School scholar (selected from 88 countries).
+
+## What I Build
+
+### iOS Apps
+- **AgentChat Hub** — Universal messenger for A2A-compatible AI agents. Available on iOS, iPad, Mac, and Vision Pro. Free, no account required.
+- **It Made My Day** — Private gratitude vault for capturing daily moments, compliments, photos, voice notes, and links.
+
+### AI Agents & Research
+- **code-review-graph** — Knowledge graph that gives AI coding agents structural context (callers, dependencies, test coverage, impact radius) for code review with far fewer tokens.
+- **Knowledge-Infused Text-to-Image Generation** — Deep learning model that combines common-sense reasoning and scene graphs to generate images from text descriptions.
+- **OpenLLM Bridge** — Bridges open-source LLMs to production agent workflows.
+
+## Where I Write
+
+- Towards Data Science (since Sep 2019)
+- Towards AI (since Apr 2020)
+- Analytics Vidhya (since May 2020)
+- The Startup / Medium (since Oct 2019)
+- LinkedIn Articles (business strategy, AI, productivity)
+
+## Key Pages
+- Home: https://www.ananyabanerjee.org/
+- LinkedIn: https://www.linkedin.com/in/ananyabanerjee15/
+- GitHub: https://github.com/AnanyaBanerjee
+- Medium: https://ananya-banerjee.medium.com/
+
+## Awards
+- 1st Place, eBay Invent Week 2024 (1,000+ teams)
+- Leadership Choice Award, eBay Global Showcase 2023
+- 1st Place, eBay Invent Week 2023
+- CIFAR DLRL Summer School Scholar 2020 (88 countries)
+- Master's Research Fellowship, UT Dallas 2020
+- Jonsson Graduate Scholarship, UT Dallas 2018
