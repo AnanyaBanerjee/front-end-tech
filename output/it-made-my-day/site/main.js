@@ -66,6 +66,11 @@ document.getElementById('themeToggle').addEventListener('click', function() {
       p.classList.toggle('active', i === idx);
     });
     current = idx;
+    // On mobile the nav scrolls horizontally — keep active tab visible
+    var activeTab = tabs[idx];
+    if (activeTab && activeTab.scrollIntoView) {
+      activeTab.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+    }
   }
 
   function startAuto() {
