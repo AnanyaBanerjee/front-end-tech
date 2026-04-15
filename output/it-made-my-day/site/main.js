@@ -1,6 +1,14 @@
 // Dynamic year
 document.getElementById('year').textContent = new Date().getFullYear();
 
+// Reveal fallback — force-show any elements still hidden after 1.5 s
+// (guards against Rocket Loader timing issues or IntersectionObserver edge cases)
+setTimeout(function () {
+  document.querySelectorAll('.reveal:not(.visible), .reveal-left:not(.visible), .reveal-pop:not(.visible), .reveal-scale:not(.visible), .reveal-bounce:not(.visible)').forEach(function (el) {
+    el.classList.add('visible');
+  });
+}, 1500);
+
 // Theme toggle
 document.getElementById('themeToggle').addEventListener('click', function() {
   var current = document.documentElement.getAttribute('data-theme');

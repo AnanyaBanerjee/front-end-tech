@@ -378,6 +378,22 @@
     /* ============================================================
        KEYFRAME ANIMATIONS
     ============================================================ */
+
+    /* Hero entrance — pure CSS, no JS required */
+    @keyframes hero-enter {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-content > * {
+      opacity: 0;
+      animation: hero-enter 0.65s ease-out forwards;
+    }
+    .hero-content > *:nth-child(1) { animation-delay: 0.05s; }
+    .hero-content > *:nth-child(2) { animation-delay: 0.15s; }
+    .hero-content > *:nth-child(3) { animation-delay: 0.25s; }
+    .hero-content > *:nth-child(4) { animation-delay: 0.35s; }
+    .hero-content > *:nth-child(5) { animation-delay: 0.45s; }
+
     @keyframes float-center {
       0%, 100% { transform: translateY(0px); }
       50%       { transform: translateY(-18px); }
@@ -2640,18 +2656,18 @@
     <!-- HERO -->
     <section class="hero" aria-label="Hero">
       <div class="hero-content">
-        <div class="hero-eyebrow reveal">
+        <div class="hero-eyebrow">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
             <path d="M6 0l1.35 4.15L11.5 4.5l-3.2 2.8.95 4.2L6 9.2l-3.25 2.3.95-4.2L.5 4.5l4.15-.35z"/>
           </svg>
           iOS App
         </div>
-        <h1 class="reveal">Joy doesn't expire.</h1>
-        <p class="hero-cycle-line reveal">On <span id="cycleWord" class="cycle-word">your worst Monday</span>, it's here waiting for you.</p>
-        <p class="hero-description product-summary reveal">
+        <h1>Joy doesn't expire.</h1>
+        <p class="hero-cycle-line">On <span id="cycleWord" class="cycle-word">your worst Monday</span>, it's here waiting for you.</p>
+        <p class="hero-description product-summary">
           The compliment you brushed off. The photo from that perfect afternoon. The text that made you cry happy tears. The moment you proved yourself right. <span class="app-name">ItMadeMyDay</span> is your personal vault for these moments — kept safe, so when the world feels heavy, you always know where to find your shine.
         </p>
-        <div class="hero-cta-wrap reveal">
+        <div class="hero-cta-wrap">
           <span class="coming-soon-pill" aria-label="Coming soon to the App Store">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
               <path d="M11.182 10.506c-.243.588-.358.85-.67 1.37-.435.706-1.047 1.585-1.806 1.592-.675.007-.849-.44-1.764-.434-.915.005-1.106.443-1.78.437-.76-.007-1.337-.804-1.772-1.51-1.212-1.962-1.34-4.265-.592-5.487.531-.876 1.368-1.39 2.154-1.39.801 0 1.305.44 1.967.44.643 0 1.035-.442 1.963-.442.703 0 1.45.383 1.98 1.045-.174.1-1.874 1.093-1.853 3.26.019 2.059 1.809 2.745 2.173 2.119zM8.967 2.615C9.264 1.989 9.356 1 9.095.5 8.412.546 7.61.97 7.258 1.565c-.322.542-.45 1.55-.22 2.072.74.025 1.595-.45 1.929-1.022z"/>
@@ -3525,7 +3541,7 @@
     </div>
   </footer>
 
-  <script src="main.js"></script>
+  <script src="main.js" data-cfasync="false"></script>
 
   <script>
     // Multicolor app name — replaces every text instance of "ItMadeMyDay" in the DOM
