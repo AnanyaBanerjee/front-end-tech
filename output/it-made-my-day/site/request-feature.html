@@ -787,20 +787,22 @@
       <div class="success-card reveal" id="success-state" hidden>
         <div class="success-glow" aria-hidden="true">✦</div>
         <h2>Your suggestion is in!</h2>
-        <p>Thank you — I read every single request personally. If your idea gets built, you'll be the first to know. Keep an eye on your inbox.</p>
+        <p>Thank you — I read every single request personally. If your idea gets built, you'll be the first to know.</p>
         <div class="success-divider"></div>
-        <p style="font-size:0.9rem; color:var(--text-mid);">A new tab just opened to complete your subscription to <strong>Ananya's Build Room</strong>. If it didn't open, tap below:</p>
-        <a
-          id="substackLink"
-          href="https://buildroomananya.substack.com/subscribe"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="success-substack"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          Join Ananya's Build Room
-        </a>
-        <p class="success-note">You can unsubscribe anytime from inside the newsletter.</p>
+        <div style="width:100%; text-align:left;">
+          <p class="newsletter-note-title" style="font-size:1rem; margin-bottom:6px;">One last step — subscribe to hear when it's live</p>
+          <p style="font-size:0.875rem; color:var(--text-mid); margin-bottom:16px; line-height:1.6;">Enter your email below to join <strong>Ananya's Build Room</strong> — you'll hear first when your suggestion ships, plus new features and products.</p>
+          <iframe
+            src="https://buildroomananya.substack.com/embed"
+            width="100%"
+            height="320"
+            style="border:none; border-radius:12px; display:block;"
+            frameborder="0"
+            scrolling="no"
+            title="Subscribe to Ananya's Build Room"
+          ></iframe>
+        </div>
+        <p class="success-note">Unsubscribe anytime from inside the newsletter.</p>
       </div>
 
     </section>
@@ -867,7 +869,7 @@
     // ⚠️  Replace YOUR_FORMSPREE_FORM_ID below with your actual Formspree form ID.
     // Sign up at formspree.io, create a form, link it to ananyabilbanerjee@gmail.com,
     // and paste the ID (the part after /f/) here.
-    var FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORMSPREE_FORM_ID';
+    var FORMSPREE_ENDPOINT = 'https://api.web3forms.com/submit';
 
     document.getElementById('featureForm').addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -896,10 +898,11 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify({
+            access_key: 'b71218f0-ce9a-4164-802c-1f44e43ffdde',
             name: nameVal,
             email: emailVal,
             suggestion: suggVal,
-            _subject: 'New Feature Request — ItMadeMyDay'
+            subject: 'New Feature Request — ItMadeMyDay'
           })
         });
 
@@ -909,13 +912,6 @@
           var successEl = document.getElementById('success-state');
           successEl.hidden = false;
           successEl.classList.add('visible');
-
-          // Update Substack link with pre-filled email
-          var substackUrl = 'https://buildroomananya.substack.com/subscribe?email=' + encodeURIComponent(emailVal);
-          document.getElementById('substackLink').href = substackUrl;
-
-          // Open Substack in new tab
-          window.open(substackUrl, '_blank', 'noopener,noreferrer');
 
           // Scroll to success
           successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
