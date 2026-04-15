@@ -168,11 +168,12 @@ document.getElementById('themeToggle').addEventListener('click', function() {
 
   function tick() {
     if (!paused) {
-      grid.scrollLeft += speed;
-      if (grid.scrollLeft >= grid.scrollWidth - grid.clientWidth - 2) {
-        grid.scrollLeft = 0;
+      if (grid.scrollLeft < grid.scrollWidth - grid.clientWidth - 1) {
+        grid.scrollLeft += speed;
+        updateArrows();
+      } else {
+        paused = true; // reached the end — stop, let user scroll back
       }
-      updateArrows();
     }
     requestAnimationFrame(tick);
   }
