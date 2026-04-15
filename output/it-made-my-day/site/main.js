@@ -74,16 +74,14 @@ document.getElementById('themeToggle').addEventListener('click', function() {
       p.classList.toggle('active', i === idx);
     });
     current = idx;
-    // On mobile the nav scrolls horizontally — center the active tab
-    var activeTab = tabs[idx];
-    var nav = activeTab && activeTab.parentElement;
+    // On mobile the nav scrolls horizontally — center the active tab.
+    // scrollIntoView is unreliable in Android Chrome; directly set scrollLeft instead.
+    var nav = tabs[idx].parentElement;
     if (nav && nav.scrollWidth > nav.clientWidth) {
-      var navRect = nav.getBoundingClientRect();
-      var tabRect = activeTab.getBoundingClientRect();
-      // Position of tab's left edge within the nav's scroll content
-      var tabLeftInNav = tabRect.left - navRect.left + nav.scrollLeft;
-      var targetScroll = tabLeftInNav - (nav.clientWidth - activeTab.offsetWidth) / 2;
-      nav.scrollTo({ left: Math.max(0, targetScroll), behavior: 'smooth' });
+      var offsetLeft = 0;
+      for (var i = 0; i < idx; i++) { offsetLeft += tabs[i].offsetWidth; }
+      var target = offsetLeft - (nav.clientWidth / 2) + (tabs[idx].offsetWidth / 2);
+      nav.scrollLeft = Math.max(0, target);
     }
   }
 
@@ -111,13 +109,17 @@ document.getElementById('themeToggle').addEventListener('click', function() {
   var paused = false;
   var speed = 0.5;
 
+  // Pause on hover (desktop)
   grid.addEventListener('mouseenter', function () { paused = true; });
   grid.addEventListener('mouseleave', function () { paused = false; });
+
+  // Touch: pause auto-scroll and let the browser handle native scroll
   grid.addEventListener('touchstart', function () { paused = true; }, { passive: true });
   grid.addEventListener('touchend', function () {
-    setTimeout(function () { paused = false; }, 2000);
+    setTimeout(function () { paused = false; }, 3000);
   });
 
+  // Mouse drag (desktop only)
   var isDragging = false, startX, startScrollLeft;
   grid.addEventListener('mousedown', function (e) {
     isDragging = true; paused = true;
@@ -126,17 +128,15 @@ document.getElementById('themeToggle').addEventListener('click', function() {
     grid.style.cursor = 'grabbing';
   });
   window.addEventListener('mouseup', function () {
-    if (isDragging) {
-      isDragging = false;
-      grid.style.cursor = 'grab';
-      setTimeout(function () { paused = false; }, 1500);
-    }
+    if (!isDragging) return;
+    isDragging = false;
+    grid.style.cursor = 'grab';
+    setTimeout(function () { paused = false; }, 1500);
   });
   grid.addEventListener('mousemove', function (e) {
     if (!isDragging) return;
     e.preventDefault();
-    var x = e.pageX - grid.offsetLeft;
-    grid.scrollLeft = startScrollLeft - (x - startX);
+    grid.scrollLeft = startScrollLeft - (e.pageX - grid.offsetLeft - startX);
   });
 
   var btnLeft  = document.getElementById('storiesLeft');
@@ -151,15 +151,15 @@ document.getElementById('themeToggle').addEventListener('click', function() {
   if (btnLeft) {
     btnLeft.addEventListener('click', function () {
       paused = true;
-      grid.scrollBy({ left: -364, behavior: 'smooth' });
-      setTimeout(function () { paused = false; }, 1200);
+      grid.scrollTo({ left: Math.max(0, grid.scrollLeft - 300), behavior: 'smooth' });
+      setTimeout(function () { updateArrows(); paused = false; }, 600);
     });
   }
   if (btnRight) {
     btnRight.addEventListener('click', function () {
       paused = true;
-      grid.scrollBy({ left: 364, behavior: 'smooth' });
-      setTimeout(function () { paused = false; }, 1200);
+      grid.scrollTo({ left: grid.scrollLeft + 300, behavior: 'smooth' });
+      setTimeout(function () { updateArrows(); paused = false; }, 600);
     });
   }
 

@@ -2272,6 +2272,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
+      bottom: 32px;
+      margin-bottom: -32px;
       gap: 16px;
       margin-top: 16px;
     }
@@ -2357,12 +2360,14 @@
     .stories-grid::-webkit-scrollbar { display: none; }
     .stories-grid:active { cursor: grabbing; }
 
-    /* Per-card emotional float animations */
-    .story-card-coral  { animation: card-float-a 4.2s ease-in-out infinite; }
-    .story-card-blue   { animation: card-float-b 5.1s ease-in-out infinite; }
-    .story-card-amber  { animation: card-float-c 3.8s ease-in-out infinite; }
-    .story-card-teal   { animation: card-float-d 4.7s ease-in-out infinite; }
-    .story-card-purple { animation: card-float-e 5.5s ease-in-out infinite; }
+    /* Per-card emotional float animations — hover/pointer devices only */
+    @media (hover: hover) and (pointer: fine) {
+      .story-card-coral  { animation: card-float-a 4.2s ease-in-out infinite; }
+      .story-card-blue   { animation: card-float-b 5.1s ease-in-out infinite; }
+      .story-card-amber  { animation: card-float-c 3.8s ease-in-out infinite; }
+      .story-card-teal   { animation: card-float-d 4.7s ease-in-out infinite; }
+      .story-card-purple { animation: card-float-e 5.5s ease-in-out infinite; }
+    }
 
     @keyframes card-float-a {
       0%, 100% { transform: translateY(0px) rotate(-0.4deg); }
