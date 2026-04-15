@@ -390,6 +390,22 @@
       0%, 100% { transform: translateX(155px) translateY(30px) rotate(6deg); }
       50%       { transform: translateX(155px) translateY(10px) rotate(5deg); }
     }
+    @keyframes float-left-tablet {
+      0%, 100% { transform: translateX(-116px) translateY(24px) rotate(-6deg); }
+      50%       { transform: translateX(-116px) translateY(8px) rotate(-5deg); }
+    }
+    @keyframes float-right-tablet {
+      0%, 100% { transform: translateX(116px) translateY(24px) rotate(6deg); }
+      50%       { transform: translateX(116px) translateY(8px) rotate(5deg); }
+    }
+    @keyframes float-left-mobile {
+      0%, 100% { transform: translateX(-78px) translateY(14px) rotate(-6deg); }
+      50%       { transform: translateX(-78px) translateY(4px) rotate(-5deg); }
+    }
+    @keyframes float-right-mobile {
+      0%, 100% { transform: translateX(78px) translateY(14px) rotate(6deg); }
+      50%       { transform: translateX(78px) translateY(4px) rotate(5deg); }
+    }
 
     @keyframes blob-drift-1 {
       0%, 100% { transform: translate(0, 0) scale(1); }
@@ -1641,7 +1657,7 @@
     }
     .save-flow-item .flow-phone {
       width: 220px;
-      height: 477px;
+      aspect-ratio: 9 / 19.5;
       background: #1c1c1e;
       border-radius: 44px;
       padding: 6px;
@@ -2088,13 +2104,13 @@
       }
 
       .phone-frame-left {
-        width: 154px;
-        transform: translateX(-126px) translateY(24px) rotate(-6deg);
+        width: 150px;
+        animation-name: float-left-tablet;
       }
 
       .phone-frame-right {
-        width: 154px;
-        transform: translateX(126px) translateY(24px) rotate(6deg);
+        width: 150px;
+        animation-name: float-right-tablet;
       }
 
       .privacy-inner {
@@ -2143,17 +2159,17 @@
       }
 
       .phone-frame-center {
-        width: 150px;
+        width: 148px;
       }
 
       .phone-frame-left {
-        width: 130px;
-        transform: translateX(-106px) translateY(20px) rotate(-6deg);
+        width: 112px;
+        animation-name: float-left-mobile;
       }
 
       .phone-frame-right {
-        width: 130px;
-        transform: translateX(106px) translateY(20px) rotate(6deg);
+        width: 112px;
+        animation-name: float-right-mobile;
       }
 
       .privacy-stat-card {
