@@ -946,10 +946,14 @@
       btn.disabled = true;
       btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:spin 0.9s linear infinite" aria-hidden="true"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg> Sending…';
 
+      var controller = new AbortController();
+      var timeoutId = setTimeout(function () { controller.abort(); }, 10000);
+
       try {
         var resp = await fetch(ENDPOINT, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          signal: controller.signal,
           body: JSON.stringify({
             access_key: 'b71218f0-ce9a-4164-802c-1f44e43ffdde',
             name: nameVal,
@@ -958,16 +962,18 @@
             subject: 'New Feature Request — ItMadeMyDay'
           })
         });
+        clearTimeout(timeoutId);
 
         if (resp.ok) {
-          document.getElementById('form-card').hidden = true;
+          document.getElementById('form-card').style.display = 'none';
           var successEl = document.getElementById('success-state');
-          successEl.hidden = false;
+          successEl.style.display = 'flex';
           successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else {
           throw new Error('non-ok');
         }
-      } catch {
+      } catch (err) {
+        clearTimeout(timeoutId);
         btn.disabled = false;
         btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Suggestion';
         errorEl.hidden = false;

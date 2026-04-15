@@ -74,10 +74,16 @@ document.getElementById('themeToggle').addEventListener('click', function() {
       p.classList.toggle('active', i === idx);
     });
     current = idx;
-    // On mobile the nav scrolls horizontally — keep active tab visible
+    // On mobile the nav scrolls horizontally — center the active tab
     var activeTab = tabs[idx];
-    if (activeTab && activeTab.scrollIntoView) {
-      activeTab.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+    var nav = activeTab && activeTab.parentElement;
+    if (nav && nav.scrollWidth > nav.clientWidth) {
+      var navRect = nav.getBoundingClientRect();
+      var tabRect = activeTab.getBoundingClientRect();
+      // Position of tab's left edge within the nav's scroll content
+      var tabLeftInNav = tabRect.left - navRect.left + nav.scrollLeft;
+      var targetScroll = tabLeftInNav - (nav.clientWidth - activeTab.offsetWidth) / 2;
+      nav.scrollTo({ left: Math.max(0, targetScroll), behavior: 'smooth' });
     }
   }
 
