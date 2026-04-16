@@ -150,6 +150,7 @@ But the skills in this repo fall into **three layers** that serve different purp
 | **SEO** (always apply) | seo | Meta tags, structured data, page speed — on every page |
 | **AEO** (always apply) | aeo | llms.txt and AI search optimization — on every project |
 | **Legal** (always apply) | legal | Copyright, Privacy Policy, Terms of Use, DMCA, NoAI — every project |
+| **Mobile** (always apply) | mobile | Safe area insets, Core Web Vitals targets, AVIF images, `content-visibility`, touch targets, scroll snap, hover fix, 35-point audit — every page |
 | **Sync** (after every change) | sync | Detect cascade impact + update all affected files |
 | **Security** (always apply) | security | Cloudflare headers, SRI, no secrets, safe links — on every page |
 | **Copy** (always apply) | copywriting | PAS/AIDA frameworks, headlines, CTAs |
@@ -272,6 +273,21 @@ Claude applies all of these to every page without you having to ask:
 - No API keys, email addresses, or sensitive data in HTML source
 - `rel="noopener noreferrer"` on every external link
 - Honeypot field on any contact or signup form
+
+**Mobile**
+- `viewport-fit=cover` in the viewport meta tag — enables safe area inset support
+- `env(safe-area-inset-*)` on all fixed/sticky elements — clears notch, Dynamic Island, and home indicator on iPhone
+- Core Web Vitals targets enforced: LCP < 2.5s, CLS < 0.1, INP < 200ms
+- Hero image served via `<picture>` with AVIF + WebP + fallback, `fetchpriority="high"`, `loading="eager"`
+- Below-fold images lazy-loaded; above-fold images preloaded in `<head>`
+- `content-visibility: auto` on below-fold sections — skips rendering until near viewport
+- `overscroll-behavior: contain` on all modals and drawers — prevents iOS rubber-band scroll leak
+- All hover effects wrapped in `@media (hover: hover)` — no stuck hover states on touch
+- Touch targets ≥ 44px, all inputs ≥ 16px font-size (prevents iOS auto-zoom)
+- Hamburger mobile nav with ARIA, ESC close, body scroll lock
+- Sticky CTA bar with `env(safe-area-inset-bottom)` padding
+- `prefers-reduced-motion` media query on all animations
+- 35-point mobile audit passes before delivery
 
 **What you need to provide:**
 - Your real domain URL (for canonical tags and llms.txt links)

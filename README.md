@@ -46,7 +46,7 @@ flowchart TD
 
 ## 🧱 What Claude Builds Into Every Page
 
-Every `.html` file Claude creates — including legal pages — gets all 11 layers applied automatically.
+Every `.html` file Claude creates — including legal pages — gets all 12 layers applied automatically.
 
 <br/>
 
@@ -124,6 +124,12 @@ Every `.html` file Claude creates — including legal pages — gets all 11 laye
 </tr>
 <tr>
 <td align="center">10</td>
+<td><strong>📱 Mobile</strong></td>
+<td>Phone-first layout · safe area insets (notch/Dynamic Island) · Core Web Vitals (LCP/CLS/INP) · touch targets · AVIF+WebP images · <code>content-visibility</code> · scroll snap · hover fix · 35-point audit</td>
+<td><code>mobile</code></td>
+</tr>
+<tr>
+<td align="center">11</td>
 <td><strong>🔄 Sync</strong></td>
 <td>Detects changes · cascades updates to all affected files · keeps everything consistent</td>
 <td><code>sync</code></td>
@@ -182,7 +188,9 @@ output/my-product/
 | 🔍 SEO | seo | Meta tags, Open Graph, JSON-LD, semantic HTML, page speed |
 | 🤖 AEO | aeo | `llms.txt`, speakable schema, AI search copy rules |
 | 🔒 Security | security | Cloudflare `_headers`, SRI on CDN scripts, no-secrets policy, safe links |
-| ⚖️ Legal | legal | Copyright, ™, Privacy Policy, Terms of Use, DMCA, NoAI directives |\n| 🔄 Sync | sync | After every change, detect what else needs updating and apply it |
+| ⚖️ Legal | legal | Copyright, ™, Privacy Policy, Terms of Use, DMCA, NoAI directives |
+| 📱 Mobile | mobile | Safe area insets, Core Web Vitals targets, AVIF images, `content-visibility`, scroll snap, hover fix, 35-point audit |
+| 🔄 Sync | sync | After every change, detect what else needs updating and apply it |
 
 ---
 
