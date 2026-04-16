@@ -166,6 +166,27 @@ For each: hex code, RGB, CMYK, Pantone, usage guidance, accessibility notes.
 
 ---
 
+## 11. Single Accent Opacity Stack
+
+**The pattern**: Build an entire color system from one accent color at every opacity level — not a multi-color palette.
+
+**How it works**:
+1. Choose one accent color (e.g. warm orange `#fb923c`, electric blue `#3b82f6`, rose `#f43f5e`)
+2. Pair it exclusively with near-black (`#050505`–`#0a0a0a`) and near-white (white at varying opacity)
+3. The "palette" is: accent at `0.01`, `0.02`, `0.06`, `0.14`, `0.4`, `0.7`, `1.0` opacity — and white at `0.02`, `0.05`, `0.1`, `0.3`, `0.6`, `0.9` opacity
+4. Every UI element — glows, borders, text, particles, buttons — uses only these values
+5. No secondary colors. No complementary colors. No gradients that introduce a second hue.
+
+**Why it works**: Extreme chromatic restraint creates immediate visual coherence. The eye reads a unified atmosphere rather than competing hues. The single accent becomes iconic — users associate it with the brand. The range of opacities provides enough variety for a full design system without introducing complexity.
+
+**The discipline test**: If you can name more than two hues on the page, you've broken this pattern. The near-black background does not count. White does not count. Only ask: "how many accent colors?"
+
+**Indicators for use**: Dark-mode SaaS products, developer tools, technical B2B software, any brand that wants to feel precise and confident rather than playful or expressive.
+
+**What to avoid**: Do not add a "secondary accent" for hover states — use the primary accent at a different opacity instead. Do not use gradient text that blends two hues on large display headlines.
+
+---
+
 ## 10. Brand Asset Management
 
 **The pattern**: Centralize and organize all brand assets for easy access and correct use.

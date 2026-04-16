@@ -179,6 +179,19 @@ Do not default to generic UI. Pull from this library of advanced concepts to ens
 * **Gradient Stroke Animation:** Outlined text with a gradient continuously running along the stroke.
 * **Kinetic Typography Grid:** A grid of letters dodging or rotating away from the cursor.
 
+### Dark SaaS Hero System
+A complete technique stack for near-black hero sections with a single warm accent. No libraries — pure CSS. Use when the design calls for premium dark-mode aesthetics (developer tools, technical SaaS, B2B software).
+
+* **Radial Glow Stack:** 3 layered `radial-gradient(ellipse)` divs at 14%/6%/2% accent opacity, `pointer-events-none`, positioned behind hero content. Creates a warm light source without images.
+* **Animated Conic Border:** CSS Houdini `@property --border-angle` animates a `conic-gradient()` as a spinning glow ring around cards/CTAs/inputs. Requires browser support check — graceful fallback to static border.
+* **Scan Text / Beam Sweep:** `background-clip: text` + animated `background-position` on a 250%-wide gradient. An accent beam sweeps through the hero `<h1>` on a 4s loop. Use on one element only — the headline. Never on body text.
+* **Rising Ember Particles:** 14 thin `<div>` elements (1–2px wide, 12–40px tall), `linear-gradient(transparent, accent, transparent)`, animated `translateY(-550px)` at randomized durations (3.5–10s) and delays. Mix 4 white-tinted particles among the 10 accent-colored for depth.
+* **Grid Noise Texture:** Inline SVG grid at `stroke-opacity: 0.03`, cropped by `mask-image: radial-gradient(ellipse)` so it appears only at the hero center. Prevents large dark backgrounds from looking void-like.
+
+**Layer order (bottom to top):** grid noise → radial glow stack → ember particles → hero content → conic borders on components.
+
+**Color rule for this system:** Accent at `0.01`–`1.0` opacity + white at `0.02`–`0.9` opacity. No second hue anywhere. See `branding/patterns.md` Pattern 11.
+
 ### Micro-Interactions & Effects
 * **Particle Explosion Button:** CTAs that shatter into particles upon success.
 * **Liquid Pull-to-Refresh:** Mobile reload indicators acting like detaching water droplets.

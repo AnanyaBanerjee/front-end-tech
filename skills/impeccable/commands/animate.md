@@ -172,3 +172,142 @@ Test animations thoroughly:
 - **Adds value**: Makes interface clearer or more delightful
 
 Remember: Motion should enhance understanding and provide feedback, not just add decoration. Animate with purpose, respect performance constraints, and always consider accessibility. Great animation is invisible - it just makes everything feel right.
+
+---
+
+## Signature Dark Hero Techniques
+
+Five pure-CSS techniques for building premium dark landing page heroes. No GSAP, no Framer Motion — all CSS. Use these when the design calls for a near-black background with a single accent color.
+
+### 1. Radial Glow Stack (warm light source)
+Stack 3 `pointer-events-none` divs with `radial-gradient(ellipse ... at 50% 40%, rgba(accent, N), transparent)` at 14%, 6%, and 2% opacity. Positioned absolutely behind the hero content. Creates a convincing warm light source without any images or JS.
+
+```css
+/* Layer 1 — widest, lowest opacity */
+background: radial-gradient(ellipse 80% 50% at 50% 40%, rgba(251,146,60,0.14), transparent);
+/* Layer 2 — tighter */
+background: radial-gradient(ellipse 50% 35% at 50% 40%, rgba(251,146,60,0.06), transparent);
+/* Layer 3 — core glow */
+background: radial-gradient(ellipse 30% 20% at 50% 40%, rgba(251,146,60,0.02), transparent);
+```
+
+All three layers: `position: absolute; inset: 0; pointer-events: none;`
+
+---
+
+### 2. Animated Conic Border (spinning glow ring)
+Uses CSS Houdini `@property` to animate a `conic-gradient()` as a rotating border. The outer element holds the gradient; 1px of padding exposes it as the border. Requires a `background-clip: content-box` inner fill.
+
+```css
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0turn;
+  inherits: false;
+}
+
+.conic-border {
+  background:
+    conic-gradient(from var(--border-angle), transparent 75%, rgba(251,146,60,0.8) 90%, transparent 100%)
+    border-box;
+  animation: spin-border 3s linear infinite;
+}
+
+@keyframes spin-border {
+  to { --border-angle: 1turn; }
+}
+```
+
+Wrap the inner content in a child element with `background: var(--bg-color); border-radius: inherit; margin: 1px;` to expose exactly 1px of the spinning gradient as the visible border.
+
+---
+
+### 3. Scan Text / Beam Sweep
+An accent-colored beam sweeps through headline text on a loop. Pure CSS — no JS.
+
+```css
+.scan-text {
+  background: linear-gradient(
+    105deg,
+    rgba(255,255,255,0.9) 0%,
+    rgba(255,255,255,0.9) 40%,
+    rgba(251,146,60,1) 50%,
+    rgba(255,255,255,0.9) 60%,
+    rgba(255,255,255,0.9) 100%
+  );
+  background-size: 250% 100%;
+  background-position: 120% center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: beam-sweep 4s ease-in-out infinite;
+}
+
+@keyframes beam-sweep {
+  0%   { background-position: 120% center; }
+  50%  { background-position: -20% center; }
+  100% { background-position: 120% center; }
+}
+```
+
+Apply only to the hero `<h1>`. Do not use on body text — the effect loses impact when repeated.
+
+---
+
+### 4. Rising Ember Particles (pure CSS)
+14 thin `<div>` elements styled as embers, animated upward with `translateY`. Mix of accent and white particles at randomized sizes and delays creates depth without JS.
+
+```html
+<!-- Repeat 14x with varying --delay and --duration custom props -->
+<div class="particle" style="--delay: 1.2s; --duration: 6s; --x: 30%; --size: 1px; --height: 24px;"></div>
+```
+
+```css
+.particle {
+  position: absolute;
+  bottom: 0;
+  left: var(--x);
+  width: var(--size);
+  height: var(--height);
+  background: linear-gradient(transparent, rgba(251,146,60,0.8), transparent);
+  border-radius: 99px;
+  animation: rise var(--duration) ease-in var(--delay) infinite;
+  pointer-events: none;
+}
+
+@keyframes rise {
+  0%   { transform: translateY(0); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-550px); opacity: 0; }
+}
+```
+
+Use white particles (`rgba(255,255,255,0.4)`) for roughly 4 of the 14 to vary the ember mix. Randomize `--delay` between `0s` and `8s`, `--duration` between `3.5s` and `10s`, `--x` between `10%` and `90%`, `--height` between `12px` and `40px`.
+
+---
+
+### 5. Grid Noise Texture (anti-flat black)
+An inline SVG grid at near-zero opacity cropped by a radial mask. Invisible individually, but prevents large dark backgrounds from looking flat or void-like.
+
+```css
+.grid-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M0 0h40v40H0z' fill='none'/%3E%3Cpath d='M40 0H0v40' stroke='white' stroke-opacity='0.03' stroke-width='0.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 0%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 0%, transparent 100%);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+```
+
+The radial mask means the grid is only visible at the hero center — edges fade to nothing. Adjust `stroke-opacity` between `0.02` and `0.05` to taste.
+
+---
+
+### When to use these together
+These five techniques are designed to layer. A complete dark SaaS hero typically uses all five simultaneously:
+- Grid noise as the base layer (z-index 0)
+- Radial glow stack above it (z-index 1)
+- Particles floating above both (z-index 2)
+- Hero content with scan text (z-index 10)
+- Conic border on key components (cards, CTAs, input fields)
