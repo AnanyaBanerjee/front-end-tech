@@ -48,9 +48,8 @@ body {
   --text:      #F8F8F8;
 }
 
-/* Dot-grid texture */
-#banner::before {
-  content: '';
+/* Dot-grid texture — real div so html2canvas captures it (pseudo-elements are invisible to canvas) */
+.dot-grid {
   position: absolute;
   inset: 0;
   background-image: radial-gradient(circle, rgba(255,255,255,.055) 1px, transparent 1px);
@@ -547,6 +546,7 @@ input[type="file"] { display: none; }
 <div id="banner-scale">
 <div id="banner">
 
+  <div class="dot-grid"></div>
   <div class="glow-g"></div>
   <div class="glow-c"></div>
   <div class="left-fade"></div>
@@ -1396,7 +1396,7 @@ async function exportPNG() {
       backgroundColor: null,
       logging: false,
       onclone: (_doc, clonedEl) => {
-        // Inject pre-captured live text — avoids innerText layout bug in detached clone
+        // ── 1. Inject pre-captured live text ─────────────────────────────────
         clonedEl.querySelectorAll('[contenteditable]').forEach((el, i) => {
           el.removeAttribute('contenteditable');
           if (liveTexts.has(i)) el.textContent = liveTexts.get(i);
@@ -1405,7 +1405,45 @@ async function exportPNG() {
           el.removeAttribute('contenteditable');
           if (liveCTATexts.has(i)) el.textContent = liveCTATexts.get(i);
         });
-        // Hide chrome in clone too
+
+        // ── 2. SVG → data-URI image (html2canvas can't render inline SVGs) ──
+        const svgEl = clonedEl.querySelector('#deco');
+        if (svgEl) {
+          const svgStr  = new XMLSerializer().serializeToString(svgEl);
+          const dataUri = 'data:image/svg+xml;base64,' +
+                          btoa(unescape(encodeURIComponent(svgStr)));
+          const img = document.createElement('img');
+          img.src = dataUri;
+          img.style.cssText = 'position:absolute;left:0;top:0;width:370px;height:396px;opacity:.48;pointer-events:none;z-index:1';
+          svgEl.parentNode.replaceChild(img, svgEl);
+        }
+
+        // ── 3. Pseudo-element replacements (::before / ::after not in DOM) ──
+        // .cta-badge::before — pulsing dot
+        clonedEl.querySelectorAll('.cta-badge').forEach(el => {
+          const dot = document.createElement('span');
+          dot.style.cssText = 'display:inline-block;width:8px;height:8px;border-radius:50%;background:#00B86A;flex-shrink:0';
+          el.insertBefore(dot, el.firstChild);
+        });
+        // .cta-glass — remove unsupported backdrop-filter, darken background
+        clonedEl.querySelectorAll('.cta-glass').forEach(el => {
+          el.style.backdropFilter    = 'none';
+          el.style.webkitBackdropFilter = 'none';
+          el.style.background        = 'rgba(50,50,50,.88)';
+          const arrow = document.createElement('span');
+          arrow.textContent = '→';
+          arrow.style.cssText = 'opacity:.55';
+          el.appendChild(arrow);
+        });
+        // .cta-terminal::before — $ prompt
+        clonedEl.querySelectorAll('.cta-terminal').forEach(el => {
+          const dollar = document.createElement('span');
+          dollar.textContent = '$';
+          dollar.style.cssText = 'opacity:.45;flex-shrink:0';
+          el.insertBefore(dollar, el.firstChild);
+        });
+
+        // ── 4. Hide interactive chrome ────────────────────────────────────────
         clonedEl.querySelectorAll('.elem-rm,.rh,.op-ctrl,#safe-overlay,#sel-box').forEach(e => {
           e.style.display = 'none';
         });
