@@ -182,11 +182,11 @@ Ask:
 ## Step 3 — Design the banner
 
 ### Layout & Composition Rules
-- **Canvas**: Exactly 1584 x 396 px (LinkedIn recommended)
-- **Safe zone**: Keep ALL text and important elements in the RIGHT 60% — left ~250px is covered by profile photo on desktop
-- **Bottom-left exclusion**: Nothing important in bottom-left 200x200px (profile photo overlap)
-- **Mobile crop**: Important content in middle 60% of height (top/bottom cropped on mobile)
-- **Logo placement**: Right side or center-right. Never bottom-left. Ideal: right-aligned, vertically centered.
+- **Canvas**: Exactly 1584 × 396 px (LinkedIn recommended). Export at 2× for Retina/4K: 3168 × 792 px.
+- **Safe zone — profile photo**: The LinkedIn profile photo is a **circle (~310px diameter)** positioned at the **bottom-left of the banner**, with its center approximately at the banner's bottom edge (x≈155px, y≈396px in banner coordinates). It intrudes as an arc into the bottom-left ~155px of the banner. **Content must start at x ≥ 440px from the left** to be safely past the photo at all heights. A left gradient fade (`left-fade`) from x=0 to ~480px masks the decorative left zone gracefully.
+- **Safe zone — mobile crop**: Important content must be in the middle 60% of height (top/bottom 54px are cropped on mobile).
+- **Profile photo zone — what NOT to place**: No logo, text, CTAs, or key visuals in the bottom-left circular region below x=440px and below y=220px. Decorative node graphs, dot patterns, and background gradients may extend into this zone — they read as design texture behind the photo.
+- **Logo placement**: Right side or center-right of the content area. Never bottom-left. Ideal: right-aligned, vertically centered.
 - **Visual hierarchy**: Product/project name largest → tagline → promotion text → your name/role smallest
 - **Rule of thirds**: Key elements on 1/3 and 2/3 grid lines
 
@@ -220,14 +220,21 @@ Ask:
 Structure the banner content in this hierarchy:
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│ [profile photo zone]  │                                         │
-│                       │   [LOGO]  Product Name                  │
-│   ← AVOID THIS       │   "Tagline or value proposition"        │
-│     AREA              │   Your Name · What you're promoting     │
-│                       │                                         │
-└─────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ x=0                x=310  x=440                                              │
+│ ╔══════════════════╗   |    |                                                 │
+│ ║  decoration/     ║   |    │   [LOGO]  Product Name  (56–72px, bold)        │
+│ ║  node-graph/     ║   |    │   "Tagline or value proposition"  (20–24px)    │
+│ ║  dot-grid        ║ photo  │   Platform · subtitle line  (13–14px mono)     │
+│ ║  (behind photo)  ║  arc   │                                                 │
+│ ╚══════════════════╝ <────> │   [CTA button — drag anywhere]                 │
+│  profile photo circle       │                                                 │
+│  (center at y=396,          ▲                                                 │
+│   right edge ~310px)    safe content boundary (440px)                        │
+└──────────────────────────────────────────────────────────────────────────────┘
 ```
+
+Set `#banner-content { position: absolute; left: 440px; right: 52px; top: 0; bottom: 0; display: flex; align-items: center; }` so all content starts past the profile photo zone.
 
 - **Logo + Product name**: Most prominent, right-of-center or center
 - **Tagline**: Below or beside the product name, slightly smaller
@@ -255,8 +262,70 @@ Write a single self-contained HTML file to the path resolved in Step 1B (`output
 
 1. **The banner** — 1584x396px div with logo, text, decorative elements, and background
 2. **Logo embedded** — as inline SVG, base64 data URI, or CSS text-logo (never a broken external reference)
-3. **PNG export button** — loads `html2canvas` from CDN (`https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js`), captures `#banner` div, triggers download as `linkedin-banner.png`
-4. **Live text editing** — all text elements are `contenteditable` on click, with a subtle highlight showing they're editable
+3. **PNG export button** — loads `html2canvas` from CDN (`https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js`), captures `#banner` div at **2K resolution** (3168 × 792). Critical implementation rules:
+
+   **Export must match the browser preview exactly.** There are two known bugs to fix:
+
+   **Bug 1 — White margins on right/top/bottom in exported PNG (parent transform)**:
+   The banner preview is scaled to fit the viewport via `transform: scale(s)` on the `#banner-scale` wrapper. html2canvas mis-renders elements inside a CSS-transformed parent — the banner content only fills `s` fraction of the canvas, leaving white space on the right (and sometimes top/bottom). This appears in LinkedIn's crop dialog as gray/white padding around the image content.
+
+   Fix: **reset the parent transform to `scale(1)` before calling html2canvas, then restore it in `finally`**:
+   ```javascript
+   const bannerSc = document.getElementById('banner-scale');
+   const savedTransform = bannerSc.style.transform;
+   const savedOrigin    = bannerSc.style.transformOrigin;
+   bannerSc.style.transform       = 'scale(1)';
+   bannerSc.style.transformOrigin = 'top left';
+   try {
+     const canvas = await html2canvas(banner, { ... });
+     // ... download
+   } finally {
+     bannerSc.style.transform       = savedTransform;
+     bannerSc.style.transformOrigin = savedOrigin;
+     // also restore hidden UI chrome here
+   }
+   ```
+   The banner will momentarily snap to full size during capture (brief, invisible to users in practice). The `finally` block always restores the preview scale, even on error.
+
+   **Bug 2 — Missing spaces in text (html2canvas contenteditable + `onclone` bug)**:
+   When a `contenteditable` element wraps text across multiple lines, the browser internally splits it into multiple text nodes. html2canvas concatenates them without spaces → "whereverit lives" instead of "wherever it lives".
+
+   Naive fix that **does NOT work**: reading `el.innerText` inside `onclone`. The `onclone` callback receives a cloned document that is **detached from the DOM** — no layout is computed, so `innerText` cannot determine line breaks and returns the same broken result.
+
+   **Correct fix**: capture `innerText` from the **live** elements **before** calling `html2canvas`, then inject in `onclone`:
+   ```javascript
+   // Step 1 — capture BEFORE html2canvas (live DOM has layout)
+   const liveTexts = new Map();
+   banner.querySelectorAll('[contenteditable]').forEach((el, i) => {
+     liveTexts.set(i, el.innerText.replace(/\r?\n/g, ' ').replace(/\s+/g, ' ').trim());
+   });
+
+   // Step 2 — inject in onclone (clone is detached, no layout; use pre-captured strings)
+   html2canvas(banner, {
+     onclone: (_doc, clonedEl) => {
+       clonedEl.querySelectorAll('[contenteditable]').forEach((el, i) => {
+         el.removeAttribute('contenteditable');
+         if (liveTexts.has(i)) el.textContent = liveTexts.get(i);
+       });
+     }
+   });
+   ```
+   Use `querySelectorAll('[contenteditable]')` (no value filter) — this catches both `"true"` and `"false"` values, including the CTA inner which starts as `"false"`.
+
+   **Bug 3 — Fonts not loaded / wrong metrics**:
+   Always `await document.fonts.ready` before calling `html2canvas`. This ensures Google Fonts (loaded async) are fully available so html2canvas measures text correctly.
+
+   **Before capture**: set `visibility: hidden` on all interactive chrome (remove buttons, resize handles, opacity controls, safe zone overlay, selection bounding box). Restore in the `finally` block — always, even on error.
+
+   **Export settings**:
+   - `scale: 2` → 3168 × 792 output (2K — LinkedIn accepts this for Retina/4K displays)
+   - `useCORS: true`, `allowTaint: false` (for external image URLs)
+   - `backgroundColor: null` (preserve transparent areas)
+
+   - **Filename**: `<project-slug>-linkedin-banner-2k.png` — baked in at generation time. Never a generic name.
+   - **Post-export message**: show a toast telling the user the file downloaded to their Downloads folder and to move it to `output/<project-name>/`.
+
+4. **Live text editing** — banner text elements are `contenteditable="true"` on click. The `makeDraggable` guard (`e.target.closest('[contenteditable="true"]')`) automatically prevents accidental drags on text. Exception: the CTA inner uses the double-click pattern (see CTA spec above).
 5. **Color palette controls** — color pickers that update CSS custom properties in real time:
    - Primary, Secondary, Accent, Background, Text color
    - Show current hex values
@@ -267,14 +336,32 @@ Write a single self-contained HTML file to the path resolved in Step 1B (`output
    - **Dark mode** (dark bg, light text, same accent)
    - **Light mode** (light bg, dark text, same accent)
    - **Monochrome** (single brand color + black/white)
-8. **Safe zone overlay toggle** — shows profile photo zone and mobile crop guides
+8. **Safe zone overlay toggle** — shows profile photo zone and mobile crop guides. The profile photo indicator MUST be rendered as a **circle** at the bottom-left (NOT a rectangle), partially clipped by the banner's `overflow: hidden`. Also render a vertical dashed content-boundary line at x=440px labeled "Safe content zone →":
+   ```css
+   /* Profile photo arc — circle positioned so center is at the banner bottom edge */
+   .sz-photo {
+     position: absolute;
+     left: 0; bottom: -155px;   /* center sits at y=396, barely below banner bottom */
+     width: 310px; height: 310px;
+     border-radius: 50%;
+     border: 2px dashed rgba(255,80,80,.75);
+     background: rgba(255,0,0,.07);
+   }
+   /* Content boundary line */
+   .sz-content-line {
+     position: absolute;
+     left: 440px; top: 0; bottom: 0;
+     width: 0; border-left: 1.5px dashed rgba(0,220,180,.55);
+   }
+   ```
+   The `#safe-overlay` container needs `overflow: visible` so the circle arc is not clipped at the banner edge.
 9. **Scaled preview** — 50% scale preview showing realistic LinkedIn appearance
 10. **Elements Library** — a panel for adding visual elements (product screenshots, phone mockups, etc.) to the banner:
     - **Source screenshots**: When building from a website (Step 2A), fetch product screenshots/images found on the site (e.g. hero images, app screenshots, phone mockups). Resize to reasonable dimensions (height ~300-400px) and embed as base64 data URIs.
-    - **Thumbnail grid**: Display fetched screenshots as clickable thumbnails in an "Elements Library" control panel
+    - **Thumbnail grid**: Display fetched screenshots as clickable thumbnails. Use `object-fit: contain` (NOT `cover`) with a fixed `width` and `height: auto` so portrait phone screenshots show at their true aspect ratio rather than being cropped into squares. Set a dark background on each thumbnail (`background: #111`) so `contain` letterboxing looks intentional. Grid: `display: flex; flex-wrap: wrap; max-height: ~340px; overflow-y: auto`.
     - **Click to add**: Clicking a thumbnail adds it as a phone-frame mockup element on the banner (rounded corners, subtle border/shadow, positioned on the right side by default)
     - **Drag to reposition**: Each added element is draggable within the banner via mouse events
-    - **Resize from corner**: A small resize handle on the bottom-right corner lets users resize elements while maintaining aspect ratio
+    - **8-direction resize**: Each element has handles at NW / N / NE / W / E / SW / S / SE. Corner handles maintain aspect ratio; edge handles resize one axis only. Each handle is a `div` with `data-d="nw"` etc. and the matching CSS cursor (`nw-resize`, `n-resize`, …). Handles are only visible when the element is solo-selected (`.solo .rh { display: block }`).
     - **Remove button**: An X button appears on hover to remove individual elements
     - **Upload custom**: A multi-file input lets users upload multiple screenshots/images at once as banner elements
     - **Add from URL**: A text input lets users paste an image URL to add it as an element (attempts CORS-safe base64 conversion, falls back to direct URL reference)
@@ -299,30 +386,44 @@ Write a single self-contained HTML file to the path resolved in Step 1B (`output
       - **Terminal**: CLI-style prompt with blinking cursor (e.g. `$ brew install agentchat`)
     - **Quick text presets**: Personal LinkedIn-style CTAs like "Follow me for more", "Subscribe to my newsletter", "Try it out today", "Let's connect", "DM me for early access", "Link in comments", "We're hiring — reach out", etc.
     - **Custom text input**: A text field where users can type their own CTA text and apply it
-    - **Editable text**: Click the CTA text on the banner to edit directly
-    - **Draggable**: Position the CTA anywhere on the banner
+    - **Drag to move, double-click to edit** — CRITICAL pattern:
+      - The CTA inner element must start as `contenteditable="false"` (not `"true"`). This is required because `makeDraggable` contains a guard: `if (e.target.closest('[contenteditable="true"]')) return` — if the inner is `"true"` by default, dragging is permanently blocked.
+      - **Single click** → selects and drags the CTA (works because `contenteditable="false"` bypasses the guard)
+      - **Double-click** on the inner text → sets `contentEditable = 'true'`, focuses the element, places the caret at end. The guard now fires and blocks drag while editing. Set `cursor: text; user-select: auto`.
+      - **Blur** → sets `contentEditable = 'false'`, saves `ctaText`, restores `cursor: grab; user-select: none`
+      - Show `title="Drag to move · Double-click to edit text"` as a native tooltip
+    - **Initial position — CRITICAL**: Never set the CTA's initial position via CSS `bottom`/`right`. The drag code reads `style.left` and `style.top` (which are empty when CSS handles position), causing a position jump on first drag. Instead, after appending to the DOM, use `requestAnimationFrame(() => { ... })` to call `getBoundingClientRect()` on both the banner and the CTA element, compute `left` and `top` in banner-space (dividing by the current scale factor), and set them as inline styles. Clear any `bottom`/`right` inline styles.
     - **Smart defaults**: CTA is positioned bottom-right of the content area by default. Each style has a fitting default text (neon-pill → "Follow me for more", badge → "Subscribe to my newsletter", terminal → CLI install command, glass → "Let's connect", etc.)
     - **One active CTA**: Switching styles replaces the current CTA; "Remove CTA" clears it
     - The tone should always be **personal and inviting** — these are LinkedIn banners, so CTAs should drive follows, connections, newsletter signups, or personal engagement, not hard product marketing. Think "Follow me", "Subscribe", "Let's connect", "Try it out", "DM me".
 13. **Multi-Select** — select multiple elements and move/resize them as a group:
-    - **Click** any element (phone mockup, free image, CTA) to select it (shown with a cyan outline + dashed border)
+    - **Click** any element (phone mockup, free image, CTA) to select it. Single-selected element shows its 8 per-element resize handles (`.solo` class). No per-element outline — the bounding box handles that.
     - **Shift+Click** to add/remove elements from the selection
     - **Drag** any selected element to move the entire group together, maintaining relative positions
-    - **Resize** via any selected element's handle to resize all selected elements proportionally
-    - **Escape** to deselect all
-    - **Select All** button in the floating info bar to select every element on the banner
+    - **Group bounding box**: when 2+ elements are selected, render a `#sel-box` div (absolute, `pointer-events:none` except for its handles) that wraps the union of all selected elements. The bounding box has its own 8 handles (`.sbh[data-d="nw"]` etc.) with `pointer-events:all`.
+    - **Group resize logic**: on handle mousedown, record `minX/minY/maxX/maxY` of the bounding box and each element's fractional position (`fx = (x - minX) / boxW`) and fractional size (`fw = w / boxW`). On mousemove, compute the new box edges based on which handle is dragged, then apply: `el.left = newMinX + fx * newBoxW`, `el.width = fw * newBoxW`. This keeps all elements proportionally positioned and sized within the resized group.
+    - **Escape** to deselect all; **Select All** button in the floating status bar
     - A floating status bar at the bottom shows selection count and keyboard hints
-    - Selection outlines are stripped from preview and PNG export
+    - Selection outlines and handles are stripped from preview and PNG export (set `visibility: hidden` before capture, restore after)
 
 ### Layout: Tabbed Controls (single-screen)
 All controls MUST fit on one screen without scrolling. Use a **tabbed interface** below the banner:
 - **Tab bar** with 3 tabs: **Elements** | **CTA** | **Style**
   - **Elements tab**: Phone Mockups (thumbnail grid) + Free Images (upload/URL) side by side
   - **CTA tab**: Style presets (6 buttons) + Text presets + custom input, all in one row
-  - **Style tab**: Color pickers + Variant buttons side by side
+  - **Style tab**: Color pickers + Variant buttons + **per-line text color pickers** side by side
 - **Always-visible actions strip** on the right of the tab bar: Upload Logo, Safe Zones, Clear All, Export as PNG
 - **Preview** is collapsible (hidden by default, toggled by a "Show Preview" button) to save vertical space
-- Compact padding throughout — body padding 16px, small margins between sections, no wasted vertical space
+- `body { padding: 0 }` — **no side padding on body**. Add padding only to the preview wrapper and tab content panels. This lets the banner scale to the full viewport width.
+
+### Per-line text color pickers (Style tab)
+Add individual color pickers for **each text row** in the banner — not just global CSS variables. A global `--text` variable is not enough because different rows typically use different colors (e.g. product name = white, tagline = muted white, platform line = brand green). Required pickers:
+- **Product Name** color (default matches `--text`)
+- **Tagline** color (default: muted `--text` at ~52% opacity — store as a solid hex, control opacity separately if needed)
+- **Platform / subtitle line** color (default: `--primary`)
+- A **Reset** button that restores all three to their original per-line defaults
+
+Wire each picker with `oninput` to directly set `element.style.color`. In the export `onclone`, inline `style.color` is preserved automatically — no extra work needed.
 
 ### Code quality
 - All CSS in `<style>` block with CSS custom properties
@@ -355,9 +456,86 @@ After writing the file:
    > - **Call to Action**: Pick a CTA style (Neon Pill, Gradient, Glitch, Badge, Glass, Terminal), choose a preset text or type your own — drag to position anywhere
    > - **Multi-Select**: Click to select, Shift+Click to add more, drag/resize the group together. Escape to deselect. Select All button in the floating bar.
    > - **Safe Zones**: Toggle overlay to check profile photo coverage and mobile crop areas
-   > - **Export**: Click **Export as PNG** when you're happy — all elements, opacity, and positions are preserved
+   > - **Export**: Click **Export as PNG** when you're happy — all elements, opacity, and positions are preserved. The file downloads as `<project-slug>-linkedin-banner.png` to your browser's Downloads folder. A message will tell you to move it to `output/<project-name>/` so it lives alongside the HTML file.
    >
    > Upload to LinkedIn: Profile → Edit → Camera icon on banner."
+
+---
+
+## Implementation Pitfalls — Lessons from Production
+
+These are bugs discovered during real builds. Apply every rule below proactively.
+
+### 1. Banner viewport — fill the full width
+Set `body { padding: 0 }`. Do NOT put horizontal padding on the body. Add padding only to the control panel tab content and preview wrapper. The `scaleBanner()` function reads the banner-wrap container width and computes `scale = Math.min(1, containerWidth / 1584)`. If body has 16px side padding, the scale is reduced and the banner looks smaller than it should. The scaling function must also set the wrapper's `height` to `396 * scale` to prevent an empty gap below the scaled banner:
+```javascript
+function scaleBanner() {
+  const wrap = document.getElementById('banner-wrap');
+  const sc   = document.getElementById('banner-scale');
+  const s    = Math.min(1, wrap.offsetWidth / 1584);
+  sc.style.transform = `scale(${s})`;
+  sc.style.transformOrigin = 'top center';
+  sc.style.width = '1584px';
+  wrap.style.height = (396 * s) + 'px';
+}
+window.addEventListener('resize', scaleBanner);
+scaleBanner();
+```
+
+### 2. CTA dragging — never use CSS bottom/right for initial position
+The drag system reads `parseFloat(el.style.left)` and `parseFloat(el.style.top)`. If position is set via CSS `bottom/right` (not inline `style.left/top`), both return `NaN → 0`, and the element jumps to (0,0) relative to the first drag delta. Always set initial position in JS after mount:
+```javascript
+requestAnimationFrame(() => {
+  const bRect = banner.getBoundingClientRect();
+  const wRect = wrap.getBoundingClientRect();
+  const scale = bRect.width / 1584;
+  wrap.style.left   = ((wRect.left - bRect.left) / scale) + 'px';
+  wrap.style.top    = ((wRect.top  - bRect.top)  / scale) + 'px';
+  wrap.style.bottom = '';
+  wrap.style.right  = '';
+});
+```
+
+### 3. CTA contenteditable — drag blocked by default
+`makeDraggable` bails if `e.target.closest('[contenteditable="true"]')`. If the CTA inner starts as `contenteditable="true"`, dragging is permanently blocked because every click on the CTA text triggers the guard. Always start the CTA inner as `contenteditable="false"`. Use the double-click-to-edit pattern (see CTA spec). The export `onclone` uses `querySelectorAll('[contenteditable]')` (no value) so it still processes `"false"` elements — no change needed there.
+
+### 4. html2canvas text spaces disappear — and the naive onclone fix is broken
+When a `contenteditable` element wraps onto multiple lines, the browser creates multiple internal text nodes. html2canvas joins them without spaces → "whereverit lives".
+
+**The wrong fix** (still widely cited): read `el.innerText` inside `onclone`. The cloned document is detached — no CSS layout is computed — so `innerText` cannot resolve line breaks and returns the same broken concatenation.
+
+**The correct fix**: pre-capture `innerText` from **live** elements BEFORE calling `html2canvas`, then inject in `onclone` (see export spec above, Bug 2 for the full code pattern). Never use `innerHTML` — it includes HTML entities and can corrupt text.
+
+### 5. 8-direction resize — corner vs edge behaviour
+Corner handles (nw/ne/sw/se) must maintain the element's original aspect ratio. Edge handles (n/s/w/e) resize only one axis. For corner resize: after computing the new width from the horizontal delta, set `height = newWidth / aspectRatio`. Also update `left`/`top` when dragging from the nw/n/w/sw/ne directions (the anchor corner changes). Pattern:
+```javascript
+if (dir.includes('w')) { nW = startW - dx; nX = startX + (startW - nW); }
+if (dir.includes('n')) { nH = startH - dy; nY = startY + (startH - nH); }
+if (isCorner)          { nH = nW / aspect; }
+```
+
+### 6. Phone screenshot thumbnails — use contain not cover
+Portrait phone screenshots look completely wrong in square thumbnails with `object-fit: cover` (you see a cropped centre strip). Always use `object-fit: contain; height: auto; width: <fixed>px` with a dark background. This shows the full screenshot at its true aspect ratio.
+
+### 7. Selection system — solo vs group handling
+When exactly 1 element is selected, add class `.solo` to it so the 8 per-element handles appear (`.solo .rh { display: block }`). When 2+ are selected, remove `.solo` from all and show the group bounding box instead. The `refreshSel()` function should always recompute this:
+```javascript
+SEL.forEach(e => e.classList.toggle('solo', SEL.size === 1));
+```
+
+### 8. Safe zone geometry — profile photo is a bottom-left circle, not a top-left rectangle
+The LinkedIn profile photo is a **circle** that overlaps from **below** the banner, not a rectangle in the top-left corner. Approximate geometry in 1584×396 banner coordinates:
+- Circle diameter: ~310px
+- Center: approximately (155px from left, 396px from top) — at the banner's bottom edge
+- Intrudes into the banner from y ≈ 241px downward (the bottom ~155px of the banner)
+- Maximum right extent: x ≈ 310px (at the center height of the circle, which is at y=396 = banner bottom)
+- At content text heights (y=200-300px), the photo right edge is well inside x=200px
+
+**Safe content left margin: x ≥ 440px** — this gives comfortable clearance at all banner heights, including at the circle's widest visible point near the bottom edge.
+
+**Left decoration zone (x=0 to 440px)**: use for node-graph decorations, dot patterns, atmospheric glows, or a gradient fade. These sit behind the profile photo intentionally and read as designed texture.
+
+**Safe zone overlay implementation**: always render as a circle with `border-radius: 50%`, positioned with `bottom: -155px` so only the arc above the banner bottom is visible. The `#safe-overlay` must have `overflow: visible`. See export spec item 8 for the full CSS.
 
 ---
 

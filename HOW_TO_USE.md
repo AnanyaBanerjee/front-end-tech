@@ -23,8 +23,9 @@ front-end-tech/
 │   ├── aeo/                 # Agent Engine Optimization — llms.txt, AI search
 │   ├── security/            # _headers, SRI, no-secrets, safe links, form hardening
 │   ├── legal/               # Copyright, Privacy Policy, Terms of Use, DMCA, NoAI
-│   └── sync/                # Change propagation — keeps all files in sync
-│   └── copywriting/         # PAS/AIDA frameworks, headlines, CTAs
+│   ├── sync/                # Change propagation — keeps all files in sync
+│   ├── copywriting/         # PAS/AIDA frameworks, headlines, CTAs
+│   └── banner-design/       # LinkedIn banner generator — 1584×396 HTML file with PNG export
 ├── output/                  # Generated landing pages and websites
 ├── setup.sh                 # Scaffold a new project with all layers
 ├── calculate-token-usage.sh # Estimate token cost for any task type
@@ -122,6 +123,7 @@ On **Claude Opus 4.6** multiply the cost by roughly 5×.
 | **brutalist-skill** | Bold, data-heavy (portfolios, dashboards, experimental) |
 | **impeccable** | Design quality layer — audits, anti-patterns, accessibility |
 | **emil-design-eng** | Animation engineering — easing, transforms, gestures, performance |
+| **banner-design** | LinkedIn banner — generates a 1584×396 HTML file with PNG export; auto-detects project in `output/` or creates a new folder |
 
 ### Switching skills
 
@@ -339,6 +341,48 @@ operations screen.
 ```
 
 **Why this works:** It picks the CRT Terminal archetype from brutalist-skill and specifies exact visual details (phosphor green, scanlines, monospace data).
+
+---
+
+### Generating a LinkedIn Banner
+
+The `banner-design` skill is invoked standalone — it doesn't follow the landing page build sequence.
+
+#### From an existing project in this repo
+
+```
+Make me a LinkedIn banner for It Made My Day — I want to promote the launch.
+```
+
+Claude will scan `output/` for a matching project, confirm it found the right folder, then build the banner and place it at `output/it-made-my-day/linkedin-banner.html`.
+
+#### From a product website
+
+```
+Make me a LinkedIn banner for https://linear.app — I built a Linear integration
+and want to announce it. My name is Ananya. Style: gradient.
+```
+
+Claude fetches the site, extracts brand colors, fonts, logo, and screenshots, then asks for confirmation before building.
+
+#### From scratch (idea or personal brand)
+
+```
+Make me a LinkedIn banner for my personal brand as a data engineer.
+Bold style, dark background, neon accent.
+```
+
+Claude asks for a tagline, colors, and what you're promoting, then creates `output/data-engineer-brand/linkedin-banner.html`.
+
+#### Customizing the output
+
+Open `linkedin-banner.html` in any browser. No server needed — it runs from `file://`. Use the tabbed controls to:
+- **Elements tab**: add phone mockups from extracted screenshots or upload your own
+- **CTA tab**: pick a style (Neon Pill, Gradient, Glitch, Badge, Glass, Terminal) and preset text
+- **Style tab**: tweak colors live or switch between Original / Dark / Light / Mono variants
+- **Export as PNG**: captures the banner exactly as shown, at 1584×396px
+
+Upload to LinkedIn: Profile → Edit → Camera icon on your banner.
 
 ---
 

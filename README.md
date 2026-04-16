@@ -4,7 +4,7 @@
 
 **A toolkit for building landing pages and websites for apps, ideas, and concepts — powered by AI design skills.**
 
-![Skills](https://img.shields.io/badge/skills-15-6366f1?style=for-the-badge)
+![Skills](https://img.shields.io/badge/skills-17-6366f1?style=for-the-badge)
 ![Auto Legal](https://img.shields.io/badge/auto-Legal-a855f7?style=for-the-badge)
 ![Auto Security](https://img.shields.io/badge/auto-Security-ef4444?style=for-the-badge)
 ![Auto SEO](https://img.shields.io/badge/auto-SEO-22c55e?style=for-the-badge)
@@ -163,6 +163,12 @@ output/my-product/
 | [**soft-skill**](https://github.com/Leonxlnx/taste-skill) | Premium agency-level feel — luxury, high-end products |
 | [**minimalist-skill**](https://github.com/Leonxlnx/taste-skill) | Editorial, content-heavy — Notion/Linear inspired |
 | [**brutalist-skill**](https://github.com/Leonxlnx/taste-skill) | Bold, raw — Swiss typographic / CRT terminal |
+
+### 🛠️ Standalone Tools (invoke directly)
+
+| Skill | Best for |
+|-------|----------|
+| [**banner-design**](skills/banner-design/SKILL.md) | LinkedIn banner — auto-extracts branding from a URL, repo, or idea. Outputs a 1584×396 HTML file with live editing, color variants, PNG export, draggable mockups, and CTA presets |
 
 ### 🔧 Always Applied (automatic)
 

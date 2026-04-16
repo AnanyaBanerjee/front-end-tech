@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgentChat Hub — LinkedIn Banner Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ─── Tool shell ──────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: Inter, system-ui, sans-serif;
+  background: #0e0e0e;
+  color: #e0e0e0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* ─── Banner viewport ─────────────────────────────────────────────────────── */
+#banner-wrap {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: center;
+}
+#banner-scale {
+  transform-origin: top center;
+  flex-shrink: 0;
+}
+
+/* ─── Banner canvas (1584 × 396 LinkedIn spec) ────────────────────────────── */
+#banner {
+  width: 1584px;
+  height: 396px;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg, #060606);
+  cursor: default;
+  user-select: none;
+  --primary:   #00B86A;
+  --secondary: #0AB8D4;
+  --accent:    #00E87A;
+  --bg:        #060606;
+  --text:      #F8F8F8;
+}
+
+/* Dot-grid texture */
+#banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,.055) 1px, transparent 1px);
+  background-size: 30px 30px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Atmospheric glow — green upper-right */
+.glow-g {
+  position: absolute;
+  width: 620px; height: 620px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,184,106,.20) 0%, transparent 65%);
+  top: -260px; right: 60px;
+  z-index: 0; pointer-events: none;
+}
+/* Atmospheric glow — cyan lower-mid */
+.glow-c {
+  position: absolute;
+  width: 460px; height: 460px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(10,184,212,.13) 0%, transparent 68%);
+  bottom: -240px; right: 340px;
+  z-index: 0; pointer-events: none;
+}
+
+/* Left gradient masks the safe zone gracefully */
+.left-fade {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 480px;
+  background: linear-gradient(to right, var(--bg, #060606) 60%, transparent 100%);
+  z-index: 1; pointer-events: none;
+}
+
+/* Decorative node graph — lives entirely in left/safe zone */
+#deco {
+  position: absolute;
+  left: 0; top: 0;
+  width: 370px; height: 396px;
+  z-index: 1; opacity: .48;
+  pointer-events: none;
+}
+
+/* Gradient rule at bottom-left of content zone */
+.rule-line {
+  position: absolute;
+  left: 440px; bottom: 32px;
+  height: 2px; width: 220px;
+  background: linear-gradient(90deg, var(--primary, #00B86A), var(--secondary, #0AB8D4), transparent);
+  border-radius: 2px;
+  z-index: 2; pointer-events: none;
+}
+
+/* ─── Banner content ──────────────────────────────────────────────────────── */
+#banner-content {
+  position: absolute;
+  /* start clear of the ~440px LinkedIn profile photo zone */
+  left: 440px; right: 52px;
+  top: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  z-index: 3;
+}
+
+#text-block {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;   /* breathing room between rows */
+}
+
+/* Logo + product name row */
+.logo-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.banner-logo {
+  width: 64px; height: 64px;
+  border-radius: 15px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+}
+.banner-name {
+  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: -1.5px;
+  color: var(--text, #F8F8F8);
+  cursor: text;
+  outline: none;
+  white-space: nowrap;
+}
+.banner-name:focus { outline: 1px dashed rgba(255,255,255,.22); outline-offset: 3px; }
+
+/* Tagline */
+.banner-tagline {
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: rgba(248,248,248,.52);
+  max-width: 640px;
+  cursor: text;
+  outline: none;
+}
+.banner-tagline:focus { outline: 1px dashed rgba(255,255,255,.22); outline-offset: 3px; }
+
+/* Platform line */
+.banner-platform {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13.5px;
+  letter-spacing: .03em;
+  color: var(--primary, #00B86A);
+  cursor: text;
+  outline: none;
+}
+.banner-platform:focus { outline: 1px dashed rgba(255,255,255,.22); outline-offset: 3px; }
+
+/* ─── Safe zone overlay ───────────────────────────────────────────────────── */
+#safe-overlay { display: none; position: absolute; inset: 0; pointer-events: none; z-index: 200; overflow: visible; }
+#safe-overlay.on { display: block; }
+
+/* Profile photo: circle at bottom-left, partially below the banner.
+   LinkedIn desktop: ~310px circle, center at bottom-left corner.
+   Adjust bottom offset so the visible arc matches real platform rendering. */
+.sz-photo {
+  position: absolute;
+  left: 0;
+  bottom: -155px;          /* circle center sits at the banner bottom edge */
+  width: 310px;
+  height: 310px;
+  border-radius: 50%;
+  border: 2px dashed rgba(255,80,80,.75);
+  background: rgba(255,0,0,.07);
+}
+/* Label sits inside the visible arc, near the top of the intrusion */
+.sz-photo-lbl {
+  position: absolute;
+  left: 50%; top: 24px;
+  transform: translateX(-50%);
+  font-size: 10px; white-space: nowrap;
+  color: rgba(255,100,100,.9); font-family: monospace;
+}
+/* Safe content boundary — vertical dashed line showing where text can start */
+.sz-content-line {
+  position: absolute;
+  left: 440px; top: 0; bottom: 0;
+  width: 0;
+  border-left: 1.5px dashed rgba(0,220,180,.55);
+}
+.sz-content-lbl {
+  position: absolute;
+  left: 445px; top: 8px;
+  font-size: 10px; color: rgba(0,220,180,.7); font-family: monospace; white-space: nowrap;
+}
+.sz-top { position: absolute; left: 0; right: 0; top: 0; height: 54px;
+  border-bottom: 2px dashed rgba(255,210,0,.5); background: rgba(255,200,0,.03); }
+.sz-bot { position: absolute; left: 0; right: 0; bottom: 0; height: 54px;
+  border-top: 2px dashed rgba(255,210,0,.5); background: rgba(255,200,0,.03); }
+.sz-lbl { position: absolute; left: 7px; font-size: 10px; color: rgba(255,210,0,.65); font-family: monospace; }
+
+/* ─── Selection bounding-box overlay ─────────────────────────────────────── */
+#sel-box {
+  display: none;
+  position: absolute;
+  border: 1.5px dashed rgba(0,220,255,.75);
+  pointer-events: none;
+  z-index: 50;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.3);
+}
+#sel-box.on { display: block; }
+/* 8 group-resize handles on the bounding box */
+.sbh {
+  position: absolute;
+  width: 10px; height: 10px;
+  background: #fff;
+  border: 1.5px solid rgba(0,220,255,.9);
+  border-radius: 2px;
+  pointer-events: all;
+  z-index: 51;
+}
+.sbh[data-d="nw"]  { top:-5px;  left:-5px;  cursor: nw-resize; }
+.sbh[data-d="n"]   { top:-5px;  left:calc(50% - 5px); cursor: n-resize; }
+.sbh[data-d="ne"]  { top:-5px;  right:-5px; cursor: ne-resize; }
+.sbh[data-d="w"]   { top:calc(50% - 5px); left:-5px;  cursor: w-resize; }
+.sbh[data-d="e"]   { top:calc(50% - 5px); right:-5px; cursor: e-resize; }
+.sbh[data-d="sw"]  { bottom:-5px; left:-5px;  cursor: sw-resize; }
+.sbh[data-d="s"]   { bottom:-5px; left:calc(50% - 5px); cursor: s-resize; }
+.sbh[data-d="se"]  { bottom:-5px; right:-5px; cursor: se-resize; }
+
+/* ─── Individual element ──────────────────────────────────────────────────── */
+.elem {
+  position: absolute;
+  cursor: grab;
+  z-index: 10;
+  user-select: none;
+}
+.elem:active { cursor: grabbing; }
+/* selected state shown via bounding box, no per-elem outline */
+
+.elem-rm {
+  position: absolute; top: -9px; right: -9px;
+  width: 20px; height: 20px;
+  background: #e63946; color: #fff; border-radius: 50%;
+  font-size: 11px; font-weight: 700;
+  display: none; align-items: center; justify-content: center;
+  cursor: pointer; z-index: 60;
+}
+.elem:hover .elem-rm { display: flex; }
+
+/* 8 per-element resize handles (shown when element is the only selection) */
+.rh {
+  position: absolute;
+  width: 9px; height: 9px;
+  background: #00B86A;
+  border: 1.5px solid #fff;
+  border-radius: 2px;
+  z-index: 60;
+  display: none;   /* shown by JS when solo-selected */
+}
+.elem.solo .rh { display: block; }
+.rh[data-d="nw"] { top:-4px;  left:-4px;  cursor:nw-resize; }
+.rh[data-d="n"]  { top:-4px;  left:calc(50% - 4px); cursor:n-resize; }
+.rh[data-d="ne"] { top:-4px;  right:-4px; cursor:ne-resize; }
+.rh[data-d="w"]  { top:calc(50% - 4px); left:-4px;  cursor:w-resize; }
+.rh[data-d="e"]  { top:calc(50% - 4px); right:-4px; cursor:e-resize; }
+.rh[data-d="sw"] { bottom:-4px; left:-4px;  cursor:sw-resize; }
+.rh[data-d="s"]  { bottom:-4px; left:calc(50% - 4px); cursor:s-resize; }
+.rh[data-d="se"] { bottom:-4px; right:-4px; cursor:se-resize; }
+
+/* Phone frame mockup */
+.phone-frame {
+  border-radius: 20px; overflow: hidden;
+  border: 2px solid rgba(255,255,255,.11);
+  box-shadow: 0 12px 48px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.04);
+}
+.phone-frame img { display: block; width: 100%; height: auto; }
+
+/* Free image */
+.free-img { display: block; width: 100%; height: auto; border-radius: 6px; }
+
+/* Opacity control (hover) */
+.op-ctrl {
+  position: absolute;
+  bottom: calc(100% + 5px);
+  left: 0; right: 0;
+  background: rgba(0,0,0,.88);
+  padding: 5px 8px;
+  display: none;
+  align-items: center; gap: 7px;
+  font-size: 10px; border-radius: 5px;
+  white-space: nowrap; z-index: 65;
+}
+.elem:hover .op-ctrl { display: flex; }
+.op-ctrl input[type="range"] { flex: 1; accent-color: #00B86A; }
+
+/* ─── CTA element ─────────────────────────────────────────────────────────── */
+.cta-elem {
+  position: absolute;
+  cursor: grab; z-index: 15;
+  user-select: none;
+  /* initial position set by JS after mount so drag reads left/top correctly */
+}
+.cta-elem:active { cursor: grabbing; }
+.cta-elem .elem-rm {
+  position: absolute; top: -9px; right: -9px;
+  width: 20px; height: 20px;
+  background: #e63946; color: #fff; border-radius: 50%;
+  font-size: 11px; font-weight: 700;
+  display: none; align-items: center; justify-content: center;
+  cursor: pointer; z-index: 60;
+}
+.cta-elem:hover .elem-rm { display: flex; }
+
+/* ── CTA visual styles ── */
+.cta-neon-pill {
+  border: 2px solid var(--primary, #00B86A); border-radius: 100px;
+  padding: 9px 26px;
+  color: var(--primary, #00B86A);
+  font-family: Inter, sans-serif; font-size: 15px; font-weight: 600;
+  box-shadow: 0 0 20px rgba(0,184,106,.35), inset 0 0 20px rgba(0,184,106,.04);
+  background: transparent; white-space: nowrap; cursor: text; outline: none;
+}
+.cta-gradient {
+  background: linear-gradient(135deg, var(--primary, #00B86A), var(--secondary, #0AB8D4));
+  border-radius: 8px; padding: 11px 28px;
+  color: #000; font-family: Inter, sans-serif; font-size: 15px; font-weight: 700;
+  white-space: nowrap; cursor: text; outline: none;
+}
+.cta-glitch {
+  border-left: 3px solid var(--primary, #00B86A);
+  border-right: 3px solid var(--secondary, #0AB8D4);
+  background: rgba(0,184,106,.09);
+  padding: 9px 22px;
+  color: var(--text, #F8F8F8);
+  font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: .07em;
+  white-space: nowrap; cursor: text; outline: none;
+}
+.cta-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(0,184,106,.13);
+  border: 1px solid rgba(0,184,106,.36); border-radius: 100px;
+  padding: 8px 20px;
+  color: var(--primary, #00B86A);
+  font-family: Inter, sans-serif; font-size: 14px; font-weight: 500;
+  white-space: nowrap; cursor: text; outline: none;
+}
+.cta-badge::before {
+  content: ''; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--primary, #00B86A);
+  animation: bpulse 1.6s ease-in-out infinite; flex-shrink: 0;
+}
+@keyframes bpulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.35;transform:scale(.7)} }
+.cta-glass {
+  background: rgba(255,255,255,.07); backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,.17); border-radius: 10px;
+  padding: 10px 24px;
+  color: var(--text, #F8F8F8);
+  font-family: Inter, sans-serif; font-size: 15px; font-weight: 500;
+  white-space: nowrap; display: inline-flex; align-items: center; gap: 10px;
+  cursor: text; outline: none;
+}
+.cta-glass::after { content: '→'; opacity: .55; }
+.cta-terminal {
+  background: rgba(0,0,0,.72);
+  border: 1px solid rgba(0,184,106,.33); border-radius: 7px;
+  padding: 10px 20px;
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  color: var(--primary, #00B86A);
+  white-space: nowrap; display: inline-flex; align-items: center; gap: 8px;
+  cursor: text; outline: none;
+}
+.cta-terminal::before { content: '$'; opacity: .45; flex-shrink: 0; }
+
+/* ─── Control panel ───────────────────────────────────────────────────────── */
+#panel {
+  background: #181818;
+  border-top: 1px solid #242424;
+  overflow: hidden;
+  margin-top: 6px;
+}
+#action-strip {
+  display: flex; align-items: center; gap: 7px;
+  padding: 8px 12px;
+  background: #111; border-bottom: 1px solid #222;
+  flex-wrap: wrap;
+}
+#tab-bar { display: flex; background: #111; border-bottom: 1px solid #222; }
+.tbtn {
+  padding: 8px 20px; font-size: 12px; font-weight: 500;
+  color: #5a5a5a; cursor: pointer;
+  border: none; border-bottom: 2px solid transparent;
+  background: none; transition: color .14s, border-color .14s;
+  white-space: nowrap; font-family: Inter, sans-serif;
+}
+.tbtn.on { color: #00B86A; border-bottom-color: #00B86A; }
+.tbtn:hover:not(.on) { color: #aaa; }
+.tab { display: none; padding: 14px 16px; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+.tab.on { display: flex; }
+
+/* ── Shared button ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 12px; border-radius: 6px;
+  font-size: 12px; font-weight: 500;
+  cursor: pointer; border: 1px solid #2e2e2e;
+  background: #1f1f1f; color: #ccc;
+  white-space: nowrap; font-family: Inter, sans-serif;
+  transition: background .12s, border-color .12s;
+}
+.btn:hover { background: #272727; border-color: #3e3e3e; }
+.btn.prim { background: #00B86A; color: #000; border-color: #00B86A; }
+.btn.prim:hover { background: #00d47a; }
+.btn.lit  { background: #082d1a; border-color: #00B86A; color: #00B86A; }
+
+/* ── Color pickers ── */
+.color-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
+.color-item { display: flex; flex-direction: column; gap: 4px; }
+.color-item label { font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: .07em; }
+.color-item input[type="color"] {
+  width: 44px; height: 28px; border: 1px solid #2e2e2e;
+  border-radius: 4px; cursor: pointer; background: none; padding: 2px;
+}
+.color-hex { font-size: 10px; color: #444; font-family: monospace; }
+
+/* ── Screenshot thumbnails ── */
+#ss-grid { display: flex; flex-wrap: wrap; gap: 8px; max-height: 340px; overflow-y: auto; padding-bottom: 4px; align-items: flex-start; }
+.ss-th {
+  width: 100px; height: auto;
+  object-fit: contain; border-radius: 10px;
+  cursor: pointer; border: 2px solid transparent; opacity: .78;
+  background: #111;
+  transition: border-color .14s, opacity .14s;
+  display: block;
+}
+.ss-th:hover { border-color: #00B86A; opacity: 1; }
+
+/* ── CTA controls ── */
+.cta-style-row { display: flex; gap: 5px; flex-wrap: wrap; }
+.csb {
+  padding: 5px 11px; border-radius: 5px; font-size: 11px;
+  cursor: pointer; border: 1px solid #2a2a2a; background: #1a1a1a; color: #888;
+  white-space: nowrap; transition: all .11s; font-family: Inter, sans-serif;
+}
+.csb:hover { border-color: #00B86A; color: #00B86A; }
+.csb.on { background: #082d1a; border-color: #00B86A; color: #00B86A; }
+
+.cta-text-row { display: flex; gap: 4px; flex-wrap: wrap; }
+.ctb {
+  padding: 4px 9px; border-radius: 4px; font-size: 10px;
+  cursor: pointer; border: 1px solid #252525; background: #181818; color: #666;
+  transition: all .1s; font-family: Inter, sans-serif;
+}
+.ctb:hover { border-color: #3a3a3a; color: #bbb; }
+
+/* ── Variants ── */
+.var-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.vbtn {
+  padding: 6px 15px; border-radius: 6px; font-size: 12px;
+  cursor: pointer; border: 1px solid #2e2e2e; background: #1f1f1f; color: #aaa;
+  transition: all .12s; font-family: Inter, sans-serif;
+}
+.vbtn:hover { border-color: #4a4a4a; }
+.vbtn.on { border-color: #00B86A; color: #00B86A; background: #082d1a; }
+
+.sec { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: #444; margin-bottom: 6px; }
+.url-in {
+  background: #181818; border: 1px solid #2a2a2a; border-radius: 5px;
+  padding: 5px 9px; font-size: 11px; color: #bbb;
+  font-family: Inter, sans-serif; outline: none;
+}
+.url-in:focus { border-color: #3a3a3a; }
+input[type="file"] { display: none; }
+
+/* ─── Preview ─────────────────────────────────────────────────────────────── */
+#prev-wrap { margin-bottom: 8px; padding: 6px 16px 0; }
+#prev-toggle { background: none; border: none; color: #444; font-size: 11px;
+  cursor: pointer; padding: 0; margin-bottom: 4px; font-family: Inter, sans-serif; }
+#prev-toggle:hover { color: #777; }
+#prev-outer { display: none; }
+#prev-outer.on { display: block; }
+#prev-inner { width: 792px; height: 198px; overflow: hidden; border-radius: 5px;
+  border: 1px solid #222; position: relative; }
+
+/* ─── Background tab ─────────────────────────────────────────────────────── */
+.bg-preset-grid {
+  display: flex; flex-wrap: wrap; gap: 7px;
+}
+.bg-preset {
+  width: 72px; height: 40px; border-radius: 7px;
+  cursor: pointer; border: 2px solid transparent;
+  transition: border-color .12s, transform .1s;
+  flex-shrink: 0;
+}
+.bg-preset:hover  { border-color: #00B86A; transform: scale(1.04); }
+.bg-preset.on     { border-color: #00B86A; box-shadow: 0 0 0 3px rgba(0,184,106,.25); }
+
+.grad-dir-row { display: flex; gap: 5px; flex-wrap: wrap; }
+.dir-btn {
+  width: 32px; height: 32px; border-radius: 5px; font-size: 14px;
+  cursor: pointer; border: 1px solid #2a2a2a; background: #1a1a1a; color: #888;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .1s;
+}
+.dir-btn:hover { border-color: #00B86A; color: #00B86A; }
+.dir-btn.on    { border-color: #00B86A; color: #00B86A; background: #082d1a; }
+
+.bg-section { display: flex; flex-direction: column; gap: 8px; min-width: 160px; }
+.bg-section + .bg-section { border-left: 1px solid #222; padding-left: 16px; }
+
+/* ─── Floating status bar ─────────────────────────────────────────────────── */
+#status-bar {
+  display: none; position: fixed; bottom: 18px; left: 50%;
+  transform: translateX(-50%);
+  background: #1c1c1c; border: 1px solid #363636; border-radius: 8px;
+  padding: 8px 16px; font-size: 12px; color: #bbb;
+  gap: 12px; align-items: center; z-index: 9999;
+  box-shadow: 0 6px 28px rgba(0,0,0,.6); white-space: nowrap;
+}
+#status-bar.on { display: flex; }
+#status-bar .hint { color: #454545; font-size: 11px; }
+
+</style>
+</head>
+<body>
+
+<!-- ─── Banner ──────────────────────────────────────────────────────────────── -->
+<div id="banner-wrap">
+<div id="banner-scale">
+<div id="banner">
+
+  <div class="glow-g"></div>
+  <div class="glow-c"></div>
+  <div class="left-fade"></div>
+
+  <!-- Node graph decoration (safe zone) -->
+  <svg id="deco" viewBox="0 0 370 396" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <line x1="55"  y1="72"  x2="152" y2="142" stroke="#00B86A" stroke-width="1" opacity=".55"/>
+    <line x1="152" y1="142" x2="288" y2="90"  stroke="#00B86A" stroke-width="1" opacity=".38"/>
+    <line x1="152" y1="142" x2="192" y2="268" stroke="#0AB8D4" stroke-width="1" opacity=".44"/>
+    <line x1="55"  y1="72"  x2="34"  y2="208" stroke="#00B86A" stroke-width="1" opacity=".3"/>
+    <line x1="34"  y1="208" x2="152" y2="268" stroke="#0AB8D4" stroke-width="1" opacity=".34"/>
+    <line x1="192" y1="268" x2="294" y2="334" stroke="#0AB8D4" stroke-width="1" opacity=".28"/>
+    <line x1="288" y1="90"  x2="332" y2="184" stroke="#00B86A" stroke-width="1" opacity=".22"/>
+    <circle cx="55"  cy="72"  r="5"   fill="#00B86A" opacity=".7"/>
+    <circle cx="152" cy="142" r="7.5" fill="#00B86A" opacity=".82"/>
+    <circle cx="288" cy="90"  r="4.5" fill="#0AB8D4" opacity=".62"/>
+    <circle cx="34"  cy="208" r="4"   fill="#00B86A" opacity=".52"/>
+    <circle cx="192" cy="268" r="6"   fill="#0AB8D4" opacity=".72"/>
+    <circle cx="294" cy="334" r="3.5" fill="#0AB8D4" opacity=".42"/>
+    <circle cx="332" cy="184" r="4"   fill="#00B86A" opacity=".38"/>
+    <circle cx="152" cy="142" r="15"  stroke="#00B86A" stroke-width="1" opacity=".2" fill="none"/>
+    <circle cx="192" cy="268" r="12"  stroke="#0AB8D4" stroke-width="1" opacity=".16" fill="none"/>
+  </svg>
+
+  <div class="rule-line"></div>
+
+  <!-- Safe zone overlay -->
+  <div id="safe-overlay">
+    <div class="sz-photo"><span class="sz-photo-lbl">Profile photo</span></div>
+    <div class="sz-content-line"></div>
+    <span class="sz-content-lbl">Safe content zone →</span>
+    <div class="sz-top"><span class="sz-lbl" style="bottom:4px;top:auto;">Mobile crop</span></div>
+    <div class="sz-bot"><span class="sz-lbl" style="top:4px;">Mobile crop</span></div>
+  </div>
+
+  <!-- Group selection bounding box (rendered by JS) -->
+  <div id="sel-box">
+    <div class="sbh" data-d="nw"></div>
+    <div class="sbh" data-d="n"></div>
+    <div class="sbh" data-d="ne"></div>
+    <div class="sbh" data-d="w"></div>
+    <div class="sbh" data-d="e"></div>
+    <div class="sbh" data-d="sw"></div>
+    <div class="sbh" data-d="s"></div>
+    <div class="sbh" data-d="se"></div>
+  </div>
+
+  <!-- Main text content -->
+  <div id="banner-content">
+    <div id="text-block">
+      <div class="logo-row">
+        <img id="banner-logo" class="banner-logo"
+          src="https://agent-chat-hub.com/logo.png"
+          alt="AgentChat Hub" crossorigin="anonymous">
+        <span class="banner-name" contenteditable="true" spellcheck="false">AgentChat Hub</span>
+      </div>
+      <div class="banner-tagline" contenteditable="true" spellcheck="false">Chat with every AI agent you deploy, wherever it lives.</div>
+      <div class="banner-platform" contenteditable="true" spellcheck="false">Free on iPhone · iPad · Mac · Vision Pro</div>
+    </div>
+  </div>
+
+  <!-- Draggable elements -->
+  <div id="elems"></div>
+  <div id="cta-wrap"></div>
+
+</div><!-- #banner -->
+</div><!-- #banner-scale -->
+</div><!-- #banner-wrap -->
+
+<!-- Preview -->
+<div id="prev-wrap">
+  <button id="prev-toggle" onclick="togglePrev()">▸ Show 50% preview</button>
+  <div id="prev-outer">
+    <div style="font-size:10px;color:#333;margin-bottom:4px;">50% — realistic LinkedIn appearance</div>
+    <div id="prev-inner"></div>
+  </div>
+</div>
+
+<!-- Control panel -->
+<div id="panel">
+
+  <div id="action-strip">
+    <label class="btn" for="logo-file">⬆ Upload Logo</label>
+    <input type="file" id="logo-file" accept="image/*" onchange="swapLogo(this)">
+    <button class="btn" id="safe-btn" onclick="toggleSafe()">⊞ Safe Zones</button>
+    <button class="btn" onclick="clearAll()">✕ Clear All</button>
+    <button class="btn prim" onclick="exportPNG()">↓ Export 2K PNG</button>
+  </div>
+
+  <div id="tab-bar">
+    <button class="tbtn on" onclick="switchTab('elements',this)">Elements</button>
+    <button class="tbtn" onclick="switchTab('cta',this)">CTA</button>
+    <button class="tbtn" onclick="switchTab('style',this)">Style</button>
+    <button class="tbtn" onclick="switchTab('background',this)">Background</button>
+  </div>
+
+  <!-- Elements tab -->
+  <div class="tab on" id="tab-elements">
+    <div style="flex:1;min-width:220px;">
+      <div class="sec">Phone Mockups — click to add</div>
+      <div id="ss-grid"></div>
+    </div>
+    <div style="flex:1;min-width:220px;">
+      <div class="sec">Free Images (no frame)</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+        <label class="btn" for="free-file">⬆ Upload</label>
+        <input type="file" id="free-file" accept="image/*" multiple onchange="addFreeImages(this)">
+        <input class="url-in" id="free-url" placeholder="Paste image URL…" style="width:170px;">
+        <button class="btn" onclick="addFreeFromUrl()">Add URL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA tab -->
+  <div class="tab" id="tab-cta">
+    <div style="flex:1;min-width:220px;">
+      <div class="sec">Style</div>
+      <div class="cta-style-row">
+        <button class="csb" onclick="setCTAStyle('neon-pill',this)">Neon Pill</button>
+        <button class="csb" onclick="setCTAStyle('gradient',this)">Gradient</button>
+        <button class="csb" onclick="setCTAStyle('glitch',this)">Glitch</button>
+        <button class="csb" onclick="setCTAStyle('badge',this)">Live Badge</button>
+        <button class="csb" onclick="setCTAStyle('glass',this)">Glass</button>
+        <button class="csb" onclick="setCTAStyle('terminal',this)">Terminal</button>
+        <button class="btn" style="margin-left:4px;" onclick="removeCTA()">Remove</button>
+      </div>
+    </div>
+    <div style="flex:1;min-width:220px;">
+      <div class="sec">Quick Text</div>
+      <div class="cta-text-row">
+        <button class="ctb" onclick="setCTAText('Follow me for more')">Follow me for more</button>
+        <button class="ctb" onclick="setCTAText('Try it free today')">Try it free today</button>
+        <button class="ctb" onclick="setCTAText('Available on App Store')">Available on App Store</button>
+        <button class="ctb" onclick="setCTAText('Download for free')">Download for free</button>
+        <button class="ctb" onclick="setCTAText(\'Let\\\'s connect\')">Let's connect</button>
+        <button class="ctb" onclick="setCTAText('DM me for early access')">DM me for early access</button>
+        <button class="ctb" onclick="setCTAText('Link in comments')">Link in comments</button>
+        <button class="ctb" onclick="setCTAText('Subscribe to newsletter')">Subscribe to newsletter</button>
+      </div>
+    </div>
+    <div style="min-width:160px;">
+      <div class="sec">Custom</div>
+      <div style="display:flex;gap:6px;">
+        <input class="url-in" id="cta-custom" placeholder="Your CTA…" style="width:148px;">
+        <button class="btn" onclick="applyCTACustom()">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Style tab -->
+  <div class="tab" id="tab-style">
+    <div>
+      <div class="sec">Colors</div>
+      <div class="color-row">
+        <div class="color-item">
+          <label>Primary</label>
+          <input type="color" id="cp-primary" value="#00B86A" oninput="setColor('primary',this.value)">
+          <div class="color-hex" id="hx-primary">#00B86A</div>
+        </div>
+        <div class="color-item">
+          <label>Secondary</label>
+          <input type="color" id="cp-secondary" value="#0AB8D4" oninput="setColor('secondary',this.value)">
+          <div class="color-hex" id="hx-secondary">#0AB8D4</div>
+        </div>
+        <div class="color-item">
+          <label>Accent</label>
+          <input type="color" id="cp-accent" value="#00E87A" oninput="setColor('accent',this.value)">
+          <div class="color-hex" id="hx-accent">#00E87A</div>
+        </div>
+        <div class="color-item">
+          <label>Background</label>
+          <input type="color" id="cp-bg" value="#060606" oninput="setColor('bg',this.value)">
+          <div class="color-hex" id="hx-bg">#060606</div>
+        </div>
+        <div class="color-item">
+          <label>Text</label>
+          <input type="color" id="cp-text" value="#F8F8F8" oninput="setColor('text',this.value)">
+          <div class="color-hex" id="hx-text">#F8F8F8</div>
+        </div>
+        <button class="btn" onclick="resetColors()" style="align-self:flex-end;">↺ Reset</button>
+      </div>
+    </div>
+    <div>
+      <div class="sec">Text Colors</div>
+      <div class="color-row">
+        <div class="color-item">
+          <label>Product Name</label>
+          <input type="color" id="tc-name" value="#F8F8F8"
+            oninput="document.querySelector('.banner-name').style.color=this.value;document.getElementById('thx-name').textContent=this.value">
+          <div class="color-hex" id="thx-name">#F8F8F8</div>
+        </div>
+        <div class="color-item">
+          <label>Tagline</label>
+          <input type="color" id="tc-tagline" value="#F8F8F8"
+            oninput="document.querySelector('.banner-tagline').style.color=this.value;document.getElementById('thx-tagline').textContent=this.value">
+          <div class="color-hex" id="thx-tagline">#F8F8F8</div>
+        </div>
+        <div class="color-item">
+          <label>Platform</label>
+          <input type="color" id="tc-platform" value="#00B86A"
+            oninput="document.querySelector('.banner-platform').style.color=this.value;document.getElementById('thx-platform').textContent=this.value">
+          <div class="color-hex" id="thx-platform">#00B86A</div>
+        </div>
+        <button class="btn" onclick="resetTextColors()" style="align-self:flex-end;">↺ Reset</button>
+      </div>
+    </div>
+    <div>
+      <div class="sec">Variants</div>
+      <div class="var-row">
+        <button class="vbtn on" onclick="setVariant('original',this)">Original</button>
+        <button class="vbtn" onclick="setVariant('dark',this)">Dark</button>
+        <button class="vbtn" onclick="setVariant('light',this)">Light</button>
+        <button class="vbtn" onclick="setVariant('mono',this)">Mono</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background tab -->
+  <div class="tab" id="tab-background">
+
+    <!-- Upload -->
+    <div class="bg-section">
+      <div class="sec">Upload Image</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+        <label class="btn" for="bg-file">⬆ Upload BG</label>
+        <input type="file" id="bg-file" accept="image/*" onchange="uploadBG(this)">
+        <input class="url-in" id="bg-url" placeholder="Paste image URL…" style="width:160px;">
+        <button class="btn" onclick="setBGFromUrl()">Add</button>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:2px;">
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <label style="font-size:10px;color:#555;text-transform:uppercase;letter-spacing:.07em;">Size</label>
+          <select id="bg-size" class="url-in" style="width:110px;" onchange="applyBGImage()">
+            <option value="cover">Cover</option>
+            <option value="contain">Contain</option>
+            <option value="100% 100%">Stretch</option>
+          </select>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <label style="font-size:10px;color:#555;text-transform:uppercase;letter-spacing:.07em;">Position</label>
+          <select id="bg-pos" class="url-in" style="width:110px;" onchange="applyBGImage()">
+            <option value="center">Center</option>
+            <option value="top">Top</option>
+            <option value="bottom">Bottom</option>
+            <option value="left">Left</option>
+            <option value="right">Right</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Solid color -->
+    <div class="bg-section">
+      <div class="sec">Solid Color</div>
+      <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;">
+        <div class="color-item">
+          <label>Color</label>
+          <input type="color" id="bg-solid-color" value="#060606" oninput="setBGSolid(this.value)">
+          <div class="color-hex" id="hx-bg-solid">#060606</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gradient -->
+    <div class="bg-section" style="min-width:240px;">
+      <div class="sec">Gradient</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">
+        <div class="color-item">
+          <label>From</label>
+          <input type="color" id="bg-grad-a" value="#060606" oninput="applyGradient()">
+        </div>
+        <div class="color-item">
+          <label>To</label>
+          <input type="color" id="bg-grad-b" value="#0d2d1a" oninput="applyGradient()">
+        </div>
+        <div class="color-item">
+          <label>Mid (opt)</label>
+          <input type="color" id="bg-grad-m" value="#060606" oninput="applyGradient()">
+          <div style="display:flex;align-items:center;gap:4px;margin-top:3px;">
+            <input type="checkbox" id="bg-grad-m-on" onchange="applyGradient()" style="accent-color:#00B86A;">
+            <label for="bg-grad-m-on" style="font-size:10px;color:#666;">Use</label>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:6px;">
+        <div class="sec" style="margin-bottom:5px;">Direction / Type</div>
+        <div class="grad-dir-row">
+          <button class="dir-btn on" data-grad="to right"         onclick="setGradDir(this)" title="→">→</button>
+          <button class="dir-btn"    data-grad="to left"          onclick="setGradDir(this)" title="←">←</button>
+          <button class="dir-btn"    data-grad="to bottom"        onclick="setGradDir(this)" title="↓">↓</button>
+          <button class="dir-btn"    data-grad="to top"           onclick="setGradDir(this)" title="↑">↑</button>
+          <button class="dir-btn"    data-grad="135deg"           onclick="setGradDir(this)" title="↘">↘</button>
+          <button class="dir-btn"    data-grad="45deg"            onclick="setGradDir(this)" title="↗">↗</button>
+          <button class="dir-btn"    data-grad="radial"           onclick="setGradDir(this)" title="Radial">◎</button>
+          <button class="dir-btn"    data-grad="conic"            onclick="setGradDir(this)" title="Conic">⊙</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generated presets -->
+    <div class="bg-section" style="min-width:260px;">
+      <div class="sec">Generated Presets</div>
+      <div class="bg-preset-grid" id="bg-presets"></div>
+      <button class="btn" onclick="clearBG()" style="margin-top:8px;align-self:flex-start;">✕ Clear Background</button>
+    </div>
+
+  </div><!-- #tab-background -->
+
+</div><!-- #panel -->
+
+<!-- Floating status bar -->
+<div id="status-bar">
+  <span id="sel-count">0 selected</span>
+  <button class="btn" onclick="selectAll()" style="padding:4px 10px;font-size:11px;">Select All</button>
+  <span class="hint">Shift+Click add · Drag move · any handle resize · Esc clear</span>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+  integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+  crossorigin="anonymous"></script>
+<script>
+// ─── Constants ────────────────────────────────────────────────────────────────
+const SS = Array.from({length:18}, (_,i) =>
+  `https://agent-chat-hub.com/images/s${String(i+1).padStart(2,'0')}.png`);
+
+const ORIG = { primary:'#00B86A', secondary:'#0AB8D4', accent:'#00E87A', bg:'#060606', text:'#F8F8F8' };
+const VARIANTS = {
+  original: { ...ORIG },
+  dark:     { primary:'#00E87A', secondary:'#22D3EE', accent:'#00B86A', bg:'#000000', text:'#FFFFFF' },
+  light:    { primary:'#007A45', secondary:'#0780A0', accent:'#00B86A', bg:'#FFFFFF',  text:'#0A0A0A' },
+  mono:     { primary:'#00B86A', secondary:'#00B86A', accent:'#00B86A', bg:'#080808', text:'#FFFFFF'  }
+};
+const CTA_DEF = {
+  'neon-pill':'Follow me for more', 'gradient':'Try it free today',
+  'glitch':'Available on App Store', 'badge':'Subscribe to my newsletter',
+  'glass':"Let's connect", 'terminal':'$ open agent-chat-hub.com'
+};
+
+// ─── Scale banner to fit viewport ─────────────────────────────────────────────
+function scaleBanner() {
+  const wrap = document.getElementById('banner-wrap');
+  const sc   = document.getElementById('banner-scale');
+  const s    = Math.min(1, wrap.offsetWidth / 1584);
+  sc.style.transform = `scale(${s})`;
+  sc.style.transformOrigin = 'top center';
+  sc.style.width = '1584px';
+  wrap.style.height = (396 * s) + 'px';
+}
+window.addEventListener('resize', scaleBanner);
+scaleBanner();
+
+// ─── Screenshot thumbnails ─────────────────────────────────────────────────────
+SS.forEach((url, i) => {
+  const img = document.createElement('img');
+  img.className = 'ss-th';
+  img.src = url;
+  img.alt = `Screenshot ${i+1}`;
+  img.crossOrigin = 'anonymous';
+  img.title = `Add as phone mockup`;
+  img.addEventListener('click', () => addMockup(url));
+  document.getElementById('ss-grid').appendChild(img);
+});
+
+// ─── Selection ─────────────────────────────────────────────────────────────────
+const SEL = new Set();
+
+function select(el)   { SEL.add(el); refreshSel(); }
+function deselect(el) { SEL.delete(el); refreshSel(); }
+function clearSel()   { SEL.forEach(e => e.classList.remove('solo')); SEL.clear(); refreshSel(); }
+function selectAll()  { document.querySelectorAll('.elem,.cta-elem').forEach(select); }
+
+function refreshSel() {
+  // Mark solo vs multi
+  SEL.forEach(e => e.classList.toggle('solo', SEL.size === 1));
+
+  // Update status bar
+  const bar = document.getElementById('status-bar');
+  document.getElementById('sel-count').textContent = SEL.size + ' selected';
+  SEL.size > 0 ? bar.classList.add('on') : bar.classList.remove('on');
+
+  // Draw / hide group bounding box
+  updateSelBox();
+}
+
+function updateSelBox() {
+  const box = document.getElementById('sel-box');
+  if (SEL.size < 2) { box.classList.remove('on'); return; }
+
+  const banner  = document.getElementById('banner');
+  const bannerR = banner.getBoundingClientRect();
+  const sc      = banner.getBoundingClientRect().width / 1584;
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+
+  SEL.forEach(el => {
+    const r = el.getBoundingClientRect();
+    const lx = (r.left - bannerR.left) / sc;
+    const ly = (r.top  - bannerR.top)  / sc;
+    const rx = lx + r.width / sc;
+    const ry = ly + r.height / sc;
+    minX = Math.min(minX, lx); minY = Math.min(minY, ly);
+    maxX = Math.max(maxX, rx); maxY = Math.max(maxY, ry);
+  });
+
+  const pad = 6;
+  box.style.left   = (minX - pad) + 'px';
+  box.style.top    = (minY - pad) + 'px';
+  box.style.width  = (maxX - minX + pad*2) + 'px';
+  box.style.height = (maxY - minY + pad*2) + 'px';
+  box.classList.add('on');
+
+  // Wire group bounding-box resize handles
+  attachGroupResizeHandles(minX, minY, maxX, maxY);
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') clearSel(); });
+
+// ─── Group bounding-box resize ─────────────────────────────────────────────────
+function attachGroupResizeHandles(minX, minY, maxX, maxY) {
+  document.querySelectorAll('.sbh').forEach(h => {
+    // Clone to remove old listeners
+    const newH = h.cloneNode(true);
+    h.parentNode.replaceChild(newH, h);
+    newH.addEventListener('mousedown', e => {
+      e.stopPropagation(); e.preventDefault();
+      const dir    = newH.dataset.d;
+      const banner = document.getElementById('banner');
+      const sc     = banner.getBoundingClientRect().width / 1584;
+      const sx     = e.clientX, sy = e.clientY;
+
+      // Record initial state for each element
+      const starts = new Map();
+      SEL.forEach(el => {
+        starts.set(el, {
+          x: parseFloat(el.style.left)||0,
+          y: parseFloat(el.style.top) ||0,
+          w: el.offsetWidth,
+          h: el.offsetHeight
+        });
+      });
+      const boxW = maxX - minX, boxH = maxY - minY;
+
+      const onMove = mv => {
+        const dx = (mv.clientX - sx) / sc;
+        const dy = (mv.clientY - sy) / sc;
+        SEL.forEach(el => {
+          const s = starts.get(el);
+          if (!s) return;
+          // Fractional position within box
+          const fx = boxW > 0 ? (s.x - minX) / boxW : 0;
+          const fy = boxH > 0 ? (s.y - minY) / boxH : 0;
+          const fw = boxW > 0 ? s.w / boxW : 1;
+          const fh = boxH > 0 ? s.h / boxH : 1;
+
+          let nMinX = minX, nMinY = minY, nMaxX = maxX, nMaxY = maxY;
+          if (dir.includes('e')) nMaxX = Math.max(minX+20, maxX + dx);
+          if (dir.includes('s')) nMaxY = Math.max(minY+20, maxY + dy);
+          if (dir.includes('w')) nMinX = Math.min(maxX-20, minX + dx);
+          if (dir.includes('n')) nMinY = Math.min(maxY-20, minY + dy);
+
+          const nBoxW = nMaxX - nMinX, nBoxH = nMaxY - nMinY;
+          el.style.left   = (nMinX + fx * nBoxW) + 'px';
+          el.style.top    = (nMinY + fy * nBoxH) + 'px';
+          el.style.width  = (fw * nBoxW) + 'px';
+          if (s.h > 0) el.style.height = (fh * nBoxH) + 'px';
+        });
+        updateSelBox();
+      };
+      const onUp = () => {
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+      };
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+    });
+  });
+}
+
+// ─── Per-element drag ──────────────────────────────────────────────────────────
+function makeDraggable(el) {
+  el.addEventListener('mousedown', e => {
+    if (e.target.classList.contains('elem-rm') ||
+        e.target.classList.contains('rh') ||
+        e.target.classList.contains('sbh') ||
+        e.target.closest('[contenteditable="true"]')) return;
+
+    if (!e.shiftKey) { if (!SEL.has(el)) { clearSel(); select(el); } }
+    else             { SEL.has(el) ? deselect(el) : select(el); }
+
+    const banner = document.getElementById('banner');
+    const sc     = banner.getBoundingClientRect().width / 1584;
+    const sx = e.clientX, sy = e.clientY;
+    const starts = new Map();
+    SEL.forEach(s => starts.set(s, {
+      x: parseFloat(s.style.left)||0,
+      y: parseFloat(s.style.top) ||0
+    }));
+
+    const onMove = mv => {
+      const dx = (mv.clientX - sx) / sc;
+      const dy = (mv.clientY - sy) / sc;
+      SEL.forEach(s => {
+        const st = starts.get(s);
+        if (st) { s.style.left = (st.x + dx) + 'px'; s.style.top = (st.y + dy) + 'px'; }
+      });
+      updateSelBox();
+    };
+    const onUp = () => {
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    };
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+    e.preventDefault();
+  });
+}
+
+// ─── 8-direction per-element resize ───────────────────────────────────────────
+function makeResizable(el) {
+  ['nw','n','ne','w','e','sw','s','se'].forEach(dir => {
+    const h = document.createElement('div');
+    h.className = 'rh';
+    h.dataset.d = dir;
+    el.appendChild(h);
+
+    h.addEventListener('mousedown', e => {
+      e.stopPropagation(); e.preventDefault();
+      const banner = document.getElementById('banner');
+      const sc     = banner.getBoundingClientRect().width / 1584;
+      const sx = e.clientX, sy = e.clientY;
+      const startW = el.offsetWidth;
+      const startH = el.offsetHeight;
+      const startX = parseFloat(el.style.left)||0;
+      const startY = parseFloat(el.style.top) ||0;
+      const aspect = startW / (startH || 1);
+
+      const onMove = mv => {
+        const dx = (mv.clientX - sx) / sc;
+        const dy = (mv.clientY - sy) / sc;
+        let nW = startW, nH = startH, nX = startX, nY = startY;
+
+        if (dir === 'se' || dir === 's' || dir === 'sw') nH = Math.max(20, startH + dy);
+        if (dir === 'se' || dir === 'e' || dir === 'ne') nW = Math.max(20, startW + dx);
+        if (dir === 'sw' || dir === 'w' || dir === 'nw') {
+          nW = Math.max(20, startW - dx);
+          nX = startX + (startW - nW);
+        }
+        if (dir === 'ne' || dir === 'n' || dir === 'nw') {
+          nH = Math.max(20, startH - dy);
+          nY = startY + (startH - nH);
+        }
+        // Corner: maintain aspect ratio
+        if (dir === 'se' || dir === 'ne' || dir === 'sw' || dir === 'nw') {
+          const ra = nW / nH;
+          if (Math.abs(ra - aspect) > 0.01) nH = nW / aspect;
+        }
+
+        el.style.left   = nX + 'px';
+        el.style.top    = nY + 'px';
+        el.style.width  = nW + 'px';
+        el.style.height = nH + 'px';
+        updateSelBox();
+      };
+      const onUp = () => {
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+      };
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+    });
+  });
+}
+
+// ─── Add phone mockup ──────────────────────────────────────────────────────────
+function addMockup(src) {
+  const el = makeElem(150, 920 + Math.random()*60|0, 16 + Math.random()*20|0);
+  const frame = document.createElement('div');
+  frame.className = 'phone-frame';
+  const img = document.createElement('img');
+  img.src = src; img.crossOrigin = 'anonymous';
+  img.style.cssText = 'display:block;width:100%;height:auto;';
+  frame.appendChild(img);
+  el.insertBefore(frame, el.firstChild);
+}
+
+// ─── Free images ───────────────────────────────────────────────────────────────
+function addFreeImages(inp) {
+  Array.from(inp.files).forEach(f => {
+    const r = new FileReader();
+    r.onload = e => spawnFree(e.target.result);
+    r.readAsDataURL(f);
+  });
+  inp.value = '';
+}
+function addFreeFromUrl() {
+  const url = document.getElementById('free-url').value.trim();
+  if (url) { spawnFree(url); document.getElementById('free-url').value = ''; }
+}
+function spawnFree(src) {
+  const el  = makeElem(200, 800 + Math.random()*80|0, 40 + Math.random()*30|0);
+  const img = document.createElement('img');
+  img.src = src; img.crossOrigin = 'anonymous';
+  img.className = 'free-img';
+  const opCtrl = document.createElement('div');
+  opCtrl.className = 'op-ctrl';
+  opCtrl.innerHTML = `<span>Opacity</span>
+    <input type="range" min="0" max="100" value="100"
+      oninput="this.closest('.elem').style.opacity=this.value/100">`;
+  el.insertBefore(img, el.firstChild);
+  el.appendChild(opCtrl);
+}
+
+// ─── Shared element factory ────────────────────────────────────────────────────
+function makeElem(w, x, y) {
+  const el = document.createElement('div');
+  el.className = 'elem';
+  el.style.cssText = `width:${w}px;left:${x}px;top:${y}px;`;
+
+  const rm = document.createElement('div');
+  rm.className = 'elem-rm'; rm.textContent = '✕';
+  rm.onclick = e => { e.stopPropagation(); el.remove(); deselect(el); updateSelBox(); };
+
+  el.appendChild(rm);
+  document.getElementById('elems').appendChild(el);
+  makeDraggable(el);
+  makeResizable(el);
+  return el;
+}
+
+// ─── CTA ──────────────────────────────────────────────────────────────────────
+let ctaStyle = null, ctaText = '';
+function setCTAStyle(s, btn) {
+  document.querySelectorAll('.csb').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  ctaStyle = s;
+  if (!ctaText) ctaText = CTA_DEF[s];
+  renderCTA();
+}
+function setCTAText(t) { ctaText = t; const i = document.querySelector('[data-cta]'); if(i) i.textContent = t; else renderCTA(); }
+function applyCTACustom() { const v = document.getElementById('cta-custom').value.trim(); if(v){ctaText=v;renderCTA();} }
+function removeCTA() {
+  document.getElementById('cta-wrap').innerHTML = '';
+  document.querySelectorAll('.csb').forEach(b => b.classList.remove('on'));
+  ctaStyle = null; ctaText = '';
+}
+function renderCTA() {
+  if (!ctaStyle) return;
+  document.getElementById('cta-wrap').innerHTML = '';
+  const banner = document.getElementById('banner');
+  const wrap = document.createElement('div'); wrap.className = 'cta-elem';
+  const inner = document.createElement('div');
+  inner.className = `cta-${ctaStyle}`;
+  inner.setAttribute('data-cta','1');
+  inner.setAttribute('contenteditable','false');   // drag-safe default
+  inner.spellcheck = false;
+  inner.style.cursor = 'grab';
+  inner.style.userSelect = 'none';
+  inner.textContent = ctaText || CTA_DEF[ctaStyle];
+  inner.title = 'Drag to move · Double-click to edit text';
+
+  // Double-click → enter text-edit mode
+  inner.addEventListener('dblclick', e => {
+    e.stopPropagation();
+    inner.contentEditable = 'true';
+    inner.style.cursor = 'text';
+    inner.style.userSelect = 'auto';
+    inner.focus();
+    // Place caret at end
+    const range = document.createRange();
+    range.selectNodeContents(inner);
+    range.collapse(false);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  });
+
+  // Blur → exit edit mode
+  inner.addEventListener('blur', () => {
+    inner.contentEditable = 'false';
+    inner.style.cursor = 'grab';
+    inner.style.userSelect = 'none';
+    ctaText = inner.textContent;
+  });
+  const rm = document.createElement('div'); rm.className = 'elem-rm'; rm.textContent = '✕';
+  rm.onclick = e => { e.stopPropagation(); removeCTA(); };
+  wrap.appendChild(inner); wrap.appendChild(rm);
+  document.getElementById('cta-wrap').appendChild(wrap);
+
+  // Convert to explicit left/top so drag reads correct starting position.
+  // Must happen after mount so getBoundingClientRect is valid.
+  requestAnimationFrame(() => {
+    const banner    = document.getElementById('banner');
+    const bRect     = banner.getBoundingClientRect();
+    const wRect     = wrap.getBoundingClientRect();
+    const scale     = bRect.width / 1584;
+    // Default: bottom-right of content area
+    const leftPx = wRect.left !== 0
+      ? (wRect.left - bRect.left) / scale
+      : 1584 - wrap.offsetWidth - 60;
+    const topPx  = wRect.top  !== 0
+      ? (wRect.top  - bRect.top)  / scale
+      : 396  - wrap.offsetHeight - 38;
+    wrap.style.left   = leftPx + 'px';
+    wrap.style.top    = topPx  + 'px';
+    wrap.style.bottom = '';
+    wrap.style.right  = '';
+  });
+
+  makeDraggable(wrap);
+}
+
+// ─── Clear all ─────────────────────────────────────────────────────────────────
+function clearAll() {
+  document.getElementById('elems').innerHTML = '';
+  removeCTA(); clearSel();
+}
+
+// ─── Logo swap ─────────────────────────────────────────────────────────────────
+function swapLogo(inp) {
+  if (!inp.files[0]) return;
+  const r = new FileReader();
+  r.onload = e => { document.getElementById('banner-logo').src = e.target.result; };
+  r.readAsDataURL(inp.files[0]);
+  inp.value = '';
+}
+
+// ─── Color controls ────────────────────────────────────────────────────────────
+function setColor(prop, val) {
+  const b = document.getElementById('banner');
+  b.style.setProperty(`--${prop}`, val);
+  if (prop === 'bg') b.style.background = val;
+  document.getElementById(`hx-${prop}`).textContent = val;
+}
+function resetColors() {
+  Object.entries(ORIG).forEach(([k,v]) => {
+    document.getElementById(`cp-${k}`).value = v;
+    setColor(k, v);
+  });
+  document.querySelectorAll('.vbtn').forEach(b => b.classList.remove('on'));
+  document.querySelector('.vbtn').classList.add('on');
+}
+
+// ─── Per-line text color reset ────────────────────────────────────────────────
+const TEXT_COLOR_DEFAULTS = {
+  name:     { selector: '.banner-name',     default: '#F8F8F8' },
+  tagline:  { selector: '.banner-tagline',  default: '#F8F8F8' },
+  platform: { selector: '.banner-platform', default: '#00B86A' }
+};
+function resetTextColors() {
+  Object.entries(TEXT_COLOR_DEFAULTS).forEach(([key, cfg]) => {
+    document.querySelector(cfg.selector).style.color = cfg.default;
+    document.getElementById(`tc-${key}`).value       = cfg.default;
+    document.getElementById(`thx-${key}`).textContent = cfg.default;
+  });
+}
+function setVariant(name, btn) {
+  document.querySelectorAll('.vbtn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  Object.entries(VARIANTS[name]).forEach(([k,v]) => {
+    document.getElementById(`cp-${k}`).value = v;
+    setColor(k, v);
+  });
+}
+
+// ─── Safe zones ────────────────────────────────────────────────────────────────
+function toggleSafe() {
+  document.getElementById('safe-overlay').classList.toggle('on');
+  document.getElementById('safe-btn').classList.toggle('lit');
+}
+
+// ─── Tabs ──────────────────────────────────────────────────────────────────────
+function switchTab(name, btn) {
+  document.querySelectorAll('.tbtn').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById(`tab-${name}`).classList.add('on');
+}
+
+// ─── Preview ───────────────────────────────────────────────────────────────────
+function togglePrev() {
+  const o = document.getElementById('prev-outer');
+  const b = document.getElementById('prev-toggle');
+  o.classList.toggle('on');
+  b.textContent = o.classList.contains('on') ? '▾ Hide preview' : '▸ Show 50% preview';
+  if (o.classList.contains('on')) renderPrev();
+}
+function renderPrev() {
+  const banner = document.getElementById('banner');
+  const inner  = document.getElementById('prev-inner');
+  const clone  = banner.cloneNode(true);
+  clone.id = '';
+  clone.style.cssText = 'transform:scale(.5);transform-origin:top left;position:absolute;top:0;left:0;pointer-events:none;';
+  inner.innerHTML = ''; inner.appendChild(clone);
+}
+
+// ─── Click on empty banner = deselect ─────────────────────────────────────────
+document.getElementById('banner').addEventListener('mousedown', e => {
+  const safe = ['banner','banner-content','text-block','banner-logo','deco','sel-box'];
+  if (safe.includes(e.target.id) ||
+      e.target.classList.contains('glow-g') ||
+      e.target.classList.contains('glow-c') ||
+      e.target.classList.contains('left-fade') ||
+      e.target.classList.contains('rule-line') ||
+      e.target.tagName === 'line' ||
+      e.target.tagName === 'circle') {
+    if (!e.shiftKey) clearSel();
+  }
+});
+
+// ─── 2K PNG export (matches preview exactly) ──────────────────────────────────
+async function exportPNG() {
+  // Wait for all fonts to fully load
+  await document.fonts.ready;
+
+  const banner    = document.getElementById('banner');
+  const bannerSc  = document.getElementById('banner-scale');
+  clearSel(); // remove outlines
+
+  // Temporarily hide interactive chrome
+  const toHide = [...banner.querySelectorAll('.elem-rm,.rh,.op-ctrl,#safe-overlay,#sel-box')];
+  toHide.forEach(el => el.style.visibility = 'hidden');
+
+  // Pre-capture text from LIVE elements (innerText needs layout — clone is detached).
+  // This is the only reliable way to preserve spaces at browser-inserted line breaks.
+  const liveTexts = new Map();
+  banner.querySelectorAll('[contenteditable]').forEach((el, i) => {
+    liveTexts.set(i, el.innerText.replace(/\r?\n/g, ' ').replace(/\s+/g, ' ').trim());
+  });
+  const liveCTATexts = new Map();
+  banner.querySelectorAll('[data-cta]').forEach((el, i) => {
+    liveCTATexts.set(i, el.innerText.replace(/\r?\n/g, ' ').replace(/\s+/g, ' ').trim());
+  });
+
+  // CRITICAL: html2canvas mis-renders elements inside a CSS-transformed parent —
+  // the banner content only fills a fraction of the canvas (leaving white on the right).
+  // Reset the scale to 1 before capture, then restore it immediately after.
+  const savedTransform       = bannerSc.style.transform;
+  const savedTransformOrigin = bannerSc.style.transformOrigin;
+  bannerSc.style.transform       = 'scale(1)';
+  bannerSc.style.transformOrigin = 'top left';
+
+  try {
+    const canvas = await html2canvas(banner, {
+      width: 1584, height: 396,
+      scale: 2,                  // → 3168 × 792 (2K)
+      useCORS: true,
+      allowTaint: false,
+      backgroundColor: null,
+      logging: false,
+      onclone: (_doc, clonedEl) => {
+        // Inject pre-captured live text — avoids innerText layout bug in detached clone
+        clonedEl.querySelectorAll('[contenteditable]').forEach((el, i) => {
+          el.removeAttribute('contenteditable');
+          if (liveTexts.has(i)) el.textContent = liveTexts.get(i);
+        });
+        clonedEl.querySelectorAll('[data-cta]').forEach((el, i) => {
+          el.removeAttribute('contenteditable');
+          if (liveCTATexts.has(i)) el.textContent = liveCTATexts.get(i);
+        });
+        // Hide chrome in clone too
+        clonedEl.querySelectorAll('.elem-rm,.rh,.op-ctrl,#safe-overlay,#sel-box').forEach(e => {
+          e.style.display = 'none';
+        });
+      }
+    });
+
+    const link = document.createElement('a');
+    link.download = 'linkedin-banner-agentchat-hub-2k.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  } catch(err) {
+    alert('Export error: ' + err.message +
+      '\n\nTip: If the logo is missing, use "Upload Logo" to embed it locally first.');
+  } finally {
+    // Always restore the preview scale
+    bannerSc.style.transform       = savedTransform;
+    bannerSc.style.transformOrigin = savedTransformOrigin;
+    toHide.forEach(el => el.style.visibility = '');
+  }
+}
+
+// ─── Background system ────────────────────────────────────────────────────────
+let bgImageSrc  = null;   // current uploaded/url image src
+let gradDir     = 'to right'; // current gradient direction/type
+
+// Preset definitions — [label, CSS background value]
+const BG_PRESETS = [
+  // Dark gradients
+  ['Dark Green',   'linear-gradient(135deg,#060606 0%,#0d2d1a 100%)'],
+  ['Deep Cyan',    'linear-gradient(135deg,#060606 0%,#082530 100%)'],
+  ['Dual Accent',  'linear-gradient(135deg,#081a10 0%,#050d18 50%,#0a1822 100%)'],
+  ['Midnight',     'linear-gradient(135deg,#000000 0%,#0d0d1a 100%)'],
+  ['Charcoal',     'linear-gradient(160deg,#111111 0%,#1e1e1e 100%)'],
+  ['Green Burst',  'radial-gradient(ellipse at 70% 50%,#0d2d1a 0%,#060606 65%)'],
+  ['Cyan Burst',   'radial-gradient(ellipse at 70% 50%,#082530 0%,#060606 65%)'],
+  ['Dual Burst',   'radial-gradient(ellipse at 80% 20%,#0d2d1a 0%,#060606 45%),radial-gradient(ellipse at 20% 80%,#082530 0%,transparent 50%)'],
+  // Light gradients
+  ['Cloud',        'linear-gradient(135deg,#f0f4f8 0%,#dce8f0 100%)'],
+  ['Mint',         'linear-gradient(135deg,#e8f8f0 0%,#d0f0e0 100%)'],
+  ['Ice',          'linear-gradient(135deg,#e8f4f8 0%,#d0e8f4 100%)'],
+  ['Warm White',   'linear-gradient(135deg,#fafafa 0%,#f0ede8 100%)'],
+  // Vivid / creative
+  ['Neon Green',   'linear-gradient(135deg,#001a0d 0%,#003320 40%,#00B86A 100%)'],
+  ['Neon Cyan',    'linear-gradient(135deg,#00101a 0%,#002233 40%,#0AB8D4 100%)'],
+  ['Aurora',       'linear-gradient(135deg,#000000 0%,#001a0d 30%,#001a20 60%,#000d1a 100%)'],
+  ['Mesh',         'radial-gradient(at 20% 30%,#00B86A22 0%,transparent 50%),radial-gradient(at 80% 70%,#0AB8D422 0%,transparent 50%),#060606'],
+  ['Conic Glow',   'conic-gradient(from 180deg at 50% 50%,#060606 0deg,#0d2d1a 90deg,#082530 180deg,#060606 360deg)'],
+  // Patterns via CSS (repeating-gradient)
+  ['Dot Grid',     'radial-gradient(circle,rgba(0,184,106,.12) 1px,transparent 1px) #060606;background-size:28px 28px'],
+  ['Fine Grid',    'linear-gradient(rgba(0,184,106,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,184,106,.06) 1px,transparent 1px) #060606;background-size:40px 40px'],
+  ['Diagonal',     'repeating-linear-gradient(45deg,rgba(0,184,106,.04) 0px,rgba(0,184,106,.04) 1px,transparent 1px,transparent 20px) #060606'],
+];
+
+// Build preset swatches
+(function buildPresets() {
+  const grid = document.getElementById('bg-presets');
+  BG_PRESETS.forEach(([label, css], i) => {
+    const swatch = document.createElement('div');
+    swatch.className = 'bg-preset';
+    swatch.title = label;
+    // Use background shorthand — handle pattern presets that embed background-size
+    const fullCSS = css.includes(';background-size')
+      ? css.replace(';background-size', ';background-size:').replace(' #060606;background-size:', ' #060606;background-size:') // already formatted
+      : css;
+    // Apply as inline style for the swatch preview
+    swatch.setAttribute('style', `background:${css.split(';background-size')[0]};background-size:${css.includes(';background-size') ? css.split(';background-size:')[1] : 'cover'};`);
+    swatch.addEventListener('click', () => {
+      document.querySelectorAll('.bg-preset').forEach(s => s.classList.remove('on'));
+      swatch.classList.add('on');
+      applyBGPreset(i);
+    });
+    grid.appendChild(swatch);
+  });
+})();
+
+function applyBGPreset(i) {
+  const [, css] = BG_PRESETS[i];
+  const banner = document.getElementById('banner');
+  // Clear any uploaded image first
+  bgImageSrc = null;
+  banner.style.backgroundImage = '';
+  banner.style.backgroundSize  = '';
+  banner.style.backgroundPosition = '';
+
+  if (css.includes(';background-size')) {
+    const [bgPart, sizePart] = css.split(';background-size:');
+    banner.style.background = bgPart;
+    banner.style.backgroundSize = sizePart;
+  } else {
+    banner.style.background = css;
+  }
+  // Sync solid color picker to dominant bg color (first colour in the gradient)
+  const match = css.match(/#[0-9a-fA-F]{6}/);
+  if (match) { document.getElementById('bg-solid-color').value = match[0]; }
+}
+
+// Solid colour
+function setBGSolid(val) {
+  const b = document.getElementById('banner');
+  bgImageSrc = null;
+  b.style.backgroundImage = '';
+  b.style.background = val;
+  document.getElementById('hx-bg-solid').textContent = val;
+  document.querySelectorAll('.bg-preset').forEach(s => s.classList.remove('on'));
+  // Also sync the global --bg var
+  document.getElementById('cp-bg').value = val;
+  setColor('bg', val);
+}
+
+// Gradient direction
+function setGradDir(btn) {
+  document.querySelectorAll('.dir-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  gradDir = btn.dataset.grad;
+  applyGradient();
+}
+
+function applyGradient() {
+  const a   = document.getElementById('bg-grad-a').value;
+  const b   = document.getElementById('bg-grad-b').value;
+  const m   = document.getElementById('bg-grad-m').value;
+  const useM = document.getElementById('bg-grad-m-on').checked;
+  const mid  = useM ? `, ${m} 50%` : '';
+  const banner = document.getElementById('banner');
+  bgImageSrc = null;
+
+  let css;
+  if (gradDir === 'radial') {
+    css = useM
+      ? `radial-gradient(ellipse at center, ${a} 0%${mid}, ${b} 100%)`
+      : `radial-gradient(ellipse at center, ${a} 0%, ${b} 100%)`;
+  } else if (gradDir === 'conic') {
+    css = `conic-gradient(from 180deg at 50% 50%, ${a} 0deg${mid ? `, ${m} 180deg` : ''}, ${b} 360deg)`;
+  } else {
+    css = `linear-gradient(${gradDir}, ${a} 0%${mid}, ${b} 100%)`;
+  }
+
+  banner.style.backgroundImage = '';
+  banner.style.background = css;
+  document.querySelectorAll('.bg-preset').forEach(s => s.classList.remove('on'));
+}
+
+// Upload background image
+function uploadBG(inp) {
+  if (!inp.files[0]) return;
+  const r = new FileReader();
+  r.onload = e => { bgImageSrc = e.target.result; applyBGImage(); };
+  r.readAsDataURL(inp.files[0]);
+  inp.value = '';
+}
+function setBGFromUrl() {
+  const url = document.getElementById('bg-url').value.trim();
+  if (!url) return;
+  bgImageSrc = url;
+  applyBGImage();
+  document.getElementById('bg-url').value = '';
+}
+function applyBGImage() {
+  if (!bgImageSrc) return;
+  const banner = document.getElementById('banner');
+  const size   = document.getElementById('bg-size').value;
+  const pos    = document.getElementById('bg-pos').value;
+  banner.style.background         = '';
+  banner.style.backgroundImage    = `url('${bgImageSrc}')`;
+  banner.style.backgroundSize     = size;
+  banner.style.backgroundPosition = pos;
+  banner.style.backgroundRepeat   = 'no-repeat';
+  document.querySelectorAll('.bg-preset').forEach(s => s.classList.remove('on'));
+}
+
+// Clear background → restore original dark color
+function clearBG() {
+  bgImageSrc = null;
+  const banner = document.getElementById('banner');
+  banner.style.backgroundImage    = '';
+  banner.style.backgroundSize     = '';
+  banner.style.backgroundPosition = '';
+  banner.style.backgroundRepeat   = '';
+  banner.style.background         = 'var(--bg, #060606)';
+  document.querySelectorAll('.bg-preset').forEach(s => s.classList.remove('on'));
+}
+</script>
+</body>
+</html>
