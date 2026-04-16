@@ -82,6 +82,12 @@ Pick exactly ONE style skill per project. Never mix two style skills on the same
 |---|---|---|
 | Sync | `skills/sync/SKILL.md` | Detects what changed, maps cascade of affected files, presents sync plan, applies after confirmation. |
 
+### Standalone generators (invoke directly, not part of the build sequence)
+
+| Skill | File | What it does |
+|---|---|---|
+| LinkedIn Banner | `skills/banner-design/SKILL.md` | Generates a production-ready 1584×396 HTML banner with PNG export. Auto-extracts branding from a URL, repo, or idea. Includes live text editing, color pickers, style variants, draggable phone mockups, CTA presets, and multi-select. |
+
 ### Content reference (consult when writing copy or brand)
 
 | Skill | Files | What it covers |
@@ -151,3 +157,6 @@ Pick exactly ONE style skill per project. Never mix two style skills on the same
 
 **"Is everything consistent / up to date?"**
 → `sync/SKILL.md` with argument "all" — full project audit against all files and standards
+
+**"Make me a LinkedIn banner for X"**
+→ `banner-design/SKILL.md` — pass product name, URL, repo path, or idea as $ARGUMENTS. Outputs a self-contained `linkedin-banner.html` ready to open in browser and export as PNG.
