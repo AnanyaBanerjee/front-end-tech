@@ -193,6 +193,7 @@ A complete technique stack for near-black hero sections with a single warm accen
 **Color rule for this system:** Accent at `0.01`–`1.0` opacity + white at `0.02`–`0.9` opacity. No second hue anywhere. See `branding/patterns.md` Pattern 11.
 
 ### Micro-Interactions & Effects
+* **Tooltip-on-Word Product Preview:** Attach a short looping video or image thumbnail to a key noun in the hero headline. On hover, a 12px-radius card scales from 0.8 → 1.0 with a bounceIn spring. The card is ~164×118px, uses `position: absolute` on the word's `<span>`, and plays a `.mp4` with `autoplay muted loop playsinline`. Use `width: 101%` on the inner video to eliminate sub-pixel gap artifacts. One or two words max — overusing this kills the effect.
 * **Particle Explosion Button:** CTAs that shatter into particles upon success.
 * **Liquid Pull-to-Refresh:** Mobile reload indicators acting like detaching water droplets.
 * **Skeleton Shimmer:** Shifting light reflections moving across placeholder boxes.

@@ -775,3 +775,58 @@ WITH COMPARISON:
 Free vs Paid comparison
 [Start Free] [Go Pro]
 ```
+
+---
+
+## Pattern 12: Depth-of-Field Trust Strip
+
+**Context:** The standard logo trust strip (horizontal row of customer logos) reads as flat and low-effort. The depth-of-field technique elevates it into a premium visual by simulating camera focus — the center logo is sharp and opaque, logos toward the edges are progressively blurred and faded.
+
+**The Pattern:**
+```
+VISUAL LOGIC:
+
+Position:   [far-left]   [mid-left]   [CENTER]   [mid-right]   [far-right]
+blur:        3.8px        0.9px        0px         0.9px         3.8px
+opacity:     0.24         0.82         1.0         0.82          0.24
+scale:       0.92         0.98         1.0         0.98          0.92
+
+Result: The strip reads as a physical carousel in 3D space, with the
+current "featured" logo in focus and others receding into depth.
+```
+
+**Implementation:**
+```html
+<div class="dof-strip">
+  <div class="dof-logo dof-far">   <img src="logo-a.svg" alt="Company A" /></div>
+  <div class="dof-logo dof-near">  <img src="logo-b.svg" alt="Company B" /></div>
+  <div class="dof-logo dof-focus"> <img src="logo-c.svg" alt="Company C" /></div>
+  <div class="dof-logo dof-near">  <img src="logo-d.svg" alt="Company D" /></div>
+  <div class="dof-logo dof-far">   <img src="logo-e.svg" alt="Company E" /></div>
+</div>
+
+<style>
+.dof-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+}
+.dof-logo img { height: 28px; width: auto; display: block; }
+
+.dof-focus { filter: blur(0px);   opacity: 1.00; transform: scale(1.00); }
+.dof-near  { filter: blur(0.9px); opacity: 0.82; transform: scale(0.98); }
+.dof-far   { filter: blur(3.8px); opacity: 0.24; transform: scale(0.92); }
+
+/* Optional: animate focus point on a loop */
+.dof-logo { transition: filter 0.6s ease, opacity 0.6s ease, transform 0.6s ease; }
+</style>
+```
+
+**Animated version** — cycle the focus point every 2s using JS to add/remove `dof-focus`, `dof-near`, `dof-far` classes in sequence. This turns the strip into a living social proof carousel without any visual clutter.
+
+**Rules:**
+- Use on dark backgrounds — the blur and fade values are tuned for dark. On white, halve the blur values.
+- Keep logos monochrome (all white or all a single neutral) so focus depth reads clearly, not color variation.
+- Minimum 5 logos for the pattern to read correctly. With fewer, just use a standard flat strip.
+- On mobile, collapse to a flat strip with no blur — `filter: none; opacity: 0.7` on all logos.

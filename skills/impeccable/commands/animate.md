@@ -79,6 +79,7 @@ Add motion systematically across these categories:
 - **Tab switching**: Slide indicator, content fade/slide
 - **Carousel/slider**: Smooth transforms, snap points, momentum
 - **Scroll effects**: Parallax layers, sticky headers with state changes, scroll progress indicators
+- **GSAP Scroll-Pin Feature Walkthrough:** Freeze the viewport for an entire scroll zone while the user scrolls through product steps. Use `ScrollTrigger.create({ pin: true })` on the section wrapper. Within the pinned zone, show sequential `.step` panels at the same screen coordinates — the user sees steps 1 → 2 → 3 without the page visually moving. Scroll distance consumed = `number_of_steps × viewport_height`. A `pin-spacer` div handles layout displacement automatically. Add a pill nav strip so the user always knows their position. **CRITICAL:** Never use `window.addEventListener('scroll')` — use ScrollTrigger's `onUpdate` callback.
 
 ### Feedback & Guidance
 - **Hover hints**: Tooltip fade-ins, cursor changes, element highlights
