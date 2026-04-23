@@ -22,9 +22,10 @@ This is the single most important security file. Create `site/_headers` in every
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  X-XSS-Protection: 1; mode=block
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.fontshare.com; font-src 'self' https://fonts.gstatic.com https://api.fontshare.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.fontshare.com; font-src 'self' https://fonts.gstatic.com https://api.fontshare.com; img-src 'self' data: https:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';
 ```
+
+> **Note:** `X-XSS-Protection` is omitted intentionally. It was deprecated by all major browsers (Firefox dropped it, Chrome/Edge deprecated it) and can introduce vulnerabilities in some edge cases. The `Content-Security-Policy` header is the modern replacement.
 
 **What each header does:**
 
@@ -35,8 +36,10 @@ This is the single most important security file. Create `site/_headers` in every
 | `Referrer-Policy` | Leaking your full URL to external sites when users click links |
 | `Permissions-Policy` | Stops scripts from accessing camera, microphone, location, payments without permission |
 | `Strict-Transport-Security` | Forces HTTPS even if user types `http://` — prevents man-in-the-middle attacks |
-| `X-XSS-Protection` | Older XSS filter in legacy browsers (belt-and-suspenders) |
 | `Content-Security-Policy` | Restricts which scripts, styles, fonts can load — blocks injected malicious scripts |
+| `object-src 'none'` | Prevents legacy browser plugins (Flash, Java applets) from loading via `<object>` tags |
+| `base-uri 'self'` | Prevents `<base>` tag injection — without this, an attacker who injects a `<base href="https://evil.com">` silently redirects all relative links |
+| `frame-ancestors 'none'` | CSP-level clickjacking protection (belt-and-suspenders alongside `X-Frame-Options`) |
 
 **Customise CSP for your project:**
 
@@ -74,7 +77,33 @@ Every `<script>` or `<link>` that loads from a CDN must have an `integrity` attr
 
 **Important:** SRI requires a specific version URL (e.g., `/3.4.1`), not a latest/unversioned URL. If you use `cdn.tailwindcss.com` with no version (the play CDN), SRI cannot be applied — flag this as a known limitation in a comment.
 
-**For Google Fonts:** SRI doesn't apply to font stylesheets (they change per request). Instead, use `crossorigin="anonymous"` on the `<link>` tag and ensure `font-src` in CSP includes only `fonts.gstatic.com`.
+**For Google Fonts and Fontshare:** SRI doesn't apply to font stylesheets (they're dynamic per-request). Instead, use `crossorigin="anonymous"` on the `<link>` tag and ensure `font-src` in CSP includes only the domains you use.
+
+---
+
+## 2a. Externalize Inline Scripts to Remove `unsafe-inline`
+
+`unsafe-inline` in `script-src` significantly weakens XSS protection — it allows any injected inline script to execute. Avoid it by moving all inline `<script>` blocks to external `.js` files.
+
+**Pattern:**
+```html
+<!-- instead of this -->
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  // ... rest of JS
+</script>
+
+<!-- do this -->
+<script src="main.js" data-cfasync="false"></script>
+```
+
+Place `main.js` in `site/` alongside `index.html`. Then remove `'unsafe-inline'` from `script-src` in `_headers`.
+
+**`data-cfasync="false"` is required** on every external script tag. Without it, Cloudflare Rocket Loader defers the script asynchronously — on pages with `.reveal` classes (opacity: 0 on load), this causes a blank page flash until the script fires. `data-cfasync="false"` opts the script out of Rocket Loader.
+
+**Exception — Tailwind Play CDN config block:** The inline `<script>` that sets `tailwind.config = { ... }` must stay inline. The Play CDN reads it synchronously at init time — moving it to an external file creates a race condition where Tailwind initialises before the config loads, breaking all custom color tokens. This one `unsafe-inline` exception is acceptable. If you want to fully remove `unsafe-inline`, replace the Play CDN with a self-hosted pre-built `tailwind.css` file.
+
+**Exception — JSON-LD structured data:** `<script type="application/ld+json">` blocks are data, not executable scripts. CSP `script-src` doesn't apply to them. Leave them inline.
 
 ---
 
@@ -128,9 +157,11 @@ Every link that opens a new tab or goes to an external site must have `rel="noop
 <a href="https://twitter.com/yourhandle" target="_blank" rel="noopener noreferrer">Twitter</a>
 ```
 
-**Why:** Without `noopener`, the opened page can access your page's `window` object via `window.opener` and redirect it. It's called a reverse tabnapping attack.
+**Why:** Without `noopener`, the opened page can access your page's `window` object via `window.opener` and redirect it. It's called a reverse tabnapping attack. Without `noreferrer`, the `Referer` header is sent to the destination, leaking which page the user came from.
 
-**Rule:** Every `target="_blank"` link must have `rel="noopener noreferrer"`. No exceptions.
+**Rule:** Every `target="_blank"` link must have `rel="noopener noreferrer"`. No exceptions. `noreferrer` alone is sufficient (it implies `noopener`), but writing both is the safe default.
+
+**Common mistake — `noopener` without `noreferrer`:** It's easy to write just `rel="noopener"` and miss `noreferrer`. Before finishing any page, grep for `rel="noopener"` and confirm every match has both attributes.
 
 ---
 
@@ -154,10 +185,16 @@ If the page has a contact form or email signup:
 
 ## 6. HTML Security Audit Checklist
 
-Run this before finishing any page:
+Run this before finishing any page.
+
+> **Start here — this is the most commonly missed step:** Confirm `site/_headers` physically exists. It is easy to build an entire page and forget to create this file. Without it, Cloudflare sends zero security headers and the site is fully vulnerable to clickjacking, MIME sniffing, and protocol downgrade attacks. Check the file exists first, before anything else.
 
 **Headers & Configuration**
-- [ ] `site/_headers` file exists with all security headers
+- [ ] `site/_headers` file exists at `site/_headers` — check the file is there, not just assumed
+- [ ] `_headers` contains `X-Frame-Options: DENY` and `frame-ancestors 'none'` (both — belt and suspenders)
+- [ ] `_headers` contains `object-src 'none'` in CSP
+- [ ] `_headers` contains `base-uri 'self'` in CSP
+- [ ] `_headers` does NOT contain `X-XSS-Protection` (deprecated — remove if present)
 - [ ] CSP `script-src` only includes domains actually used on the page
 - [ ] CSP `style-src` only includes domains actually used on the page
 
@@ -168,13 +205,15 @@ Run this before finishing any page:
 - [ ] No commented-out code containing credentials or internal paths
 
 **External Resources**
-- [ ] Every CDN `<script>` has `integrity` and `crossorigin="anonymous"`
+- [ ] Every CDN `<script>` has `integrity` and `crossorigin="anonymous"` (exception: Tailwind Play CDN — SRI incompatible, document as known gap)
 - [ ] Every CDN `<link>` has `crossorigin="anonymous"`
 - [ ] External font services use `crossorigin="anonymous"`
 - [ ] Only CDN domains you actually use are in the CSP
+- [ ] All page JS is in external `.js` files — no inline `<script>` blocks except Tailwind config and JSON-LD
+- [ ] Every external `<script src>` has `data-cfasync="false"` to prevent Cloudflare Rocket Loader deferral
 
 **Links**
-- [ ] Every `target="_blank"` link has `rel="noopener noreferrer"`
+- [ ] Every `target="_blank"` link has `rel="noopener noreferrer"` — grep for `rel="noopener"` and confirm no match is missing `noreferrer`
 - [ ] No links to `http://` — all external links use `https://`
 
 **Forms (if applicable)**
@@ -197,6 +236,7 @@ After deploying to Cloudflare Pages, configure these in the Cloudflare dashboard
 |---------|-------|-------|
 | Always Use HTTPS | SSL/TLS → Edge Certificates | On |
 | Minimum TLS Version | SSL/TLS → Edge Certificates | TLS 1.2 |
+| TLS 1.3 | SSL/TLS → Edge Certificates | On (eliminates weak cipher suites entirely) |
 | Bot Fight Mode | Security → Bots | On |
 | Security Level | Security → Settings | Medium |
 | Browser Integrity Check | Security → Settings | On |
