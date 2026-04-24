@@ -556,49 +556,42 @@ function setProgress(done, total, label) {
 
 async function captureSlide(id, w, h) {
   const el = document.getElementById(id);
-  // Temporarily remove the CSS scale transform so html2canvas sees full size
-  const prev = el.style.transform;
-  el.style.transform = 'none';
-  el.style.position = 'fixed';
-  el.style.top = '-99999px';
-  el.style.left = '0';
-  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))); // let paint settle
 
   return new Promise((resolve, reject) => {
     html2canvas(el, {
-      width: w, height: h,
-      windowWidth: w, windowHeight: h,
+      width: w,
+      height: h,
       scale: 1,
       allowTaint: true,
       useCORS: true,
       logging: false,
       backgroundColor: '#07070a',
-      scrollX: 0, scrollY: 0, x: 0, y: 0,
-      onclone: (clonedDoc) => {
-        // html2canvas doesn't support -webkit-background-clip:text (renders as solid box).
-        // Replace gradient text with solid brand color on the cloned DOM before capture.
-        clonedDoc.querySelectorAll('.hl-accent').forEach(el => {
-          el.style.webkitTextFillColor = '#00E87A';
-          el.style.backgroundImage = 'none';
-          el.style.webkitBackgroundClip = 'unset';
-          el.style.backgroundClip = 'unset';
-          el.style.color = '#00E87A';
+      onclone: (clonedDoc, clonedEl) => {
+        // Remove the preview scale transform so html2canvas sees full export dimensions.
+        // This runs on the document clone — the real DOM is never touched.
+        clonedEl.style.transform = 'none';
+        clonedEl.style.position = 'absolute';
+        clonedEl.style.top = '0';
+        clonedEl.style.left = '0';
+        clonedEl.style.width  = w + 'px';
+        clonedEl.style.height = h + 'px';
+
+        // -webkit-background-clip:text is unsupported by html2canvas — renders as a solid box.
+        // Replace with solid brand color on all gradient text spans.
+        clonedDoc.querySelectorAll('.hl-accent').forEach(accent => {
+          accent.style.backgroundImage      = 'none';
+          accent.style.webkitBackgroundClip = 'unset';
+          accent.style.backgroundClip       = 'unset';
+          accent.style.webkitTextFillColor  = '#00E87A';
+          accent.style.color                = '#00E87A';
         });
-        // Fix dividers (linear-gradient on background — renders fine but be explicit)
-        // Also wait for fonts to be ready in the clone
       },
     }).then(canvas => {
-      // Restore transform
-      el.style.transform = prev;
-      el.style.position = 'absolute';
-      el.style.top = '0';
-      canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('toBlob failed')), 'image/png');
-    }).catch(err => {
-      el.style.transform = prev;
-      el.style.position = 'absolute';
-      el.style.top = '0';
-      reject(err);
-    });
+      canvas.toBlob(
+        blob => blob ? resolve(blob) : reject(new Error('toBlob failed')),
+        'image/png'
+      );
+    }).catch(reject);
   });
 }
 
