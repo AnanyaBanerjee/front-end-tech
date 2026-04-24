@@ -953,35 +953,69 @@ el.style.transform = `${perspStr}translateX(${t.tx}px) translateY(${t.ty}px) sca
 
 **Device element targeting:** `_getDeviceEl(slideId)` walks the slide looking for `.phone-wrap`, then `.fs-device`, then `.iphone-pro`, `.android-pixel`, `.ipad-pro` in that priority order. Apply the transform to whichever is found.
 
-**⚠ CRITICAL — re-apply transforms inside `onclone`:** html2canvas 1.4.1 does not reliably render CSS transforms on child elements inside a previously-scaled container. Even though `cloneNode(true)` copies inline styles, the transform is visually lost in the exported PNG. You MUST explicitly re-apply `_transforms[id]` to the device element inside the `onclone` callback, after resetting the slide root scale:
+**⚠ CRITICAL — export transform pipeline (3 layers required):**
+
+html2canvas 1.4.1 has two independent transform problems that need separate fixes.
+
+**Problem 1 — Preview scale blocks child transforms (all transform types)**
+Relying on `onclone` alone to reset `transform: scale(0.25)` on the slide root is not sufficient. html2canvas snapshots element styles before `onclone` runs, so child device transforms are evaluated inside the scaled-container context and are silently dropped. **Fix: strip the preview scale from the LIVE element BEFORE calling html2canvas, then restore in `finally()`.**
 
 ```js
-onclone: (clonedDoc, clonedEl) => {
-  clonedEl.style.transform = 'none';
-  // ... reset position/size ...
+// Safety flush — write stored transform into device inline style before snapshot.
+if (_t && deviceEl) { /* set deviceEl.style.transform from _t */ }
 
-  // Re-apply device transform explicitly
-  const _t = _transforms[id];
-  if (_t) {
-    const _s = _t.scale / 100;
-    const _has3d = _t.rotX !== 0 || _t.rotY !== 0;
-    const _persp = _has3d ? `perspective(${_t.persp}px) ` : '';
-    const _tStr = `${_persp}translateX(${_t.tx}px) translateY(${_t.ty}px) scale(${_s}) rotate(${_t.rot}deg) rotateX(${_t.rotX}deg) rotateY(${_t.rotY}deg)`;
-    const _deviceEl = clonedEl.querySelector('.phone-wrap')
-                   || clonedEl.querySelector('.fs-device')
-                   || clonedEl.querySelector('.iphone-pro')
-                   || clonedEl.querySelector('.android-pixel')
-                   || clonedEl.querySelector('.ipad-pro');
-    if (_deviceEl) {
-      _deviceEl.style.transform = _tStr;
-      _deviceEl.style.transformOrigin = 'center center';
-    }
-  }
-  // ... rest of onclone (gradient text fix etc) ...
+// Strip preview scale from live element.
+const savedStyle = el.getAttribute('style') || '';
+el.style.transform = 'none';
+el.style.width  = w + 'px';
+el.style.height = h + 'px';
+el.offsetHeight; // force reflow
+
+try {
+  // ... html2canvas call ...
+} finally {
+  el.setAttribute('style', savedStyle); // always restore
 }
 ```
 
-Omitting this step causes the exported PNG to show the device at its default position/rotation regardless of what the user set in the studio.
+**Problem 2 — html2canvas cannot render CSS 3D perspective (rotateX / rotateY)**
+Canvas 2D API has no perspective projection. `perspective()`, `rotateX()`, `rotateY()` are silently ignored — the exported PNG shows the phone upright no matter what the studio shows. **Fix: 3-step canvas pipeline when `rotX !== 0 || rotY !== 0`.**
+
+```
+Step 1 — flat capture:  temporarily zero device transform → html2canvas(deviceEl, {backgroundColor:null}) → flat phone PNG
+Step 2 — corner math:   project all 4 device corners through the full CSS transform stack
+                        order: rotateY → rotateX → rotate2D → scale → translate → perspective-divide
+Step 3 — strip render:  draw flat PNG onto a w×h canvas via 200 horizontal strips,
+                        each mapped with setTransform() to its projected parallelogram slice
+```
+
+Corner projection math (mirrors CSS transform order exactly):
+```js
+// For each corner (x, y, 0) in device-local space (origin = device center):
+// 1. rotateY  2. rotateX  3. rotate2D  4. scale  5. translate  6. perspective divide
+// w = 1 - z/p  →  screen_x = x5/w,  screen_y = y5/w
+```
+
+Strip renderer — **must clip to the projected quad outline before rendering strips**:
+```js
+ctx.save();
+ctx.beginPath();
+ctx.moveTo(tl.x,tl.y); ctx.lineTo(tr.x,tr.y);
+ctx.lineTo(br.x,br.y); ctx.lineTo(bl.x,bl.y);
+ctx.closePath(); ctx.clip(); // ← prevents +1px strip overdraw from bleeding outside phone edges
+for (let i = 0; i < 200; i++) {
+  // setTransform affine for each strip → drawImage with srcH+1 (fills seam)
+}
+ctx.restore();
+```
+
+**Why the quad clip is required:** without it, each strip's `+1px` overdraw bleeds outside the phone outline, creating a sawtooth/staircase artifact on the phone edges. The clip confines all rendering to the exact projected trapezoid shape.
+
+**In `onclone`:**
+- **3D case** (`perspOverlayUrl` set): hide device in clone (`visibility:hidden`), inject the perspective canvas as a full-slide `<img>` overlay at `z-index:999`
+- **2D-only case**: re-apply transform string to device clone as a belt-and-suspenders guard
+
+Omitting the live-DOM scale-strip step causes all transforms (both 2D and 3D) to be silently dropped in exports — the phone appears at its default position/rotation regardless of what the studio shows.
 
 ### Reference image picker: build from the DOM
 
