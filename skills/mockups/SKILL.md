@@ -35,14 +35,37 @@ output/<project>/
 
 ## Step 1: Gather Inputs
 
-Ask the user:
+**Before asking the user anything, check `output/<project>/site/images/` for existing images.**
 
-> 1. "Share your app screenshots (PNG/JPG/WebP). One per screen you want to feature — I'll put each inside the correct device frame."
-> 2. "What is the headline for each screenshot? (e.g. 'Track every habit. Every day.')"
-> 3. "What devices do you need? iPhone only, Android only, both, iPad too?"
-> 4. "What's the primary brand color and background color for the export slides?"
+```
+output/<project>/site/images/   ← scan this directory first
+```
 
-If no screenshots yet: generate shimmer placeholders (see Step 3, Placeholder).
+- List every `.png`, `.jpg`, `.jpeg`, `.webp`, `.avif` file found there
+- These ARE the product screenshots — use them directly as `../site/images/<filename>` in mockup HTML
+- Sort them by filename so the order is predictable (s01, s02, s03... or 1, 2, 3...)
+- Assign one image per slide: first image → slide 1, second → slide 2, etc.
+- If more than 10 images exist, use the first 5–6 for App Store slides (quality over quantity)
+
+**CRITICAL: Copy images to `mockups/images/` immediately** — Chrome blocks `../` relative paths for local file:// URLs, breaking all images in the browser. Always run:
+```bash
+mkdir -p output/<project>/mockups/images
+cp output/<project>/site/images/*.png output/<project>/mockups/images/
+cp output/<project>/site/images/*.jpg output/<project>/mockups/images/ 2>/dev/null || true
+```
+Then reference as `images/s01.png` (never `../site/images/s01.png`).
+
+**Only ask the user for images if `site/images/` is empty or doesn't exist.**
+
+After scanning images, ask only the remaining questions:
+
+> 1. "I found [N] screenshots in site/images/ — I'll use those. Which devices do you need? (iPhone, Android, iPad, or all)"
+> 2. "What is the headline for each slide? I'll suggest ones based on the product if you skip this."
+> 3. (Only if brand colors not found in site/index.html) "What's your primary brand color?"
+
+**Also check `site/index.html` for brand colors** — read the CSS custom properties (`--color-accent`, `--color-bg`, etc.) before asking. Use what's already there.
+
+If no screenshots exist: generate shimmer placeholders (see Step 3, Placeholder).
 
 ---
 
@@ -627,16 +650,102 @@ When the user wants a device frame on their landing page (not app store export),
 
 ---
 
+## Step 6b: What makes mockups look professional (reference: theapplaunchpad.com)
+
+The difference between bad and good App Store screenshots:
+
+| Bad | Good |
+|-----|------|
+| Single phone, centered, no context | Phone bleeds off the bottom edge (180px+) — creates drama |
+| Generic black background | Brand-colored background with a radial glow **behind** the phone |
+| Text above as an afterthought | Big bold headline (140–186px at 1320px canvas) that earns attention at thumbnail scale |
+| One layout for all slides | Mix poster slides + multi-phone strip slides in the same set |
+| Frame matches screenshot content | Thin metallic frame with screen glass glare (`::after` diagonal gradient) |
+
+### Four slide types every set should include
+
+| Type | File pattern | When to use |
+|------|-------------|-------------|
+| **Hero poster** | `ios-69-poster-1.html` | First impression — one big phone + brand statement |
+| **Feature poster** | `ios-69-poster-2/3.html` | Each key feature — one phone, focused copy |
+| **Multi-phone strip** | `ios-69-strip.html` | Shows breadth — 3 phones with per-phone labels side by side |
+| **Google Play feature** | `android-feature.html` | Landscape 1024×500 — stacked phones + logo + tags |
+
+### Phone glow technique (essential for premium look)
+
+```css
+.phone-glow {
+  position: absolute;
+  bottom: -100px; left: 50%; transform: translateX(-50%);
+  width: 1400px; height: 1000px;
+  background: radial-gradient(
+    ellipse 55% 50% at 50% 75%,
+    rgba(0,232,122,0.20) 0%,    /* brand accent color here */
+    rgba(34,211,238,0.08) 40%,
+    transparent 65%
+  );
+  filter: blur(48px);
+  pointer-events: none;
+  z-index: 0;
+}
+```
+Place this behind the phone frame. The phone appears to emit light. Adjust the rgba color to match brand accent.
+
+### Frame scaling (use `--scale` property)
+
+All device frames use a `--scale` custom property. Set it inline to resize proportionally:
+```html
+<!-- 860px wide single-phone poster -->
+<div class="iphone-pro" style="--scale: 2.19">
+
+<!-- 360px wide in a 3-phone strip -->
+<div class="iphone-pro" style="--scale: 0.916">
+
+<!-- 260px wide in preview.html -->
+<div class="iphone-pro" style="--scale: 0.661">
+```
+Scale formula: `desired_px / 393` for iPhone, `desired_px / 270` for Android, `desired_px / 512` for iPad.
+
+### Screen glass glare (makes the frame look real)
+
+Applied via `::after` pseudo-element on `.iphone-pro__screen`:
+```css
+.iphone-pro__screen::after {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.04) 0%, transparent 8%),
+    linear-gradient(148deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.06) 8%, rgba(255,255,255,0.00) 22%, transparent 40%);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 10;
+}
+```
+
+### Image path rule (critical — fixes Chrome local file security)
+
+**Always copy screenshots to `mockups/images/`** and reference them as `images/s01.png` (no `../`).
+Chrome blocks cross-directory `file://` paths. Same-directory relative paths always work.
+
+```bash
+# Run this when generating mockups for a project:
+cp output/<project>/site/images/*.png output/<project>/mockups/images/
+```
+
+---
+
 ## Step 7: Rules
 
+- **Always scan `output/<project>/site/images/` first** — every image found there is a product screenshot, use it automatically without asking
+- **Image path in mockup HTML** is always `../site/images/<filename>` (one level up from `mockups/`, into `site/images/`)
 - **Always use `object-fit: cover`** on the `<img>` inside a device frame — never let a screenshot stretch the frame
 - **Always add descriptive `alt` text** — "App screen showing habit tracker dashboard", not "screenshot"
 - **Never deploy `mockups/` to Cloudflare Pages** — it stays local, it's an export tool
 - **Scale the frame, not the screenshot** — adjust the frame's `width` to change size; the image fills it automatically
 - **On mobile landing pages**, reduce frame width to `min(260px, 80vw)` so phones don't overflow
-- **Match the slide background to the brand** — never use generic white or plain grey for app store slides
+- **Match the slide background to the brand** — read `site/index.html` CSS variables first; never use generic white or grey
 - **At least 3 slides** for App Store — Apple requires a minimum of 3 screenshots per device size
-- **Google Play feature graphic (1024×500)**: use a landscape hero crop — no device frame, just the logo + tagline on brand background
+- **Google Play feature graphic (1024×500)**: no device frame — logo + tagline + mini phone stack on brand background
 
 ---
 

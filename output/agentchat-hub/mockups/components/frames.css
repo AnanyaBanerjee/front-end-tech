@@ -1,0 +1,388 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Device Frame Components — Proportional CSS Mockups
+
+   All frames use --scale custom property for sizing.
+   Base size = 1× (393px wide for iPhone, 270px for Android, 512px for iPad)
+
+   Usage:
+     <div class="iphone-pro" style="--scale: 2.19"> → 860px wide
+     <div class="iphone-pro" style="--scale: 0.92"> → 360px wide
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Reset ──────────────────────────────────────────────────────── */
+.iphone-pro *, .android-pixel *, .ipad-pro * {
+  box-sizing: border-box;
+}
+.iphone-pro img,
+.android-pixel img,
+.ipad-pro img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   iPhone 15 Pro — Dynamic Island, titanium frame
+   Base: 393×852px logical (3.36× from 1320×2868 physical)
+   ═══════════════════════════════════════════════════════════════════ */
+.iphone-pro {
+  --scale: 1;
+  --w: calc(393px * var(--scale));
+  display: inline-block;
+  position: relative;
+  /* Directional shadow — phone floats above surface */
+  filter:
+    drop-shadow(0 calc(52px * var(--scale)) calc(80px * var(--scale)) rgba(0,0,0,0.55))
+    drop-shadow(0 calc(16px * var(--scale)) calc(32px * var(--scale)) rgba(0,0,0,0.3))
+    drop-shadow(0 calc(2px  * var(--scale)) calc(6px  * var(--scale)) rgba(0,0,0,0.25));
+}
+
+.iphone-pro__frame {
+  position: relative;
+  width: var(--w);
+  aspect-ratio: 393 / 852;
+  border-radius: calc(55px * var(--scale));
+
+  /* Titanium frame — multi-stop metallic gradient */
+  background: linear-gradient(
+    158deg,
+    #5a5a5e 0%,
+    #4a4a4e 6%,
+    #3c3c3f 15%,
+    #2e2e31 30%,
+    #222224 55%,
+    #171719 78%,
+    #0e0e10 100%
+  );
+
+  /* Frame rim — lighter on top-left (light source), darker bottom-right */
+  border-top:    calc(1.5px * var(--scale)) solid rgba(255,255,255,0.20);
+  border-left:   calc(1.5px * var(--scale)) solid rgba(255,255,255,0.14);
+  border-right:  calc(1.5px * var(--scale)) solid rgba(255,255,255,0.06);
+  border-bottom: calc(1.5px * var(--scale)) solid rgba(255,255,255,0.04);
+
+  /* Inner depth */
+  box-shadow:
+    inset 0 0 0 calc(1px * var(--scale)) rgba(0,0,0,0.75),
+    inset 0 calc(2px * var(--scale)) calc(6px * var(--scale)) rgba(255,255,255,0.04),
+    inset 0 calc(-2px * var(--scale)) calc(4px * var(--scale)) rgba(0,0,0,0.3);
+
+  padding:
+    calc(16px * var(--scale))
+    calc(13px * var(--scale))
+    calc(12px * var(--scale));
+  overflow: visible;
+}
+
+/* Screen — contains screenshot + glass glare overlay */
+.iphone-pro__screen {
+  width: 100%;
+  height: 100%;
+  border-radius: calc(44px * var(--scale));
+  overflow: hidden;
+  background: #000;
+  position: relative;
+  /* Inset screen depth */
+  box-shadow: inset 0 0 0 calc(0.5px * var(--scale)) rgba(255,255,255,0.06);
+}
+
+/* Glass glare — diagonal specular highlight simulating curved glass */
+.iphone-pro__screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    /* Left-edge rim light */
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.04) 0%,
+      transparent 8%
+    ),
+    /* Diagonal glint — top-left corner highlight */
+    linear-gradient(
+      148deg,
+      rgba(255,255,255,0.10) 0%,
+      rgba(255,255,255,0.06) 8%,
+      rgba(255,255,255,0.00) 22%,
+      transparent 40%
+    );
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Dynamic Island */
+.iphone-pro__island {
+  position: absolute;
+  top:  calc(18px * var(--scale));
+  left: 50%;
+  transform: translateX(-50%);
+  width:  calc(126px * var(--scale));
+  height: calc(37px  * var(--scale));
+  background: #000;
+  border-radius: calc(20px * var(--scale));
+  z-index: 20;
+  /* Subtle inner rim */
+  box-shadow:
+    0 0 0 calc(1px * var(--scale)) rgba(255,255,255,0.05),
+    inset 0 calc(1px * var(--scale)) calc(2px * var(--scale)) rgba(0,0,0,0.8);
+}
+
+/* Home indicator bar */
+.iphone-pro__bar {
+  position: absolute;
+  bottom: calc(10px * var(--scale));
+  left: 50%;
+  transform: translateX(-50%);
+  width:  calc(134px * var(--scale));
+  height: calc(5px  * var(--scale));
+  background: rgba(255,255,255,0.26);
+  border-radius: calc(3px * var(--scale));
+  z-index: 20;
+}
+
+/* Physical buttons */
+.iphone-pro__btn {
+  position: absolute;
+  border-radius: calc(2px * var(--scale));
+}
+.iphone-pro__btn--power {
+  right:  calc(-4px  * var(--scale));
+  top:    calc(225px * var(--scale));
+  width:  calc(4px   * var(--scale));
+  height: calc(80px  * var(--scale));
+  background: linear-gradient(90deg, #2a2a2c, #3a3a3e 40%, #2c2c2e);
+  border-radius: 0 calc(2px * var(--scale)) calc(2px * var(--scale)) 0;
+  box-shadow: inset -1px 0 0 rgba(255,255,255,0.06);
+}
+.iphone-pro__btn--vol-up {
+  left:   calc(-4px  * var(--scale));
+  top:    calc(175px * var(--scale));
+  width:  calc(4px   * var(--scale));
+  height: calc(60px  * var(--scale));
+  background: linear-gradient(270deg, #2a2a2c, #3a3a3e 40%, #2c2c2e);
+  border-radius: calc(2px * var(--scale)) 0 0 calc(2px * var(--scale));
+  box-shadow: inset 1px 0 0 rgba(255,255,255,0.06);
+}
+.iphone-pro__btn--vol-dn {
+  left:   calc(-4px  * var(--scale));
+  top:    calc(248px * var(--scale));
+  width:  calc(4px   * var(--scale));
+  height: calc(60px  * var(--scale));
+  background: linear-gradient(270deg, #2a2a2c, #3a3a3e 40%, #2c2c2e);
+  border-radius: calc(2px * var(--scale)) 0 0 calc(2px * var(--scale));
+  box-shadow: inset 1px 0 0 rgba(255,255,255,0.06);
+}
+.iphone-pro__btn--mute {
+  left:   calc(-4px  * var(--scale));
+  top:    calc(114px * var(--scale));
+  width:  calc(4px   * var(--scale));
+  height: calc(38px  * var(--scale));
+  background: linear-gradient(270deg, #2a2a2c, #3a3a3e 40%, #2c2c2e);
+  border-radius: calc(2px * var(--scale)) 0 0 calc(2px * var(--scale));
+  box-shadow: inset 1px 0 0 rgba(255,255,255,0.06);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   Android Pixel 8 — Punch-hole camera, aluminum-ish frame
+   Base: 270×585px
+   ═══════════════════════════════════════════════════════════════════ */
+.android-pixel {
+  --scale: 1;
+  display: inline-block;
+  position: relative;
+  filter:
+    drop-shadow(0 calc(52px * var(--scale)) calc(80px * var(--scale)) rgba(0,0,0,0.55))
+    drop-shadow(0 calc(16px * var(--scale)) calc(32px * var(--scale)) rgba(0,0,0,0.3));
+}
+
+.android-pixel__frame {
+  position: relative;
+  width: calc(270px * var(--scale));
+  aspect-ratio: 270 / 585;
+  border-radius: calc(34px * var(--scale));
+  background: linear-gradient(158deg, #2a2a2e 0%, #1e1e22 30%, #141416 65%, #0c0c0e 100%);
+  border-top:    calc(1.5px * var(--scale)) solid rgba(255,255,255,0.15);
+  border-left:   calc(1.5px * var(--scale)) solid rgba(255,255,255,0.10);
+  border-right:  calc(1.5px * var(--scale)) solid rgba(255,255,255,0.05);
+  border-bottom: calc(1.5px * var(--scale)) solid rgba(255,255,255,0.03);
+  box-shadow:
+    inset 0 0 0 calc(1px * var(--scale)) rgba(0,0,0,0.7),
+    inset 0 calc(1px * var(--scale)) calc(4px * var(--scale)) rgba(255,255,255,0.03);
+  padding: calc(10px * var(--scale)) calc(9px * var(--scale)) calc(8px * var(--scale));
+  overflow: visible;
+}
+
+.android-pixel__screen {
+  width: 100%;
+  height: 100%;
+  border-radius: calc(26px * var(--scale));
+  overflow: hidden;
+  background: #000;
+  position: relative;
+  box-shadow: inset 0 0 0 calc(0.5px * var(--scale)) rgba(255,255,255,0.05);
+}
+.android-pixel__screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(148deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 12%, transparent 28%);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Punch-hole camera */
+.android-pixel__hole {
+  position: absolute;
+  top:  calc(16px * var(--scale));
+  left: 50%;
+  transform: translateX(-50%);
+  width:  calc(14px * var(--scale));
+  height: calc(14px * var(--scale));
+  background: #000;
+  border-radius: 50%;
+  z-index: 20;
+  box-shadow: 0 0 0 calc(1.5px * var(--scale)) rgba(255,255,255,0.04);
+}
+
+/* Gesture nav bar */
+.android-pixel__nav {
+  position: absolute;
+  bottom: calc(8px * var(--scale));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: calc(6px * var(--scale));
+  z-index: 20;
+}
+.android-pixel__nav span {
+  width:  calc(6px * var(--scale));
+  height: calc(6px * var(--scale));
+  background: rgba(255,255,255,0.20);
+  border-radius: calc(3px * var(--scale));
+}
+.android-pixel__nav span.wide {
+  width: calc(22px * var(--scale));
+}
+
+.android-pixel__btn--power {
+  position: absolute;
+  right:  calc(-4px  * var(--scale));
+  top:    calc(130px * var(--scale));
+  width:  calc(4px   * var(--scale));
+  height: calc(55px  * var(--scale));
+  background: linear-gradient(90deg, #222226, #303034);
+  border-radius: 0 calc(2px * var(--scale)) calc(2px * var(--scale)) 0;
+}
+.android-pixel__btn--vol {
+  position: absolute;
+  right:  calc(-4px  * var(--scale));
+  top:    calc(200px * var(--scale));
+  width:  calc(4px   * var(--scale));
+  height: calc(85px  * var(--scale));
+  background: linear-gradient(90deg, #222226, #303034);
+  border-radius: 0 calc(2px * var(--scale)) calc(2px * var(--scale)) 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   iPad Pro M4 — Dynamic Island, ultra-thin bezels
+   Base: 512×682px (portrait, matching 2048×2732 aspect ratio)
+   ═══════════════════════════════════════════════════════════════════ */
+.ipad-pro {
+  --scale: 1;
+  display: inline-block;
+  position: relative;
+  filter:
+    drop-shadow(0 calc(60px * var(--scale)) calc(100px * var(--scale)) rgba(0,0,0,0.45))
+    drop-shadow(0 calc(20px * var(--scale)) calc(40px  * var(--scale)) rgba(0,0,0,0.25));
+}
+
+.ipad-pro__frame {
+  position: relative;
+  width: calc(512px * var(--scale));
+  aspect-ratio: 2048 / 2732;
+  border-radius: calc(28px * var(--scale));
+  background: linear-gradient(158deg, #4a4a4e 0%, #3a3a3e 12%, #2c2c30 30%, #1e1e22 60%, #121214 100%);
+  border-top:    calc(1.5px * var(--scale)) solid rgba(255,255,255,0.18);
+  border-left:   calc(1.5px * var(--scale)) solid rgba(255,255,255,0.12);
+  border-right:  calc(1.5px * var(--scale)) solid rgba(255,255,255,0.05);
+  border-bottom: calc(1.5px * var(--scale)) solid rgba(255,255,255,0.03);
+  box-shadow:
+    inset 0 0 0 calc(1px * var(--scale)) rgba(0,0,0,0.7),
+    inset 0 calc(2px * var(--scale)) calc(5px * var(--scale)) rgba(255,255,255,0.03);
+  padding: calc(12px * var(--scale)) calc(10px * var(--scale)) calc(10px * var(--scale));
+  overflow: visible;
+}
+
+.ipad-pro__screen {
+  width: 100%;
+  height: 100%;
+  border-radius: calc(20px * var(--scale));
+  overflow: hidden;
+  background: #000;
+  position: relative;
+}
+.ipad-pro__screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(148deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 14%, transparent 30%);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.ipad-pro__island {
+  position: absolute;
+  top:  calc(16px * var(--scale));
+  left: 50%;
+  transform: translateX(-50%);
+  width:  calc(100px * var(--scale));
+  height: calc(28px  * var(--scale));
+  background: #000;
+  border-radius: calc(14px * var(--scale));
+  z-index: 20;
+  box-shadow: 0 0 0 calc(1px * var(--scale)) rgba(255,255,255,0.05);
+}
+
+.ipad-pro__bar {
+  position: absolute;
+  bottom: calc(8px * var(--scale));
+  left: 50%;
+  transform: translateX(-50%);
+  width:  calc(140px * var(--scale));
+  height: calc(5px   * var(--scale));
+  background: rgba(255,255,255,0.18);
+  border-radius: calc(3px * var(--scale));
+  z-index: 20;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Shimmer placeholder — dark, animated
+   Use inside any ___screen div when no screenshot exists
+   ═══════════════════════════════════════════════════════════════════ */
+.mock-placeholder {
+  background: #0d0d0f;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 10% 8%;
+  gap: 5%;
+}
+.mock-ph-block {
+  background: linear-gradient(90deg, #1e1e22 25%, #2a2a2e 50%, #1e1e22 75%);
+  background-size: 200% 100%;
+  border-radius: 4px;
+  animation: ph-shimmer 1.6s infinite;
+}
+@keyframes ph-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

@@ -163,7 +163,7 @@ Pick exactly ONE style skill per project. Never mix two style skills on the same
 → `banner-design/SKILL.md` — pass product name, URL, repo path, or idea as $ARGUMENTS. Outputs a self-contained `linkedin-banner.html` ready to open in browser and export as PNG.
 
 **"Make app store screenshots / mockups for X"**
-→ `mockups/SKILL.md` — ask for screenshots + brand colors + target stores (iOS/Android/iPad). Outputs `output/<project>/mockups/` with branded export slides at exact required dimensions + a preview.html.
+→ `mockups/SKILL.md` — scan `output/<project>/site/images/` for existing screenshots first (use them automatically), read brand colors from `site/index.html` CSS vars, then ask only what's missing. Outputs `output/<project>/mockups/` with branded export slides at exact required dimensions + a preview.html.
 
 **"I want a phone mockup on my landing page"**
 → `mockups/SKILL.md` embed mode — copy the iPhone Pro or Android CSS frame inline into `site/index.html`. Pair with product-images Style 4 (perspective tilt) for a premium hero.
