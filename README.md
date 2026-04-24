@@ -175,6 +175,7 @@ output/my-product/
 | Skill | Best for |
 |-------|----------|
 | [**banner-design**](skills/banner-design/SKILL.md) | LinkedIn banner — auto-extracts branding from a URL, repo, or idea. Outputs a 1584×396 HTML file with live editing, color variants, PNG export, draggable mockups, and CTA presets |
+| [**mockups**](skills/mockups/SKILL.md) | App Store & Play Store screenshot mockups — generates standalone HTML files at exact submission dimensions (iPhone 6.9", 6.5", Android, iPad Pro, Play Store feature graphic). Includes a `preview.html` gallery with one-click ZIP export via `html2canvas` |
 
 ### 🔧 Always Applied (automatic)
 
@@ -272,6 +273,20 @@ Example output for a full landing page build on Sonnet 4.6:
 | 🔍 | [how_to_improve_SEO.md](how_to_improve_SEO.md) | SEO from scratch — what Claude does, what you provide, timeline |
 | 🤖 | [how_to_improve_agent_engine_optimization.md](how_to_improve_agent_engine_optimization.md) | AEO, llms.txt, how AI search engines read your page |
 | 🚀 | [how_to_deploy.md](how_to_deploy.md) | Cloudflare Pages, custom domains, DNS, security settings |
+
+---
+
+## 🐛 Known Issues & Fixes
+
+### Mockups: gradient text renders as a solid colored box in exported PNGs
+
+**Symptom** — In `preview.html`, gradient text (e.g. "workflow." in green→cyan) looks correct. After clicking Download, the same text appears as a solid filled rectangle instead of gradient-colored letterforms.
+
+**Cause** — `html2canvas` v1.4.1 does not support `-webkit-background-clip: text` / `background-clip: text`. When it encounters this CSS, it renders the gradient background without clipping it to the text shape, producing a colored block instead of colored text.
+
+**Fix** — `preview.html` pre-collects computed font styles from each `.hl-accent` element before `html2canvas` runs. In the `onclone` callback, each gradient text span is replaced with an offscreen `<canvas>` that draws the same gradient using `createLinearGradient` + `fillText`, then swapped in as a `data:` URL `<img>`. `html2canvas` can paint canvas-derived images, so the gradient is preserved in the export.
+
+**Scope note** — The `onclone` query must use `clonedEl.querySelectorAll()` (scoped to the slide being captured), not `clonedDoc.querySelectorAll()` (the entire cloned document). Using the document scope causes index misalignment when multiple slides share the same `.hl-accent` class — the canvas replacement lands on the wrong slide and the actual accent element in the target slide goes unfixed.
 
 ---
 
