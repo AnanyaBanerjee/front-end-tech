@@ -19,17 +19,14 @@ Generates two things:
 output/<project>/
 ├── site/                    ← deploy this
 └── mockups/                 ← export artifacts, NOT deployed
-    ├── preview.html         ← all devices side-by-side for review
-    ├── ios-69.html          ← iPhone 16 Pro Max (6.9" — App Store required)
-    ├── ios-65.html          ← iPhone 11 Pro Max (6.5" — App Store required)
-    ├── ios-61.html          ← iPhone 15 (6.1")
-    ├── android-phone.html   ← Android phone portrait (1080×1920)
-    ├── android-tablet.html  ← Android 10" tablet landscape (1920×1200)
-    ├── android-feature.html ← Google Play feature graphic (1024×500)
-    ├── ipad-pro.html        ← iPad Pro 12.9" (2048×2732)
+    ├── preview.html         ← SINGLE FILE — all slides inlined, export all PNGs from here
+    ├── images/              ← screenshots (copied from site/images/, base64-inlined into preview.html)
     └── components/
         └── frames.css       ← reusable device frame classes (for site/index.html)
 ```
+
+**Architecture: single preview.html contains everything.**
+All slides are inlined as full-size divs scaled down to 25% for preview. The "Download All PNGs" button exports every slide at exact App Store dimensions via html2canvas. No separate per-slide HTML files are needed or generated.
 
 ---
 
@@ -47,21 +44,24 @@ output/<project>/site/images/   ← scan this directory first
 - Assign one image per slide: first image → slide 1, second → slide 2, etc.
 - If more than 10 images exist, use the first 5–6 for App Store slides (quality over quantity)
 
-**CRITICAL: Inline images as base64 in preview.html** — Chrome's `file://` security taints the canvas for ANY external image, including same-directory files. html2canvas then can't export ("Tainted canvases may not be exported"). The only fix is base64 data URIs embedded directly in the HTML.
+**CRITICAL: Inline images as base64 in preview.html** — Chrome's `file://` security taints the canvas for ANY external image. html2canvas cannot export tainted canvases. Every `<img>` in preview.html must be a `data:image/png;base64,...` URI.
+
+**Do NOT create separate per-slide HTML files.** All slides go into `preview.html` only.
 
 ```bash
-# Step 1: Copy images to mockups/images/ (for individual slide files)
+# Copy screenshots into mockups/images/ (kept as source reference)
 mkdir -p output/<project>/mockups/images
 cp output/<project>/site/images/*.png output/<project>/mockups/images/
 cp output/<project>/site/images/*.jpg output/<project>/mockups/images/ 2>/dev/null || true
 
-# Step 2: After generating preview.html, inline the images as base64
+# After writing preview.html with images/sXX.png paths, run this to inline them:
 python3 -c "
-import base64, re
-imgs = ['s01', 's02', 's03']  # add more as needed
+import base64, os
+imgs = ['s01', 's02', 's03']  # list all images used in the slides
 b64 = {}
 for name in imgs:
-    with open(f'output/<project>/mockups/images/{name}.png', 'rb') as f:
+    path = f'output/<project>/mockups/images/{name}.png'
+    with open(path, 'rb') as f:
         b64[name] = 'data:image/png;base64,' + base64.b64encode(f.read()).decode()
 with open('output/<project>/mockups/preview.html', 'r') as f:
     html = f.read()
@@ -73,9 +73,7 @@ print('Done')
 "
 ```
 
-Individual slide files (ios-69-poster-1.html etc.) reference `images/s01.png` normally — they're opened via a local server or Chrome DevTools screenshot, not via html2canvas.
-
-**Note:** The base64-patched preview.html will be 3–10 MB depending on screenshot sizes. This is expected and fine.
+**Note:** preview.html will be 5–10 MB after inlining. This is expected and fine.
 
 **Only ask the user for images if `site/images/` is empty or doesn't exist.**
 
@@ -466,9 +464,17 @@ Use inside any device frame's `.___-screen` container when the user has no scree
 
 ---
 
-## Step 4: App Store Export Pages
+## Step 4: App Store Export Slides
 
-Each export page is a standalone HTML file. The device frame is centered on a branded slide background with marketing copy. Export via the "Download All PNGs" button in `preview.html`, or open individual slides in Chrome DevTools and use the device toolbar screenshot.
+All slides are inlined as sections inside `preview.html` — no separate HTML files per slide. Each slide is a full-size `<div>` (e.g. `width:1320px;height:2868px`) scaled to 25% preview size via `transform:scale(.25)`. Exporting is done via the "Download All PNGs" button which uses html2canvas to render each div at full dimensions.
+
+**Slide naming convention** (used for exported PNG filenames):
+- `ios-6.9in-poster-1` — iPhone 6.9", left-aligned poster layout
+- `ios-6.9in-slide-1` — iPhone 6.9", centered layout
+- `ios-6.5in-slide-1` — iPhone 6.5" (for App Store compat)
+- `ipad-pro-slide-1` — iPad Pro 12.9"
+- `android-phone-slide-1` — Android portrait
+- `android-feature` — Google Play feature graphic (landscape, 1024×500)
 
 ### Export Page Template
 
@@ -578,20 +584,28 @@ Each export page is a standalone HTML file. The device frame is centered on a br
 </html>
 ```
 
-**To export at exact pixel dimensions:**
-```bash
-# Option A — Puppeteer (recommended, requires Node.js)
-npx puppeteer-screenshot --url mockups/ios-69.html --width 1320 --height 2868 --output ios-69-slide-1.png
-
-# Option B — Chrome DevTools
-# Open the file → DevTools (F12) → Toggle device toolbar → set 1320×2868 → right-click → Screenshot
-```
+**To export:** Open `mockups/preview.html` in Chrome and click **"Download All PNGs"**. This renders every slide via html2canvas and downloads a ZIP with all PNGs at exact App Store dimensions. No separate files, no Puppeteer, no DevTools needed.
 
 ---
 
 ## Step 5: Preview Page
 
-Generate `mockups/preview.html` to show all device variants at once:
+Generate a single `mockups/preview.html` that contains ALL slides inlined — no separate slide files. Each slide is a section with a heading, a row of `slide-card` elements, and a "Download All PNGs" button that exports everything via html2canvas + JSZip.
+
+**Two CSS layout families in one file:**
+- `slide-root` class — poster slides (left-aligned copy, `#07070a` bg). Use `.bg-grid`, `.bg-glow`, `.copy`, `.badge`, `.headline`, `.showcase`, `.phone-wrap`.
+- `fslide` class — feature slides (centered copy, `#000` bg). Use `.fs-grid`, `.fs-glow`, `.fs-bar`, `.fs-copy`, `.fs-eyebrow`, `.fs-headline`, `.fs-sub`, `.fs-device`. Scope overrides with `#sN` IDs.
+
+**Important:** scope all feature-slide styles with ID selectors (`#s6 .fs-copy { ... }`) to avoid colliding with poster-slide styles that share class names like `.copy` and `.bg-glow`.
+
+**Scale values for preview:** `transform:scale(.25)` for 1320×2868 slides, `scale(.265)` for 1242×2688, `scale(.166)` for 2048×2732, `scale(.25)` for 1080×1920, `scale(.55)` for 1024×500.
+
+**Device `--scale` values at export dimensions:**
+- iPhone at 720px → `--scale:1.832` · at 680px → `--scale:1.730`
+- iPad at 1160px → `--scale:2.265`
+- Android at 560px → `--scale:2.074`
+
+The template structure:
 
 ```html
 <!DOCTYPE html>
@@ -686,12 +700,14 @@ The difference between bad and good App Store screenshots:
 
 ### Four slide types every set should include
 
-| Type | File pattern | When to use |
-|------|-------------|-------------|
-| **Hero poster** | `ios-69-poster-1.html` | First impression — one big phone + brand statement |
-| **Feature poster** | `ios-69-poster-2/3.html` | Each key feature — one phone, focused copy |
-| **Multi-phone strip** | `ios-69-strip.html` | Shows breadth — 3 phones with per-phone labels side by side |
-| **Google Play feature** | `android-feature.html` | Landscape 1024×500 — stacked phones + logo + tags |
+| Type | Slide ID example | When to use |
+|------|-----------------|-------------|
+| **Hero poster** | `s1` (`ios-6.9in-poster-1`) | First impression — one big phone + brand statement |
+| **Feature poster** | `s2`, `s3` | Each key feature — one phone, focused copy |
+| **Multi-phone strip** | `s4` (`ios-6.9in-strip`) | Shows breadth — 3 phones with per-phone labels side by side |
+| **Google Play feature** | `s5` (`android-feature`) | Landscape 1024×500 — stacked phones + logo + tags |
+
+All slide types live as inline `<div>` sections inside `preview.html`. No separate HTML files.
 
 ### Phone glow technique (essential for premium look)
 
@@ -860,7 +876,7 @@ Rule: Headline must be readable at 200px preview thumbnail width. Short is alway
 ## Step 7: Rules
 
 - **Always scan `output/<project>/site/images/` first** — every image found there is a product screenshot, use it automatically without asking
-- **Image path in mockup HTML** is always `../site/images/<filename>` (one level up from `mockups/`, into `site/images/`)
+- **Image paths in preview.html** use `images/<filename>` (relative to `mockups/`) — these get replaced with base64 data URIs by the inlining script. Never use `../site/images/` in preview.html.
 - **Always use `object-fit: cover`** on the `<img>` inside a device frame — never let a screenshot stretch the frame
 - **Always add descriptive `alt` text** — "App screen showing habit tracker dashboard", not "screenshot"
 - **Never deploy `mockups/` to Cloudflare Pages** — it stays local, it's an export tool
