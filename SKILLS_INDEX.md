@@ -87,6 +87,7 @@ Pick exactly ONE style skill per project. Never mix two style skills on the same
 | Skill | File | What it does |
 |---|---|---|
 | LinkedIn Banner | `skills/banner-design/SKILL.md` | Generates a production-ready 1584×396 HTML banner with PNG export. Auto-extracts branding from a URL, repo, or idea. Includes live text editing, color pickers, style variants, draggable phone mockups, CTA presets, and multi-select. |
+| Mockups | `skills/mockups/SKILL.md` | Generates device mockups for app store screenshots and landing pages. iPhone 15 Pro (Dynamic Island), iPhone 15 (notch), Android Pixel (punch-hole), iPad Pro — all pure HTML/CSS. Outputs to `output/<project>/mockups/` (not deployed). Produces branded export slides at exact App Store / Google Play dimensions, plus a preview.html showing all devices. Also works as embeddable frames in site/index.html. |
 
 ### Content reference (consult when writing copy or brand)
 
@@ -160,3 +161,9 @@ Pick exactly ONE style skill per project. Never mix two style skills on the same
 
 **"Make me a LinkedIn banner for X"**
 → `banner-design/SKILL.md` — pass product name, URL, repo path, or idea as $ARGUMENTS. Outputs a self-contained `linkedin-banner.html` ready to open in browser and export as PNG.
+
+**"Make app store screenshots / mockups for X"**
+→ `mockups/SKILL.md` — ask for screenshots + brand colors + target stores (iOS/Android/iPad). Outputs `output/<project>/mockups/` with branded export slides at exact required dimensions + a preview.html.
+
+**"I want a phone mockup on my landing page"**
+→ `mockups/SKILL.md` embed mode — copy the iPhone Pro or Android CSS frame inline into `site/index.html`. Pair with product-images Style 4 (perspective tilt) for a premium hero.
