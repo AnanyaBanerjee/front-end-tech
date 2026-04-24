@@ -1,13 +1,13 @@
 ---
 name: mockups
-description: Generate production-ready device mockups for app store screenshots and landing pages. Covers iPhone (Dynamic Island + notch), Android (Pixel punch-hole), iPad Pro, and MacBook frames — all pure HTML/CSS, no build tools. Outputs to output/<project>/mockups/ for export, or as embeddable components in site/index.html.
+description: Generate production-ready device mockups for app store screenshots and landing pages. Covers iPhone (Dynamic Island + notch), Android (Pixel punch-hole), iPad Pro, and MacBook frames — all pure HTML/CSS, no build tools. Outputs to output/<project>/mockups/ for export, or as embeddable components in site/index.html. Always includes a built-in Studio panel for live editing of text, colors, themes, and device screenshots.
 ---
 
 # Mockups Skill
 
 Generates two things:
 1. **Embeddable frames** — CSS device frames to drop into landing pages (extends product-images Style 2)
-2. **Export pages** — standalone HTML files at app store dimensions, opened in a browser and screenshotted for submission
+2. **Export pages** — a single `preview.html` with all slides inlined, a built-in Studio panel for editing, and a "Download All PNGs" button for App Store export
 
 **Relationship to product-images:** Use this skill when you need accurate, detailed device frames. Use product-images for presentation *compositions* (tilt, layered, masonry). They work together — wrap a mockups frame inside a product-images Style 4 perspective tilt for a premium hero.
 
@@ -584,13 +584,15 @@ All slides are inlined as sections inside `preview.html` — no separate HTML fi
 </html>
 ```
 
-**To export:** Open `mockups/preview.html` in Chrome and click **"Download All PNGs"**. This renders every slide via html2canvas and downloads a ZIP with all PNGs at exact App Store dimensions. No separate files, no Puppeteer, no DevTools needed.
+**To export:** Open `mockups/preview.html` in Chrome and click **"Download All PNGs"**. This renders every slide via html2canvas and downloads a ZIP with all PNGs at exact App Store dimensions. Any edits made in the Studio panel (theme, text, background, reference images) are reflected in the exported PNGs automatically. No separate files, no Puppeteer, no DevTools needed.
 
 ---
 
 ## Step 5: Preview Page
 
 Generate a single `mockups/preview.html` that contains ALL slides inlined — no separate slide files. Each slide is a section with a heading, a row of `slide-card` elements, and a "Download All PNGs" button that exports everything via html2canvas + JSZip.
+
+**The Studio panel is always included.** Every `preview.html` must ship with the built-in Studio panel — see Step 5b for what it does and how to build it in.
 
 **Two CSS layout families in one file:**
 - `slide-root` class — poster slides (left-aligned copy, `#07070a` bg). Use `.bg-grid`, `.bg-glow`, `.copy`, `.badge`, `.headline`, `.showcase`, `.phone-wrap`.
@@ -667,6 +669,139 @@ The template structure:
 </body>
 </html>
 ```
+
+---
+
+## Step 5b: Studio Panel (always included in preview.html)
+
+Every `preview.html` must include a built-in Studio panel. Do not skip this. It lets the user edit their mockups without touching code — essential when the file will be used to iterate on copy, colors, and screenshots.
+
+### What the Studio does
+
+| Panel section | What the user can change |
+|---------------|--------------------------|
+| **Theme** | 6 preset gradient palettes (Neon, Ocean, Aurora, Sunset, Candy, Gold) — updates accent gradient + slide backgrounds in one click |
+| **Accent Gradient** | Two color pickers (From / To) — live-updates all gradient text (`hl-accent`), decorative elements, and the download progress bar via CSS vars `--c1` / `--c2`. Changes carry into exported PNGs. |
+| **Background** | Color picker + scope selector (This slide / This section / All slides) — sets the bg of `.slide-root` elements |
+| **Position & Tilt** | 7 sliders that transform the device frame inside the selected slide: Move X/Y, Scale, Rotate (2D), Tilt X / Tilt Y (3D perspective), and Depth (perspective distance). Reset button returns to default. |
+| **Edit Text** | Click any slide card → text fields appear for that slide's headline, badge, body, eyebrow. Headline uses `[[HL:word]]` syntax to mark gradient-highlighted words. Body/badge are plain textareas. |
+| **Device Screenshot** | Grid of all reference images extracted from the page's device frames. Click one to swap the screenshot inside the selected slide's phone/tablet. Upload button adds an external image. |
+
+### Theme presets (use these exact values)
+
+```js
+const THEMES = [
+  { name:'Neon',    c1:'#00E87A', c2:'#22D3EE', bg:'#07070a', poster:'#07070a', feature:'#000000' },
+  { name:'Ocean',   c1:'#3B82F6', c2:'#06B6D4', bg:'#07080f', poster:'#07080f', feature:'#000510' },
+  { name:'Aurora',  c1:'#10B981', c2:'#A78BFA', bg:'#08070f', poster:'#08070f', feature:'#02000a' },
+  { name:'Sunset',  c1:'#F97316', c2:'#EF4444', bg:'#0f0705', poster:'#0f0705', feature:'#0a0200' },
+  { name:'Candy',   c1:'#EC4899', c2:'#8B5CF6', bg:'#0a070f', poster:'#0a070f', feature:'#040010' },
+  { name:'Gold',    c1:'#F59E0B', c2:'#FB923C', bg:'#0f0b02', poster:'#0f0b02', feature:'#080500' },
+];
+```
+
+### CSS vars (required — must be at top of style block)
+
+```css
+:root { --c1: #00E87A; --c2: #22D3EE; }
+```
+
+All gradient usages throughout the CSS must reference `var(--c1)` / `var(--c2)` — never hardcode `#00E87A` or `#22D3EE`. This makes theme switching instant (one CSS var update changes everything).
+
+### `[[HL:text]]` syntax
+
+In the Edit Text panel, the user marks gradient-highlighted words with `[[HL:word]]`. The JS replaces this with `<em class="hl-accent">word</em>` which the CSS renders as gradient text. Example:
+
+```
+All your [[HL:AI agents.]] One place.
+```
+→ renders as: `All your <em class="hl-accent">AI agents.</em> One place.`
+
+### captureSlide must read colors from CSS vars
+
+The `captureSlide()` gradient-text canvas workaround uses hardcoded colors by default. Update it to read the current CSS vars so exported PNGs reflect the user's theme choice:
+
+```js
+const _rc1 = getComputedStyle(document.documentElement).getPropertyValue('--c1').trim() || '#00E87A';
+const _rc2 = getComputedStyle(document.documentElement).getPropertyValue('--c2').trim() || '#22D3EE';
+const c1  = isReversed ? _rc2 : _rc1;
+const c2  = isReversed ? _rc1 : _rc2;
+```
+
+### Studio trigger: click slide card while Studio is open
+
+Wire up `.slide-card` click handlers at init:
+```js
+document.querySelectorAll('.slide-card').forEach(card => {
+  const slideEl = card.querySelector('.slide-root[id]');
+  if (!slideEl) return;
+  card.setAttribute('data-sp-id', slideEl.id);
+  card.addEventListener('click', () => {
+    if (_studioOpen) _selectSlide(slideEl.id);
+  });
+});
+```
+
+When a slide is selected, its card gets `.sp-selected` (colored border) and the Studio panel updates to show that slide's editable fields.
+
+### Studio toggle button in header
+
+Add a "Studio" button next to the "Download All PNGs" button in the sticky header:
+```html
+<button class="studio-toggle-btn" id="studio-toggle-btn" onclick="toggleStudio()">
+  <svg><!-- pencil icon --></svg>
+  Studio
+</button>
+```
+
+The panel slides in from the right (`transform: translateX(100%)` → `translateX(0)`), and `body.studio-open { padding-right: 310px; }` shifts the content left to avoid overlap.
+
+### Position & Tilt: 7 transform sliders
+
+The device frame inside each slide can be repositioned, scaled, and tilted in 3D using `<input type="range">` sliders. Transforms apply to the device container element, found via `_getDeviceEl(slideId)`.
+
+**Slider definitions:**
+
+| ID | Range | Default | Maps to |
+|----|-------|---------|---------|
+| `sp-tx` | -600 → +600 | 0 | `translateX(Npx)` |
+| `sp-ty` | -600 → +600 | 0 | `translateY(Npx)` |
+| `sp-scale` | 30 → 220 | 100 | `scale(N/100)` |
+| `sp-rot` | -45 → +45 | 0 | `rotate(Ndeg)` |
+| `sp-rotx` | -45 → +45 | 0 | `rotateX(Ndeg)` |
+| `sp-roty` | -45 → +45 | 0 | `rotateY(Ndeg)` |
+| `sp-persp` | 300 → 3000 | 1200 | `perspective(Npx)` — only applied when rotX or rotY ≠ 0 |
+
+**Composed transform applied to the device element:**
+```js
+const perspStr = has3d ? `perspective(${t.persp}px) ` : '';
+el.style.transform = `${perspStr}translateX(${t.tx}px) translateY(${t.ty}px) scale(${s}) rotate(${t.rot}deg) rotateX(${t.rotX}deg) rotateY(${t.rotY}deg)`;
+```
+
+**State storage:** `_transforms[slideId]` — persists per slide for the session. Reset button calls `resetTransform()` which clears the stored state and removes the inline style.
+
+**Device element targeting:** `_getDeviceEl(slideId)` walks the slide looking for `.phone-wrap`, then `.fs-device`, then `.iphone-pro`, `.android-pixel`, `.ipad-pro` in that priority order. Apply the transform to whichever is found.
+
+### Reference image picker: build from the DOM
+
+Do NOT hardcode reference image srcs. Build the grid dynamically at runtime by scanning the page for existing device images:
+
+```js
+function _initRefImages() {
+  const seen = new Set();
+  document.querySelectorAll(
+    '.phone-wrap img, .iphone-pro img, .android-pixel img, .ipad-pro img, .showcase img'
+  ).forEach(img => {
+    const key = img.src.substring(0, 150);
+    if (!seen.has(key)) {
+      seen.add(key);
+      _REF_IMAGES.push({ src: img.src, slideId: img.closest('[id]')?.id });
+    }
+  });
+}
+```
+
+This automatically picks up all base64-inlined screenshots already in the page — no duplication of data.
 
 ---
 
