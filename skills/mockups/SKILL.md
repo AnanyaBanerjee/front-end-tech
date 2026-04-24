@@ -47,13 +47,35 @@ output/<project>/site/images/   ← scan this directory first
 - Assign one image per slide: first image → slide 1, second → slide 2, etc.
 - If more than 10 images exist, use the first 5–6 for App Store slides (quality over quantity)
 
-**CRITICAL: Copy images to `mockups/images/` immediately** — Chrome blocks `../` relative paths for local file:// URLs, breaking all images in the browser. Always run:
+**CRITICAL: Inline images as base64 in preview.html** — Chrome's `file://` security taints the canvas for ANY external image, including same-directory files. html2canvas then can't export ("Tainted canvases may not be exported"). The only fix is base64 data URIs embedded directly in the HTML.
+
 ```bash
+# Step 1: Copy images to mockups/images/ (for individual slide files)
 mkdir -p output/<project>/mockups/images
 cp output/<project>/site/images/*.png output/<project>/mockups/images/
 cp output/<project>/site/images/*.jpg output/<project>/mockups/images/ 2>/dev/null || true
+
+# Step 2: After generating preview.html, inline the images as base64
+python3 -c "
+import base64, re
+imgs = ['s01', 's02', 's03']  # add more as needed
+b64 = {}
+for name in imgs:
+    with open(f'output/<project>/mockups/images/{name}.png', 'rb') as f:
+        b64[name] = 'data:image/png;base64,' + base64.b64encode(f.read()).decode()
+with open('output/<project>/mockups/preview.html', 'r') as f:
+    html = f.read()
+for name, data in b64.items():
+    html = html.replace(f'images/{name}.png', data)
+with open('output/<project>/mockups/preview.html', 'w') as f:
+    f.write(html)
+print('Done')
+"
 ```
-Then reference as `images/s01.png` (never `../site/images/s01.png`).
+
+Individual slide files (ios-69-poster-1.html etc.) reference `images/s01.png` normally — they're opened via a local server or Chrome DevTools screenshot, not via html2canvas.
+
+**Note:** The base64-patched preview.html will be 3–10 MB depending on screenshot sizes. This is expected and fine.
 
 **Only ask the user for images if `site/images/` is empty or doesn't exist.**
 
@@ -446,7 +468,7 @@ Use inside any device frame's `.___-screen` container when the user has no scree
 
 ## Step 4: App Store Export Pages
 
-Each export page is a standalone HTML file. The device frame is centered on a branded slide background with marketing copy. Open in Chrome, zoom to fit, then use an extension like "GoFullPage" or run `puppeteer` to export at exact pixel dimensions.
+Each export page is a standalone HTML file. The device frame is centered on a branded slide background with marketing copy. Export via the "Download All PNGs" button in `preview.html`, or open individual slides in Chrome DevTools and use the device toolbar screenshot.
 
 ### Export Page Template
 
@@ -722,14 +744,115 @@ Applied via `::after` pseudo-element on `.iphone-pro__screen`:
 }
 ```
 
-### Image path rule (critical — fixes Chrome local file security)
+### Image path rule (critical — see Step 1 for base64 inlining)
 
-**Always copy screenshots to `mockups/images/`** and reference them as `images/s01.png` (no `../`).
-Chrome blocks cross-directory `file://` paths. Same-directory relative paths always work.
+Individual slide files reference `images/s01.png` (no `../`). `preview.html` must have images inlined as base64 data URIs so html2canvas can export without triggering Chrome's tainted canvas security block.
 
-```bash
-# Run this when generating mockups for a project:
-cp output/<project>/site/images/*.png output/<project>/mockups/images/
+---
+
+## Step 6c: App Store Screenshot Design Patterns (from professional reference sets)
+
+Full analysis: `skills/mockups/references/app-store-analysis.md`
+
+### The 10 slide types — use a mix, not just one layout
+
+| # | Type | Key trait |
+|---|------|-----------|
+| 1 | **Brand/Identity hero** | No phone or tiny phone. Just brand name + bold claim + stars/badge. Slide 1 ALWAYS. |
+| 2 | **Colored background + centered phone** | Solid brand color fill (e.g. lime green, hot pink, orange). Most common feature slide. |
+| 3 | **Full bleed lifestyle photo** | Background IS a photo. No phone frame needed. Headline overlaid. |
+| 4 | **Dark background + glow** | Dark bg + radial glow behind phone. Best for tech/productivity apps. |
+| 5 | **Two overlapping phones** | Back phone smaller + offset + 50% opacity. Shows depth/breadth. |
+| 6 | **Tilted perspective phone** | `perspective(1200px) rotateY(-12deg) rotate(3deg)`. Dynamic energy. |
+| 7 | **3D character + phone** | Illustrated/3D character next to floating phone. Playful consumer apps. |
+| 8 | **Testimonial/social proof** | Stars + quote, NO phone. Or "10M+ Users" as big number. |
+| 9 | **Press logos** | "As featured in" + media logos. Credibility. |
+| 10 | **Pure copy** | Text only on solid bg. Nike-style confident brand. |
+
+### What Slide 1 must be (brand poster, not a feature)
+
+Slide 1 is a **brand statement**, not a feature pitch. Examples from reference sets:
+- "FEEL THE MUSIC VIBE" ← not "Stream 100M songs"
+- "ANYTIME ANYWHERE" ← not "Access workouts on any device"
+- "Health made simple" ← not "Track your calories"
+
+Slide 1 elements: App name badge + bold 2–3 word claim + stars/award badge (if available). Phone is secondary or absent.
+
+### Background variety rule
+
+**Never use dark (#07070a) for every slide.** Best sets alternate:
+- Slide 1: dark with photo or glow
+- Slide 2: solid brand color fill (100% saturated)
+- Slide 3: dark again
+- Slide 4: brand color or light neutral
+- Slide 5: social proof (stars + quote on dark or colored)
+
+```css
+/* Per-slide background overrides */
+#s2 { background: #BFFF00; }  /* brand color — lime, orange, pink, etc. */
+#s2 .headline { color: #000; }
+#s2 .sub { color: rgba(0,0,0,0.55); }
+```
+
+### Typography scale at 1320px canvas
+
+| Element | Size | Weight |
+|---------|------|--------|
+| Hero headline | 140–186px | 800–900 |
+| Feature headline | 90–130px | 700–800 |
+| Subtitle | 48–64px | 400–500 |
+| Badge/label | 32–40px | 600 |
+
+Rule: Headline must be readable at 200px preview thumbnail width. Short is always better (2–4 words).
+
+### Decorative elements vocabulary
+
+```html
+<!-- Floating scattered icons around phone -->
+<div class="float-icons">
+  <span class="float-icon" style="top:12%;left:8%;transform:rotate(-22deg)">🎵</span>
+  <span class="float-icon" style="top:18%;right:6%;transform:rotate(15deg)">🎵</span>
+</div>
+<style>
+.float-icons { position:absolute; inset:0; pointer-events:none; }
+.float-icon { position:absolute; font-size:72px; filter:drop-shadow(0 12px 24px rgba(0,0,0,.4)); }
+</style>
+
+<!-- Social proof: stars + quote -->
+<div class="proof-slide">
+  <div class="stars">★★★★★</div>
+  <p class="quote">"This app saved me a lot of time."</p>
+  <p class="attribution">— Real user review</p>
+</div>
+
+<!-- App award / rating badge (slide 1) -->
+<div class="award-badge">
+  <span class="award-icon">🏆</span>
+  <span>#1 Fitness App · 4.8 ★</span>
+</div>
+```
+
+### Tilted phone CSS
+```css
+.phone-tilted {
+  transform: perspective(1800px) rotateY(-8deg) rotateX(3deg) rotate(2deg);
+  transform-origin: center bottom;
+}
+```
+
+### Two overlapping phones CSS
+```css
+.phone-back {
+  position: absolute;
+  transform: scale(0.78) rotate(-5deg) translateY(40px);
+  transform-origin: bottom left;
+  opacity: 0.5;
+  z-index: 1;
+}
+.phone-front {
+  position: relative;
+  z-index: 2;
+}
 ```
 
 ---
