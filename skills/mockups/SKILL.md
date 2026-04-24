@@ -840,7 +840,36 @@ The panel slides in from the right (`transform: translateX(100%)` → `translate
 
 ### Save Edits button (always in Studio panel)
 
-A **"Save"** button must appear at the top of the Studio panel body. It overwrites `preview.html` directly on disk using the **File System Access API** (`showSaveFilePicker`). First click shows a Save dialog (user picks `preview.html`); subsequent clicks write silently to the same file handle. Falls back to a download if the API isn't available. (above all sections). It downloads a complete snapshot of the current page as `preview-saved.html` with all edits baked in — text changes, theme colors, backgrounds, transforms, swapped screenshots. Opening the saved file restores the exact state.
+A **"Save"** button must appear at the top of the Studio panel body. It overwrites `preview.html` directly on disk — no download, no new file.
+
+**How it works (File System Access API):**
+- Uses `showOpenFilePicker` (not `showSaveFilePicker` — that looks like a "Save As" download)
+- **First click**: shows an "Open File" dialog. User picks their `preview.html`. The handle is stored in `_fileHandle`.
+- **All subsequent clicks**: writes silently to the same file, no dialog, no download. User just sees the toast.
+- If the user cancels the picker → do nothing (AbortError), reset handle so next click re-prompts.
+- If the browser doesn't support the API → show an error toast, never download.
+
+```js
+async function saveEdits() {
+  if (!('showOpenFilePicker' in window)) {
+    _showSaveToast('⚠ Use Chrome/Edge to save directly to disk', true);
+    return;
+  }
+  if (!_fileHandle) {
+    const [handle] = await window.showOpenFilePicker({
+      multiple: false,
+      types: [{ description: 'HTML File', accept: { 'text/html': ['.html'] } }],
+    });
+    _fileHandle = handle;
+  }
+  const writable = await _fileHandle.createWritable();
+  await writable.write(_buildSaveHTML());
+  await writable.close();
+  _showSaveToast('✓ Saved — ' + _fileHandle.name);
+}
+```
+
+**Do NOT fall back to a file download from Save** — Save and Export are distinct actions. Save = writes to the file the user opened via `showOpenFilePicker`. Export (Download All PNGs) = the only action that downloads ZIP/PNGs.
 
 **Implementation:**
 ```js
@@ -855,8 +884,8 @@ function saveEdits() {
   // Bake in current CSS var values so saved file opens with same theme
   const c1 = getComputedStyle(document.documentElement).getPropertyValue('--c1').trim();
   const c2 = getComputedStyle(document.documentElement).getPropertyValue('--c2').trim();
-  if (c1 && c2) clone.documentElement.style.setProperty('--c1', c1);
-  if (c2) clone.documentElement.style.setProperty('--c2', c2);
+  if (c1 && c2) clone.style.setProperty('--c1', c1);
+  if (c2) clone.style.setProperty('--c2', c2);
 
   const blob = new Blob(['<!DOCTYPE html>\n' + clone.outerHTML], { type: 'text/html;charset=utf-8' });
   const a = document.createElement('a');
@@ -923,6 +952,36 @@ el.style.transform = `${perspStr}translateX(${t.tx}px) translateY(${t.ty}px) sca
 **State storage:** `_transforms[slideId]` — persists per slide for the session. Reset button calls `resetTransform()` which clears the stored state and removes the inline style.
 
 **Device element targeting:** `_getDeviceEl(slideId)` walks the slide looking for `.phone-wrap`, then `.fs-device`, then `.iphone-pro`, `.android-pixel`, `.ipad-pro` in that priority order. Apply the transform to whichever is found.
+
+**⚠ CRITICAL — re-apply transforms inside `onclone`:** html2canvas 1.4.1 does not reliably render CSS transforms on child elements inside a previously-scaled container. Even though `cloneNode(true)` copies inline styles, the transform is visually lost in the exported PNG. You MUST explicitly re-apply `_transforms[id]` to the device element inside the `onclone` callback, after resetting the slide root scale:
+
+```js
+onclone: (clonedDoc, clonedEl) => {
+  clonedEl.style.transform = 'none';
+  // ... reset position/size ...
+
+  // Re-apply device transform explicitly
+  const _t = _transforms[id];
+  if (_t) {
+    const _s = _t.scale / 100;
+    const _has3d = _t.rotX !== 0 || _t.rotY !== 0;
+    const _persp = _has3d ? `perspective(${_t.persp}px) ` : '';
+    const _tStr = `${_persp}translateX(${_t.tx}px) translateY(${_t.ty}px) scale(${_s}) rotate(${_t.rot}deg) rotateX(${_t.rotX}deg) rotateY(${_t.rotY}deg)`;
+    const _deviceEl = clonedEl.querySelector('.phone-wrap')
+                   || clonedEl.querySelector('.fs-device')
+                   || clonedEl.querySelector('.iphone-pro')
+                   || clonedEl.querySelector('.android-pixel')
+                   || clonedEl.querySelector('.ipad-pro');
+    if (_deviceEl) {
+      _deviceEl.style.transform = _tStr;
+      _deviceEl.style.transformOrigin = 'center center';
+    }
+  }
+  // ... rest of onclone (gradient text fix etc) ...
+}
+```
+
+Omitting this step causes the exported PNG to show the device at its default position/rotation regardless of what the user set in the studio.
 
 ### Reference image picker: build from the DOM
 
