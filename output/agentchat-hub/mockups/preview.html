@@ -557,6 +557,23 @@ function setProgress(done, total, label) {
 async function captureSlide(id, w, h) {
   const el = document.getElementById(id);
 
+  // Pre-collect computed accent styles from the REAL DOM before html2canvas clones it.
+  // getComputedStyle doesn't work reliably on elements in the cloned document,
+  // so we gather what we need here while the elements are live and rendered.
+  const accentStyles = [];
+  el.querySelectorAll('.hl-accent').forEach(accent => {
+    const cs = window.getComputedStyle(accent);
+    const slideEl = accent.closest('[id]');
+    accentStyles.push({
+      text:       accent.textContent,
+      fontSize:   parseFloat(cs.fontSize),
+      fontFamily: cs.fontFamily,
+      fontWeight: cs.fontWeight,
+      // s2 uses the reversed cyan→green gradient
+      isReversed: slideEl?.id === 's2',
+    });
+  });
+
   return new Promise((resolve, reject) => {
     html2canvas(el, {
       width: w,
@@ -576,14 +593,47 @@ async function captureSlide(id, w, h) {
         clonedEl.style.width  = w + 'px';
         clonedEl.style.height = h + 'px';
 
-        // -webkit-background-clip:text is unsupported by html2canvas — renders as a solid box.
-        // Replace with solid brand color on all gradient text spans.
-        clonedDoc.querySelectorAll('.hl-accent').forEach(accent => {
-          accent.style.backgroundImage      = 'none';
-          accent.style.webkitBackgroundClip = 'unset';
-          accent.style.backgroundClip       = 'unset';
-          accent.style.webkitTextFillColor  = '#00E87A';
-          accent.style.color                = '#00E87A';
+        // html2canvas cannot render -webkit-background-clip:text gradient text.
+        // Fix: render each gradient text span to an offscreen Canvas 2D element
+        // using createLinearGradient, then swap it in as a data-URL <img>.
+        // html2canvas CAN paint canvas-derived images, so the gradient is preserved.
+        let ai = 0;
+        clonedEl.querySelectorAll('.hl-accent').forEach(accent => {
+          const d = accentStyles[ai++];
+          if (!d) return;
+
+          const { text, fontSize, fontFamily, fontWeight, isReversed } = d;
+          const fontStr = `${fontWeight} ${fontSize}px ${fontFamily}`;
+
+          // Step 1: measure text on a temp canvas (canvas state resets on resize).
+          const tmp    = document.createElement('canvas');
+          const tmpCtx = tmp.getContext('2d');
+          tmpCtx.font  = fontStr;
+          const m       = tmpCtx.measureText(text);
+          const ascent  = m.actualBoundingBoxAscent  ?? fontSize * 0.85;
+          const descent = m.actualBoundingBoxDescent ?? fontSize * 0.15;
+
+          // Step 2: create a correctly-sized canvas and draw gradient text.
+          const cv  = document.createElement('canvas');
+          cv.width  = Math.ceil(m.width) + 8;
+          cv.height = Math.ceil(ascent + descent) + 4;
+          const ctx = cv.getContext('2d');
+          ctx.font  = fontStr;
+          if ('letterSpacing' in ctx) ctx.letterSpacing = `${(fontSize * -0.035).toFixed(2)}px`;
+
+          const c1  = isReversed ? '#22D3EE' : '#00E87A';
+          const c2  = isReversed ? '#00E87A'  : '#22D3EE';
+          const grd = ctx.createLinearGradient(0, 0, cv.width, cv.height);
+          grd.addColorStop(0, c1);
+          grd.addColorStop(1, c2);
+          ctx.fillStyle = grd;
+          ctx.fillText(text, 0, ascent + 2);
+
+          // Step 3: swap the <em> with a data-URL <img> html2canvas can paint.
+          const img = document.createElement('img');
+          img.src = cv.toDataURL('image/png');
+          img.style.cssText = `display:inline-block;width:${cv.width}px;height:${cv.height}px;vertical-align:text-bottom;margin-bottom:-2px`;
+          accent.parentNode.replaceChild(img, accent);
         });
       },
     }).then(canvas => {
