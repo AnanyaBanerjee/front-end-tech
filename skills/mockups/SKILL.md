@@ -26,7 +26,33 @@ output/<project>/
 ```
 
 **Architecture: single preview.html contains everything.**
-All slides are inlined as full-size divs scaled down to 25% for preview. The "Download All PNGs" button exports every slide at exact App Store dimensions via html2canvas. No separate per-slide HTML files are needed or generated.
+All slides are inlined as full-size divs scaled down to 25% for preview. The "Download All PNGs" button exports every slide at exact App Store dimensions via html2canvas. The Studio panel enables live editing of text, colors, themes, transforms, and device screenshots. "Save Edits" downloads a fully self-contained HTML snapshot with all changes baked in. No separate per-slide HTML files are needed or generated.
+
+**Fonts must be inlined as base64 `@font-face` data URIs** — never use Google Fonts `<link>` tags. External font URLs taint the `<canvas>` element under `file://` protocol, causing `toBlob()` to throw a SecurityError and breaking all PNG exports. Inlined fonts eliminate this permanently.
+
+**`.hl-accent` elements must have `display: inline-block`** — without it, Chrome fails to apply `-webkit-background-clip: text` when the `<em>` sits mid-line surrounded by sibling text (e.g. "Watch your agent **think** live."). The gradient background renders as a solid color block and the text becomes invisible. `display: inline-block` forces its own block formatting context and makes the clip work in all positions.
+
+```css
+.hl-accent {
+  display: inline-block; /* REQUIRED — background-clip:text fails on pure inline mid-line elements */
+  background: linear-gradient(135deg, var(--c1), var(--c2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+```
+
+**Save Edits: clone is the `<html>` element, not the document** — `document.documentElement.cloneNode(true)` returns an `HTMLElement`. It has no `.documentElement` property. Set CSS vars directly on `clone.style`, not `clone.documentElement.style`. Calling `.documentElement` on the clone throws `TypeError: Cannot read properties of undefined` and silently breaks the save.
+
+```js
+// WRONG — clone.documentElement is undefined
+clone.documentElement.style.setProperty('--c1', c1);
+
+// CORRECT — clone IS the <html> element
+clone.style.setProperty('--c1', c1);
+```
+
+**`URL.revokeObjectURL` must be delayed** — calling it synchronously after `a.click()` revokes the object URL before the browser has started the download, causing a silent failure. Use `setTimeout(() => URL.revokeObjectURL(a.href), 10000)` to give the browser time to initiate the download.
 
 ---
 
@@ -44,7 +70,24 @@ output/<project>/site/images/   ← scan this directory first
 - Assign one image per slide: first image → slide 1, second → slide 2, etc.
 - If more than 10 images exist, use the first 5–6 for App Store slides (quality over quantity)
 
-**CRITICAL: Inline images as base64 in preview.html** — Chrome's `file://` security taints the canvas for ANY external image. html2canvas cannot export tainted canvases. Every `<img>` in preview.html must be a `data:image/png;base64,...` URI.
+**CRITICAL: Every external resource must be inlined as base64** — Chrome's `file://` security taints the `<canvas>` for ANY cross-origin or non-inlined resource. A tainted canvas throws `SecurityError: Failed to execute 'toBlob'` and breaks all PNG exports. The rule is simple: if it loads from a URL (even a relative path like `images/s02.png`), it taints the canvas.
+
+**Checklist — nothing may be left as an external URL:**
+- **Images**: every `<img src="">` must be a `data:image/png;base64,...` URI — including every image in every slide, no exceptions. Check with: `re.findall(r'<img[^>]+src="(?!data:)', html)` — must return empty.
+- **Fonts**: never use Google Fonts `<link>` tags. Inline all font files as `@font-face` with `data:font/woff2;base64,...` src (see font inlining script below).
+- **CSS files**: inline any `<link rel="stylesheet" href="...css">` as a `<style>` block. Even local relative paths (`components/frames.css`) can cause issues.
+- **Scripts (html2canvas, JSZip, FileSaver)**: CDN `<script src>` tags are safe — scripts don't taint canvas.
+
+**After every change, run this check before shipping:**
+```python
+import re
+with open('preview.html') as f: html = f.read()
+ext = re.findall(r'<img[^>]+src="(?!data:)([^"]+)"', html)
+assert not ext, f'Non-inlined images found: {ext}'
+assert 'fonts.googleapis.com' not in html, 'External font link found'
+assert 'fonts.gstatic.com' not in html, 'External font URL found'
+print('All resources inlined — canvas will not be tainted')
+```
 
 **Do NOT create separate per-slide HTML files.** All slides go into `preview.html` only.
 
@@ -73,7 +116,46 @@ print('Done')
 "
 ```
 
-**Note:** preview.html will be 5–10 MB after inlining. This is expected and fine.
+**Font inlining script** — run once after writing preview.html. Replace Google Fonts `<link>` tags with inlined `@font-face`:
+
+```python
+import urllib.request, ssl, base64, re
+
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'}
+
+def fetch(url, binary=False):
+    req = urllib.request.Request(url, headers=HEADERS)
+    with urllib.request.urlopen(req, timeout=30, context=ctx) as r:
+        return r.read() if binary else r.read().decode('utf-8')
+
+# Fetch each font family separately (combined URL may 400 for variable fonts)
+FONT_URLS = [
+    "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap",
+    # Add other families used by the project:
+    "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&display=swap",
+]
+combined_css = ''.join(fetch(u) + '\n' for u in FONT_URLS)
+
+# Inline every .woff2 file
+for furl in list(dict.fromkeys(re.findall(r'url\((https://fonts\.gstatic\.com/[^)]+\.woff2)\)', combined_css))):
+    data = fetch(furl, binary=True)
+    combined_css = combined_css.replace(furl, 'data:font/woff2;base64,' + base64.b64encode(data).decode())
+
+# Replace Google Fonts link tags in the HTML file
+HTML_PATH = 'output/<project>/mockups/preview.html'
+with open(HTML_PATH, 'r') as f: html = f.read()
+# Remove preconnect + stylesheet links, replace with inline style
+import re as _re
+html = _re.sub(r'<link[^>]*fonts\.(googleapis|gstatic)\.com[^>]*>\s*', '', html)
+html = html.replace('</head>', '<style>\n' + combined_css + '\n</style>\n</head>', 1)
+with open(HTML_PATH, 'w') as f: f.write(html)
+print('Fonts inlined — ' + str(len(html)//1024) + 'KB')
+```
+
+**Note:** preview.html will be 25–30 MB after inlining images + fonts. This is expected and fine for a local export tool.
 
 **Only ask the user for images if `site/images/` is empty or doesn't exist.**
 
@@ -755,6 +837,66 @@ Add a "Studio" button next to the "Download All PNGs" button in the sticky heade
 ```
 
 The panel slides in from the right (`transform: translateX(100%)` → `translateX(0)`), and `body.studio-open { padding-right: 310px; }` shifts the content left to avoid overlap.
+
+### Save Edits button (always in Studio panel)
+
+A **"Save"** button must appear at the top of the Studio panel body. It overwrites `preview.html` directly on disk using the **File System Access API** (`showSaveFilePicker`). First click shows a Save dialog (user picks `preview.html`); subsequent clicks write silently to the same file handle. Falls back to a download if the API isn't available. (above all sections). It downloads a complete snapshot of the current page as `preview-saved.html` with all edits baked in — text changes, theme colors, backgrounds, transforms, swapped screenshots. Opening the saved file restores the exact state.
+
+**Implementation:**
+```js
+function saveEdits() {
+  const clone = document.documentElement.cloneNode(true);
+  // Strip transient UI state
+  clone.querySelector('body')?.classList.remove('studio-open');
+  clone.querySelector('#studio-panel')?.classList.remove('open');
+  clone.querySelector('#studio-toggle-btn')?.classList.remove('active');
+  clone.querySelectorAll('.sp-selected').forEach(el => el.classList.remove('sp-selected'));
+  clone.querySelectorAll('.sp-ref-item.active').forEach(el => el.classList.remove('active'));
+  // Bake in current CSS var values so saved file opens with same theme
+  const c1 = getComputedStyle(document.documentElement).getPropertyValue('--c1').trim();
+  const c2 = getComputedStyle(document.documentElement).getPropertyValue('--c2').trim();
+  if (c1 && c2) clone.documentElement.style.setProperty('--c1', c1);
+  if (c2) clone.documentElement.style.setProperty('--c2', c2);
+
+  const blob = new Blob(['<!DOCTYPE html>\n' + clone.outerHTML], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'preview-saved.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+  // Show confirmation toast
+  const toast = document.getElementById('sp-save-toast');
+  if (toast) { toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2800); }
+}
+```
+
+What persists in the saved file (because it's live DOM state):
+- Text content edits (all `innerHTML`/`textContent` changes)
+- CSS var theme (`--c1`, `--c2` baked into `:root` inline style)
+- Background colors (inline `style.background` on `.slide-root` elements)
+- Device transforms (inline `style.transform` on device containers)
+- Swapped reference screenshots (`img.src` changes)
+- Uploaded images (base64 data URIs from FileReader)
+
+Add a toast element inside the Studio panel HTML:
+```html
+<div id="sp-save-toast" class="sp-save-toast">✓ Saved — open preview-saved.html</div>
+```
+
+Toast CSS:
+```css
+.sp-save-toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: #111; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; padding: 12px 22px;
+  font-size: 13px; font-weight: 600; color: var(--c1);
+  z-index: 2000; opacity: 0; transition: opacity .25s;
+  pointer-events: none; white-space: nowrap;
+}
+.sp-save-toast.show { opacity: 1; }
+```
 
 ### Position & Tilt: 7 transform sliders
 
