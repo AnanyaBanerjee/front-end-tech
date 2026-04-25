@@ -36,3 +36,17 @@ ItMadeMyDay is a free iOS app that acts as a private joy vault. When a hard day 
 ## Privacy
 
 ItMadeMyDay collects zero user data. The app has no server connection. All data is stored exclusively on the user's device and never transmitted anywhere. No account is required. The app works fully offline. Deletion via Settings → Delete All Data is immediate and complete with no server-side copy.
+
+## Search Intents
+
+- save thank you notes and messages that made me feel appreciated
+- app to keep compliments and kind words I receive
+- thinking of you messages I want to remember
+- feel good stories and uplifting moments to revisit
+- app to restore faith in humanity with saved moments
+- pick-me-up app for hard days
+- private vault for moments that give me hope
+- iOS app to save screenshots of messages that touched me
+- offline app to store happy memories with no account required
+- how to remember the good things in life on bad days
+- free iOS app for saving quotes photos and memories privately
