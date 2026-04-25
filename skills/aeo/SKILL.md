@@ -147,6 +147,37 @@ AI search engines summarize and cite your page copy directly. Write every sectio
 - Write questions the way users actually ask them in search/chat
 - Keep answers factual, specific, and under 100 words each
 
+### Targeting search keywords via FAQs
+
+If you have a list of keywords people actually search for (from a tool like Ahrefs, RankAI, or Google Search Console), the most effective way to target them is to **turn each keyword into a direct FAQ question and answer it factually**. This works for both traditional SEO (FAQ schema = rich results) and AI search (LLMs cite Q&A verbatim).
+
+**Process:**
+1. Take the keyword exactly as people type it: e.g. `privacy focused ai chat app`
+2. Rephrase it as a natural question: "Is [Product] a privacy-focused AI chat app?"
+3. Answer it in 2–4 factual sentences — no marketing language
+4. Add to the FAQ section on the page AND the JSON-LD `FAQPage` schema in `<head>`
+5. Add a matching entry in `llms.txt` under a "Search intents this product addresses" section
+
+**Example:**
+```
+Keyword: "no account ai chat app" (250/mo, difficulty 36)
+
+FAQ question: "Do I need an account to use [Product]?"
+FAQ answer: "No account required. Download the app, paste an A2A-compatible
+agent endpoint URL, and start chatting immediately. No signup, no login,
+no email address required."
+
+llms.txt entry:
+**"no account ai chat app"**
+[Product] requires no account. Download from the App Store, paste an
+A2A-compatible agent endpoint URL, and start chatting immediately.
+No signup, no login, no email address required.
+```
+
+**Why this works:** The FAQ question matches the search query pattern. The factual answer gives AI engines a citable statement. The `FAQPage` JSON-LD schema makes Google eligible to show the answer as a rich result directly in search. The `llms.txt` entry ensures AI search engines (Perplexity, ChatGPT) can cite it without scraping your HTML.
+
+**Priority order:** Target keywords with the lowest difficulty first — they're the fastest wins. High-volume + low-difficulty keywords are the sweet spot.
+
 ---
 
 ## 5. Structured Data for AI

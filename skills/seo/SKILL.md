@@ -54,6 +54,33 @@ Add all of the following inside `<head>` on every page:
 - A one-line value proposition for the title
 - Whether they have an OG image (1200×630px). If not, note it as a TODO comment in the code.
 
+### `noindex` — what it means and when to use it
+
+`noindex` is a meta tag directive that tells search engine crawlers: *visit this page but do not add it to your search index*. The page remains accessible via direct URL — it simply will not appear as a search result.
+
+```html
+<!-- Product/landing page — you WANT this to rank -->
+<meta name="robots" content="index, follow" />
+
+<!-- Utility pages — keep out of search results -->
+<meta name="robots" content="noindex, follow" />
+```
+
+`follow` (in both cases) tells crawlers to still follow links on the page to discover the rest of your site. Never use `noindex, nofollow` on pages with useful outbound links.
+
+**Use `noindex` on:** `privacy-policy.html`, `terms.html`, `support.html`, `dmca.html`, any page that is a legal or utility page — not a product or content page.
+
+**Why:** You want `index.html` to rank in search, not your Terms of Use. `noindex` on utility pages prevents them from competing with your main page in results and keeps search results clean.
+
+**What `noindex` does NOT do:**
+- Does not hide the page from people who have the URL
+- Does not block social media crawlers (OG tags still work, links can still be shared)
+- Does not prevent AI crawlers from reading it (block those separately in `robots.txt`)
+
+**OG tags on `noindex` pages:** OG tags only matter for social link previews. On `noindex` utility pages (privacy policy, terms) that you don't intend to promote or share, OG tags add no value and create maintenance overhead — skip them. The page `<title>` is sufficient fallback for the rare case someone shares the link. Exception: if a utility page is meaningfully shareable (e.g. a public support/FAQ page), you may add OG tags.
+
+**`sitemap.xml` rule:** Never list `noindex` pages in `sitemap.xml`. The sitemap signals to Google which pages to prioritise for crawling and ranking — including a `noindex` page creates a contradiction.
+
 ---
 
 ## 2. JSON-LD Structured Data

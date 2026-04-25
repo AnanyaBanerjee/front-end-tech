@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AgentChat Hub — Chat with Every AI Agent You Deploy</title>
-  <meta name="description" content="A native chat app for your hosted AI agents. Deploy to Railway, Vercel, Fly, Render, or anywhere — AgentChat Hub connects to all of them. Free on iOS, iPad, Mac, and Vision Pro.">
+  <meta name="description" content="Privacy-focused AI chat app for A2A agents. No account required. Send files, stream responses in real time. Works on any A2A-compatible agent. Free on iPhone, iPad, Mac, and Vision Pro.">
 
   <!-- SEO essentials -->
   <meta name="robots" content="index, follow, noai, noimageai" />
@@ -22,13 +22,13 @@
   <meta property="og:site_name" content="AgentChat Hub" />
   <meta property="og:url" content="https://agent-chat-hub.com/" />
   <meta property="og:title" content="AgentChat Hub — Chat with Every AI Agent You Deploy" />
-  <meta property="og:description" content="Connect to any A2A-compatible AI agent via URL. Stream responses in real time. No account, no tracking, no subscriptions. Free on iOS, iPad, Mac, and Vision Pro." />
+  <meta property="og:description" content="A privacy-focused AI chat app — no account required. Connect to any A2A-compatible AI agent via URL, send files, stream responses in real time. Free on iOS, iPad, Mac, and Vision Pro." />
   <meta property="og:image" content="https://agent-chat-hub.com/og-image.png" />
 
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="AgentChat Hub — Chat with Every AI Agent You Deploy" />
-  <meta name="twitter:description" content="Connect to any A2A-compatible AI agent via URL. Stream responses in real time. No account, no tracking, no subscriptions. Free on iOS, iPad, Mac, and Vision Pro." />
+  <meta name="twitter:description" content="A privacy-focused AI chat app — no account required. Connect to any A2A-compatible AI agent via URL, send files, stream responses in real time. Free on iOS, iPad, Mac, and Vision Pro." />
   <meta name="twitter:image" content="https://agent-chat-hub.com/og-image.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -783,6 +783,30 @@
               "@type": "Answer",
               "text": "Not yet — but Android is coming soon. AgentChat Hub is currently available on iPhone, iPad, Mac, and Vision Pro. Android support is on the way."
             }
+          },
+          {
+            "@type": "Question",
+            "name": "Is AgentChat Hub a privacy-focused AI chat app?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. AgentChat Hub has no backend, no analytics, and no telemetry. Messages travel directly from your device to your AI agent — nothing passes through our servers. Conversations are stored on-device only. No data is collected, shared, or sold."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I send files to my AI agent?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. You can send files to your AI agent directly from any conversation in AgentChat Hub — photos, images, and documents drop in inline. Your agent receives the actual file, not a description of it. No separate upload flow required."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does AgentChat Hub compare to other AI chat clients?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most AI chat apps lock you into one provider's model. AgentChat Hub connects to any A2A-compatible agent via URL — you bring the agent, it brings the interface. Key differentiators: works with any self-hosted or third-party A2A agent, real-time SSE token streaming, file attachments, no account required, zero data collection, native on iPhone, iPad, Mac, and Vision Pro."
+            }
           }
         ]
       }
@@ -986,7 +1010,7 @@
             <h3 class="font-medium text-base tracking-tight text-text">Send files, not descriptions</h3>
           </div>
           <p class="text-sm text-text-secondary leading-relaxed">
-            Drop photos and files directly into the conversation. Your agent sees exactly what you're looking at — no upload flows, no copy-pasting context.
+            Send files to your AI agent directly in the conversation — drop photos, images, and documents inline. Your agent sees exactly what you're looking at. No upload flows, no copy-pasting context.
           </p>
         </div>
 
@@ -1425,6 +1449,51 @@
           <div class="faq-body">
             <div class="pb-8 pl-10 text-sm text-text-secondary leading-relaxed">
               Not yet — but Android is coming soon. AgentChat Hub is currently available as a native app on iPhone, iPad, Mac, and Vision Pro. Stay tuned for the Android release.
+            </div>
+          </div>
+        </details>
+
+        <details class="group border-t border-border-subtle">
+          <summary class="py-7 flex items-start justify-between gap-6 select-none cursor-pointer">
+            <div class="flex items-start gap-5">
+              <span class="font-mono text-xs text-accent2 shrink-0 mt-1.5">08</span>
+              <span class="faq-q">Is AgentChat Hub a privacy-focused AI chat app?</span>
+            </div>
+            <span class="faq-icon w-6 h-6 rounded-full border border-border flex items-center justify-center shrink-0 text-text-tertiary font-mono text-base leading-none mt-0.5">+</span>
+          </summary>
+          <div class="faq-body">
+            <div class="pb-8 pl-10 text-sm text-text-secondary leading-relaxed">
+              Yes. AgentChat Hub has no backend, no analytics, and no telemetry. Messages travel directly from your device to your AI agent — nothing passes through our servers. Conversations are stored on-device only. No data is collected, shared, or sold. Privacy is not a setting you toggle; it is the default architecture.
+            </div>
+          </div>
+        </details>
+
+        <details class="group border-t border-border-subtle">
+          <summary class="py-7 flex items-start justify-between gap-6 select-none cursor-pointer">
+            <div class="flex items-start gap-5">
+              <span class="font-mono text-xs text-accent shrink-0 mt-1.5">09</span>
+              <span class="faq-q">Can I send files to my AI agent?</span>
+            </div>
+            <span class="faq-icon w-6 h-6 rounded-full border border-border flex items-center justify-center shrink-0 text-text-tertiary font-mono text-base leading-none mt-0.5">+</span>
+          </summary>
+          <div class="faq-body">
+            <div class="pb-8 pl-10 text-sm text-text-secondary leading-relaxed">
+              Yes. You can send files to your AI agent directly from any conversation in AgentChat Hub — photos, images, and documents drop in inline. Your agent receives the actual file, not a description of it. No separate upload flow, no copy-pasting. Multimodal support is built in from the start.
+            </div>
+          </div>
+        </details>
+
+        <details class="group border-t border-border-subtle">
+          <summary class="py-7 flex items-start justify-between gap-6 select-none cursor-pointer">
+            <div class="flex items-start gap-5">
+              <span class="font-mono text-xs text-accent2 shrink-0 mt-1.5">10</span>
+              <span class="faq-q">How does AgentChat Hub compare to other AI chat clients?</span>
+            </div>
+            <span class="faq-icon w-6 h-6 rounded-full border border-border flex items-center justify-center shrink-0 text-text-tertiary font-mono text-base leading-none mt-0.5">+</span>
+          </summary>
+          <div class="faq-body">
+            <div class="pb-8 pl-10 text-sm text-text-secondary leading-relaxed">
+              Most AI chat apps lock you into one provider's model. AgentChat Hub connects to any A2A-compatible agent via URL — you bring the agent, it brings the interface. No curated marketplace, no vendor lock-in. Key differentiators: works with any self-hosted or third-party A2A agent, real-time SSE token streaming, file attachments, no account required, zero data collection, native binary on iPhone, iPad, Mac, and Vision Pro.
             </div>
           </div>
         </details>
