@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Ananya Banerjee — Engineer · Builder · Writer</title>
   <meta name="description" content="Ananya Banerjee is a Senior Software Engineer at LinkedIn, iOS app developer, AI researcher, and writer. She builds AgentChat Hub, It Made My Day, AI agents, and writes for Towards Data Science.">
   <meta name="author" content="Ananya Banerjee">
@@ -25,15 +25,17 @@
   <!-- Speakable -->
   <meta name="speakable-selector" content="#product-summary">
 
-  <!-- Fonts -->
+  <!-- Fonts: Clash Display (Fontshare) + Bricolage Grotesque + JetBrains Mono (Google) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://api.fontshare.com">
   <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap" rel="stylesheet">
 
   <!-- Icons: Phosphor Light -->
-  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/light/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/light/style.css"
+        integrity="sha384-1BkCNILlELPKmzJI2pkMsG/OJlmqvgLX6NKLHqVj+FuLe5PkfV/F1P5NQ/fXm7"
+        crossorigin="anonymous">
 
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -42,14 +44,21 @@
       theme: {
         extend: {
           colors: {
-            'ab-blue':   '#4B7CF7',
-            'ab-indigo': '#7C3AED',
-            'ab-gold':   '#F0C040',
-            'ab-rose':   '#F472B6',
+            'em':     '#10B981',
+            'em-dim': 'rgba(16,185,129,0.12)',
+            'cr':     '#BE123C',
+            'gold':   '#D97706',
+            'bg':     '#07070F',
+            'surf':   '#0E0E1C',
+            'surf2':  '#131325',
+            'txt':    '#ECEDF5',
+            'txt2':   'rgba(236,237,245,0.68)',
+            'txt3':   'rgba(236,237,245,0.42)',
           },
           fontFamily: {
-            sans:    ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-            display: ['"Clash Display"',     'system-ui', 'sans-serif'],
+            sans:    ['"Bricolage Grotesque"', 'system-ui', 'sans-serif'],
+            display: ['"Clash Display"',       'system-ui', 'sans-serif'],
+            mono:    ['"JetBrains Mono"',      'monospace'],
           },
         }
       }
@@ -65,7 +74,7 @@
     "jobTitle": "Senior Software Engineer",
     "worksFor": { "@type": "Organization", "name": "LinkedIn" },
     "url": "https://www.ananyabanerjee.org/",
-    "image": "https://www.ananyabanerjee.org/images/profile.png",
+    "image": "https://www.ananyabanerjee.org/images/ananya.png",
     "sameAs": [
       "https://www.linkedin.com/in/ananyabanerjee15/",
       "https://github.com/AnanyaBanerjee",
@@ -153,421 +162,431 @@
   </script>
 
   <style>
-    /* ── Base ────────────────────────────────────────────────── */
+    /* ─── Reset & base ───────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
+    :root {
+      --bg:         #07070F;
+      --surface:    #0E0E1C;
+      --surface-2:  #131325;
+      --border:     rgba(255,255,255,0.07);
+      --border-em:  rgba(16,185,129,0.2);
+      --text:       #ECEDF5;
+      --text-2:     rgba(236,237,245,0.68);
+      --text-3:     rgba(236,237,245,0.42);
+      --em:         #10B981;
+      --em-dim:     rgba(16,185,129,0.12);
+      --em-glow:    rgba(16,185,129,0.15);
+      --cr:         #BE123C;
+      --cr-dim:     rgba(190,18,60,0.1);
+      --gold:       #D97706;
+    }
+
     body {
-      background: #050505;
-      color: #ffffff;
-      font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
-    /* ── Ambient background orbs ─────────────────────────────── */
-    .orb-blue {
-      position: fixed;
-      top: -20vh;
-      right: -10vw;
-      width: 70vw;
-      height: 70vw;
-      max-width: 900px;
-      max-height: 900px;
-      background: radial-gradient(circle, rgba(75,124,247,0.18) 0%, rgba(75,124,247,0.04) 50%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-      will-change: transform;
+    /* ─── Background atmosphere ──────────────────────────────── */
+    .mesh {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: radial-gradient(circle, rgba(16,185,129,0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 70%);
     }
-    .orb-indigo {
-      position: fixed;
-      bottom: -15vh;
-      left: -15vw;
-      width: 60vw;
-      height: 60vw;
-      max-width: 700px;
-      max-height: 700px;
-      background: radial-gradient(circle, rgba(124,58,237,0.15) 0%, rgba(124,58,237,0.03) 50%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-      will-change: transform;
+    .glow-em {
+      position: fixed; top: -20vh; right: -15vw;
+      width: 60vw; height: 60vw; max-width: 700px; max-height: 700px;
+      background: radial-gradient(ellipse, rgba(16,185,129,0.1) 0%, rgba(16,185,129,0.02) 50%, transparent 70%);
+      border-radius: 50%; pointer-events: none; z-index: 0;
     }
-    .orb-gold {
-      position: fixed;
-      top: 50%;
-      left: 40%;
-      transform: translate(-50%, -50%);
-      width: 50vw;
-      height: 50vw;
-      max-width: 600px;
-      max-height: 600px;
-      background: radial-gradient(circle, rgba(240,192,64,0.04) 0%, transparent 60%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
+    .glow-cr {
+      position: fixed; bottom: -15vh; left: -15vw;
+      width: 50vw; height: 50vw; max-width: 600px; max-height: 600px;
+      background: radial-gradient(ellipse, rgba(190,18,60,0.07) 0%, rgba(190,18,60,0.01) 50%, transparent 70%);
+      border-radius: 50%; pointer-events: none; z-index: 0;
     }
-
-    /* ── Grain overlay ───────────────────────────────────────── */
     .grain {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      opacity: 0.025;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      background-repeat: repeat;
+      position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size: 200px 200px;
     }
 
-    /* ── Navigation ──────────────────────────────────────────── */
+    /* ─── Navigation ─────────────────────────────────────────── */
     .nav-pill {
-      position: fixed;
-      top: 1.5rem;
-      left: 50%;
-      transform: translateX(-50%);
+      position: fixed; top: 1.5rem; left: 50%; transform: translateX(-50%);
       z-index: 100;
-      background: rgba(255,255,255,0.06);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(7,7,15,0.75);
+      backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(16,185,129,0.2);
       border-radius: 999px;
-      padding: 0.5rem 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 2rem;
+      padding: 0.55rem 1.5rem;
+      display: flex; align-items: center; gap: 2rem;
       white-space: nowrap;
-      transition: all 0.6s cubic-bezier(0.32,0.72,0,1);
+      transition: background 0.5s ease, box-shadow 0.5s ease;
+      box-shadow: 0 0 0 1px rgba(16,185,129,0.04), inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+    .nav-pill.scrolled {
+      background: rgba(7,7,15,0.92);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(16,185,129,0.08);
     }
     .nav-logo {
-      font-family: "Clash Display", system-ui, sans-serif;
-      font-weight: 700;
-      font-size: 0.95rem;
-      letter-spacing: -0.01em;
-      color: #fff;
-      text-decoration: none;
-      flex-shrink: 0;
+      font-family: 'Clash Display', system-ui, sans-serif;
+      font-weight: 700; font-size: 0.88rem; letter-spacing: -0.01em;
+      color: var(--text); text-decoration: none; flex-shrink: 0;
+      transition: color 0.25s ease;
     }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 1.75rem;
-    }
+    .nav-logo:hover { color: var(--em); }
+    .nav-links { display: flex; align-items: center; gap: 1.75rem; }
     .nav-link {
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: rgba(255,255,255,0.55);
-      text-decoration: none;
-      letter-spacing: 0.01em;
-      transition: color 0.3s cubic-bezier(0.32,0.72,0,1);
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 0.8rem; font-weight: 500;
+      color: var(--text-2); text-decoration: none;
+      transition: color 0.25s ease;
     }
-    .nav-link:hover { color: rgba(255,255,255,0.95); }
+    .nav-link:hover { color: var(--text); }
     .nav-cta {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: #4B7CF7;
-      color: #fff;
-      text-decoration: none;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      padding: 0.45rem 1rem;
-      border-radius: 999px;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.4);
+      color: var(--em); text-decoration: none;
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 0.78rem; font-weight: 500;
+      padding: 0.4rem 1rem;
+      border-radius: 8px;
       transition: all 0.4s cubic-bezier(0.32,0.72,0,1);
     }
-    .nav-cta:hover { background: #6590f9; transform: translateY(-1px); }
+    .nav-cta:hover {
+      background: rgba(16,185,129,0.15);
+      box-shadow: 0 0 18px rgba(16,185,129,0.14);
+      transform: translateY(-1px);
+    }
 
     /* Mobile nav */
     .nav-mobile-toggle {
-      display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #fff;
-      font-size: 1.4rem;
-      padding: 0.2rem;
-      align-items: center;
-      justify-content: center;
+      display: none; background: none; border: none;
+      cursor: pointer; color: var(--text-2);
+      font-size: 1.4rem; padding: 0.2rem;
+      align-items: center; justify-content: center;
+      transition: color 0.25s ease;
     }
+    .nav-mobile-toggle:hover { color: var(--em); }
     .mobile-menu {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 99;
-      background: rgba(5,5,5,0.92);
-      backdrop-filter: blur(32px);
-      -webkit-backdrop-filter: blur(32px);
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2rem;
+      display: none; position: fixed; inset: 0; z-index: 99;
+      background: rgba(7,7,15,0.97);
+      backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
+      flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
     }
     .mobile-menu.open { display: flex; }
     .mobile-menu a {
-      font-family: "Clash Display", system-ui, sans-serif;
-      font-size: 2rem;
-      font-weight: 600;
-      color: rgba(255,255,255,0.85);
-      text-decoration: none;
-      opacity: 0;
-      transform: translateY(2rem);
-      transition: all 0.5s cubic-bezier(0.32,0.72,0,1);
+      font-family: 'Clash Display', system-ui, sans-serif;
+      font-size: 1.8rem; font-weight: 600;
+      color: var(--text-2); text-decoration: none;
+      letter-spacing: -0.02em;
+      opacity: 0; transform: translateY(1.5rem);
+      transition: opacity 0.5s cubic-bezier(0.32,0.72,0,1),
+                  transform 0.5s cubic-bezier(0.32,0.72,0,1),
+                  color 0.2s ease;
     }
+    .mobile-menu a:hover { color: var(--em); }
     .mobile-menu.open a { opacity: 1; transform: translateY(0); }
-    .mobile-menu.open a:nth-child(1) { transition-delay: 0.05s; }
-    .mobile-menu.open a:nth-child(2) { transition-delay: 0.1s; }
-    .mobile-menu.open a:nth-child(3) { transition-delay: 0.15s; }
-    .mobile-menu.open a:nth-child(4) { transition-delay: 0.2s; }
-    .mobile-menu.open a:nth-child(5) { transition-delay: 0.25s; }
-    .mobile-menu.open a:nth-child(6) { transition-delay: 0.3s; }
+    .mobile-menu.open a:nth-child(1) { transition-delay: 0.06s; }
+    .mobile-menu.open a:nth-child(2) { transition-delay: 0.12s; }
+    .mobile-menu.open a:nth-child(3) { transition-delay: 0.18s; }
+    .mobile-menu.open a:nth-child(4) { transition-delay: 0.24s; }
+    .mobile-menu.open a:nth-child(5) { transition-delay: 0.30s; }
+    .mobile-menu.open a:nth-child(6) { transition-delay: 0.36s; }
+    .mobile-menu.open a:nth-child(7) { transition-delay: 0.42s; }
     .mobile-menu-close {
-      position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 999px;
-      width: 2.5rem;
-      height: 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: #fff;
-      font-size: 1.2rem;
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      background: rgba(16,185,129,0.06);
+      border: 1px solid rgba(16,185,129,0.2);
+      border-radius: 8px; width: 2.75rem; height: 2.75rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--em); font-size: 1.2rem;
+      transition: background 0.25s ease;
     }
-
+    .mobile-menu-close:hover { background: rgba(16,185,129,0.12); }
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .nav-cta { display: none; }
       .nav-mobile-toggle { display: flex; }
     }
 
-    /* ── Double-Bezel Card ────────────────────────────────────── */
+    /* ─── Double-Bezel Card ──────────────────────────────────── */
     .card-outer {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 2rem;
-      padding: 0.375rem;
+      background: rgba(16,185,129,0.025);
+      border: 1px solid var(--border);
+      border-radius: 1.75rem;
+      padding: 4px;
+      transition: border-color 0.5s cubic-bezier(0.32,0.72,0,1),
+                  box-shadow 0.5s cubic-bezier(0.32,0.72,0,1);
+    }
+    .card-outer:hover {
+      border-color: rgba(16,185,129,0.22);
+      box-shadow: 0 0 28px rgba(16,185,129,0.07);
     }
     .card-inner {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: calc(2rem - 0.375rem);
-      box-shadow: inset 0 1px 1px rgba(255,255,255,0.08);
+      background: rgba(13,13,25,0.95);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: calc(1.75rem - 4px);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.07);
       overflow: hidden;
     }
 
-    /* ── Profile photo frame ──────────────────────────────────── */
-    .photo-outer {
-      background: rgba(75,124,247,0.12);
-      border: 1px solid rgba(75,124,247,0.3);
-      border-radius: 50%;
-      padding: 0.375rem;
-      box-shadow: 0 0 60px rgba(75,124,247,0.2), 0 0 120px rgba(75,124,247,0.08);
+    /* ─── Section label ──────────────────────────────────────── */
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem; font-weight: 400;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--cr);
     }
-    .photo-inner {
-      background: rgba(75,124,247,0.08);
-      border: 1px solid rgba(75,124,247,0.15);
-      border-radius: 50%;
-      box-shadow: inset 0 1px 1px rgba(255,255,255,0.15);
-      overflow: hidden;
-      width: 100%;
-      height: 100%;
-    }
-    .photo-inner img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      display: block;
-    }
+    .section-label::before { content: "[ "; }
+    .section-label::after  { content: " ]"; }
 
-    /* ── Eyebrow tag ──────────────────────────────────────────── */
+    /* ─── Eyebrow tag ────────────────────────────────────────── */
     .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(75,124,247,0.12);
-      border: 1px solid rgba(75,124,247,0.25);
-      border-radius: 999px;
-      padding: 0.3rem 0.85rem;
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #4B7CF7;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(190,18,60,0.08);
+      border: 1px solid rgba(190,18,60,0.2);
+      border-radius: 6px; padding: 0.3rem 0.85rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.67rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(190,18,60,0.85);
     }
 
-    /* ── Pill button ──────────────────────────────────────────── */
+    /* ─── Buttons ────────────────────────────────────────────── */
     .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      background: #4B7CF7;
-      color: #fff;
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 600;
-      padding: 0.75rem 1.5rem 0.75rem 1.75rem;
-      border-radius: 999px;
-      transition: all 0.5s cubic-bezier(0.32,0.72,0,1);
-      border: none;
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.4);
+      color: var(--em); text-decoration: none;
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 0.88rem; font-weight: 500;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      transition: all 0.4s cubic-bezier(0.32,0.72,0,1);
       cursor: pointer;
     }
-    .btn-primary:hover { background: #6590f9; transform: translateY(-2px); }
-    .btn-primary:active { transform: scale(0.98); }
+    .btn-primary:hover {
+      background: rgba(16,185,129,0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 0 24px rgba(16,185,129,0.16);
+    }
     .btn-icon {
-      width: 1.8rem;
-      height: 1.8rem;
-      background: rgba(255,255,255,0.15);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
-      transition: all 0.4s cubic-bezier(0.32,0.72,0,1);
+      width: 1.9rem; height: 1.9rem;
+      background: rgba(16,185,129,0.15);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; flex-shrink: 0;
+      transition: transform 0.4s cubic-bezier(0.32,0.72,0,1);
     }
     .btn-primary:hover .btn-icon { transform: translate(2px, -1px) scale(1.05); }
-
     .btn-ghost {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: rgba(255,255,255,0.8);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 500;
-      padding: 0.75rem 1.5rem;
-      border-radius: 999px;
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text-2); text-decoration: none;
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 0.85rem; font-weight: 500;
+      padding: 0.75rem 1.25rem; border-radius: 8px;
       transition: all 0.4s cubic-bezier(0.32,0.72,0,1);
     }
-    .btn-ghost:hover { background: rgba(255,255,255,0.1); color: #fff; transform: translateY(-1px); }
-
-    /* ── Section labels ───────────────────────────────────────── */
-    .section-label {
-      font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
+    .btn-ghost:hover {
+      border-color: rgba(16,185,129,0.35);
+      color: var(--text);
+      transform: translateY(-1px);
     }
 
-    /* ── Scroll reveal ────────────────────────────────────────── */
+    /* ─── Photo frame ────────────────────────────────────────── */
+    .photo-ring {
+      border-radius: 50%; padding: 4px;
+      background: rgba(16,185,129,0.05);
+      border: 1.5px solid rgba(16,185,129,0.3);
+      box-shadow: 0 0 40px rgba(16,185,129,0.12), 0 0 80px rgba(16,185,129,0.04);
+    }
+    .photo-inner {
+      border-radius: 50%; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+      width: 100%; height: 100%;
+    }
+    .photo-inner img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top; display: block;
+    }
+
+    /* ─── Tags / chips ───────────────────────────────────────── */
+    .tag-em {
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.18);
+      color: rgba(16,185,129,0.9);
+      border-radius: 999px; padding: 0.22rem 0.65rem;
+      font-size: 0.68rem; font-weight: 500;
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    }
+    .tag-neutral {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-2);
+      border-radius: 999px; padding: 0.22rem 0.65rem;
+      font-size: 0.68rem; font-weight: 500;
+    }
+    .tag-pink {
+      background: rgba(244,114,182,0.08);
+      border: 1px solid rgba(244,114,182,0.2);
+      color: rgba(244,114,182,0.9);
+      border-radius: 999px; padding: 0.22rem 0.65rem;
+      font-size: 0.68rem; font-weight: 500;
+    }
+    .tag-amber {
+      background: rgba(217,119,6,0.1);
+      border: 1px solid rgba(217,119,6,0.2);
+      color: rgba(217,119,6,0.9);
+      border-radius: 999px; padding: 0.22rem 0.65rem;
+      font-size: 0.68rem; font-weight: 500;
+    }
+    .tag-teal {
+      background: rgba(45,212,191,0.08);
+      border: 1px solid rgba(45,212,191,0.2);
+      color: rgba(45,212,191,0.9);
+      border-radius: 999px; padding: 0.22rem 0.65rem;
+      font-size: 0.68rem; font-weight: 500;
+    }
+    .tag-gold-accent {
+      background: rgba(240,192,64,0.08);
+      border: 1px solid rgba(240,192,64,0.18);
+      color: rgba(240,192,64,0.9);
+      border-radius: 999px; padding: 0.22rem 0.65rem;
+      font-size: 0.68rem; font-weight: 500;
+    }
+
+    /* ─── Scroll reveal ──────────────────────────────────────── */
     .reveal {
-      opacity: 0;
-      transform: translateY(2.5rem);
-      filter: blur(4px);
-      transition: opacity 0.9s cubic-bezier(0.32,0.72,0,1),
-                  transform 0.9s cubic-bezier(0.32,0.72,0,1),
-                  filter 0.9s cubic-bezier(0.32,0.72,0,1);
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.8s cubic-bezier(0.16,1,0.3,1);
     }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
     .reveal-delay-1 { transition-delay: 0.1s; }
     .reveal-delay-2 { transition-delay: 0.2s; }
     .reveal-delay-3 { transition-delay: 0.3s; }
     .reveal-delay-4 { transition-delay: 0.4s; }
     .reveal-delay-5 { transition-delay: 0.5s; }
 
-    /* ── Stat strip ───────────────────────────────────────────── */
-    .stat-strip {
-      border-top: 1px solid rgba(255,255,255,0.06);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+    /* ─── Section divider ────────────────────────────────────── */
+    .section-divider { border-top: 1px solid var(--border); padding-top: 5rem; }
+
+    /* ─── Timeline ───────────────────────────────────────────── */
+    .timeline-line {
+      position: absolute; left: 1.5rem; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom,
+        rgba(16,185,129,0.4) 0%,
+        rgba(16,185,129,0.06) 100%);
+    }
+    .timeline-dot {
+      position: absolute; left: -2.65rem; top: 2rem;
+      width: 10px; height: 10px; border-radius: 50%;
     }
 
-    /* ── App card accent bar ──────────────────────────────────── */
-    .accent-blue  { background: linear-gradient(135deg, #4B7CF7, #7C3AED); }
-    .accent-rose  { background: linear-gradient(135deg, #F472B6, #c084fc); }
-    .accent-teal  { background: linear-gradient(135deg, #2DD4BF, #06B6D4); }
-    .accent-amber { background: linear-gradient(135deg, #F59E0B, #F0C040); }
-
-    /* ── Writing card hover ───────────────────────────────────── */
-    .writing-card {
-      transition: all 0.5s cubic-bezier(0.32,0.72,0,1);
-    }
-    .writing-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(75,124,247,0.3) !important;
-    }
-
-    /* ── Award badge ──────────────────────────────────────────── */
+    /* ─── Award badge ────────────────────────────────────────── */
     .award-badge {
-      background: rgba(240,192,64,0.08);
-      border: 1px solid rgba(240,192,64,0.2);
-      border-radius: 1rem;
+      background: rgba(190,18,60,0.04);
+      border: 1px solid rgba(190,18,60,0.1);
+      border-radius: 1rem; padding: 1.25rem 1.5rem;
       transition: all 0.4s cubic-bezier(0.32,0.72,0,1);
     }
     .award-badge:hover {
-      background: rgba(240,192,64,0.12);
-      border-color: rgba(240,192,64,0.35);
+      background: rgba(190,18,60,0.08);
+      border-color: rgba(190,18,60,0.22);
       transform: translateY(-2px);
     }
-
-    /* ── Social link ──────────────────────────────────────────── */
-    .social-link {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: rgba(255,255,255,0.4);
-      text-decoration: none;
-      font-size: 0.8rem;
-      font-weight: 500;
-      transition: color 0.3s cubic-bezier(0.32,0.72,0,1);
+    .award-badge.gold-badge {
+      background: rgba(217,119,6,0.05);
+      border-color: rgba(217,119,6,0.15);
     }
-    .social-link:hover { color: rgba(255,255,255,0.9); }
+    .award-badge.gold-badge:hover {
+      background: rgba(217,119,6,0.1);
+      border-color: rgba(217,119,6,0.25);
+    }
+    .award-badge.teal-badge {
+      background: rgba(45,212,191,0.05);
+      border-color: rgba(45,212,191,0.12);
+    }
+    .award-badge.teal-badge:hover {
+      background: rgba(45,212,191,0.1);
+      border-color: rgba(45,212,191,0.22);
+    }
 
-    /* ── Mobile tweaks ────────────────────────────────────────── */
+    /* ─── Writing card hover ─────────────────────────────────── */
+    .writing-card {
+      text-decoration: none; display: block;
+      transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);
+    }
+    .writing-card:hover { transform: translateY(-4px); }
+
+    /* ─── Social link ────────────────────────────────────────── */
+    .social-link {
+      display: flex; align-items: center; gap: 0.5rem;
+      color: var(--text-3); text-decoration: none;
+      font-size: 0.82rem; font-weight: 500;
+      transition: color 0.25s ease;
+    }
+    .social-link:hover { color: var(--em); }
+
+    /* ─── Mobile responsive ──────────────────────────────────── */
     @media (max-width: 768px) {
       .nav-pill { top: 1rem; padding: 0.5rem 1rem; gap: 1rem; }
-      h1.hero-name { font-size: clamp(2.8rem, 12vw, 5rem); }
+      .hero-grid { grid-template-columns: 1fr !important; }
+      .hero-photo { order: -1; align-items: center !important; }
+      .bento-grid > * { grid-column: span 12 !important; }
     }
 
-    /* ── Reduced motion ───────────────────────────────────────── */
+    /* ─── Reduced motion ─────────────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
-      .reveal { opacity: 1; transform: none; filter: none; transition: none; }
+      .reveal { opacity: 1; transform: none; transition: none; }
       * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
     }
   </style>
 </head>
 
 <body>
-  <!-- Ambient atmosphere -->
-  <div class="orb-blue" aria-hidden="true"></div>
-  <div class="orb-indigo" aria-hidden="true"></div>
-  <div class="orb-gold" aria-hidden="true"></div>
+  <!-- Atmosphere -->
+  <div class="mesh" aria-hidden="true"></div>
+  <div class="glow-em" aria-hidden="true"></div>
+  <div class="glow-cr" aria-hidden="true"></div>
   <div class="grain" aria-hidden="true"></div>
 
   <!-- Mobile menu -->
   <div class="mobile-menu" id="mobile-menu" role="dialog" aria-label="Navigation menu">
     <button class="mobile-menu-close" id="mobile-close" aria-label="Close menu"><i class="ph-light ph-x"></i></button>
-    <a href="#about" onclick="closeMobileMenu()">About</a>
-    <a href="#products" onclick="closeMobileMenu()">Products</a>
-    <a href="#agents" onclick="closeMobileMenu()">Agents</a>
-    <a href="#writing" onclick="closeMobileMenu()">Writing</a>
-    <a href="#awards" onclick="closeMobileMenu()">Awards</a>
-    <a href="https://www.linkedin.com/in/ananyabanerjee15/" target="_blank" rel="noopener noreferrer" onclick="closeMobileMenu()" style="color:#4B7CF7">Connect</a>
+    <a href="#about"      onclick="closeMobileMenu()" title="About">About</a>
+    <a href="#experience" onclick="closeMobileMenu()" title="Experience">Experience</a>
+    <a href="#products"   onclick="closeMobileMenu()" title="Products">Products</a>
+    <a href="#ventures"   onclick="closeMobileMenu()" title="Ventures">Ventures</a>
+    <a href="#writing"    onclick="closeMobileMenu()" title="Writing">Writing</a>
+    <a href="#awards"     onclick="closeMobileMenu()" title="Awards">Awards</a>
+    <a href="https://www.linkedin.com/in/ananyabanerjee15/" target="_blank" rel="noopener noreferrer" onclick="closeMobileMenu()" title="Connect on LinkedIn" style="color:var(--em)">Connect</a>
   </div>
 
   <!-- Navigation -->
-  <nav class="nav-pill" role="navigation" aria-label="Main navigation">
+  <nav class="nav-pill" id="nav" role="navigation" aria-label="Main navigation">
     <a href="/" class="nav-logo">Ananya Banerjee</a>
     <div class="nav-links">
-      <a href="#about"    class="nav-link">About</a>
-      <a href="#products" class="nav-link">Products</a>
-      <a href="#agents"   class="nav-link">Agents</a>
-      <a href="#writing"  class="nav-link">Writing</a>
-      <a href="#awards"   class="nav-link">Awards</a>
+      <a href="#about"      class="nav-link" title="About Ananya Banerjee">About</a>
+      <a href="#experience" class="nav-link" title="Work experience at LinkedIn and eBay">Experience</a>
+      <a href="#products"   class="nav-link" title="iOS apps shipped by Ananya">Products</a>
+      <a href="#ventures"   class="nav-link" title="Side ventures and projects">Ventures</a>
+      <a href="#writing"    class="nav-link" title="Articles and writing">Writing</a>
+      <a href="#awards"     class="nav-link" title="Awards and recognition">Awards</a>
     </div>
-    <a href="https://www.linkedin.com/in/ananyabanerjee15/" target="_blank" rel="noopener noreferrer" class="nav-cta">
+    <a href="https://www.linkedin.com/in/ananyabanerjee15/" target="_blank" rel="noopener noreferrer" title="Connect with Ananya on LinkedIn" class="nav-cta">
       Connect <i class="ph-light ph-arrow-up-right" style="font-size:0.85rem"></i>
     </a>
     <button class="nav-mobile-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
@@ -578,23 +597,30 @@
   <main>
     <!-- ═══════════════════════════════════════════════════════ HERO -->
     <section style="min-height:100dvh; display:flex; align-items:center; padding: 8rem 1.5rem 5rem; position:relative; z-index:2; max-width:1280px; margin:0 auto;">
-      <div style="display:grid; grid-template-columns:1fr auto; gap:4rem; align-items:center; width:100%;">
+      <div class="hero-grid" style="display:grid; grid-template-columns:1fr auto; gap:4rem; align-items:center; width:100%;">
 
-        <!-- Text side -->
+        <!-- Text column -->
         <div>
           <div class="eyebrow reveal" style="margin-bottom:1.75rem;">
             <i class="ph-light ph-map-pin" style="font-size:0.8rem;"></i>
-            Senior Software Engineer · LinkedIn · San Francisco Bay Area
+            Senior Software Engineer &middot; LinkedIn &middot; San Francisco Bay Area
           </div>
 
-          <h1 class="hero-name reveal reveal-delay-1" style="font-family:'Clash Display',system-ui,sans-serif; font-size:clamp(3.5rem,8vw,7rem); font-weight:700; line-height:0.95; letter-spacing:-0.03em; margin-bottom:1.75rem; color:#fff;">
+          <h1 class="reveal reveal-delay-1"
+              style="font-family:'Clash Display',system-ui,sans-serif;
+                     font-size:clamp(3.5rem,8vw,7rem);
+                     font-weight:700; line-height:0.95;
+                     letter-spacing:-0.03em; margin-bottom:1.75rem;
+                     color:var(--text);">
             Ananya<br>Banerjee
           </h1>
 
-          <p id="product-summary" class="reveal reveal-delay-2" style="font-size:clamp(1rem,2vw,1.2rem); line-height:1.7; color:rgba(255,255,255,0.55); max-width:520px; margin-bottom:2.5rem; font-weight:400;">
+          <p id="product-summary" class="reveal reveal-delay-2"
+             style="font-size:clamp(1rem,2vw,1.18rem); line-height:1.75;
+                    color:var(--text-2); max-width:520px; margin-bottom:2.5rem; font-weight:400;">
             I build AI systems at LinkedIn, ship iOS apps that people love,
             design agents that actually work, and write about the ideas that move me.
-            MS Computer Science — UT Dallas · BITS Pilani.
+            MS Computer Science &mdash; UT Dallas &middot; BITS Pilani.
           </p>
 
           <div class="reveal reveal-delay-3" style="display:flex; flex-wrap:wrap; gap:0.85rem; align-items:center;">
@@ -608,99 +634,229 @@
             </a>
           </div>
 
-          <!-- Quick stats -->
-          <div class="reveal reveal-delay-4" style="display:flex; flex-wrap:wrap; gap:2rem; margin-top:3.5rem; padding-top:2rem; border-top:1px solid rgba(255,255,255,0.07);">
+          <!-- Stats strip -->
+          <div class="reveal reveal-delay-4"
+               style="display:flex; flex-wrap:wrap; gap:2.25rem; margin-top:3.5rem; padding-top:2rem;
+                      border-top:1px solid rgba(16,185,129,0.1);">
             <div>
-              <div style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.75rem; font-weight:700; color:#fff; line-height:1;">6K+</div>
-              <div style="font-size:0.72rem; color:rgba(255,255,255,0.4); margin-top:0.2rem; letter-spacing:0.05em;">LinkedIn Followers</div>
+              <div style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.9rem; font-weight:700; color:var(--text); line-height:1;">6K+</div>
+              <div style="font-size:0.72rem; color:var(--text-3); margin-top:0.25rem; letter-spacing:0.06em; font-family:'Bricolage Grotesque',sans-serif;">LinkedIn Followers</div>
             </div>
             <div>
-              <div style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.75rem; font-weight:700; color:#fff; line-height:1;">2×</div>
-              <div style="font-size:0.72rem; color:rgba(255,255,255,0.4); margin-top:0.2rem; letter-spacing:0.05em;">Hackathon Champion</div>
+              <div style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.9rem; font-weight:700; color:var(--text); line-height:1;">2×</div>
+              <div style="font-size:0.72rem; color:var(--text-3); margin-top:0.25rem; letter-spacing:0.06em;">Hackathon Champion</div>
             </div>
             <div>
-              <div style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.75rem; font-weight:700; color:#fff; line-height:1;">5+</div>
-              <div style="font-size:0.72rem; color:rgba(255,255,255,0.4); margin-top:0.2rem; letter-spacing:0.05em;">Publications</div>
+              <div style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.9rem; font-weight:700; color:var(--text); line-height:1;">5+</div>
+              <div style="font-size:0.72rem; color:var(--text-3); margin-top:0.25rem; letter-spacing:0.06em;">Publications</div>
             </div>
             <div>
-              <div style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.75rem; font-weight:700; color:#fff; line-height:1;">2</div>
-              <div style="font-size:0.72rem; color:rgba(255,255,255,0.4); margin-top:0.2rem; letter-spacing:0.05em;">iOS Apps Shipped</div>
+              <div style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.9rem; font-weight:700; color:var(--text); line-height:1;">2</div>
+              <div style="font-size:0.72rem; color:var(--text-3); margin-top:0.25rem; letter-spacing:0.06em;">iOS Apps Shipped</div>
             </div>
           </div>
         </div>
 
-        <!-- Photo side -->
-        <div class="reveal reveal-delay-2" style="flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:1.5rem;">
-          <div class="photo-outer" style="width:clamp(220px,22vw,320px); height:clamp(220px,22vw,320px);">
+        <!-- Photo column -->
+        <div class="hero-photo reveal reveal-delay-2" style="flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:1.5rem;">
+          <div class="photo-ring" style="width:clamp(220px,22vw,320px); height:clamp(220px,22vw,320px);">
             <div class="photo-inner">
-              <img src="images/profile.png" alt="Ananya Banerjee — Senior Software Engineer at LinkedIn" width="320" height="320">
+              <img src="images/ananya.png" alt="Ananya Banerjee — Senior Software Engineer at LinkedIn" width="320" height="320">
             </div>
           </div>
-          <!-- Floating role badge -->
-          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:999px; padding:0.5rem 1rem; display:flex; align-items:center; gap:0.5rem;">
-            <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px #4ade80;flex-shrink:0;"></span>
-            <span style="font-size:0.72rem; color:rgba(255,255,255,0.55); font-weight:500;">Available for collaboration</span>
+          <!-- Availability badge -->
+          <div style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.15);
+                      border-radius:999px; padding:0.45rem 1.1rem;
+                      display:flex; align-items:center; gap:0.55rem;">
+            <span style="width:6px;height:6px;border-radius:50%;
+                         background:var(--em);box-shadow:0 0 6px rgba(16,185,129,0.6);
+                         flex-shrink:0;"></span>
+            <span style="font-size:0.72rem; color:var(--text-2); font-weight:500;">Available for collaboration</span>
           </div>
         </div>
 
       </div>
-
-      <!-- Mobile: photo above text on small screens -->
-      <style>
-        @media (max-width: 768px) {
-          section:first-of-type > div { grid-template-columns: 1fr !important; }
-          section:first-of-type > div > div:last-child { order: -1; align-items: center !important; }
-        }
-      </style>
     </section>
 
     <!-- ═══════════════════════════════════════════════════════ ABOUT -->
     <section id="about" style="padding: 7rem 1.5rem; position:relative; z-index:2; max-width:1280px; margin:0 auto;">
-      <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:5rem;">
+      <div class="section-divider">
         <div class="reveal" style="display:flex; flex-wrap:wrap; gap:4rem; align-items:flex-start;">
-          <!-- Label -->
           <div style="flex-shrink:0; padding-top:0.3rem;">
             <div class="section-label">About</div>
           </div>
-          <!-- Content -->
           <div style="flex:1; min-width:280px; max-width:700px;">
-            <h2 class="reveal reveal-delay-1" style="font-family:'Clash Display',system-ui,sans-serif; font-size:clamp(2rem,4vw,3rem); font-weight:700; letter-spacing:-0.025em; line-height:1.15; color:#fff; margin-bottom:1.5rem;">
+            <h2 class="reveal reveal-delay-1"
+                style="font-family:'Clash Display',system-ui,sans-serif;
+                       font-size:clamp(2rem,4vw,3rem); font-weight:700;
+                       letter-spacing:-0.025em; line-height:1.15;
+                       color:var(--text); margin-bottom:1.5rem;">
               Engineer by craft.<br>Builder by instinct.
             </h2>
-            <p class="reveal reveal-delay-2" style="font-size:1.05rem; line-height:1.8; color:rgba(255,255,255,0.55); margin-bottom:1rem;">
+            <p class="reveal reveal-delay-2"
+               style="font-size:1.05rem; line-height:1.82; color:var(--text-2); margin-bottom:1.1rem;">
               I'm a Senior Software Engineer at LinkedIn in the San Francisco Bay Area, where I work on systems that reach hundreds of millions of people. Before that, I won two back-to-back hackathons at eBay — building Generative AI products that judges called groundbreaking.
             </p>
-            <p class="reveal reveal-delay-3" style="font-size:1.05rem; line-height:1.8; color:rgba(255,255,255,0.55); margin-bottom:1rem;">
+            <p class="reveal reveal-delay-3"
+               style="font-size:1.05rem; line-height:1.82; color:var(--text-2); margin-bottom:1.1rem;">
               I hold an MS in Computer Science from the University of Texas at Dallas (Master's Research Fellow, Jonsson Scholarship) and a BE from BITS Pilani. My research spans NLP, computer vision, and knowledge-infused deep learning.
             </p>
-            <p class="reveal reveal-delay-4" style="font-size:1.05rem; line-height:1.8; color:rgba(255,255,255,0.55);">
+            <p class="reveal reveal-delay-4"
+               style="font-size:1.05rem; line-height:1.82; color:var(--text-2);">
               Outside of my day job, I build and ship iOS apps, design AI agents, and write for Towards Data Science, Towards AI, Analytics Vidhya, and The Startup. I'm Bengali, fluent in four languages, and deeply curious about the intersection of technology and human experience.
             </p>
           </div>
         </div>
 
         <!-- Credential strip -->
-        <div class="reveal" style="margin-top:4rem; display:flex; flex-wrap:wrap; gap:0.75rem;">
-          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:rgba(255,255,255,0.5); font-weight:500;">
-            <i class="ph-light ph-buildings" style="margin-right:0.35rem;"></i>LinkedIn
+        <div class="reveal" style="margin-top:3.5rem; display:flex; flex-wrap:wrap; gap:0.7rem;">
+          <span style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.15); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:var(--text-2); font-weight:500; display:flex; align-items:center; gap:0.4rem;">
+            <i class="ph-light ph-buildings" style="font-size:0.85rem; color:var(--em);"></i>LinkedIn
+          </span>
+          <span style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.15); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:var(--text-2); font-weight:500; display:flex; align-items:center; gap:0.4rem;">
+            <i class="ph-light ph-graduation-cap" style="font-size:0.85rem; color:var(--em);"></i>MS &middot; UT Dallas
+          </span>
+          <span style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.15); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:var(--text-2); font-weight:500; display:flex; align-items:center; gap:0.4rem;">
+            <i class="ph-light ph-graduation-cap" style="font-size:0.85rem; color:var(--em);"></i>BE &middot; BITS Pilani
+          </span>
+          <span style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.15); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:var(--text-2); font-weight:500; display:flex; align-items:center; gap:0.4rem;">
+            <i class="ph-light ph-brain" style="font-size:0.85rem; color:var(--em);"></i>CIFAR DLRL Scholar
+          </span>
+          <span style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.15); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:var(--text-2); font-weight:500; display:flex; align-items:center; gap:0.4rem;">
+            <i class="ph-light ph-users" style="font-size:0.85rem; color:var(--em);"></i>Google Women Techmakers
+          </span>
+          <span style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.15); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:var(--text-2); font-weight:500; display:flex; align-items:center; gap:0.4rem;">
+            <i class="ph-light ph-users" style="font-size:0.85rem; color:var(--em);"></i>Society of Women Engineers
+          </span>
+          <span style="background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.28); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:var(--em); font-weight:500; display:flex; align-items:center; gap:0.4rem;">
+            <i class="ph-light ph-globe" style="font-size:0.85rem;"></i>English &middot; Hindi &middot; Bengali &middot; French
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ EXPERIENCE -->
+    <section id="experience" style="padding: 7rem 1.5rem; position:relative; z-index:2; max-width:1280px; margin:0 auto;">
+      <div class="section-divider">
+        <div class="reveal" style="margin-bottom:3.5rem;">
+          <div class="section-label" style="margin-bottom:0.75rem;">Career</div>
+          <h2 style="font-family:'Clash Display',system-ui,sans-serif; font-size:clamp(2rem,4vw,3rem); font-weight:700; letter-spacing:-0.025em; line-height:1.1; color:var(--text);">
+            Where I've Worked
+          </h2>
+        </div>
+
+        <!-- Timeline -->
+        <div style="position:relative;">
+          <div class="timeline-line"></div>
+
+          <!-- LinkedIn -->
+          <div class="card-outer reveal" style="margin-left:4rem; margin-bottom:1.75rem; position:relative; transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);"
+               onmouseenter="this.style.transform='translateY(-3px)'" onmouseleave="this.style.transform='translateY(0)'">
+            <div class="timeline-dot" style="background:var(--em); box-shadow:0 0 10px rgba(16,185,129,0.6); border:2px solid var(--bg);"></div>
+            <div class="card-inner" style="padding:2rem;">
+              <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:1rem;">
+                <div>
+                  <div style="display:flex; align-items:center; gap:0.65rem; margin-bottom:0.4rem;">
+                    <div style="width:2.2rem; height:2.2rem; background:linear-gradient(135deg,#0077B5,#0A66C2); border-radius:0.625rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                      <i class="ph-light ph-linkedin-logo" style="font-size:1rem; color:#fff;"></i>
+                    </div>
+                    <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.3rem; font-weight:700; color:var(--text); letter-spacing:-0.02em;">LinkedIn</h3>
+                  </div>
+                  <div style="font-size:0.9rem; color:var(--text-2); font-weight:500;">Senior Software Engineer</div>
+                  <div style="font-size:0.75rem; color:var(--text-3); margin-top:0.2rem;">San Francisco Bay Area</div>
+                </div>
+                <div style="display:flex; align-items:center; gap:0.5rem; background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.22); border-radius:999px; padding:0.3rem 0.9rem; flex-shrink:0;">
+                  <span style="width:6px;height:6px;border-radius:50%;background:var(--em);box-shadow:0 0 6px rgba(16,185,129,0.6);"></span>
+                  <span style="font-size:0.72rem; color:var(--em); font-weight:600; font-family:'Bricolage Grotesque',sans-serif;">Current</span>
+                </div>
+              </div>
+              <p style="font-size:0.88rem; line-height:1.78; color:var(--text-2);">
+                Building systems that reach hundreds of millions of professionals worldwide. Working at the intersection of AI, infrastructure, and product engineering.
+              </p>
+              <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1.25rem;">
+                <span class="tag-em">AI Systems</span>
+                <span class="tag-em">Large-Scale Infrastructure</span>
+                <span class="tag-em">Product Engineering</span>
+              </div>
+            </div>
           </div>
-          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:rgba(255,255,255,0.5); font-weight:500;">
-            <i class="ph-light ph-graduation-cap" style="margin-right:0.35rem;"></i>MS · UT Dallas
+
+          <!-- eBay -->
+          <div class="card-outer reveal reveal-delay-1" style="margin-left:4rem; margin-bottom:1.75rem; position:relative; transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);"
+               onmouseenter="this.style.transform='translateY(-3px)'" onmouseleave="this.style.transform='translateY(0)'">
+            <div class="timeline-dot" style="background:rgba(16,185,129,0.22); border:2px solid var(--bg);"></div>
+            <div class="card-inner" style="padding:2rem;">
+              <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:1rem;">
+                <div>
+                  <div style="display:flex; align-items:center; gap:0.65rem; margin-bottom:0.4rem;">
+                    <div style="width:2.2rem; height:2.2rem; background:linear-gradient(135deg,#E53238,#F5AF02); border-radius:0.625rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                      <i class="ph-light ph-storefront" style="font-size:1rem; color:#fff;"></i>
+                    </div>
+                    <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.3rem; font-weight:700; color:var(--text); letter-spacing:-0.02em;">eBay</h3>
+                  </div>
+                  <div style="font-size:0.9rem; color:var(--text-2); font-weight:500;">Senior Software Engineer III</div>
+                  <div style="font-size:0.75rem; color:var(--text-3); margin-top:0.2rem;">San Jose, CA</div>
+                </div>
+                <div style="font-size:0.72rem; color:var(--text-3); font-weight:500; background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:999px; padding:0.3rem 0.9rem; flex-shrink:0; white-space:nowrap;">
+                  Until 2025
+                </div>
+              </div>
+              <p style="font-size:0.88rem; line-height:1.78; color:var(--text-2); margin-bottom:1.25rem;">
+                Built Generative AI features at one of the world's largest e-commerce platforms. Won eBay's Invent Week back-to-back — 1st Place in 2024 (Ad Generation via GenAI, 1,000+ teams) and 2023, plus the Leadership Choice Award at the 2023 Global Showcase.
+              </p>
+              <!-- Award mini-cards -->
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.75rem; margin-bottom:1.25rem;">
+                <div style="background:rgba(217,119,6,0.06); border:1px solid rgba(217,119,6,0.15); border-radius:1rem; padding:0.9rem 1rem;">
+                  <div style="font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:400; letter-spacing:0.12em; text-transform:uppercase; color:rgba(217,119,6,0.75); margin-bottom:0.3rem;">Invent Week 2024</div>
+                  <div style="font-size:0.82rem; color:var(--text); font-weight:600; line-height:1.4;">1st Place &middot; 1,000+ teams</div>
+                  <div style="font-size:0.72rem; color:var(--text-3); margin-top:0.2rem;">Ad Generation via GenAI</div>
+                </div>
+                <div style="background:rgba(217,119,6,0.06); border:1px solid rgba(217,119,6,0.15); border-radius:1rem; padding:0.9rem 1rem;">
+                  <div style="font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:400; letter-spacing:0.12em; text-transform:uppercase; color:rgba(217,119,6,0.75); margin-bottom:0.3rem;">Invent Week 2023</div>
+                  <div style="font-size:0.82rem; color:var(--text); font-weight:600; line-height:1.4;">1st Place Champion</div>
+                </div>
+                <div style="background:rgba(190,18,60,0.06); border:1px solid rgba(190,18,60,0.15); border-radius:1rem; padding:0.9rem 1rem;">
+                  <div style="font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:400; letter-spacing:0.12em; text-transform:uppercase; color:rgba(190,18,60,0.7); margin-bottom:0.3rem;">Global Showcase 2023</div>
+                  <div style="font-size:0.82rem; color:var(--text); font-weight:600; line-height:1.4;">Leadership Choice Award</div>
+                </div>
+              </div>
+              <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+                <span class="tag-neutral">Generative AI</span>
+                <span class="tag-neutral">E-commerce</span>
+                <span class="tag-neutral">Ad Technology</span>
+              </div>
+            </div>
           </div>
-          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:rgba(255,255,255,0.5); font-weight:500;">
-            <i class="ph-light ph-graduation-cap" style="margin-right:0.35rem;"></i>BE · BITS Pilani
-          </div>
-          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:rgba(255,255,255,0.5); font-weight:500;">
-            <i class="ph-light ph-brain" style="margin-right:0.35rem;"></i>CIFAR DLRL Scholar
-          </div>
-          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:rgba(255,255,255,0.5); font-weight:500;">
-            <i class="ph-light ph-users" style="margin-right:0.35rem;"></i>Google Women Techmakers
-          </div>
-          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:rgba(255,255,255,0.5); font-weight:500;">
-            <i class="ph-light ph-users" style="margin-right:0.35rem;"></i>Society of Women Engineers
-          </div>
-          <div style="background:rgba(75,124,247,0.1); border:1px solid rgba(75,124,247,0.25); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:#4B7CF7; font-weight:500;">
-            <i class="ph-light ph-globe" style="margin-right:0.35rem;"></i>English · Hindi · Bengali · French
+
+          <!-- UT Dallas Research -->
+          <div class="card-outer reveal reveal-delay-2" style="margin-left:4rem; position:relative; transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);"
+               onmouseenter="this.style.transform='translateY(-3px)'" onmouseleave="this.style.transform='translateY(0)'">
+            <div class="timeline-dot" style="background:rgba(16,185,129,0.12); border:2px solid var(--bg);"></div>
+            <div class="card-inner" style="padding:2rem;">
+              <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:1rem;">
+                <div>
+                  <div style="display:flex; align-items:center; gap:0.65rem; margin-bottom:0.4rem;">
+                    <div style="width:2.2rem; height:2.2rem; background:linear-gradient(135deg,#2E8B57,#20B2AA); border-radius:0.625rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                      <i class="ph-light ph-flask" style="font-size:1rem; color:#fff;"></i>
+                    </div>
+                    <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.3rem; font-weight:700; color:var(--text); letter-spacing:-0.02em;">University of Texas at Dallas</h3>
+                  </div>
+                  <div style="font-size:0.9rem; color:var(--text-2); font-weight:500;">Graduate Research &amp; Teaching Assistant &middot; MS Computer Science</div>
+                  <div style="font-size:0.75rem; color:var(--text-3); margin-top:0.2rem;">Dallas, TX</div>
+                </div>
+                <div style="font-size:0.72rem; color:var(--text-3); font-weight:500; background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:999px; padding:0.3rem 0.9rem; flex-shrink:0; white-space:nowrap;">
+                  2020 – 2022
+                </div>
+              </div>
+              <p style="font-size:0.88rem; line-height:1.78; color:var(--text-2);">
+                Master's Research Fellow and Jonsson Graduate Scholar. Research in NLP, knowledge-infused text-to-image generation, and automated code review. CIFAR DLRL 2020 scholar, selected from 88 countries.
+              </p>
+              <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1.25rem;">
+                <span class="tag-neutral">NLP Research</span>
+                <span class="tag-neutral">Computer Vision</span>
+                <span class="tag-neutral">Deep Learning</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -708,12 +864,11 @@
 
     <!-- ═══════════════════════════════════════════════════════ PRODUCTS -->
     <section id="products" style="padding: 7rem 1.5rem; position:relative; z-index:2; max-width:1280px; margin:0 auto;">
-      <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:5rem;">
-
+      <div class="section-divider">
         <div class="reveal" style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem; margin-bottom:3.5rem;">
           <div>
             <div class="section-label" style="margin-bottom:0.75rem;">iOS Apps</div>
-            <h2 style="font-family:'Clash Display',system-ui,sans-serif; font-size:clamp(2rem,4vw,3rem); font-weight:700; letter-spacing:-0.025em; line-height:1.1; color:#fff;">
+            <h2 style="font-family:'Clash Display',system-ui,sans-serif; font-size:clamp(2rem,4vw,3rem); font-weight:700; letter-spacing:-0.025em; line-height:1.1; color:var(--text);">
               Products I've Shipped
             </h2>
           </div>
@@ -722,70 +877,288 @@
           </a>
         </div>
 
-        <!-- App cards grid -->
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1.5rem;">
+        <!-- Asymmetric product grid — AgentChat taller/wider, It Made My Day accent -->
+        <div style="display:grid; grid-template-columns:1.15fr 1fr; gap:1.5rem;">
 
           <!-- AgentChat Hub -->
-          <div class="card-outer reveal reveal-delay-1" style="transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);" onmouseenter="this.style.transform='translateY(-6px)'" onmouseleave="this.style.transform='translateY(0)'">
-            <div class="card-inner" style="padding:2rem;">
-              <!-- Accent bar -->
-              <div class="accent-blue" style="height:3px; border-radius:999px; margin-bottom:1.75rem; width:3rem;"></div>
-
-              <div style="display:flex; align-items:flex-start; gap:1rem; margin-bottom:1.25rem;">
-                <div style="width:3rem; height:3rem; background:linear-gradient(135deg,#4B7CF7,#7C3AED); border-radius:0.875rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                  <i class="ph-light ph-chat-circle-dots" style="font-size:1.4rem; color:#fff;"></i>
+          <div class="card-outer reveal reveal-delay-1"
+               style="transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);"
+               onmouseenter="this.style.transform='translateY(-5px)'" onmouseleave="this.style.transform='translateY(0)'">
+            <div class="card-inner" style="padding:2.25rem;">
+              <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+                <div style="display:flex; align-items:center; gap:0.85rem;">
+                  <div style="width:3.25rem; height:3.25rem; background:linear-gradient(135deg,#10B981,#06B6D4); border-radius:1rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 0 20px rgba(16,185,129,0.2);">
+                    <i class="ph-light ph-chat-circle-dots" style="font-size:1.5rem; color:#fff;"></i>
+                  </div>
+                  <div>
+                    <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.45rem; font-weight:700; color:var(--text); letter-spacing:-0.02em; line-height:1.2;">AgentChat Hub</h3>
+                    <div style="font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--em); font-weight:400; letter-spacing:0.12em; text-transform:uppercase; margin-top:0.25rem;">iOS · iPad · Mac · Vision Pro</div>
+                  </div>
                 </div>
-                <div>
-                  <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.35rem; font-weight:700; color:#fff; letter-spacing:-0.02em; line-height:1.2;">AgentChat Hub</h3>
-                  <div style="font-size:0.72rem; color:#4B7CF7; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; margin-top:0.2rem;">iOS · iPad · Mac · Vision Pro</div>
-                </div>
+                <span style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.2); border-radius:999px; padding:0.25rem 0.75rem; font-size:0.7rem; color:var(--em); font-weight:600; white-space:nowrap; flex-shrink:0;">Free</span>
               </div>
-
-              <p style="font-size:0.9rem; line-height:1.75; color:rgba(255,255,255,0.5); margin-bottom:1.5rem;">
+              <p style="font-size:0.92rem; line-height:1.78; color:var(--text-2); margin-bottom:1.5rem;">
                 The universal messenger for the open AI web. Connect to any A2A-compatible AI agent via URL and stream responses in real time. No account, no tracking, no subscriptions.
               </p>
-
               <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1.75rem;">
-                <span style="background:rgba(75,124,247,0.1); border:1px solid rgba(75,124,247,0.2); border-radius:999px; padding:0.25rem 0.7rem; font-size:0.7rem; color:rgba(75,124,247,0.9); font-weight:500;">A2A Protocol</span>
-                <span style="background:rgba(75,124,247,0.1); border:1px solid rgba(75,124,247,0.2); border-radius:999px; padding:0.25rem 0.7rem; font-size:0.7rem; color:rgba(75,124,247,0.9); font-weight:500;">Real-time Streaming</span>
-                <span style="background:rgba(75,124,247,0.1); border:1px solid rgba(75,124,247,0.2); border-radius:999px; padding:0.25rem 0.7rem; font-size:0.7rem; color:rgba(75,124,247,0.9); font-weight:500;">Privacy-first</span>
+                <span class="tag-em">A2A Protocol</span>
+                <span class="tag-em">Real-time Streaming</span>
+                <span class="tag-em">Privacy-first</span>
               </div>
-
-              <a href="https://apps.apple.com/app/agentchat-hub" target="_blank" rel="noopener noreferrer" class="btn-primary" style="font-size:0.8rem; padding:0.6rem 1.2rem 0.6rem 1.4rem;">
+              <a href="https://apps.apple.com/app/agentchat-hub" target="_blank" rel="noopener noreferrer" class="btn-primary" style="font-size:0.82rem; padding:0.65rem 1.25rem;">
                 Download Free
-                <span class="btn-icon" style="width:1.5rem; height:1.5rem; font-size:0.65rem;"><i class="ph-light ph-arrow-up-right"></i></span>
+                <span class="btn-icon" style="width:1.6rem; height:1.6rem; font-size:0.7rem;"><i class="ph-light ph-arrow-up-right"></i></span>
               </a>
             </div>
           </div>
 
           <!-- It Made My Day -->
-          <div class="card-outer reveal reveal-delay-2" style="transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);" onmouseenter="this.style.transform='translateY(-6px)'" onmouseleave="this.style.transform='translateY(0)'">
-            <div class="card-inner" style="padding:2rem;">
-              <div class="accent-rose" style="height:3px; border-radius:999px; margin-bottom:1.75rem; width:3rem;"></div>
-
-              <div style="display:flex; align-items:flex-start; gap:1rem; margin-bottom:1.25rem;">
-                <div style="width:3rem; height:3rem; background:linear-gradient(135deg,#F472B6,#c084fc); border-radius:0.875rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                  <i class="ph-light ph-heart" style="font-size:1.4rem; color:#fff;"></i>
+          <div class="card-outer reveal reveal-delay-2"
+               style="transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);"
+               onmouseenter="this.style.transform='translateY(-5px)'" onmouseleave="this.style.transform='translateY(0)'">
+            <div class="card-inner" style="padding:2.25rem;">
+              <div style="display:flex; align-items:center; gap:0.85rem; margin-bottom:1.5rem;">
+                <div style="width:3.25rem; height:3.25rem; background:linear-gradient(135deg,#F472B6,#c084fc); border-radius:1rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 0 20px rgba(244,114,182,0.15);">
+                  <i class="ph-light ph-heart" style="font-size:1.5rem; color:#fff;"></i>
                 </div>
                 <div>
-                  <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.35rem; font-weight:700; color:#fff; letter-spacing:-0.02em; line-height:1.2;">It Made My Day</h3>
-                  <div style="font-size:0.72rem; color:#F472B6; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; margin-top:0.2rem;">iOS · iPadOS</div>
+                  <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.45rem; font-weight:700; color:var(--text); letter-spacing:-0.02em; line-height:1.2;">It Made My Day</h3>
+                  <div style="font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:#F472B6; font-weight:400; letter-spacing:0.12em; text-transform:uppercase; margin-top:0.25rem;">iOS · iPadOS</div>
                 </div>
               </div>
-
-              <p style="font-size:0.9rem; line-height:1.75; color:rgba(255,255,255,0.5); margin-bottom:1.5rem;">
+              <p style="font-size:0.92rem; line-height:1.78; color:var(--text-2); margin-bottom:1.5rem;">
                 A private gratitude vault to capture the moments, compliments, photos, voice notes, and links that made your day. A personal archive of joy — beautiful, private, and yours.
               </p>
-
               <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1.75rem;">
-                <span style="background:rgba(244,114,182,0.1); border:1px solid rgba(244,114,182,0.2); border-radius:999px; padding:0.25rem 0.7rem; font-size:0.7rem; color:rgba(244,114,182,0.9); font-weight:500;">Gratitude Journal</span>
-                <span style="background:rgba(244,114,182,0.1); border:1px solid rgba(244,114,182,0.2); border-radius:999px; padding:0.25rem 0.7rem; font-size:0.7rem; color:rgba(244,114,182,0.9); font-weight:500;">Voice Notes</span>
-                <span style="background:rgba(244,114,182,0.1); border:1px solid rgba(244,114,182,0.2); border-radius:999px; padding:0.25rem 0.7rem; font-size:0.7rem; color:rgba(244,114,182,0.9); font-weight:500;">Photo Vault</span>
+                <span class="tag-pink">Gratitude Journal</span>
+                <span class="tag-pink">Voice Notes</span>
+                <span class="tag-pink">Photo Vault</span>
               </div>
-
-              <a href="https://it-made-my-day.com" target="_blank" rel="noopener noreferrer" class="btn-primary" style="background:linear-gradient(135deg,#F472B6,#c084fc); font-size:0.8rem; padding:0.6rem 1.2rem 0.6rem 1.4rem;">
+              <a href="https://it-made-my-day.com" target="_blank" rel="noopener noreferrer"
+                 style="display:inline-flex; align-items:center; gap:0.6rem;
+                        background:rgba(244,114,182,0.1); border:1px solid rgba(244,114,182,0.35);
+                        color:#F472B6; text-decoration:none;
+                        font-family:'Bricolage Grotesque',sans-serif;
+                        font-size:0.82rem; font-weight:500;
+                        padding:0.65rem 1.25rem; border-radius:8px;
+                        transition:all 0.4s cubic-bezier(0.32,0.72,0,1);"
+                 onmouseenter="this.style.background='rgba(244,114,182,0.16)'; this.style.transform='translateY(-1px)'"
+                 onmouseleave="this.style.background='rgba(244,114,182,0.1)'; this.style.transform='translateY(0)'">
                 Visit Site
-                <span class="btn-icon" style="width:1.5rem; height:1.5rem; font-size:0.65rem;"><i class="ph-light ph-arrow-up-right"></i></span>
+                <span style="width:1.6rem; height:1.6rem; background:rgba(244,114,182,0.18); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:0.7rem;">
+                  <i class="ph-light ph-arrow-up-right"></i>
+                </span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <style>
+        @media (max-width: 768px) {
+          #products > div > div:last-child { grid-template-columns: 1fr !important; }
+        }
+      </style>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ AI AGENTS -->
+    <section id="agents" style="padding: 7rem 1.5rem; position:relative; z-index:2; max-width:1280px; margin:0 auto;">
+      <div class="section-divider">
+        <div class="reveal" style="margin-bottom:3.5rem;">
+          <div class="section-label" style="margin-bottom:0.75rem;">AI Agents &amp; Research</div>
+          <h2 style="font-family:'Clash Display',system-ui,sans-serif; font-size:clamp(2rem,4vw,3rem); font-weight:700; letter-spacing:-0.025em; line-height:1.1; color:var(--text); max-width:600px;">
+            Agents, Systems &amp; Research
+          </h2>
+        </div>
+
+        <!-- Bento grid: 12 cols, asymmetric -->
+        <div class="bento-grid" style="display:grid; grid-template-columns:repeat(12, 1fr); gap:1.25rem;">
+
+          <!-- code-review-graph: 7-col, large -->
+          <div class="card-outer reveal reveal-delay-1"
+               style="grid-column: span 7; transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);"
+               onmouseenter="this.style.transform='translateY(-3px)'" onmouseleave="this.style.transform='translateY(0)'">
+            <div class="card-inner" style="padding:2.5rem; min-height:300px;">
+              <div class="eyebrow" style="margin-bottom:1.5rem; font-size:0.62rem;">
+                <i class="ph-light ph-graph"></i>
+                Open Source &middot; AI Tooling
+              </div>
+              <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.7rem; font-weight:700; color:var(--text); letter-spacing:-0.025em; line-height:1.2; margin-bottom:0.9rem;">
+                code-review-graph
+              </h3>
+              <p style="font-size:0.9rem; line-height:1.78; color:var(--text-2); margin-bottom:1.75rem; max-width:420px;">
+                A knowledge graph for AI coding agents. Provides structural context — callers, dependents, test coverage, impact radius — so agents review code intelligently rather than scanning raw files. Dramatically fewer tokens, deeper understanding.
+              </p>
+              <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+                <span class="tag-em">Knowledge Graph</span>
+                <span class="tag-em">Code Review</span>
+                <span class="tag-em">Token Efficient</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Knowledge-Infused Text→Image: 5-col -->
+          <div class="card-outer reveal reveal-delay-2"
+               style="grid-column: span 5; transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);"
+               onmouseenter="this.style.transform='translateY(-3px)'" onmouseleave="this.style.transform='translateY(0)'">
+            <div class="card-inner" style="padding:2rem; min-height:300px;">
+              <div style="width:2.75rem; height:2.75rem; background:linear-gradient(135deg,rgba(190,18,60,0.9),rgba(16,185,129,0.8)); border-radius:0.875rem; display:flex; align-items:center; justify-content:center; margin-bottom:1.25rem; box-shadow:0 0 16px rgba(190,18,60,0.15);">
+                <i class="ph-light ph-image" style="font-size:1.25rem; color:#fff;"></i>
+              </div>
+              <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.25rem; font-weight:700; color:var(--text); letter-spacing:-0.02em; line-height:1.2; margin-bottom:0.75rem;">
+                Knowledge-Infused Text&rarr;Image
+              </h3>
+              <p style="font-size:0.85rem; line-height:1.72; color:var(--text-2);">
+                Deep learning model that infuses human common-sense knowledge into text-to-image generation via location-aware scene graphs.
+              </p>
+            </div>
+          </div>
+
+          <!-- OpenLLM Bridge: 5-col -->
+          <div class="card-outer reveal reveal-delay-2"
+               style="grid-column: span 5; transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);"
+               onmouseenter="this.style.transform='translateY(-3px)'" onmouseleave="this.style.transform='translateY(0)'">
+            <div class="card-inner" style="padding:2rem; min-height:260px;">
+              <div style="width:2.75rem; height:2.75rem; background:linear-gradient(135deg,#2DD4BF,#06B6D4); border-radius:0.875rem; display:flex; align-items:center; justify-content:center; margin-bottom:1.25rem; box-shadow:0 0 16px rgba(45,212,191,0.15);">
+                <i class="ph-light ph-plugs-connected" style="font-size:1.25rem; color:#fff;"></i>
+              </div>
+              <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.25rem; font-weight:700; color:var(--text); letter-spacing:-0.02em; line-height:1.2; margin-bottom:0.75rem;">
+                OpenLLM Bridge
+              </h3>
+              <p style="font-size:0.85rem; line-height:1.72; color:var(--text-2);">
+                Bridging open-source LLMs to production-grade agent workflows. Designed for teams that need flexibility without vendor lock-in.
+              </p>
+            </div>
+          </div>
+
+          <!-- NLP Research Suite: 7-col -->
+          <div class="card-outer reveal reveal-delay-3"
+               style="grid-column: span 7; transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);"
+               onmouseenter="this.style.transform='translateY(-3px)'" onmouseleave="this.style.transform='translateY(0)'">
+            <div class="card-inner" style="padding:2rem; min-height:260px;">
+              <div style="width:2.75rem; height:2.75rem; background:linear-gradient(135deg,rgba(217,119,6,0.9),rgba(240,192,64,0.85)); border-radius:0.875rem; display:flex; align-items:center; justify-content:center; margin-bottom:1.25rem; box-shadow:0 0 16px rgba(217,119,6,0.15);">
+                <i class="ph-light ph-text-aa" style="font-size:1.25rem; color:#fff;"></i>
+              </div>
+              <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.25rem; font-weight:700; color:var(--text); letter-spacing:-0.02em; line-height:1.2; margin-bottom:0.75rem;">
+                NLP Research Suite
+              </h3>
+              <p style="font-size:0.85rem; line-height:1.72; color:var(--text-2); max-width:380px;">
+                Information extraction, question-answering systems using First Order Logic, toxicity detection, fake opinion detection on Yelp data, and POS tagging with the Viterbi algorithm.
+              </p>
+              <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1rem;">
+                <span class="tag-gold-accent">NLP</span>
+                <span class="tag-gold-accent">Information Extraction</span>
+                <span class="tag-gold-accent">QA Systems</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ VENTURES -->
+    <section id="ventures" style="padding: 7rem 1.5rem; position:relative; z-index:2; max-width:1280px; margin:0 auto;">
+      <div class="section-divider">
+        <div class="reveal" style="margin-bottom:3.5rem;">
+          <div class="section-label" style="margin-bottom:0.75rem;">Side Ventures</div>
+          <h2 style="font-family:'Clash Display',system-ui,sans-serif; font-size:clamp(2rem,4vw,3rem); font-weight:700; letter-spacing:-0.025em; line-height:1.1; color:var(--text);">
+            Building on the Side
+          </h2>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem;">
+
+          <!-- AgentHub -->
+          <div class="card-outer reveal"
+               style="transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);"
+               onmouseenter="this.style.transform='translateY(-5px)'" onmouseleave="this.style.transform='translateY(0)'">
+            <div class="card-inner" style="padding:2rem; height:100%;">
+              <div style="display:flex; align-items:flex-start; gap:1rem; margin-bottom:1.25rem;">
+                <div style="width:3rem; height:3rem; background:linear-gradient(135deg,#10B981,#BE123C); border-radius:0.875rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 0 16px rgba(16,185,129,0.15);">
+                  <i class="ph-light ph-robot" style="font-size:1.4rem; color:#fff;"></i>
+                </div>
+                <div>
+                  <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.2rem; font-weight:700; color:var(--text); letter-spacing:-0.02em; line-height:1.2;">AgentHub</h3>
+                  <div style="font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--cr); font-weight:400; letter-spacing:0.1em; text-transform:uppercase; margin-top:0.2rem;">AI Agent Marketplace</div>
+                </div>
+              </div>
+              <p style="font-size:0.88rem; line-height:1.78; color:var(--text-2); margin-bottom:1.5rem;">
+                An open directory for discovering and sharing AI agents. Built on the Agent Name Service (ANS) and A2A protocol — so anyone can publish an agent endpoint and anyone can find it.
+              </p>
+              <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1.5rem;">
+                <span class="tag-em">ANS Protocol</span>
+                <span class="tag-em">A2A</span>
+                <span class="tag-em">Open Directory</span>
+              </div>
+              <a href="https://github.com/AnanyaBanerjee/agent-share" target="_blank" rel="noopener noreferrer"
+                 title="AgentHub source on GitHub"
+                 style="font-size:0.78rem; color:var(--em); font-weight:600; text-decoration:none; display:flex; align-items:center; gap:0.35rem; transition:opacity 0.2s ease;"
+                 onmouseenter="this.style.opacity='0.75'" onmouseleave="this.style.opacity='1'">
+                <i class="ph-light ph-github-logo"></i> View on GitHub <i class="ph-light ph-arrow-up-right" style="font-size:0.75rem;"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Multi-Hub AI Backend -->
+          <div class="card-outer reveal reveal-delay-1"
+               style="transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);"
+               onmouseenter="this.style.transform='translateY(-5px)'" onmouseleave="this.style.transform='translateY(0)'">
+            <div class="card-inner" style="padding:2rem; height:100%;">
+              <div style="display:flex; align-items:flex-start; gap:1rem; margin-bottom:1.25rem;">
+                <div style="width:3rem; height:3rem; background:linear-gradient(135deg,#D97706,#EF4444); border-radius:0.875rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 0 16px rgba(217,119,6,0.15);">
+                  <i class="ph-light ph-cloud" style="font-size:1.4rem; color:#fff;"></i>
+                </div>
+                <div>
+                  <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.2rem; font-weight:700; color:var(--text); letter-spacing:-0.02em; line-height:1.2;">Multi-Hub AI Backend</h3>
+                  <div style="font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:rgba(217,119,6,0.85); font-weight:400; letter-spacing:0.1em; text-transform:uppercase; margin-top:0.2rem;">AI Infrastructure &middot; Railway</div>
+                </div>
+              </div>
+              <p style="font-size:0.88rem; line-height:1.78; color:var(--text-2); margin-bottom:1.5rem;">
+                A personal AI backend deployed on Railway. Handles image generation, video processing, WhatsApp automation, and newsletter delivery — the infrastructure layer behind my apps.
+              </p>
+              <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1.5rem;">
+                <span class="tag-amber">Image Gen</span>
+                <span class="tag-amber">WhatsApp</span>
+                <span class="tag-amber">Railway</span>
+              </div>
+              <a href="https://github.com/AnanyaBanerjee/my-agent" target="_blank" rel="noopener noreferrer"
+                 title="Multi-Hub AI Backend source on GitHub"
+                 style="font-size:0.78rem; color:rgba(217,119,6,0.9); font-weight:600; text-decoration:none; display:flex; align-items:center; gap:0.35rem; transition:opacity 0.2s ease;"
+                 onmouseenter="this.style.opacity='0.75'" onmouseleave="this.style.opacity='1'">
+                <i class="ph-light ph-github-logo"></i> View on GitHub <i class="ph-light ph-arrow-up-right" style="font-size:0.75rem;"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Ananya's Build Room -->
+          <div class="card-outer reveal reveal-delay-2"
+               style="transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);"
+               onmouseenter="this.style.transform='translateY(-5px)'" onmouseleave="this.style.transform='translateY(0)'">
+            <div class="card-inner" style="padding:2rem; height:100%;">
+              <div style="display:flex; align-items:flex-start; gap:1rem; margin-bottom:1.25rem;">
+                <div style="width:3rem; height:3rem; background:linear-gradient(135deg,#10B981,#06B6D4); border-radius:0.875rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 0 16px rgba(16,185,129,0.15);">
+                  <i class="ph-light ph-newspaper" style="font-size:1.4rem; color:#fff;"></i>
+                </div>
+                <div>
+                  <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.2rem; font-weight:700; color:var(--text); letter-spacing:-0.02em; line-height:1.2;">Ananya's Build Room</h3>
+                  <div style="font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--em); font-weight:400; letter-spacing:0.1em; text-transform:uppercase; margin-top:0.2rem;">Substack Newsletter</div>
+                </div>
+              </div>
+              <p style="font-size:0.88rem; line-height:1.78; color:var(--text-2); margin-bottom:1.5rem;">
+                An honest log of building apps as a solo developer while working full-time. Real experiments, what worked, what didn't, and the thinking behind the decisions.
+              </p>
+              <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1.5rem;">
+                <span class="tag-em">Solo Building</span>
+                <span class="tag-em">Indie Hacking</span>
+                <span class="tag-teal">Substack</span>
+              </div>
+              <a href="https://ananyabanerjee.substack.com/" target="_blank" rel="noopener noreferrer"
+                 title="Ananya's Build Room on Substack"
+                 style="font-size:0.78rem; color:var(--em); font-weight:600; text-decoration:none; display:flex; align-items:center; gap:0.35rem; transition:opacity 0.2s ease;"
+                 onmouseenter="this.style.opacity='0.75'" onmouseleave="this.style.opacity='1'">
+                <i class="ph-light ph-arrow-up-right" style="font-size:0.75rem;"></i> Subscribe on Substack
               </a>
             </div>
           </div>
@@ -794,110 +1167,13 @@
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════════ AI AGENTS -->
-    <section id="agents" style="padding: 7rem 1.5rem; position:relative; z-index:2; max-width:1280px; margin:0 auto;">
-      <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:5rem;">
-
-        <div class="reveal" style="margin-bottom:3.5rem;">
-          <div class="section-label" style="margin-bottom:0.75rem;">AI Agents & Research</div>
-          <h2 style="font-family:'Clash Display',system-ui,sans-serif; font-size:clamp(2rem,4vw,3rem); font-weight:700; letter-spacing:-0.025em; line-height:1.1; color:#fff; max-width:600px;">
-            Agents, Systems & Research
-          </h2>
-        </div>
-
-        <!-- Bento grid -->
-        <div style="display:grid; grid-template-columns:repeat(12, 1fr); gap:1.25rem;">
-
-          <!-- code-review-graph: large card -->
-          <div class="card-outer reveal reveal-delay-1" style="grid-column: span 7; transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);" onmouseenter="this.style.transform='translateY(-4px)'" onmouseleave="this.style.transform='translateY(0)'">
-            <div class="card-inner" style="padding:2.5rem; min-height:280px;">
-              <div class="eyebrow" style="margin-bottom:1.5rem; font-size:0.62rem;">
-                <i class="ph-light ph-graph"></i>
-                Open Source · AI Tooling
-              </div>
-              <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.6rem; font-weight:700; color:#fff; letter-spacing:-0.025em; line-height:1.2; margin-bottom:0.85rem;">
-                code-review-graph
-              </h3>
-              <p style="font-size:0.9rem; line-height:1.75; color:rgba(255,255,255,0.5); margin-bottom:1.75rem; max-width:420px;">
-                A knowledge graph for AI coding agents. Provides structural context — callers, dependents, test coverage, impact radius — so agents review code intelligently rather than scanning raw files. Dramatically fewer tokens, deeper understanding.
-              </p>
-              <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
-                <span style="background:rgba(75,124,247,0.1); border:1px solid rgba(75,124,247,0.2); border-radius:999px; padding:0.25rem 0.7rem; font-size:0.7rem; color:rgba(75,124,247,0.9); font-weight:500;">Knowledge Graph</span>
-                <span style="background:rgba(75,124,247,0.1); border:1px solid rgba(75,124,247,0.2); border-radius:999px; padding:0.25rem 0.7rem; font-size:0.7rem; color:rgba(75,124,247,0.9); font-weight:500;">Code Review</span>
-                <span style="background:rgba(75,124,247,0.1); border:1px solid rgba(75,124,247,0.2); border-radius:999px; padding:0.25rem 0.7rem; font-size:0.7rem; color:rgba(75,124,247,0.9); font-weight:500;">Token Efficient</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Text-to-Image -->
-          <div class="card-outer reveal reveal-delay-2" style="grid-column: span 5; transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);" onmouseenter="this.style.transform='translateY(-4px)'" onmouseleave="this.style.transform='translateY(0)'">
-            <div class="card-inner" style="padding:2rem; min-height:280px;">
-              <div style="width:2.5rem; height:2.5rem; background:linear-gradient(135deg,#7C3AED,#4B7CF7); border-radius:0.75rem; display:flex; align-items:center; justify-content:center; margin-bottom:1.25rem;">
-                <i class="ph-light ph-image" style="font-size:1.2rem; color:#fff;"></i>
-              </div>
-              <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.25rem; font-weight:700; color:#fff; letter-spacing:-0.02em; line-height:1.2; margin-bottom:0.75rem;">
-                Knowledge-Infused Text→Image
-              </h3>
-              <p style="font-size:0.85rem; line-height:1.7; color:rgba(255,255,255,0.45);">
-                Deep learning model that infuses human common-sense knowledge into text-to-image generation via location-aware scene graphs.
-              </p>
-            </div>
-          </div>
-
-          <!-- OpenLLM Bridge -->
-          <div class="card-outer reveal reveal-delay-2" style="grid-column: span 5; transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);" onmouseenter="this.style.transform='translateY(-4px)'" onmouseleave="this.style.transform='translateY(0)'">
-            <div class="card-inner" style="padding:2rem; min-height:240px;">
-              <div style="width:2.5rem; height:2.5rem; background:linear-gradient(135deg,#2DD4BF,#06B6D4); border-radius:0.75rem; display:flex; align-items:center; justify-content:center; margin-bottom:1.25rem;">
-                <i class="ph-light ph-plugs-connected" style="font-size:1.2rem; color:#fff;"></i>
-              </div>
-              <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.25rem; font-weight:700; color:#fff; letter-spacing:-0.02em; line-height:1.2; margin-bottom:0.75rem;">
-                OpenLLM Bridge
-              </h3>
-              <p style="font-size:0.85rem; line-height:1.7; color:rgba(255,255,255,0.45);">
-                Bridging open-source LLMs to production-grade agent workflows. Designed for teams that need flexibility without vendor lock-in.
-              </p>
-            </div>
-          </div>
-
-          <!-- NLP Research -->
-          <div class="card-outer reveal reveal-delay-3" style="grid-column: span 7; transition: transform 0.5s cubic-bezier(0.32,0.72,0,1);" onmouseenter="this.style.transform='translateY(-4px)'" onmouseleave="this.style.transform='translateY(0)'">
-            <div class="card-inner" style="padding:2rem; min-height:240px;">
-              <div style="width:2.5rem; height:2.5rem; background:linear-gradient(135deg,#F59E0B,#F0C040); border-radius:0.75rem; display:flex; align-items:center; justify-content:center; margin-bottom:1.25rem;">
-                <i class="ph-light ph-text-aa" style="font-size:1.2rem; color:#fff;"></i>
-              </div>
-              <h3 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.25rem; font-weight:700; color:#fff; letter-spacing:-0.02em; line-height:1.2; margin-bottom:0.75rem;">
-                NLP Research Suite
-              </h3>
-              <p style="font-size:0.85rem; line-height:1.7; color:rgba(255,255,255,0.45); max-width:360px;">
-                Information extraction, question-answering systems using First Order Logic, toxicity detection, fake opinion detection on Yelp data, and POS tagging with the Viterbi algorithm.
-              </p>
-              <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1rem;">
-                <span style="background:rgba(240,192,64,0.1); border:1px solid rgba(240,192,64,0.2); border-radius:999px; padding:0.2rem 0.6rem; font-size:0.68rem; color:rgba(240,192,64,0.9); font-weight:500;">NLP</span>
-                <span style="background:rgba(240,192,64,0.1); border:1px solid rgba(240,192,64,0.2); border-radius:999px; padding:0.2rem 0.6rem; font-size:0.68rem; color:rgba(240,192,64,0.9); font-weight:500;">Information Extraction</span>
-                <span style="background:rgba(240,192,64,0.1); border:1px solid rgba(240,192,64,0.2); border-radius:999px; padding:0.2rem 0.6rem; font-size:0.68rem; color:rgba(240,192,64,0.9); font-weight:500;">QA Systems</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Responsive: make bento single column on mobile -->
-        <style>
-          @media (max-width: 768px) {
-            #agents > div > div:last-child > div { grid-column: span 12 !important; }
-          }
-        </style>
-      </div>
-    </section>
-
     <!-- ═══════════════════════════════════════════════════════ WRITING -->
     <section id="writing" style="padding: 7rem 1.5rem; position:relative; z-index:2; max-width:1280px; margin:0 auto;">
-      <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:5rem;">
-
+      <div class="section-divider">
         <div class="reveal" style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem; margin-bottom:3.5rem;">
           <div>
             <div class="section-label" style="margin-bottom:0.75rem;">Writing</div>
-            <h2 style="font-family:'Clash Display',system-ui,sans-serif; font-size:clamp(2rem,4vw,3rem); font-weight:700; letter-spacing:-0.025em; line-height:1.1; color:#fff;">
+            <h2 style="font-family:'Clash Display',system-ui,sans-serif; font-size:clamp(2rem,4vw,3rem); font-weight:700; letter-spacing:-0.025em; line-height:1.1; color:var(--text);">
               Ideas I've Published
             </h2>
           </div>
@@ -907,77 +1183,81 @@
         </div>
 
         <!-- Publication strip -->
-        <div class="reveal" style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-bottom:3rem;">
-          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:rgba(255,255,255,0.55); font-weight:500; display:flex; align-items:center; gap:0.5rem;">
-            <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;"></span>Towards Data Science
-          </div>
-          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:rgba(255,255,255,0.55); font-weight:500; display:flex; align-items:center; gap:0.5rem;">
-            <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;"></span>Towards AI
-          </div>
-          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:rgba(255,255,255,0.55); font-weight:500; display:flex; align-items:center; gap:0.5rem;">
-            <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;"></span>Analytics Vidhya
-          </div>
-          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:rgba(255,255,255,0.55); font-weight:500; display:flex; align-items:center; gap:0.5rem;">
-            <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;"></span>The Startup
-          </div>
-          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:999px; padding:0.45rem 1rem; font-size:0.78rem; color:rgba(255,255,255,0.55); font-weight:500; display:flex; align-items:center; gap:0.5rem;">
-            <span style="width:6px;height:6px;border-radius:50%;background:#4B7CF7;"></span>LinkedIn Articles
-          </div>
+        <div class="reveal" style="display:flex; flex-wrap:wrap; gap:0.65rem; margin-bottom:3rem;">
+          <span style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.14); border-radius:999px; padding:0.4rem 0.95rem; font-size:0.76rem; color:var(--text-2); font-weight:500; display:flex; align-items:center; gap:0.45rem;">
+            <span style="width:5px;height:5px;border-radius:50%;background:var(--em);flex-shrink:0;"></span>Towards Data Science
+          </span>
+          <span style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.14); border-radius:999px; padding:0.4rem 0.95rem; font-size:0.76rem; color:var(--text-2); font-weight:500; display:flex; align-items:center; gap:0.45rem;">
+            <span style="width:5px;height:5px;border-radius:50%;background:var(--em);flex-shrink:0;"></span>Towards AI
+          </span>
+          <span style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.14); border-radius:999px; padding:0.4rem 0.95rem; font-size:0.76rem; color:var(--text-2); font-weight:500; display:flex; align-items:center; gap:0.45rem;">
+            <span style="width:5px;height:5px;border-radius:50%;background:var(--em);flex-shrink:0;"></span>Analytics Vidhya
+          </span>
+          <span style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.14); border-radius:999px; padding:0.4rem 0.95rem; font-size:0.76rem; color:var(--text-2); font-weight:500; display:flex; align-items:center; gap:0.45rem;">
+            <span style="width:5px;height:5px;border-radius:50%;background:var(--em);flex-shrink:0;"></span>The Startup
+          </span>
+          <span style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.14); border-radius:999px; padding:0.4rem 0.95rem; font-size:0.76rem; color:var(--text-2); font-weight:500; display:flex; align-items:center; gap:0.45rem;">
+            <span style="width:5px;height:5px;border-radius:50%;background:var(--em);flex-shrink:0;"></span>LinkedIn Articles
+          </span>
         </div>
 
-        <!-- Article cards -->
+        <!-- Article cards — intentionally asymmetric widths -->
         <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:1.25rem;">
 
-          <a href="https://www.linkedin.com/pulse/uncomfortable-truth-why-things-sell-ananya-banerjee/" target="_blank" rel="noopener noreferrer" class="writing-card card-outer" style="text-decoration:none; display:block;">
+          <a href="https://www.linkedin.com/pulse/uncomfortable-truth-why-things-sell-ananya-banerjee/"
+             target="_blank" rel="noopener noreferrer" class="writing-card card-outer">
             <div class="card-inner" style="padding:1.75rem;">
-              <div style="font-size:0.68rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#4B7CF7; margin-bottom:0.85rem;">LinkedIn · Jan 2026</div>
-              <h4 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.05rem; font-weight:700; color:#fff; line-height:1.4; margin-bottom:0.6rem;">The Uncomfortable Truth About Why Things Sell</h4>
-              <p style="font-size:0.82rem; color:rgba(255,255,255,0.4); line-height:1.6;">The psychology of purchasing decisions most people overlook.</p>
-              <div style="margin-top:1.25rem; color:#4B7CF7; font-size:0.75rem; font-weight:600; display:flex; align-items:center; gap:0.3rem;">Read <i class="ph-light ph-arrow-right"></i></div>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:400; letter-spacing:0.14em; text-transform:uppercase; color:var(--em); margin-bottom:0.9rem;">LinkedIn &middot; Jan 2026</div>
+              <h4 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.05rem; font-weight:700; color:var(--text); line-height:1.4; margin-bottom:0.6rem;">The Uncomfortable Truth About Why Things Sell</h4>
+              <p style="font-size:0.82rem; color:var(--text-3); line-height:1.65;">The psychology of purchasing decisions most people overlook.</p>
+              <div style="margin-top:1.25rem; color:var(--em); font-size:0.75rem; font-weight:600; display:flex; align-items:center; gap:0.35rem;">Read <i class="ph-light ph-arrow-right"></i></div>
             </div>
           </a>
 
-          <a href="https://www.linkedin.com/pulse/how-use-unlearning-super-weapon-success-ananya-banerjee/" target="_blank" rel="noopener noreferrer" class="writing-card card-outer" style="text-decoration:none; display:block;">
+          <a href="https://www.linkedin.com/pulse/how-use-unlearning-super-weapon-success-ananya-banerjee/"
+             target="_blank" rel="noopener noreferrer" class="writing-card card-outer">
             <div class="card-inner" style="padding:1.75rem;">
-              <div style="font-size:0.68rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#7C3AED; margin-bottom:0.85rem;">LinkedIn · Jan 2025</div>
-              <h4 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.05rem; font-weight:700; color:#fff; line-height:1.4; margin-bottom:0.6rem;">Unlearning as a Super Weapon for Success</h4>
-              <p style="font-size:0.82rem; color:rgba(255,255,255,0.4); line-height:1.6;">Why shedding outdated beliefs is the highest-leverage skill you can develop.</p>
-              <div style="margin-top:1.25rem; color:#7C3AED; font-size:0.75rem; font-weight:600; display:flex; align-items:center; gap:0.3rem;">Read <i class="ph-light ph-arrow-right"></i></div>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:400; letter-spacing:0.14em; text-transform:uppercase; color:var(--cr); margin-bottom:0.9rem;">LinkedIn &middot; Jan 2025</div>
+              <h4 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.05rem; font-weight:700; color:var(--text); line-height:1.4; margin-bottom:0.6rem;">Unlearning as a Super Weapon for Success</h4>
+              <p style="font-size:0.82rem; color:var(--text-3); line-height:1.65;">Why shedding outdated beliefs is the highest-leverage skill you can develop.</p>
+              <div style="margin-top:1.25rem; color:var(--cr); font-size:0.75rem; font-weight:600; display:flex; align-items:center; gap:0.35rem;">Read <i class="ph-light ph-arrow-right"></i></div>
             </div>
           </a>
 
-          <a href="https://www.linkedin.com/pulse/ancient-japanese-secrets-unstoppable-productivity-ananya-banerjee/" target="_blank" rel="noopener noreferrer" class="writing-card card-outer" style="text-decoration:none; display:block;">
+          <a href="https://www.linkedin.com/pulse/ancient-japanese-secrets-unstoppable-productivity-ananya-banerjee/"
+             target="_blank" rel="noopener noreferrer" class="writing-card card-outer">
             <div class="card-inner" style="padding:1.75rem;">
-              <div style="font-size:0.68rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#F0C040; margin-bottom:0.85rem;">LinkedIn · Mar 2024</div>
-              <h4 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.05rem; font-weight:700; color:#fff; line-height:1.4; margin-bottom:0.6rem;">Ancient Japanese Secrets to Unstoppable Productivity</h4>
-              <p style="font-size:0.82rem; color:rgba(255,255,255,0.4); line-height:1.6;">Timeless frameworks applied to modern work. 37 likes.</p>
-              <div style="margin-top:1.25rem; color:#F0C040; font-size:0.75rem; font-weight:600; display:flex; align-items:center; gap:0.3rem;">Read <i class="ph-light ph-arrow-right"></i></div>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:400; letter-spacing:0.14em; text-transform:uppercase; color:rgba(240,192,64,0.8); margin-bottom:0.9rem;">LinkedIn &middot; Mar 2024</div>
+              <h4 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.05rem; font-weight:700; color:var(--text); line-height:1.4; margin-bottom:0.6rem;">Ancient Japanese Secrets to Unstoppable Productivity</h4>
+              <p style="font-size:0.82rem; color:var(--text-3); line-height:1.65;">Timeless frameworks applied to modern work. 37 likes.</p>
+              <div style="margin-top:1.25rem; color:rgba(240,192,64,0.9); font-size:0.75rem; font-weight:600; display:flex; align-items:center; gap:0.35rem;">Read <i class="ph-light ph-arrow-right"></i></div>
             </div>
           </a>
 
-          <a href="https://www.linkedin.com/pulse/how-utilization-circular-economy-can-help-you-build-next-banerjee/" target="_blank" rel="noopener noreferrer" class="writing-card card-outer" style="text-decoration:none; display:block;">
+          <a href="https://www.linkedin.com/pulse/how-utilization-circular-economy-can-help-you-build-next-banerjee/"
+             target="_blank" rel="noopener noreferrer" class="writing-card card-outer">
             <div class="card-inner" style="padding:1.75rem;">
-              <div style="font-size:0.68rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#2DD4BF; margin-bottom:0.85rem;">LinkedIn · Apr 2024</div>
-              <h4 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.05rem; font-weight:700; color:#fff; line-height:1.4; margin-bottom:0.6rem;">Circular Economy and the Next Google</h4>
-              <p style="font-size:0.82rem; color:rgba(255,255,255,0.4); line-height:1.6;">How circular business models unlock compounding growth. 38 likes.</p>
-              <div style="margin-top:1.25rem; color:#2DD4BF; font-size:0.75rem; font-weight:600; display:flex; align-items:center; gap:0.3rem;">Read <i class="ph-light ph-arrow-right"></i></div>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:400; letter-spacing:0.14em; text-transform:uppercase; color:rgba(45,212,191,0.8); margin-bottom:0.9rem;">LinkedIn &middot; Apr 2024</div>
+              <h4 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.05rem; font-weight:700; color:var(--text); line-height:1.4; margin-bottom:0.6rem;">Circular Economy and the Next Google</h4>
+              <p style="font-size:0.82rem; color:var(--text-3); line-height:1.65;">How circular business models unlock compounding growth. 38 likes.</p>
+              <div style="margin-top:1.25rem; color:rgba(45,212,191,0.9); font-size:0.75rem; font-weight:600; display:flex; align-items:center; gap:0.35rem;">Read <i class="ph-light ph-arrow-right"></i></div>
             </div>
           </a>
 
-          <a href="https://towardsdatascience.com" target="_blank" rel="noopener noreferrer" class="writing-card card-outer" style="text-decoration:none; display:block;">
+          <a href="https://towardsdatascience.com" target="_blank" rel="noopener noreferrer" class="writing-card card-outer">
             <div class="card-inner" style="padding:1.75rem;">
-              <div style="font-size:0.68rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:0.85rem;">Towards Data Science</div>
-              <h4 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.05rem; font-weight:700; color:#fff; line-height:1.4; margin-bottom:0.6rem;">Machine Learning & Deep Learning</h4>
-              <p style="font-size:0.82rem; color:rgba(255,255,255,0.4); line-height:1.6;">Technical deep dives into ML algorithms, NLP, and computer vision. Writing since Sep 2019.</p>
-              <div style="margin-top:1.25rem; color:rgba(255,255,255,0.5); font-size:0.75rem; font-weight:600; display:flex; align-items:center; gap:0.3rem;">Explore <i class="ph-light ph-arrow-right"></i></div>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:400; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-3); margin-bottom:0.9rem;">Towards Data Science</div>
+              <h4 style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.05rem; font-weight:700; color:var(--text); line-height:1.4; margin-bottom:0.6rem;">Machine Learning &amp; Deep Learning</h4>
+              <p style="font-size:0.82rem; color:var(--text-3); line-height:1.65;">Technical deep dives into ML algorithms, NLP, and computer vision. Writing since Sep 2019.</p>
+              <div style="margin-top:1.25rem; color:var(--text-2); font-size:0.75rem; font-weight:600; display:flex; align-items:center; gap:0.35rem;">Explore <i class="ph-light ph-arrow-right"></i></div>
             </div>
           </a>
 
-          <a href="https://ananya-banerjee.medium.com/" target="_blank" rel="noopener noreferrer" class="writing-card card-outer" style="text-decoration:none; display:block;">
+          <a href="https://ananya-banerjee.medium.com/" target="_blank" rel="noopener noreferrer" class="writing-card card-outer">
             <div class="card-inner" style="padding:1.75rem; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; min-height:180px;">
-              <i class="ph-light ph-arrow-square-out" style="font-size:2rem; color:rgba(255,255,255,0.2); margin-bottom:0.75rem;"></i>
-              <div style="font-size:0.82rem; color:rgba(255,255,255,0.4); line-height:1.6;">More on Medium →</div>
-              <div style="font-size:0.72rem; color:rgba(75,124,247,0.7); margin-top:0.35rem; font-weight:500;">ananya-banerjee.medium.com</div>
+              <i class="ph-light ph-arrow-square-out" style="font-size:2.2rem; color:rgba(16,185,129,0.3); margin-bottom:0.85rem;"></i>
+              <div style="font-size:0.82rem; color:var(--text-3); line-height:1.6;">More on Medium &rarr;</div>
+              <div style="font-size:0.72rem; color:rgba(16,185,129,0.65); margin-top:0.4rem; font-weight:500;">ananya-banerjee.medium.com</div>
             </div>
           </a>
 
@@ -987,109 +1267,108 @@
 
     <!-- ═══════════════════════════════════════════════════════ AWARDS -->
     <section id="awards" style="padding: 7rem 1.5rem; position:relative; z-index:2; max-width:1280px; margin:0 auto;">
-      <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:5rem;">
-
+      <div class="section-divider">
         <div class="reveal" style="margin-bottom:3.5rem;">
           <div class="section-label" style="margin-bottom:0.75rem;">Recognition</div>
-          <h2 style="font-family:'Clash Display',system-ui,sans-serif; font-size:clamp(2rem,4vw,3rem); font-weight:700; letter-spacing:-0.025em; line-height:1.1; color:#fff;">
-            Awards & Fellowships
+          <h2 style="font-family:'Clash Display',system-ui,sans-serif; font-size:clamp(2rem,4vw,3rem); font-weight:700; letter-spacing:-0.025em; line-height:1.1; color:var(--text);">
+            Awards &amp; Fellowships
           </h2>
         </div>
 
-        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:1rem;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:0.9rem;">
 
-          <div class="award-badge reveal reveal-delay-1" style="padding:1.5rem;">
-            <div style="display:flex; align-items:flex-start; gap:0.85rem;">
-              <div style="width:2.25rem; height:2.25rem; background:rgba(240,192,64,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                <i class="ph-light ph-trophy" style="font-size:1rem; color:#F0C040;"></i>
+          <div class="award-badge gold-badge reveal reveal-delay-1">
+            <div style="display:flex; align-items:flex-start; gap:0.9rem;">
+              <div style="width:2.25rem; height:2.25rem; background:rgba(217,119,6,0.14); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <i class="ph-light ph-trophy" style="font-size:1rem; color:var(--gold);"></i>
               </div>
               <div>
-                <div style="font-size:0.85rem; font-weight:700; color:#fff; line-height:1.3; margin-bottom:0.3rem;">1st Place · Invent Week 2024</div>
-                <div style="font-size:0.75rem; color:rgba(255,255,255,0.4);">eBay · 1,000+ teams · Ad Generation via Generative AI</div>
+                <div style="font-size:0.85rem; font-weight:600; color:var(--text); line-height:1.3; margin-bottom:0.3rem; font-family:'Bricolage Grotesque',sans-serif;">1st Place &middot; Invent Week 2024</div>
+                <div style="font-size:0.75rem; color:var(--text-3);">eBay &middot; 1,000+ teams &middot; Ad Generation via Generative AI</div>
               </div>
             </div>
           </div>
 
-          <div class="award-badge reveal reveal-delay-2" style="padding:1.5rem;">
-            <div style="display:flex; align-items:flex-start; gap:0.85rem;">
-              <div style="width:2.25rem; height:2.25rem; background:rgba(240,192,64,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                <i class="ph-light ph-trophy" style="font-size:1rem; color:#F0C040;"></i>
+          <div class="award-badge gold-badge reveal reveal-delay-2">
+            <div style="display:flex; align-items:flex-start; gap:0.9rem;">
+              <div style="width:2.25rem; height:2.25rem; background:rgba(217,119,6,0.14); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <i class="ph-light ph-trophy" style="font-size:1rem; color:var(--gold);"></i>
               </div>
               <div>
-                <div style="font-size:0.85rem; font-weight:700; color:#fff; line-height:1.3; margin-bottom:0.3rem;">Leadership Choice Award 2023</div>
-                <div style="font-size:0.75rem; color:rgba(255,255,255,0.4);">eBay Global Showcase · Innovative & groundbreaking project</div>
+                <div style="font-size:0.85rem; font-weight:600; color:var(--text); line-height:1.3; margin-bottom:0.3rem;">Leadership Choice Award 2023</div>
+                <div style="font-size:0.75rem; color:var(--text-3);">eBay Global Showcase &middot; Innovative &amp; groundbreaking project</div>
               </div>
             </div>
           </div>
 
-          <div class="award-badge reveal reveal-delay-3" style="padding:1.5rem;">
-            <div style="display:flex; align-items:flex-start; gap:0.85rem;">
-              <div style="width:2.25rem; height:2.25rem; background:rgba(240,192,64,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                <i class="ph-light ph-trophy" style="font-size:1rem; color:#F0C040;"></i>
+          <div class="award-badge gold-badge reveal reveal-delay-3">
+            <div style="display:flex; align-items:flex-start; gap:0.9rem;">
+              <div style="width:2.25rem; height:2.25rem; background:rgba(217,119,6,0.14); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <i class="ph-light ph-trophy" style="font-size:1rem; color:var(--gold);"></i>
               </div>
               <div>
-                <div style="font-size:0.85rem; font-weight:700; color:#fff; line-height:1.3; margin-bottom:0.3rem;">1st Place · Invent Week 2023</div>
-                <div style="font-size:0.75rem; color:rgba(255,255,255,0.4);">eBay · Hundreds of teams competing</div>
+                <div style="font-size:0.85rem; font-weight:600; color:var(--text); line-height:1.3; margin-bottom:0.3rem;">1st Place &middot; Invent Week 2023</div>
+                <div style="font-size:0.75rem; color:var(--text-3);">eBay &middot; Hundreds of teams competing</div>
               </div>
             </div>
           </div>
 
-          <div class="award-badge reveal reveal-delay-1" style="padding:1.5rem;">
-            <div style="display:flex; align-items:flex-start; gap:0.85rem;">
-              <div style="width:2.25rem; height:2.25rem; background:rgba(75,124,247,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                <i class="ph-light ph-brain" style="font-size:1rem; color:#4B7CF7;"></i>
+          <div class="award-badge reveal reveal-delay-1">
+            <div style="display:flex; align-items:flex-start; gap:0.9rem;">
+              <div style="width:2.25rem; height:2.25rem; background:rgba(16,185,129,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <i class="ph-light ph-brain" style="font-size:1rem; color:var(--em);"></i>
               </div>
               <div>
-                <div style="font-size:0.85rem; font-weight:700; color:#fff; line-height:1.3; margin-bottom:0.3rem;">CIFAR DLRL Summer School 2020</div>
-                <div style="font-size:0.75rem; color:rgba(255,255,255,0.4);">Selected from 88 countries · CIFAR, MILA, Vector Institute</div>
+                <div style="font-size:0.85rem; font-weight:600; color:var(--text); line-height:1.3; margin-bottom:0.3rem;">CIFAR DLRL Summer School 2020</div>
+                <div style="font-size:0.75rem; color:var(--text-3);">Selected from 88 countries &middot; CIFAR, MILA, Vector Institute</div>
               </div>
             </div>
           </div>
 
-          <div class="award-badge reveal reveal-delay-2" style="padding:1.5rem;">
-            <div style="display:flex; align-items:flex-start; gap:0.85rem;">
-              <div style="width:2.25rem; height:2.25rem; background:rgba(75,124,247,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                <i class="ph-light ph-star" style="font-size:1rem; color:#4B7CF7;"></i>
+          <div class="award-badge reveal reveal-delay-2">
+            <div style="display:flex; align-items:flex-start; gap:0.9rem;">
+              <div style="width:2.25rem; height:2.25rem; background:rgba(16,185,129,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <i class="ph-light ph-star" style="font-size:1rem; color:var(--em);"></i>
               </div>
               <div>
-                <div style="font-size:0.85rem; font-weight:700; color:#fff; line-height:1.3; margin-bottom:0.3rem;">Master's Research Fellowship</div>
-                <div style="font-size:0.75rem; color:rgba(255,255,255,0.4);">University of Texas at Dallas · 2020</div>
+                <div style="font-size:0.85rem; font-weight:600; color:var(--text); line-height:1.3; margin-bottom:0.3rem;">Master's Research Fellowship</div>
+                <div style="font-size:0.75rem; color:var(--text-3);">University of Texas at Dallas &middot; 2020</div>
               </div>
             </div>
           </div>
 
-          <div class="award-badge reveal reveal-delay-3" style="padding:1.5rem;">
-            <div style="display:flex; align-items:flex-start; gap:0.85rem;">
-              <div style="width:2.25rem; height:2.25rem; background:rgba(75,124,247,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                <i class="ph-light ph-medal" style="font-size:1rem; color:#4B7CF7;"></i>
+          <div class="award-badge reveal reveal-delay-3">
+            <div style="display:flex; align-items:flex-start; gap:0.9rem;">
+              <div style="width:2.25rem; height:2.25rem; background:rgba(16,185,129,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <i class="ph-light ph-medal" style="font-size:1rem; color:var(--em);"></i>
               </div>
               <div>
-                <div style="font-size:0.85rem; font-weight:700; color:#fff; line-height:1.3; margin-bottom:0.3rem;">Jonsson Graduate Scholarship</div>
-                <div style="font-size:0.75rem; color:rgba(255,255,255,0.4);">UT Dallas · Merit-based · Engineering & CS</div>
+                <div style="font-size:0.85rem; font-weight:600; color:var(--text); line-height:1.3; margin-bottom:0.3rem;">Jonsson Graduate Scholarship</div>
+                <div style="font-size:0.75rem; color:var(--text-3);">UT Dallas &middot; Merit-based &middot; Engineering &amp; CS</div>
               </div>
             </div>
           </div>
 
-          <div class="award-badge reveal reveal-delay-1" style="padding:1.5rem;">
-            <div style="display:flex; align-items:flex-start; gap:0.85rem;">
-              <div style="width:2.25rem; height:2.25rem; background:rgba(45,212,191,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <div class="award-badge teal-badge reveal reveal-delay-1">
+            <div style="display:flex; align-items:flex-start; gap:0.9rem;">
+              <div style="width:2.25rem; height:2.25rem; background:rgba(45,212,191,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                 <i class="ph-light ph-users" style="font-size:1rem; color:#2DD4BF;"></i>
               </div>
               <div>
-                <div style="font-size:0.85rem; font-weight:700; color:#fff; line-height:1.3; margin-bottom:0.3rem;">CRA-WP Grad Cohort for Women 2021</div>
-                <div style="font-size:0.75rem; color:rgba(255,255,255,0.4);">Selected participant · New Orleans</div>
+                <div style="font-size:0.85rem; font-weight:600; color:var(--text); line-height:1.3; margin-bottom:0.3rem;">CRA-WP Grad Cohort for Women 2021</div>
+                <div style="font-size:0.75rem; color:var(--text-3);">Selected participant &middot; New Orleans</div>
               </div>
             </div>
           </div>
 
-          <div class="award-badge reveal reveal-delay-2" style="padding:1.5rem;">
-            <div style="display:flex; align-items:flex-start; gap:0.85rem;">
-              <div style="width:2.25rem; height:2.25rem; background:rgba(45,212,191,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <div class="award-badge teal-badge reveal reveal-delay-2">
+            <div style="display:flex; align-items:flex-start; gap:0.9rem;">
+              <div style="width:2.25rem; height:2.25rem; background:rgba(45,212,191,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                 <i class="ph-light ph-certificate" style="font-size:1rem; color:#2DD4BF;"></i>
               </div>
               <div>
-                <div style="font-size:0.85rem; font-weight:700; color:#fff; line-height:1.3; margin-bottom:0.3rem;">CBSE 0.1% Certificate of Merit</div>
-                <div style="font-size:0.75rem; color:rgba(255,255,255,0.4);">National top 0.1% · Grades 10 & 12</div>
+                <div style="font-size:0.85rem; font-weight:600; color:var(--text); line-height:1.3; margin-bottom:0.3rem;">CBSE 0.1% Certificate of Merit</div>
+                <div style="font-size:0.75rem; color:var(--text-3);">National top 0.1% &middot; Grades 10 &amp; 12</div>
               </div>
             </div>
           </div>
@@ -1100,11 +1379,10 @@
 
     <!-- ═══════════════════════════════════════════════════════ FAQ (AEO) -->
     <section style="padding: 7rem 1.5rem; position:relative; z-index:2; max-width:1280px; margin:0 auto;">
-      <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:5rem;">
-
+      <div class="section-divider">
         <div class="reveal" style="margin-bottom:3rem;">
           <div class="section-label" style="margin-bottom:0.75rem;">FAQ</div>
-          <h2 style="font-family:'Clash Display',system-ui,sans-serif; font-size:clamp(1.75rem,3.5vw,2.5rem); font-weight:700; letter-spacing:-0.025em; line-height:1.1; color:#fff;">
+          <h2 style="font-family:'Clash Display',system-ui,sans-serif; font-size:clamp(1.75rem,3.5vw,2.5rem); font-weight:700; letter-spacing:-0.025em; line-height:1.1; color:var(--text);">
             Common Questions
           </h2>
         </div>
@@ -1113,29 +1391,29 @@
 
           <div class="card-outer reveal reveal-delay-1">
             <div class="card-inner" style="padding:1.75rem;">
-              <h3 style="font-size:0.9rem; font-weight:700; color:#fff; margin-bottom:0.6rem; line-height:1.4;">What iOS apps has Ananya built?</h3>
-              <p style="font-size:0.82rem; color:rgba(255,255,255,0.45); line-height:1.7;">AgentChat Hub — a universal AI agent messenger for iOS, iPad, Mac, and Vision Pro. And It Made My Day — a private gratitude vault for capturing daily moments.</p>
+              <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-size:0.92rem; font-weight:600; color:var(--text); margin-bottom:0.65rem; line-height:1.4;">What iOS apps has Ananya built?</h3>
+              <p style="font-size:0.82rem; color:var(--text-2); line-height:1.72;">AgentChat Hub — a universal AI agent messenger for iOS, iPad, Mac, and Vision Pro. And It Made My Day — a private gratitude vault for capturing daily moments.</p>
             </div>
           </div>
 
           <div class="card-outer reveal reveal-delay-2">
             <div class="card-inner" style="padding:1.75rem;">
-              <h3 style="font-size:0.9rem; font-weight:700; color:#fff; margin-bottom:0.6rem; line-height:1.4;">What AI research has Ananya published?</h3>
-              <p style="font-size:0.82rem; color:rgba(255,255,255,0.45); line-height:1.7;">Knowledge-Infused Text-to-Image Generation (NLP + vision), toxicity detection, fake opinion detection, information extraction, and hyperparameter optimization using Bayesian methods.</p>
+              <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-size:0.92rem; font-weight:600; color:var(--text); margin-bottom:0.65rem; line-height:1.4;">What AI research has Ananya published?</h3>
+              <p style="font-size:0.82rem; color:var(--text-2); line-height:1.72;">Knowledge-Infused Text-to-Image Generation (NLP + vision), toxicity detection, fake opinion detection, information extraction, and hyperparameter optimization using Bayesian methods.</p>
             </div>
           </div>
 
           <div class="card-outer reveal reveal-delay-3">
             <div class="card-inner" style="padding:1.75rem;">
-              <h3 style="font-size:0.9rem; font-weight:700; color:#fff; margin-bottom:0.6rem; line-height:1.4;">Where does she write about AI and tech?</h3>
-              <p style="font-size:0.82rem; color:rgba(255,255,255,0.45); line-height:1.7;">Towards Data Science, Towards AI, Analytics Vidhya, The Startup, and LinkedIn — writing since 2019 on ML, deep learning, business strategy, and productivity.</p>
+              <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-size:0.92rem; font-weight:600; color:var(--text); margin-bottom:0.65rem; line-height:1.4;">Where does she write about AI and tech?</h3>
+              <p style="font-size:0.82rem; color:var(--text-2); line-height:1.72;">Towards Data Science, Towards AI, Analytics Vidhya, The Startup, and LinkedIn — writing since 2019 on ML, deep learning, business strategy, and productivity.</p>
             </div>
           </div>
 
           <div class="card-outer reveal reveal-delay-4">
             <div class="card-inner" style="padding:1.75rem;">
-              <h3 style="font-size:0.9rem; font-weight:700; color:#fff; margin-bottom:0.6rem; line-height:1.4;">What notable awards has Ananya received?</h3>
-              <p style="font-size:0.82rem; color:rgba(255,255,255,0.45); line-height:1.7;">Two consecutive first-place wins at eBay's Invent Week Hackathon (2023 & 2024, 1,000+ teams), the CIFAR DLRL Summer School selection, and a Master's Research Fellowship at UT Dallas.</p>
+              <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-size:0.92rem; font-weight:600; color:var(--text); margin-bottom:0.65rem; line-height:1.4;">What notable awards has Ananya received?</h3>
+              <p style="font-size:0.82rem; color:var(--text-2); line-height:1.72;">Two consecutive first-place wins at eBay's Invent Week Hackathon (2023 &amp; 2024, 1,000+ teams), the CIFAR DLRL Summer School selection, and a Master's Research Fellowship at UT Dallas.</p>
             </div>
           </div>
 
@@ -1146,13 +1424,13 @@
   </main>
 
   <!-- ═══════════════════════════════════════════════════════ FOOTER -->
-  <footer style="padding: 5rem 1.5rem 3rem; position:relative; z-index:2; border-top:1px solid rgba(255,255,255,0.06); max-width:1280px; margin:0 auto;">
+  <footer style="padding: 5rem 1.5rem 3rem; position:relative; z-index:2; border-top:1px solid var(--border); max-width:1280px; margin:0 auto;">
     <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:2.5rem; margin-bottom:3rem;">
 
       <!-- Identity -->
       <div>
-        <div style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.25rem; font-weight:700; color:#fff; margin-bottom:0.4rem;">Ananya Banerjee</div>
-        <div style="font-size:0.8rem; color:rgba(255,255,255,0.35);">Senior Software Engineer · LinkedIn · San Francisco Bay Area</div>
+        <div style="font-family:'Clash Display',system-ui,sans-serif; font-size:1.25rem; font-weight:700; color:var(--text); margin-bottom:0.4rem; letter-spacing:-0.01em;">Ananya Banerjee</div>
+        <div style="font-size:0.8rem; color:var(--text-3);">Senior Software Engineer &middot; LinkedIn &middot; San Francisco Bay Area</div>
       </div>
 
       <!-- Social links -->
@@ -1177,22 +1455,25 @@
 
     <!-- Bottom bar -->
     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; padding-top:1.5rem; border-top:1px solid rgba(255,255,255,0.05);">
-      <div style="font-size:0.75rem; color:rgba(255,255,255,0.25);">
-        © <span id="year"></span> Ananya Banerjee. All rights reserved.
+      <div style="font-size:0.74rem; color:var(--text-3);">
+        &copy; <span id="year"></span> Ananya Banerjee. All rights reserved.
       </div>
       <div style="display:flex; gap:1.5rem;">
-        <a href="privacy-policy.html" style="font-size:0.75rem; color:rgba(255,255,255,0.25); text-decoration:none; transition:color 0.3s;" onmouseover="this.style.color='rgba(255,255,255,0.6)'" onmouseout="this.style.color='rgba(255,255,255,0.25)'">Privacy Policy</a>
-        <a href="terms.html" style="font-size:0.75rem; color:rgba(255,255,255,0.25); text-decoration:none; transition:color 0.3s;" onmouseover="this.style.color='rgba(255,255,255,0.6)'" onmouseout="this.style.color='rgba(255,255,255,0.25)'">Terms of Use</a>
-        <a href="dmca.html" style="font-size:0.75rem; color:rgba(255,255,255,0.25); text-decoration:none; transition:color 0.3s;" onmouseover="this.style.color='rgba(255,255,255,0.6)'" onmouseout="this.style.color='rgba(255,255,255,0.25)'">DMCA</a>
+        <a href="privacy-policy.html" title="Privacy Policy"
+           style="font-size:0.74rem; color:var(--text-3); text-decoration:none; transition:color 0.25s ease;"
+           onmouseover="this.style.color='var(--em)'" onmouseout="this.style.color='var(--text-3)'">Privacy Policy</a>
+        <a href="terms.html" title="Terms of Use"
+           style="font-size:0.74rem; color:var(--text-3); text-decoration:none; transition:color 0.25s ease;"
+           onmouseover="this.style.color='var(--em)'" onmouseout="this.style.color='var(--text-3)'">Terms of Use</a>
       </div>
     </div>
   </footer>
 
   <script>
-    // ── Year ─────────────────────────────────────────────────
+    // ── Year ──────────────────────────────────────────────────
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ── Mobile menu ───────────────────────────────────────────
+    // ── Mobile menu ────────────────────────────────────────────
     const toggle = document.getElementById('nav-toggle');
     const menu   = document.getElementById('mobile-menu');
     const close  = document.getElementById('mobile-close');
@@ -1210,7 +1491,7 @@
     }
     close.addEventListener('click', closeMobileMenu);
 
-    // ── Scroll reveal (IntersectionObserver) ─────────────────
+    // ── Scroll reveal ──────────────────────────────────────────
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -1222,13 +1503,13 @@
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // ── Nav scroll shadow ─────────────────────────────────────
-    const nav = document.querySelector('.nav-pill');
+    // ── Nav scroll state ───────────────────────────────────────
+    const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 60) {
-        nav.style.background = 'rgba(5,5,5,0.85)';
+        nav.classList.add('scrolled');
       } else {
-        nav.style.background = 'rgba(255,255,255,0.06)';
+        nav.classList.remove('scrolled');
       }
     }, { passive: true });
   </script>

@@ -2,7 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /privacy-policy.html
 Disallow: /terms.html
-Disallow: /dmca.html
 
 # Block AI training crawlers
 User-agent: GPTBot

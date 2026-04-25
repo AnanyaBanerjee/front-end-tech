@@ -25,11 +25,18 @@ Ananya Banerjee holds an MS in Computer Science from the University of Texas at 
 - The Startup / Medium (since Oct 2019)
 - LinkedIn Articles (business strategy, AI, productivity)
 
+## Side Ventures
+
+- **AgentHub** — Open directory for discovering AI agents using the Agent Name Service (ANS) and A2A protocol. GitHub: https://github.com/AnanyaBanerjee/agent-share
+- **Multi-Hub AI Backend** — Personal AI backend on Railway: image generation, video processing, WhatsApp automation, newsletter delivery.
+- **Ananya's Build Room** — Substack newsletter: honest log of solo building while working full-time. https://ananyabanerjee.substack.com/
+
 ## Key Pages
 - Home: https://www.ananyabanerjee.org/
 - LinkedIn: https://www.linkedin.com/in/ananyabanerjee15/
 - GitHub: https://github.com/AnanyaBanerjee
 - Medium: https://ananya-banerjee.medium.com/
+- Substack: https://ananyabanerjee.substack.com/
 
 ## Awards
 - 1st Place, eBay Invent Week 2024 (1,000+ teams)
