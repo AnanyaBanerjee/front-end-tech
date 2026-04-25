@@ -1,12 +1,13 @@
 # ItMadeMyDay
 
-> Your personal vault for the moments that touch you — so when you feel low, you always know where to find your shine. Free iOS app. No account. No cloud. Fully offline.
+> Your personal vault for the moments that touch you — so when you feel low, you always know where to find your shine. Free iOS app, available now on the App Store. No account. No cloud. Fully offline.
 
 ItMadeMyDay is a free iOS app that acts as a private joy vault. When a hard day comes and your brain convinces you that nothing good has ever happened, you will need proof — real proof, in your own words, from your own life. ItMadeMyDay is where that proof lives. Users save moments that touched them (compliments, memories, achievements, heart-touching things, funny moments, gratitude, and more) in any format — text, photo, link, or audio, or multiple at once. A Boost feature surfaces saved moments filtered by mood. Collections organise moments into curated groups. Everything stays on the device. Nothing ever leaves.
 
 ## Key Pages
 
 - [Home](https://it-made-my-day.com/): App overview, features, and download
+- [App Store](https://apps.apple.com/us/app/itmademyday/id6762099569): Download ItMadeMyDay on iOS
 - [Support](https://it-made-my-day.com/support.html): Help, contact, and FAQs
 - [Privacy Policy](https://it-made-my-day.com/privacy-policy.html): Zero-data privacy policy
 - [Terms of Use](https://it-made-my-day.com/terms.html): Usage terms
