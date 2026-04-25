@@ -117,6 +117,27 @@ Add this inside `<head>` or before `</body>`. Structured data helps Google show 
 </script>
 ```
 
+### For every secondary / utility page (privacy-policy, terms, support, etc.):
+
+Even `noindex` utility pages need a minimal `WebPage` schema. It helps AI crawlers understand the page's role in the site graph and establishes the `isPartOf` relationship to the main website entity. Do NOT add `SoftwareApplication` or `FAQPage` here — just `WebPage`.
+
+```html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://yoursite.com/privacy-policy.html",
+  "url": "https://yoursite.com/privacy-policy.html",
+  "name": "Privacy Policy — [Product Name]",
+  "description": "[One-sentence factual description of what this page contains]",
+  "isPartOf": { "@id": "https://yoursite.com/#website" },
+  "publisher": { "@type": "Person", "name": "[Creator name]" }
+}
+</script>
+```
+
+The `isPartOf` `@id` must match the `@id` used on the `WebSite` node in `index.html` (typically `https://yoursite.com/#website`).
+
 ---
 
 ## 3. Semantic HTML
@@ -140,6 +161,47 @@ Use the correct HTML elements — search engines and AI use these to understand 
 - Never skip heading levels (don't go from h1 to h3)
 - Every image needs a descriptive `alt` attribute
 - Every link needs meaningful text — never "click here"
+
+### Anchor `title` attributes — required on every `<a>` tag
+
+Every `<a>` element must have a `title` attribute. Search engines and AI crawlers use `title` to understand link intent without following the href. This is one of the most commonly failed technical SEO checks.
+
+```html
+<!-- Navigation links -->
+<a title="Features" href="#features">Features</a>
+<a title="Protocol" href="#protocol">Protocol</a>
+
+<!-- Logo — always href="/" not href="#" -->
+<a title="[Product Name]" href="/">
+  <img src="logo.png" alt="[Product Name]" />
+  [Product Name]
+</a>
+
+<!-- External CTAs -->
+<a title="Download on the App Store"
+   href="https://apps.apple.com/..."
+   target="_blank" rel="noopener noreferrer">
+  Download on the App Store
+</a>
+
+<!-- Footer links -->
+<a title="Terms of Use" href="terms.html">Terms of Use</a>
+<a title="Privacy Policy" href="privacy-policy.html">Privacy Policy</a>
+<a title="Support" href="support.html">Support</a>
+<a title="App Store" href="https://apps.apple.com/..." target="_blank" rel="noopener noreferrer">App Store</a>
+
+<!-- Email links -->
+<a title="Email Support" href="mailto:contact@example.com">contact@example.com</a>
+
+<!-- Skip link (accessibility + SEO) -->
+<a title="Skip to main content" href="#main-content">Skip to main content</a>
+```
+
+**Critical link rules:**
+- Navbar logo: always `href="/"`, never `href="#"` — `#` creates a broken anchor, not a home link
+- External links: always `rel="noopener noreferrer"` — **never** `rel="noopener"` alone; `noreferrer` prevents referrer header leakage and implies `noopener`
+- Internal nav links on secondary pages: reference `index.html#section` not `/#section` or a stale filename — verify after every rename
+- `title` text: describe the destination or action. For simple labels like "Features", the title matches the text. For icons or ambiguous elements, be more descriptive.
 
 ---
 
@@ -202,18 +264,36 @@ Sitemap: https://yoursite.com/sitemap.xml
 
 ## 7. SEO Checklist — Run Before Finishing Any Page
 
+**Meta & head**
 - [ ] `<title>` is under 60 characters and includes the product name
 - [ ] `<meta name="description">` is 120–160 characters
 - [ ] Canonical URL is set correctly
-- [ ] Open Graph tags are all filled in
-- [ ] Twitter card tags are filled in
+- [ ] Open Graph tags are all filled in (skip on `noindex` utility pages)
+- [ ] Twitter card tags are filled in (skip on `noindex` utility pages)
 - [ ] OG image exists (1200×630px) or is marked as TODO
-- [ ] JSON-LD structured data is included
+
+**Structured data**
+- [ ] `index.html`: JSON-LD includes `SoftwareApplication` or `WebSite` + `FAQPage` (if FAQ section exists)
+- [ ] Every secondary/utility page has a minimal `WebPage` JSON-LD with `isPartOf` pointing to `#website`
+- [ ] `sitemap.xml` lists only `index` pages — `noindex` pages must NOT appear in sitemap
+
+**Semantic HTML**
 - [ ] One and only one `<h1>` on the page
+- [ ] `<header>`, `<main>`, `<footer>`, `<nav>` used correctly
+- [ ] No "click here" link text
+
+**Images**
 - [ ] All images have `alt` attributes
 - [ ] All images have `width` and `height` attributes
 - [ ] `loading="lazy"` on below-the-fold images
-- [ ] `<header>`, `<main>`, `<footer>`, `<nav>` used correctly
-- [ ] No "click here" link text
+
+**Links — every `<a>` tag**
+- [ ] Every `<a>` has a descriptive `title` attribute
+- [ ] Navbar logo uses `href="/"` not `href="#"`
+- [ ] All external links use `rel="noopener noreferrer"` (both tokens, not just `noopener`)
+- [ ] Internal nav links on secondary pages reference `index.html#section` (verify filename is correct)
+- [ ] No empty or broken hrefs (`href="#"` on non-logo links, `href=""`, `href="javascript:void(0)"`)
+
+**Crawl**
 - [ ] `robots.txt` exists (for deployed sites)
 - [ ] `sitemap.xml` exists (for multi-page sites)

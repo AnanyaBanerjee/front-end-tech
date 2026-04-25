@@ -54,8 +54,8 @@ Pick exactly ONE style skill per project. Never mix two style skills on the same
 |---|---|---|
 | Security | `skills/security/SKILL.md` | `_headers` for Cloudflare, SRI `integrity` + `crossorigin` on all CDN tags, no secrets in source, `rel="noopener noreferrer"` on external links, honeypot on forms |
 | Legal | `skills/legal/SKILL.md` | Copyright footer, `noai` meta tag, `privacy-policy.html`, `terms.html`, `dmca.html` — all matching the main site design exactly |
-| SEO | `skills/seo/SKILL.md` | `<title>`, `<meta description>`, Open Graph, Twitter card, JSON-LD structured data, semantic HTML, image alt attributes, `robots.txt`, `sitemap.xml` |
-| AEO | `skills/aeo/SKILL.md` | `llms.txt` at site root, speakable JSON-LD schema, factual headlines, FAQ section, no marketing speak in meta |
+| SEO | `skills/seo/SKILL.md` | `<title>`, `<meta description>`, Open Graph, Twitter card, JSON-LD structured data (SoftwareApplication/WebSite on index, **WebPage on every secondary page**), semantic HTML, image alt attributes, `robots.txt`, `sitemap.xml`; **every `<a>` must have `title` attribute**; navbar logo `href="/"` not `#`; external links `rel="noopener noreferrer"` (both tokens); internal nav links on secondary pages point to `index.html#section` |
+| AEO | `skills/aeo/SKILL.md` | `llms.txt` at site root, speakable JSON-LD schema on index, **WebPage JSON-LD on every secondary page**, factual headlines, FAQ section, no marketing speak in meta, `title` attributes on all links |
 | Mobile | `skills/mobile/SKILL.md` | Phone-first layout, safe area insets (`env(safe-area-inset-*)` + `viewport-fit=cover`), Core Web Vitals targets (LCP < 2.5s / CLS < 0.1 / INP < 200ms), AVIF + WebP images via `<picture>`, touch targets ≥ 44px, responsive type with clamp(), mobile nav (hamburger + drawer), thumb zone CTAs, 16px inputs (no iOS zoom), `content-visibility: auto` on below-fold sections, `overscroll-behavior: contain` on modals, scroll snap, `@media (hover: hover)` fix, `prefers-reduced-motion`, 35-point mobile audit |
 
 ### Pre-build (run before any visual work)

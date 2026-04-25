@@ -157,7 +157,7 @@ Add `speakable` schema to mark the most citable parts of your page — AI assist
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebPage",
+  "@type": "SoftwareApplication",
   "speakable": {
     "@type": "SpeakableSpecification",
     "cssSelector": ["h1", ".hero-description", ".product-summary"]
@@ -171,9 +171,30 @@ Add `speakable` schema to mark the most citable parts of your page — AI assist
 
 Add the class `product-summary` to the paragraph that best summarizes what your product does — this is what AI will quote.
 
+### Structured data on secondary pages
+
+Every secondary page (privacy-policy, terms, support) needs at minimum a `WebPage` schema even if it carries `noindex`. AI crawlers and LLMs still read and cite these pages regardless of indexing directives. The schema gives them the page's identity within the site graph:
+
+```html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://yoursite.com/privacy-policy.html",
+  "url": "https://yoursite.com/privacy-policy.html",
+  "name": "Privacy Policy — [Product Name]",
+  "description": "[One factual sentence about what this page contains]",
+  "isPartOf": { "@id": "https://yoursite.com/#website" },
+  "publisher": { "@type": "Person", "name": "[Creator name]" }
+}
+</script>
+```
+
+The `isPartOf` `@id` links the page to the `WebSite` node defined in `index.html`, which is how AI agents understand site structure.
+
 ---
 
-## 6. llms.txt Checklist — Run Before Finishing Any Project
+## 6. AEO Checklist — Run Before Finishing Any Project
 
 - [ ] `/llms.txt` file exists at the project root
 - [ ] Product name and one-sentence description are factual and specific
@@ -181,6 +202,8 @@ Add the class `product-summary` to the paragraph that best summarizes what your 
 - [ ] 3–5 bullet point capabilities are citable facts, not marketing claims
 - [ ] HTML meta description avoids vague marketing words
 - [ ] At least one FAQ section exists on the page
-- [ ] Speakable JSON-LD marks the most important summary paragraph
+- [ ] Speakable JSON-LD marks the most important summary paragraph on `index.html`
+- [ ] Every secondary page has a `WebPage` JSON-LD with `isPartOf` pointing to `#website`
 - [ ] Headlines state what the product IS, not how it feels
 - [ ] Feature copy leads with capability, not benefit
+- [ ] All `<a>` tags have descriptive `title` attributes (AI crawlers parse link graphs)
