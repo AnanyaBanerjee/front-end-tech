@@ -262,7 +262,15 @@ Write a single self-contained HTML file to the path resolved in Step 1B (`output
 
 1. **The banner** — 1584x396px div with logo, text, decorative elements, and background
 2. **Logo embedded** — as inline SVG, base64 data URI, or CSS text-logo (never a broken external reference)
-3. **PNG export button** — loads `html2canvas` from CDN (`https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js`), captures `#banner` div at **2K resolution** (3168 × 792). Critical implementation rules:
+3. **PNG export button** — uses `html2canvas` (loaded as a **blocking `<script src>` tag** placed before `</body>`, not on-demand inside the export function). Load it with SRI integrity so it works offline once cached:
+   ```html
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+     integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+     crossorigin="anonymous"></script>
+   ```
+   **Do NOT load html2canvas on-demand inside `exportPNG()`.** On-demand loading is unreliable: the script fires after the banner scale has already been reset to 1 (banner at full 1584px during the CDN request), and if the CDN load fails the `onerror` event has no `.message` so the catch block toasts "Export failed: undefined" — no indication to the user of what went wrong. Always use the blocking tag.
+
+   Captures `#banner` div at **2K resolution** (3168 × 792). Critical implementation rules:
 
    **Export must match the browser preview exactly.** There are two known bugs to fix:
 
@@ -325,7 +333,7 @@ Write a single self-contained HTML file to the path resolved in Step 1B (`output
    - **Filename**: `<project-slug>-linkedin-banner-2k.png` — baked in at generation time. Never a generic name.
    - **Post-export message**: show a toast telling the user the file downloaded to their Downloads folder and to move it to `output/<project-name>/`.
 
-4. **Live text editing** — banner text elements are `contenteditable="true"` on click. The `makeDraggable` guard (`e.target.closest('[contenteditable="true"]')`) automatically prevents accidental drags on text. Exception: the CTA inner uses the double-click pattern (see CTA spec above).
+4. **Live text editing** — banner text elements have `contenteditable="true"` set directly in the HTML (brand name, tagline, platform line). They are always editable; no click-to-enable needed. The `makeDraggable` guard (`e.target.closest('[contenteditable="true"]')`) automatically prevents accidental drags on text. Exception: the CTA inner uses the double-click pattern (see CTA spec).
 5. **Color palette controls** — color pickers that update CSS custom properties in real time:
    - Primary, Secondary, Accent, Background, Text color
    - Show current hex values
@@ -357,16 +365,144 @@ Write a single self-contained HTML file to the path resolved in Step 1B (`output
    The `#safe-overlay` container needs `overflow: visible` so the circle arc is not clipped at the banner edge.
 9. **Scaled preview** — 50% scale preview showing realistic LinkedIn appearance
 10. **Elements Library** — a panel for adding visual elements (product screenshots, phone mockups, etc.) to the banner:
-    - **Source screenshots**: When building from a website (Step 2A), fetch product screenshots/images found on the site (e.g. hero images, app screenshots, phone mockups). Resize to reasonable dimensions (height ~300-400px) and embed as base64 data URIs.
-    - **Thumbnail grid**: Display fetched screenshots as clickable thumbnails. Use `object-fit: contain` (NOT `cover`) with a fixed `width` and `height: auto` so portrait phone screenshots show at their true aspect ratio rather than being cropped into squares. Set a dark background on each thumbnail (`background: #111`) so `contain` letterboxing looks intentional. Grid: `display: flex; flex-wrap: wrap; max-height: ~340px; overflow-y: auto`.
-    - **Click to add**: Clicking a thumbnail adds it as a phone-frame mockup element on the banner (rounded corners, subtle border/shadow, positioned on the right side by default)
-    - **Drag to reposition**: Each added element is draggable within the banner via mouse events
-    - **8-direction resize**: Each element has handles at NW / N / NE / W / E / SW / S / SE. Corner handles maintain aspect ratio; edge handles resize one axis only. Each handle is a `div` with `data-d="nw"` etc. and the matching CSS cursor (`nw-resize`, `n-resize`, …). Handles are only visible when the element is solo-selected (`.solo .rh { display: block }`).
-    - **Remove button**: An X button appears on hover to remove individual elements
-    - **Upload custom**: A multi-file input lets users upload multiple screenshots/images at once as banner elements
-    - **Add from URL**: A text input lets users paste an image URL to add it as an element (attempts CORS-safe base64 conversion, falls back to direct URL reference)
-    - **Clear all**: A button to remove all added elements at once
-    - **Export-safe**: Elements are included in the PNG export; remove/resize UI handles are hidden during capture
+
+    **Thumbnail generation** — Define screenshots as a JS array `const SS = [...]` of relative paths (or base64 URIs), then build thumbnails programmatically — do NOT use inline `onclick` attributes in HTML. The JS approach is reliable; inline `onclick` with relative paths has cross-browser quirks:
+    ```javascript
+    const SS = ['site/images/screenshot-home.png', 'site/images/screenshot-detail.png', ...];
+    SS.forEach(url => {
+      const img = document.createElement('img');
+      img.className = 'ss-th';
+      img.src = url;
+      img.title = 'Click to add as phone mockup';
+      img.addEventListener('click', () => addMockup(url));
+      document.getElementById('ss-grid').appendChild(img);
+    });
+    ```
+
+    **Thumbnail CSS** — use `object-fit: contain` (NOT `cover`) with `width: <fixed>px; height: auto` and a dark background so portrait phone screenshots show at their true aspect ratio:
+    ```css
+    .ss-th { width:52px; height:auto; object-fit:contain; background:#111;
+             border-radius:6px; border:2px solid transparent; cursor:pointer; display:block; }
+    .ss-th:hover { border-color: var(--primary); }
+    ```
+
+    **Element factory** — all draggable elements (phone mockups and free images) are created via a shared `makeElem(w, x, y)` factory. This keeps drag/resize wiring consistent and avoids duplicate code:
+    ```javascript
+    function makeElem(w, x, y) {
+      const el = document.createElement('div');
+      el.className = 'elem';
+      el.style.cssText = `width:${w}px; left:${x}px; top:${y}px;`;
+      const rm = document.createElement('div');
+      rm.className = 'elem-rm'; rm.textContent = '✕';
+      rm.onclick = e => { e.stopPropagation(); el.remove(); deselect(el); updateSelBox(); };
+      el.appendChild(rm);
+      document.getElementById('elems').appendChild(el);
+      makeDraggable(el);
+      makeResizable(el);   // creates .rh handles inside the element
+      return el;
+    }
+    ```
+
+    **`addMockup(src)`** — creates the element at x ≈ 980 (right side, clear of text), y ≈ 16–36 (slight random offset so stacked mockups don't perfectly overlap):
+    ```javascript
+    function addMockup(src) {
+      const el = makeElem(150, 980 + Math.random()*60|0, 16 + Math.random()*20|0);
+      const frame = document.createElement('div');
+      frame.className = 'phone-frame';
+      const img = document.createElement('img');
+      img.src = src;
+      img.style.cssText = 'display:block; width:100%; height:auto;';
+      frame.appendChild(img);
+      el.insertBefore(frame, el.firstChild);
+    }
+    ```
+
+    **Drag** — uses `document.addEventListener` (NOT `window.addEventListener`) for `mousemove`/`mouseup`. Captures starting positions for all selected elements at mousedown, applies delta on move:
+    ```javascript
+    function makeDraggable(el) {
+      el.addEventListener('mousedown', e => {
+        if (e.target.classList.contains('elem-rm') ||
+            e.target.classList.contains('rh') ||
+            e.target.closest('[contenteditable="true"]')) return;
+        if (!e.shiftKey) { if (!SEL.has(el)) { clearSel(); select(el); } }
+        else             { SEL.has(el) ? deselect(el) : select(el); }
+        const sc = banner.getBoundingClientRect().width / 1584;
+        const sx = e.clientX, sy = e.clientY;
+        const starts = new Map();
+        SEL.forEach(s => starts.set(s, { x: parseFloat(s.style.left)||0, y: parseFloat(s.style.top)||0 }));
+        const onMove = mv => {
+          const dx=(mv.clientX-sx)/sc, dy=(mv.clientY-sy)/sc;
+          SEL.forEach(s => { const st=starts.get(s); if(st){ s.style.left=(st.x+dx)+'px'; s.style.top=(st.y+dy)+'px'; } });
+          updateSelBox();
+        };
+        const onUp = () => { document.removeEventListener('mousemove',onMove); document.removeEventListener('mouseup',onUp); };
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+        e.preventDefault();
+      });
+    }
+    ```
+
+    **Resize** — `makeResizable(el)` creates all 8 `.rh` handles inside the element and attaches `document.addEventListener` per handle:
+    ```javascript
+    function makeResizable(el) {
+      ['nw','n','ne','w','e','sw','s','se'].forEach(dir => {
+        const h = document.createElement('div');
+        h.className='rh'; h.dataset.d=dir;
+        el.appendChild(h);
+        h.addEventListener('mousedown', e => {
+          e.stopPropagation(); e.preventDefault();
+          const sc=banner.getBoundingClientRect().width/1584;
+          const sx=e.clientX, sy=e.clientY;
+          const startW=el.offsetWidth, startH=el.offsetHeight;
+          const startX=parseFloat(el.style.left)||0, startY=parseFloat(el.style.top)||0;
+          const aspect=startW/(startH||1);
+          const onMove = mv => {
+            const dx=(mv.clientX-sx)/sc, dy=(mv.clientY-sy)/sc;
+            let nW=startW,nH=startH,nX=startX,nY=startY;
+            if(dir==='se'||dir==='s'||dir==='sw') nH=Math.max(20,startH+dy);
+            if(dir==='se'||dir==='e'||dir==='ne') nW=Math.max(20,startW+dx);
+            if(dir==='sw'||dir==='w'||dir==='nw'){ nW=Math.max(20,startW-dx); nX=startX+(startW-nW); }
+            if(dir==='ne'||dir==='n'||dir==='nw'){ nH=Math.max(20,startH-dy); nY=startY+(startH-nH); }
+            if(dir==='se'||dir==='ne'||dir==='sw'||dir==='nw') nH=nW/aspect;
+            el.style.left=nX+'px'; el.style.top=nY+'px'; el.style.width=nW+'px'; el.style.height=nH+'px';
+            updateSelBox();
+          };
+          const onUp = () => { document.removeEventListener('mousemove',onMove); document.removeEventListener('mouseup',onUp); };
+          document.addEventListener('mousemove',onMove); document.addEventListener('mouseup',onUp);
+        });
+      });
+    }
+    ```
+
+    **CSS for elements** — handles are hidden by default, shown only when `.solo` (single selection):
+    ```css
+    .elem { position:absolute; cursor:grab; z-index:10; user-select:none; }
+    .elem:active { cursor:grabbing; }
+    .elem-rm { position:absolute; top:-9px; right:-9px; width:20px; height:20px;
+               background:#e63946; color:#fff; border-radius:50%; font-size:11px; font-weight:700;
+               display:none; align-items:center; justify-content:center; cursor:pointer; z-index:60; }
+    .elem:hover .elem-rm { display:flex; }
+    .rh { position:absolute; width:9px; height:9px; background:var(--primary);
+          border:1.5px solid #fff; border-radius:2px; z-index:60; display:none; }
+    .elem.solo .rh { display:block; }
+    /* rh[data-d] positions: nw/n/ne/w/e/sw/s/se — top:-4px, left/right/center as appropriate */
+    .phone-frame { border-radius:20px; overflow:hidden;
+                   border:2px solid rgba(255,255,255,.15);
+                   box-shadow:0 12px 48px rgba(0,0,0,.22); }
+    .phone-frame img { display:block; width:100%; height:auto; }
+    .free-img { display:block; width:100%; height:auto; border-radius:6px; }
+    .op-ctrl { position:absolute; bottom:calc(100% + 5px); left:0; right:0;
+               background:rgba(0,0,0,.88); padding:5px 8px; display:none;
+               align-items:center; gap:7px; font-size:10px; border-radius:5px; z-index:65; }
+    .elem:hover .op-ctrl { display:flex; }
+    ```
+
+    - **Remove button**: `.elem-rm` appears on hover; `onclick` stops propagation and calls `el.remove(); deselect(el); updateSelBox()`
+    - **Upload custom**: `FileReader → readAsDataURL → addMockup(result)` or `spawnFree(result)`
+    - **Add from URL**: read value, call `addMockup(url)` or `spawnFree(url)`, clear input
+    - **Clear all**: `document.getElementById('elems').innerHTML = ''; removeCTA(); clearSel();`
+    - **Export-safe**: `visibility:hidden` on `.elem-rm,.rh,.op-ctrl,#safe-overlay,#sel-box` before capture, restored in `finally`
     - For repos (Step 2B), search for screenshots in README, docs, or `public/` directories. For ideas (Step 2C), skip this feature unless the user provides images.
 11. **Free Images** — a separate panel for adding arbitrary images to the banner without a phone frame:
     - **Upload or paste URL**: Multi-file upload and URL input, same as Elements Library
@@ -397,14 +533,50 @@ Write a single self-contained HTML file to the path resolved in Step 1B (`output
     - **One active CTA**: Switching styles replaces the current CTA; "Remove CTA" clears it
     - The tone should always be **personal and inviting** — these are LinkedIn banners, so CTAs should drive follows, connections, newsletter signups, or personal engagement, not hard product marketing. Think "Follow me", "Subscribe", "Let's connect", "Try it out", "DM me".
 13. **Multi-Select** — select multiple elements and move/resize them as a group:
-    - **Click** any element (phone mockup, free image, CTA) to select it. Single-selected element shows its 8 per-element resize handles (`.solo` class). No per-element outline — the bounding box handles that.
-    - **Shift+Click** to add/remove elements from the selection
-    - **Drag** any selected element to move the entire group together, maintaining relative positions
-    - **Group bounding box**: when 2+ elements are selected, render a `#sel-box` div (absolute, `pointer-events:none` except for its handles) that wraps the union of all selected elements. The bounding box has its own 8 handles (`.sbh[data-d="nw"]` etc.) with `pointer-events:all`.
-    - **Group resize logic**: on handle mousedown, record `minX/minY/maxX/maxY` of the bounding box and each element's fractional position (`fx = (x - minX) / boxW`) and fractional size (`fw = w / boxW`). On mousemove, compute the new box edges based on which handle is dragged, then apply: `el.left = newMinX + fx * newBoxW`, `el.width = fw * newBoxW`. This keeps all elements proportionally positioned and sized within the resized group.
-    - **Escape** to deselect all; **Select All** button in the floating status bar
-    - A floating status bar at the bottom shows selection count and keyboard hints
-    - Selection outlines and handles are stripped from preview and PNG export (set `visibility: hidden` before capture, restore after)
+
+    **Selection state** — use a `Set` (not an array or class toggle) so membership checks are O(1):
+    ```javascript
+    const SEL = new Set();
+    function select(el)   { SEL.add(el);    refreshSel(); }
+    function deselect(el) { SEL.delete(el); refreshSel(); }
+    function clearSel()   { SEL.forEach(e => e.classList.remove('solo')); SEL.clear(); refreshSel(); }
+    function selectAll()  { document.querySelectorAll('.elem,.cta-elem').forEach(select); }
+    function refreshSel() {
+      SEL.forEach(e => e.classList.toggle('solo', SEL.size === 1));
+      // update status bar count, updateSelBox(), etc.
+    }
+    ```
+
+    - **Click** any element → `clearSel(); select(el)` (handled inside `makeDraggable` mousedown)
+    - **Shift+Click** → `SEL.has(el) ? deselect(el) : select(el)` (also inside `makeDraggable`)
+    - **Drag** moves all `SEL` elements together — `makeDraggable` records `starts` for every element in SEL at mousedown, applies the same delta to all on mousemove
+    - **Group bounding box** (`#sel-box`): when `SEL.size >= 2`, compute `minX/minY/maxX/maxY` from `getBoundingClientRect()` of each element, draw the box, attach 8 `.sbh` group-resize handles. Clone each `.sbh` node to wipe old listeners before re-attaching (prevents duplicate mousedown handlers accumulating across selection changes).
+    - **Group resize**: record each element's fractional position/size within the bounding box (`fx = (x-minX)/boxW`). On move, compute new box edges, reapply: `el.left = newMinX + fx*newBoxW; el.width = fw*newBoxW`.
+    - **`#sel-box` in HTML**: place as a sibling of `#elems` and `#cta-wrap` inside `#banner`, with 8 `.sbh` divs pre-rendered (JS clones them to reset listeners, so they must exist):
+      ```html
+      <div id="sel-box">
+        <div class="sbh" data-d="nw"></div><div class="sbh" data-d="n"></div>
+        <div class="sbh" data-d="ne"></div><div class="sbh" data-d="w"></div>
+        <div class="sbh" data-d="e"></div><div class="sbh" data-d="sw"></div>
+        <div class="sbh" data-d="s"></div><div class="sbh" data-d="se"></div>
+      </div>
+      ```
+    - **Escape** to `clearSel()`; **Select All** button calls `selectAll()`
+    - A fixed status bar at the bottom shows selection count and hints, hidden when `SEL.size === 0`
+    - `visibility:hidden` on `#sel-box` and `.rh` before PNG capture, restored in `finally`
+
+    **Required HTML structure inside `#banner`**:
+    ```html
+    <div id="banner">
+      <!-- decorative elements (blobs, dot-grid, left-fade) -->
+      <div id="banner-content">...</div>   <!-- text, always z-index:3 -->
+      <div id="elems"></div>               <!-- all phone mockups + free images appended here -->
+      <div id="cta-wrap"></div>            <!-- CTA element appended here -->
+      <div id="sel-box"><!-- 8 .sbh handles --></div>
+      <div id="safe-overlay">...</div>
+    </div>
+    ```
+    Never append `.elem` elements directly to `#banner` — always to `#elems`.
 
 ### Layout: Tabbed Controls (single-screen)
 All controls MUST fit on one screen without scrolling. Use a **tabbed interface** below the banner:
@@ -523,7 +695,41 @@ When exactly 1 element is selected, add class `.solo` to it so the 8 per-element
 SEL.forEach(e => e.classList.toggle('solo', SEL.size === 1));
 ```
 
-### 8. Safe zone geometry — profile photo is a bottom-left circle, not a top-left rectangle
+### 8. Never use `window.addEventListener` for drag — use `document.addEventListener`
+Using `window.addEventListener('mousemove', ...)` for drag causes conflicts when multiple elements are dragged or resized in the same session — listeners from previous interactions bleed into the next. Always use `document.addEventListener` with a scoped `onUp` cleanup:
+```javascript
+const onMove = mv => { /* update position */ };
+const onUp   = () => {
+  document.removeEventListener('mousemove', onMove);
+  document.removeEventListener('mouseup', onUp);
+};
+document.addEventListener('mousemove', onMove);
+document.addEventListener('mouseup', onUp);
+```
+This pattern appears in both `makeDraggable` and `makeResizable`, and in group-resize handle listeners. Never use `window` for these.
+
+### 9. Python/shell string generation — escape JS backslash sequences
+When generating the HTML file from a Python script (the recommended approach for embedding a large logo base64), Python interprets `\r`, `\n`, `\t` inside regular string literals as actual CR, LF, and tab characters. A JavaScript regex like `/\r?\n/g` written in a Python string becomes a broken multi-line token in the output — a **JS syntax error that silently kills the entire `<script>` block** (zero JS runs, zero clicks work, zero errors in the console).
+
+**The fix**: use double backslashes in Python source for any JS regex/string escape that uses `\r`, `\n`, `\t`:
+```python
+# WRONG — Python converts \r and \n to real CR/LF
+liveTexts.set(i, el.innerText.replace(/\r?\n/g,' ').replace(/\s+/g,' ').trim());
+
+# CORRECT — double-backslash in Python source → single backslash in output JS
+liveTexts.set(i, el.innerText.replace(/\\r?\\n/g,' ').replace(/\\s+/g,' ').trim());
+```
+
+**Better approach — template + injection**: write the entire HTML (with placeholder `__LOGO_B64__`) using the `Write` tool (no Python escape risks), then inject the logo with a 3-line Python script:
+```python
+with open('/tmp/banner_template.html','r') as f: html=f.read()
+with open('/tmp/logo_b64.txt','r') as f: b64=f.read().strip()
+html=html.replace('__LOGO_B64__', b64)
+with open('output/<project>/linkedin-banner.html','w') as f: f.write(html)
+```
+This eliminates the entire class of Python escape bugs. Always use this two-step approach when a base64 logo needs to be embedded.
+
+### 10. Safe zone geometry — profile photo is a bottom-left circle, not a top-left rectangle
 The LinkedIn profile photo is a **circle** that overlaps from **below** the banner, not a rectangle in the top-left corner. Approximate geometry in 1584×396 banner coordinates:
 - Circle diameter: ~310px
 - Center: approximately (155px from left, 396px from top) — at the banner's bottom edge
@@ -536,6 +742,49 @@ The LinkedIn profile photo is a **circle** that overlaps from **below** the bann
 **Left decoration zone (x=0 to 440px)**: use for node-graph decorations, dot patterns, atmospheric glows, or a gradient fade. These sit behind the profile photo intentionally and read as designed texture.
 
 **Safe zone overlay implementation**: always render as a circle with `border-radius: 50%`, positioned with `bottom: -155px` so only the arc above the banner bottom is visible. The `#safe-overlay` must have `overflow: visible`. See export spec item 8 for the full CSS.
+
+### 11. Canvas taint — screenshot images must use HTTPS URLs + crossOrigin
+
+If any `<img>` placed on the banner is loaded from a `file://` path (i.e. a relative path when the HTML is opened locally), html2canvas marks the canvas as **tainted** the moment it draws that image. After that, calling `canvas.toDataURL()` throws:
+> `Failed to execute 'toDataURL' on 'HTMLCanvasElement': Tainted canvases may not be exported.`
+
+**Root cause**: browsers block `canvas.toDataURL()` as a security measure when cross-origin or file-system images are drawn — even if you set `useCORS: true`. Only images loaded via HTTPS with a matching CORS header can be drawn onto an exportable canvas.
+
+**Fix**: always store screenshot URLs as absolute HTTPS URLs, not relative paths:
+```javascript
+// WRONG — causes canvas taint (file:// origin):
+const SS = ['images/screenshot-home.png'];
+
+// CORRECT — HTTPS avoids taint (CDN/domain sends CORS headers):
+const SS = ['https://your-domain.com/images/screenshot-home.png'];
+```
+
+And set `crossOrigin = 'anonymous'` **before** setting `src` on every `<img>` you create in JS:
+```javascript
+// In addMockup():
+const img = document.createElement('img');
+img.crossOrigin = 'anonymous';  // ← BEFORE setting src
+img.src = src;
+
+// In SS.forEach() thumbnail builder:
+const img = document.createElement('img');
+img.crossOrigin = 'anonymous';  // ← BEFORE setting src
+img.src = url;
+
+// In spawnFree() (free images without phone frame):
+const img = document.createElement('img');
+img.crossOrigin = 'anonymous';  // ← BEFORE setting src
+img.src = src;
+```
+
+`crossOrigin` must be set before `src` because browsers start fetching the image as soon as `src` is assigned — setting it after is too late and some browsers ignore it.
+
+The `html2canvas` call must also include `useCORS: true` and `allowTaint: false`:
+```javascript
+const canvas = await html2canvas(banner, { scale: 2, useCORS: true, allowTaint: false, ... });
+```
+
+**Note**: uploaded files (from `<input type="file">`) are loaded as `data:` URIs via `FileReader.readAsDataURL()` — these are same-origin and never cause canvas taint. The taint issue only affects URLs loaded from external domains or `file://` paths.
 
 ---
 
